@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" 
+	targetNamespace="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" 
+	xmlns:persistence="http://java.sun.com/xml/ns/persistence">
+	<xsd:import namespace="http://java.sun.com/xml/ns/persistence/orm" 
+		schemaLocation="http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"/>
+	<xsd:import namespace="http://java.sun.com/xml/ns/persistence" 
+		schemaLocation="http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"/>
+	<!-- ... -->
+	<xsd:element name="ignored" type="hj:ignored"/>
+	<xsd:complexType name="ignored"/>
+	<!-- ... -->
+	<xsd:element name="id" type="hj:id"/>
+	<xsd:complexType name="id">
+		<xsd:annotation>
+			<xsd:documentation> @Target({METHOD, FIELD}) @Retention(RUNTIME) 
+				public @interface Id {} </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="column" type="orm:column" minOccurs="0"/>
+			<xsd:element name="generated-value" type="orm:generated-value" 
+				minOccurs="0"/>
+			<xsd:element name="temporal" type="orm:temporal" minOccurs="0"/>
+			<xsd:element name="table-generator" type="orm:table-generator" 
+				minOccurs="0"/>
+			<xsd:element name="sequence-generator" 
+				type="orm:sequence-generator" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- ... -->
+	<xsd:element name="version" type="hj:version"/>
+	<xsd:complexType name="version">
+		<xsd:annotation>
+			<xsd:documentation> @Target({METHOD, FIELD}) @Retention(RUNTIME) 
+				public @interface Version {} </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="column" type="orm:column" minOccurs="0"/>
+			<xsd:element name="temporal" type="orm:temporal" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="table" type="orm:table"/>
+	<!-- ... -->
+	<xsd:element name="column" type="orm:column"/>
+	<!-- ... -->
+	<xsd:element name="embeddable" type="hj:embeddable"/>
+	<xsd:complexType name="embeddable">
+		<xsd:annotation>
+			<xsd:documentation>
+				Defines the settings and mappings for embeddable objects. Is allowed to be sparsely populated and used in conjunction with the annotations. Alternatively, the
+				metadata-complete attribute can be used to indicate that no annotations are to be processed in the class. If this is the case then the defaulting rules will be recursively
+				applied.
+				@Target({TYPE}) @Retention(RUNTIME) public @interface Embeddable {}
+				</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="attributes" type="orm:embeddable-attributes" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="class" type="xsd:string" use="optional" default="##default"/>
+		<xsd:attribute name="access" type="orm:access-type"/>
+		<xsd:attribute name="metadata-complete" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<!-- ... -->
+	<xsd:element name="one-to-many" type="hj:one-to-many"/>
+	<!-- ... -->
+	<xsd:complexType name="one-to-many">
+		<xsd:annotation>
+			<xsd:documentation>
+				@Target({METHOD, FIELD}) @Retention(RUNTIME) public @interface OneToMany { Class targetEntity() default void.class; CascadeType[] cascade() default {};
+				FetchType fetch() default LAZY; String mappedBy() default ""; }
+				</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="order-by" type="orm:order-by" minOccurs="0"/>
+			<xsd:element name="map-key" type="orm:map-key" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="join-table" type="orm:join-table" minOccurs="0"/>
+				<xsd:element name="join-column" type="orm:join-column" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:choice>
+			<xsd:element name="cascade" type="orm:cascade-type" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional" default="##default"/>
+		<xsd:attribute name="target-entity" type="xsd:string"/>
+		<xsd:attribute name="fetch" type="orm:fetch-type"/>
+		<xsd:attribute name="mapped-by" type="xsd:string"/>
+	</xsd:complexType>
+
+	<!-- ... -->
+	<xsd:element name="many-to-one" type="hj:many-to-one"/>
+	<!-- ... -->
+	<xsd:complexType name="many-to-one">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="join-column" type="orm:join-column" 
+					minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="join-table" type="orm:join-table" 
+					minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element name="cascade" type="orm:cascade-type" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional" default="##default"/>
+		<xsd:attribute name="target-entity" type="xsd:string"/>
+		<xsd:attribute name="fetch" type="orm:fetch-type"/>
+		<xsd:attribute name="optional" type="xsd:boolean"/>
+	</xsd:complexType>
+	<!--- ... -->
+	<xsd:element name="basic" type="hj:basic"/>
+	<!--- ... -->
+	<xsd:complexType name="basic">
+		<xsd:annotation>
+			<xsd:documentation>
+			        @Target({METHOD, FIELD}) @Retention(RUNTIME)
+			        public @interface Basic {
+			          FetchType fetch() default EAGER;
+			          boolean optional() default true;
+			        }
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="column" type="orm:column" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="lob" type="orm:lob" minOccurs="0"/>
+				<xsd:element name="temporal" type="orm:temporal" minOccurs="0"/>
+				<xsd:element name="enumerated" type="orm:enumerated" minOccurs="0"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional" default="##default"/>
+		<xsd:attribute name="fetch" type="orm:fetch-type"/>
+		<xsd:attribute name="optional" type="xsd:boolean"/>
+	</xsd:complexType>
+</xsd:schema>
