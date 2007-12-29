@@ -5,7 +5,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3</artifactId>
 	<packaging>pom</packaging>
-	<version>0.3</version>
+	<version>0.4-SNAPSHOT</version>
 	<name>Hyperjaxb3</name>
 	<url>http://hyperjaxb3.dev.java.net</url>
 	<properties>
