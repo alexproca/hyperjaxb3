@@ -21,8 +21,13 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
+import org.jvnet.jaxb2_commons.util.FieldUtils;
+import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultAnnotateFieldOutlineOneToMany implements
@@ -109,8 +114,20 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 
 	public XClass createTargetEntity(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options) {
-		// return new XAnnotationField.XString("targetEntity", null);
-		return null;
+
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		assert types.size() == 1;
+
+		final CTypeInfo type = types.iterator().next();
+
+		assert type instanceof CClassInfo;
+
+		final CClassInfo childClassInfo = (CClassInfo) type;
+
+		return new XAnnotationField.XClass("targetEntity", childClassInfo.fullName());
 
 	}
 

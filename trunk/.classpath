@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 
+	<classpathentry path="ejb/tests/nml/src/test/java" output="ejb/tests/nml/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/nml/target/generated-sources/xjc" output="ejb/tests/nml/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/nml/src/test/resources" output="ejb/tests/nml/target/test-classes" kind="src"/>
+
+
 	<classpathentry path="ejb/tests/any/src/test/java" output="ejb/tests/any/target/test-classes" kind="src"/>
 	<classpathentry path="ejb/tests/any/target/generated-sources/xjc" output="ejb/tests/any/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/any/src/test/resources" output="ejb/tests/any/target/test-classes" kind="src"/>

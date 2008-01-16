@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
+import org.jvnet.annox.model.XAnnotationField.XClass;
 import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
@@ -22,6 +23,9 @@ import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultAnnotateFieldOutlineManyToOne implements
@@ -36,7 +40,7 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 				outlineProcessor, fieldOutline, options);
 		return xannotations;
 	}
-	
+
 	private boolean defaultJoinTable = false;
 
 	public boolean isDefaultJoinTable() {
@@ -63,7 +67,7 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 
 		xannotations.add(createManyToOne(outlineProcessor, fieldOutline,
 				options, cManyToOne));
-		
+
 		if (cManyToOne.getJoinTable() != null
 				|| (cManyToOne.getJoinColumn().isEmpty() && isDefaultJoinTable())) {
 
@@ -89,10 +93,25 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 		return manyToOne;
 	}
 
-	public XAnnotationField createTargetEntity(ProcessOutline outlineProcessor,
+	public XClass createTargetEntity(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
-		return null;
+
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		assert types.size() == 1;
+
+		final CTypeInfo type = types.iterator().next();
+
+		assert type instanceof CClassInfo;
+
+		final CClassInfo childClassInfo = (CClassInfo) type;
+
+		return new XAnnotationField.XClass("targetEntity", childClassInfo
+				.fullName());
+
 	}
 
 	private Boolean defaultOptional = null;
@@ -259,10 +278,9 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cmanyToOne) {
 
-		final String joinTableName = 
-			(cmanyToOne.getJoinTable() != null && cmanyToOne.getJoinTable().getName() != null) ? 
-			cmanyToOne.getJoinTable().getName() :
-			outlineProcessor.getNaming()
+		final String joinTableName = (cmanyToOne.getJoinTable() != null && cmanyToOne
+				.getJoinTable().getName() != null) ? cmanyToOne.getJoinTable()
+				.getName() : outlineProcessor.getNaming()
 				.getManyToOneJoinTableName(outlineProcessor, fieldOutline,
 						options);
 
