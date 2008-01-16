@@ -9,6 +9,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
@@ -29,6 +30,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
+import com.sun.java.xml.ns.persistence.orm.Lob;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
@@ -119,6 +121,12 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 // }
 // };
 //			Customizations.markGenerated(stringProperty);
+			
+			final Basic basic = new Basic();
+			basic.setLob(new Lob());
+			Customizations.addCustomizationElement(stringProperty,
+					Customizations.BASIC_ELEMENT_NAME, basic);
+			Customizations.markGenerated(stringProperty);
 
 			itemClassInfo.addProperty(stringProperty);
 		} else {
