@@ -267,4 +267,18 @@
 			</xsd:choice>
 		</xsd:complexType>
 	</xsd:element>
+
+	<xsd:element name="issue121Element" type="test:issue121Type">
+
+	</xsd:element>
+
+	<xsd:complexType name="issue121Type">
+		<xsd:sequence>         
+			<xsd:element name="simpleSingle" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="complexSingle" type="test:issue121Type"  minOccurs="0"/>
+			<xsd:element name="simpleCollection" type="xsd:long"  minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="complexCollection" type="test:issue121Type"  minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>         
+	</xsd:complexType>
+
 </xsd:schema>
