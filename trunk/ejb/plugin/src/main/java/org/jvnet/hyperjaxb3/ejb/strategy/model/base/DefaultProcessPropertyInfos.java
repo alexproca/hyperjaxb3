@@ -46,7 +46,10 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		final CPropertyInfo[] propertyInfos = classInfo.getProperties()
 				.toArray(new CPropertyInfo[classInfo.getProperties().size()]);
 		for (final CPropertyInfo propertyInfo : propertyInfos) {
-			newPropertyInfos.addAll(process(context, propertyInfo));
+			if (!context.getIgnoring().isPropertyInfoIgnored(context,
+					propertyInfo)) {
+				newPropertyInfos.addAll(process(context, propertyInfo));
+			}
 		}
 
 		if (classInfo.declaresAttributeWildcard()) {
@@ -277,18 +280,18 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 			throw new UnsupportedOperationException("Arrays are not supported.");
 		}
 
-//		public Collection<CPropertyInfo> onSingleElementReference(
-//				CReferencePropertyInfo referencePropertyInfo) {
-//			logger.error("[" + referencePropertyInfo.getName(true)
-//					+ "] is a single element reference. See issue #65.");
-//			return Collections.emptyList();
-//		}
+		// public Collection<CPropertyInfo> onSingleElementReference(
+		// CReferencePropertyInfo referencePropertyInfo) {
+		// logger.error("[" + referencePropertyInfo.getName(true)
+		// + "] is a single element reference. See issue #65.");
+		// return Collections.emptyList();
+		// }
 
 		public Collection<CPropertyInfo> onSingleClassReference(
 				CReferencePropertyInfo referencePropertyInfo) {
-//			logger.error("[" + referencePropertyInfo.getName(true)
-//					+ "] is a single class reference. See issue #66.");
-//			return Collections.emptyList();
+			// logger.error("[" + referencePropertyInfo.getName(true)
+			// + "] is a single class reference. See issue #66.");
+			// return Collections.emptyList();
 			return context.getWrapSingleClassReference().process(context,
 					referencePropertyInfo);
 		}

@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.model;
 import java.util.Collection;
 
 import org.jvnet.hyperjaxb3.ejb.strategy.model.base.DefaultProcessPropertyInfos;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ignoring.Ignoring;
 
 import com.sun.tools.xjc.model.CClassInfo;
 
@@ -67,4 +68,5 @@ public interface ProcessModel extends EjbModelProcessor<Collection<CClassInfo>> 
 	public AdaptTypeUse getAdaptBuiltinTypeUse();
 
 
+	public Ignoring getIgnoring();
 }

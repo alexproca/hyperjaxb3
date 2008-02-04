@@ -3,8 +3,8 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.ignoring;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.IsClassOutlineIgnored;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.IsClassOutlineIgnored;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.Options;

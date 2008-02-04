@@ -1,10 +1,10 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.ignoring;
 
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.IsClassOutlineIgnored;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.IsFieldOutlineIgnored;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.IsPackageOutlineIgnored;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.IsClassOutlineIgnored;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.IsFieldOutlineIgnored;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.IsPackageOutlineIgnored;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.tools.xjc.Options;

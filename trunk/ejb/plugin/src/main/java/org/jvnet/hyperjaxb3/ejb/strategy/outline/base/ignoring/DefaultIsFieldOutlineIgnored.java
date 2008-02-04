@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.IsFieldOutlineIgnored;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.IsFieldOutlineIgnored;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.Options;

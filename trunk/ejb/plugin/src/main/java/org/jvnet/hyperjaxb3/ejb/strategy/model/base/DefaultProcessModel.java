@@ -12,6 +12,8 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.GetTypes;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessClassInfo;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessPropertyInfos;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.base.ignoring.DefaultIgnoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ignoring.Ignoring;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.tools.xjc.model.CClassInfo;
@@ -30,15 +32,17 @@ public class DefaultProcessModel implements ProcessModel {
 		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
 
 		for (final CClassInfo classInfo : classInfos) {
-			final Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
-					.process(context, classInfo);
-			if (targetClassInfos != null) {
-				for (final CClassInfo targetClassInfo : targetClassInfos) {
-					includedClasses.add(targetClassInfo);
+			if (!context.getIgnoring().isClassInfoIgnored(context, classInfo)) {
+				final Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
+						.process(context, classInfo);
+				if (targetClassInfos != null) {
+					for (final CClassInfo targetClassInfo : targetClassInfos) {
+						includedClasses.add(targetClassInfo);
+					}
 				}
 			}
 		}
-		
+
 		return includedClasses;
 	}
 
@@ -110,7 +114,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinAttribute) {
 		this.wrapSingleBuiltinAttribute = wrapSingleBuiltinAttribute;
 	}
-	
+
 	private CreatePropertyInfos wrapCollectionBuiltinAttribute;
 
 	public CreatePropertyInfos getWrapCollectionBuiltinAttribute() {
@@ -122,7 +126,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionBuiltinAttribute) {
 		this.wrapCollectionBuiltinAttribute = wrapCollectionBuiltinAttribute;
 	}
-	
+
 	private CreatePropertyInfos wrapCollectionEnumAttribute;
 
 	public CreatePropertyInfos getWrapCollectionEnumAttribute() {
@@ -134,8 +138,6 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionEnumAttribute) {
 		this.wrapCollectionEnumAttribute = wrapCollectionEnumAttribute;
 	}
-	
-	
 
 	private CreatePropertyInfos wrapSingleBuiltinValue;
 
@@ -148,7 +150,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinValue) {
 		this.wrapSingleBuiltinValue = wrapSingleBuiltinValue;
 	}
-	
+
 	private CreatePropertyInfos wrapCollectionBuiltinValue;
 
 	public CreatePropertyInfos getWrapCollectionBuiltinValue() {
@@ -160,7 +162,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionBuiltinValue) {
 		this.wrapCollectionBuiltinValue = wrapCollectionBuiltinValue;
 	}
-	
+
 	private CreatePropertyInfos wrapCollectionEnumValue;
 
 	public CreatePropertyInfos getWrapCollectionEnumValue() {
@@ -184,7 +186,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinElement) {
 		this.wrapSingleBuiltinElement = wrapSingleBuiltinElement;
 	}
-	
+
 	private CreatePropertyInfos wrapSingleHeteroElement;
 
 	public CreatePropertyInfos getWrapSingleHeteroElement() {
@@ -196,7 +198,6 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleHeteroElement) {
 		this.wrapSingleHeteroElement = wrapSingleHeteroElement;
 	}
-	
 
 	private CreatePropertyInfos wrapCollectionBuiltinElement;
 
@@ -221,7 +222,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionEnumElement) {
 		this.wrapCollectionEnumElement = wrapCollectionEnumElement;
 	}
-	
+
 	private CreatePropertyInfos wrapCollectionHeteroElement;
 
 	public CreatePropertyInfos getWrapCollectionHeteroElement() {
@@ -233,7 +234,6 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionHeteroElement) {
 		this.wrapCollectionHeteroElement = wrapCollectionHeteroElement;
 	}
-	
 
 	// Reference
 
@@ -296,7 +296,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleHeteroReference) {
 		this.wrapSingleHeteroReference = wrapSingleHeteroReference;
 	}
-	
+
 	private CreatePropertyInfos wrapSingleClassReference;
 
 	public CreatePropertyInfos getWrapSingleClassReference() {
@@ -331,7 +331,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionHeteroReference) {
 		this.wrapCollectionHeteroReference = wrapCollectionHeteroReference;
 	}
-	
+
 	private CreatePropertyInfos wrapCollectionWildcardReference;
 
 	public CreatePropertyInfos getWrapCollectionWildcardReference() {
@@ -342,7 +342,6 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapCollectionWildcardReference) {
 		this.wrapCollectionWildcardReference = wrapCollectionWildcardReference;
 	}
-	
 
 	private AdaptTypeUse adaptBuiltinTypeUse;
 
@@ -353,5 +352,15 @@ public class DefaultProcessModel implements ProcessModel {
 	@Required
 	public void setAdaptBuiltinTypeUse(AdaptTypeUse adaptBuiltinTypeUse) {
 		this.adaptBuiltinTypeUse = adaptBuiltinTypeUse;
+	}
+
+	private Ignoring ignoring = new DefaultIgnoring();
+
+	public Ignoring getIgnoring() {
+		return ignoring;
+	}
+
+	public void setIgnoring(Ignoring ignoring) {
+		this.ignoring = ignoring;
 	}
 }
