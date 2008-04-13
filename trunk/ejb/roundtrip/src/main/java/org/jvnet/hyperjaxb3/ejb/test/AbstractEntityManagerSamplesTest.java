@@ -39,7 +39,7 @@ public abstract class AbstractEntityManagerSamplesTest extends
 		super.setUp();
 		samplesTest = createSamplesTest();
 	}
-	
+
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
@@ -68,20 +68,22 @@ public abstract class AbstractEntityManagerSamplesTest extends
 			protected File[] getSampleFiles() {
 				return AbstractEntityManagerSamplesTest.this.getSampleFiles();
 			}
-			
+
 			@Override
 			protected File getSamplesDirectory() {
-				return AbstractEntityManagerSamplesTest.this.getSamplesDirectory();
+				return AbstractEntityManagerSamplesTest.this
+						.getSamplesDirectory();
 			}
-			
+
 			@Override
 			protected ClassLoader getContextClassLoader() {
-				return AbstractEntityManagerSamplesTest.this.getContextClassLoader();
+				return AbstractEntityManagerSamplesTest.this
+						.getContextClassLoader();
 			}
 
 		};
 	}
-	
+
 	public void testSamples() throws Exception {
 		samplesTest.testSamples();
 	}
@@ -100,40 +102,42 @@ public abstract class AbstractEntityManagerSamplesTest extends
 	public String getContextPath() {
 		return getClass().getPackage().getName();
 	}
-	
+
 	protected File getBaseDir() {
 		try {
-			return (new File(getClass().getProtectionDomain()
-					.getCodeSource().getLocation().getFile())).getParentFile()
-					.getParentFile().getAbsoluteFile();
+			return (new File(getClass().getProtectionDomain().getCodeSource()
+					.getLocation().getFile())).getParentFile().getParentFile()
+					.getAbsoluteFile();
 		} catch (Exception ex) {
 			throw new AssertionError(ex);
 		}
 	}
-	
+
 	protected File getSamplesDirectory() {
 		return new File(getBaseDir(), getSamplesDirectoryName());
 	}
-	
+
 	protected File[] getSampleFiles() {
 		File samplesDirectory = getSamplesDirectory();
-		logger.debug("Sample directory ["
-				+ samplesDirectory.getAbsolutePath() + "].");
+		logger.debug("Sample directory [" + samplesDirectory.getAbsolutePath()
+				+ "].");
+		if (samplesDirectory == null || !samplesDirectory.isDirectory()) {
+			return new File[] {};
+		} else {
 
-		final Collection<File> files = FileUtils.listFiles(
-				samplesDirectory, SAMPLES, TrueFileFilter.INSTANCE);
-		return files.toArray(new File[files.size()]);
+			final Collection<File> files = FileUtils.listFiles(
+					samplesDirectory, SAMPLES, TrueFileFilter.INSTANCE);
+			return files.toArray(new File[files.size()]);
+		}
 	}
-	
 
 	public static final String DEFAULT_SAMPLES_DIRECTORY_NAME = "src/test/samples";
 
 	protected String getSamplesDirectoryName() {
 		return DEFAULT_SAMPLES_DIRECTORY_NAME;
 	}
-	
-	protected ClassLoader getContextClassLoader()
-	{
+
+	protected ClassLoader getContextClassLoader() {
 		return getClass().getClassLoader();
 	}
 }
