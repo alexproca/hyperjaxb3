@@ -281,4 +281,13 @@
 		</xsd:sequence>         
 	</xsd:complexType>
 
+	<xsd:element name="issue120Element">
+		<xsd:complexType mixed="true">
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="origin" type="xsd:string"/>
+			</xsd:choice>
+			<xsd:attribute name="lang" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+
 </xsd:schema>
