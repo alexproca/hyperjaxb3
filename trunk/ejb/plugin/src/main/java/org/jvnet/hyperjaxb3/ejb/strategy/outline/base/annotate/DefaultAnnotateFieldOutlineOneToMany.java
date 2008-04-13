@@ -294,7 +294,7 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 				AnnotationUtils.create("name", column.getName(),
 						defaultColumnName),
 				//
-				AnnotationUtils.create("referencedColumn", column
+				AnnotationUtils.create("referencedColumnName", column
 						.getReferencedColumnName()),
 				//
 				AnnotationUtils.create("unique", column.isUnique()),

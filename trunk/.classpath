@@ -54,6 +54,6 @@
 	<classpathentry path="maven/testing/src/test/java" output="maven/testing/target/test-classes" kind="src"/>
 	<classpathentry path="maven/testing/src/test/resources" output="maven/testing/target/test-classes" kind="src"/>
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER" kind="con"/>
+	<classpathentry path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules" kind="con"/>
 	<classpathentry path="target/classes" kind="output"/>
 </classpath>
