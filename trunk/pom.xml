@@ -70,7 +70,8 @@
 	</pluginRepositories>
 	<distributionManagement>
 		<repository>
-			<id>dev.java.net-releases</id>
+			<uniqueVersion>false</uniqueVersion>
+			<id>java.net-maven2-repository</id>
 			<url>${dev.java.net-releases.deploy.url}</url>
 		</repository>
 		<snapshotRepository>
@@ -85,6 +86,13 @@
 	</scm>	
 	<build>
 		<defaultGoal>install</defaultGoal>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.8</version>
+			</extension>
+		</extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
