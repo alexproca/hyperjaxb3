@@ -31,7 +31,7 @@
 			<scope>runtime</scope>
 		</dependencySet>
 		<dependencySet>
-			<outputDirectory>lib/</outputDirectory>
+			<outputDirectory>lib</outputDirectory>
 			<scope>test</scope>
 		</dependencySet>
 	</dependencySets>
