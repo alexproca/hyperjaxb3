@@ -36,6 +36,7 @@ import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.xml.bind.v2.model.core.ID;
+import com.sun.xml.xsom.XSComponent;
 
 public class WrapCollectionAttribute implements CreatePropertyInfos {
 
@@ -61,10 +62,14 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 
 		Customizations.markGenerated(itemClassInfo);
 
+		final XSComponent wrappedSchemaComponent = wrappedPropertyInfo
+								.getSchemaComponent();
+		
+		// 
+		
 		final CElementPropertyInfo itemPropertyInfo = new CElementPropertyInfo(
 				"Item", CollectionMode.NOT_REPEATED, ID.NONE,
-				wrappedPropertyInfo.getExpectedMimeType(), wrappedPropertyInfo
-						.getSchemaComponent(), new CCustomizations(
+				wrappedPropertyInfo.getExpectedMimeType(), wrappedSchemaComponent, new CCustomizations(
 						CustomizationUtils
 								.getCustomizations(wrappedPropertyInfo)),
 				wrappedPropertyInfo.getLocator(), false);

@@ -108,7 +108,7 @@ public class SimpleTypeVisitor implements XSVisitor {
 		if (simpleType.getName() != null) {
 			typeNames.add(new QName(simpleType.getTargetNamespace(), simpleType
 					.getName()));
-			if (simpleType.getDerivationMethod() == XSType.RESTRICTION) {
+			if (simpleType.isRestriction()) {
 				final XSType baseType = simpleType.asRestriction()
 						.getBaseType();
 				if (baseType != null) {
@@ -116,6 +116,12 @@ public class SimpleTypeVisitor implements XSVisitor {
 				}
 			}
 
+			if (simpleType.isList()) {
+				final XSSimpleType itemType = simpleType.asList().getItemType();
+				if (itemType != null) {
+					itemType.visit(this);
+				}
+			}
 			// simpleType.getSimpleBaseType()
 		}
 	}
