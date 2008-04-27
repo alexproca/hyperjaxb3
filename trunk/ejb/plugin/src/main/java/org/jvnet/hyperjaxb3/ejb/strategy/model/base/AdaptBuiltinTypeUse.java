@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -43,14 +44,18 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 		if (schemaComponent != null) {
 			final SimpleTypeVisitor simpleTypeVisitor = new SimpleTypeVisitor();
 			schemaComponent.visit(simpleTypeVisitor);
-			final QName typeName = simpleTypeVisitor.getTypeName();
-			final TypeUse createPropertyInfos = adapters.get(new PropertyType(
-					type, typeName));
-			if (createPropertyInfos != null) {
-				return createPropertyInfos;
-			} else {
-				return adapters.get(new PropertyType(type));
+			final List<QName> typeNames = simpleTypeVisitor.getTypeNames();
+
+			for (QName typeName : typeNames) {
+				final PropertyType propertyType = new PropertyType(type,
+						typeName);
+				if (adapters.containsKey(propertyType)) {
+					final TypeUse createPropertyInfos = adapters
+							.get(propertyType);
+					return createPropertyInfos;
+				}
 			}
+			return adapters.get(new PropertyType(type));
 
 		} else {
 			return adapters.get(new PropertyType(type));

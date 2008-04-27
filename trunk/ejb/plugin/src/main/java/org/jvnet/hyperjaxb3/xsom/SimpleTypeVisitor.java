@@ -1,5 +1,8 @@
 package org.jvnet.hyperjaxb3.xsom;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
@@ -20,6 +23,7 @@ import com.sun.xml.xsom.XSNotation;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
 import com.sun.xml.xsom.XSSimpleType;
+import com.sun.xml.xsom.XSType;
 import com.sun.xml.xsom.XSWildcard;
 import com.sun.xml.xsom.XSXPath;
 import com.sun.xml.xsom.visitor.XSVisitor;
@@ -28,14 +32,14 @@ public class SimpleTypeVisitor implements XSVisitor {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-	private QName typeName = null;
+	private List<QName> typeNames = new LinkedList<QName>();
 
-	public QName getTypeName() {
-		return typeName;
+	public List<QName> getTypeNames() {
+		return typeNames;
 	}
 
 	public void annotation(XSAnnotation ann) {
-//		todo("Annotation.");
+		// todo("Annotation.");
 	}
 
 	public void attGroupDecl(XSAttGroupDecl decl) {
@@ -51,7 +55,7 @@ public class SimpleTypeVisitor implements XSVisitor {
 	}
 
 	public void complexType(XSComplexType type) {
-		//todo("Complex type [" + type.getName() + "].");
+		// todo("Complex type [" + type.getName() + "].");
 	}
 
 	public void facet(XSFacet facet) {
@@ -102,12 +106,22 @@ public class SimpleTypeVisitor implements XSVisitor {
 
 	public void simpleType(XSSimpleType simpleType) {
 		if (simpleType.getName() != null) {
-			typeName = new QName(simpleType.getTargetNamespace(), simpleType
-					.getName());
+			typeNames.add(new QName(simpleType.getTargetNamespace(), simpleType
+					.getName()));
+			if (simpleType.getDerivationMethod() == XSType.RESTRICTION) {
+				final XSType baseType = simpleType.asRestriction()
+						.getBaseType();
+				if (baseType != null) {
+					baseType.visit(this);
+				}
+			}
+
+			// simpleType.getSimpleBaseType()
 		}
 	}
 
 	private void todo(String comment) {
-		logger.error((comment == null ? "" : comment + " ") + "Not yet supported.");
+		logger.error((comment == null ? "" : comment + " ")
+				+ "Not yet supported.");
 	}
 }
