@@ -64,7 +64,7 @@
 			<include name="hibernate-annotations-*.jar"/>
 			<include name="hibernate-entitymanager-*.jar"/>
 			<include name="javassist-*.jar"/>
-			<include name="jboss-common-core-*.jar"/>
+			<include name="jboss-archive-browsing-*.jar"/>
 			<include name="hsqldb-*.jar"/>
 			<include name="hyperjaxb3-ejb-runtime-*.jar"/>
 			<include name="hyperjaxb3-ejb-roundtrip-*.jar"/>
@@ -82,10 +82,27 @@
 		<delete dir="${basedir}/target/test-classes"/>
 	</target>
 	<target name="generate-sources">
-		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+		<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task">
+			<!-- XJC2 Task classpath -->
 			<classpath>
 				<fileset dir="${basedir}/lib">
-					<include name="*.jar"/>
+					<include name="activation-*.jar"/>
+					<include name="jaxb-api-*.jar"/>
+					<include name="jaxb-impl-*.jar"/>
+					<include name="jsr173_api-*.jar"/>
+					<include name="stax-api-*.jar"/>
+
+					<include name="jaxb-xjc-*.jar"/>
+					<include name="codemodel-*.jar"/>
+					<include name="dtd-parser-*.jar"/>
+					<include name="istack-commons-tools-*.jar"/>
+					<include name="relaxngDatatype-*.jar"/>
+					<include name="resolver-*.jar"/>
+					<include name="rngom-*.jar"/>
+					<include name="xsom-*.jar"/>
+
+					<include name="jaxb2_commons-ant-*.jar"/>
+
 				</fileset>
 			</classpath>
 		</taskdef>
@@ -103,6 +120,11 @@
 			<schema dir="${basedir}/src/main/resources">
 			 	<include name="**/*.xsd"/>
 			</schema>
+			<classpath>
+				<fileset dir="${basedir}/lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
 		</xjc>
 	</target>
 	<target name="compile" depends="generate-sources">
