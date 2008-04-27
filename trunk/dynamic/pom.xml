@@ -23,6 +23,14 @@
 			<artifactId>hyperjaxb3-ejb-plugin</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb-xjc</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>3.3.1.ga</version>
@@ -46,12 +54,10 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-				</configuration>       
-			</plugin>
+			</plugin-->
 		</plugins>
 	</build>
 </project>
