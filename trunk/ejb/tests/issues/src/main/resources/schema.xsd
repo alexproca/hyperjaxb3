@@ -290,4 +290,14 @@
 		</xsd:complexType>
 	</xsd:element>
 
+	<xsd:simpleType name="issue75SimpleType">
+		<xsd:restriction base="xsd:date"/>
+	</xsd:simpleType>
+
+	<xsd:element name="issue75Element">
+		<xsd:complexType>
+			<xsd:attribute name="value" use="optional" type="test:issue75SimpleType"/>
+		</xsd:complexType>
+	</xsd:element>
+
 </xsd:schema>

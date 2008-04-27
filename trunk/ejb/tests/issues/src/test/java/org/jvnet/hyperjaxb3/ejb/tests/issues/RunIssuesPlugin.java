@@ -9,5 +9,4 @@ public class RunIssuesPlugin extends RunEjbHyperjaxb3Mojo {
 	protected void configureHyperjaxb3Mojo(Hyperjaxb3Mojo mojo) {
 		super.configureHyperjaxb3Mojo(mojo);
 	}
-
 }
