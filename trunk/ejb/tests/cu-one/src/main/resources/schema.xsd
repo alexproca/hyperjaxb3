@@ -105,4 +105,22 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:element name="four" type="test:four"/>
+
+	<xs:complexType name="four">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id>
+							<hj:generated-value strategy="SEQUENCE"/>
+							<!--hj:sequence-generator name="four-sequence" sequence-name="FOUR_SEQ"/-->
+						</hj:id>	
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
 </xs:schema>
