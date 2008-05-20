@@ -27,6 +27,7 @@ import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.Model;
 
 public class Customizations {
 
@@ -64,6 +65,9 @@ public class Customizations {
 	public static JAXBContext getContext() {
 		return context;
 	}
+
+	public static final QName PERSISTENCE_ELEMENT_NAME = new QName(
+			NAMESPACE_URI, "persistence");
 
 	public static final QName ITEM_ELEMENT_NAME = new QName(NAMESPACE_URI,
 			"item");
@@ -175,6 +179,14 @@ public class Customizations {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static <T> T findCustomization(Model model, QName name) {
+		final CPluginCustomization customization = CustomizationUtils
+				.findCustomization(model, name);
+
+		return (T) unmarshall(customization);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(propertyInfo, name);
@@ -254,7 +266,6 @@ public class Customizations {
 	public static void markGenerated(CCustomizable customizable) {
 		customizable.getCustomizations().add(createCustomization$Generated());
 	}
-	
 
 	public static boolean isGenerated(CClassInfo classInfo) {
 		return CustomizationUtils.containsCustomization(classInfo,

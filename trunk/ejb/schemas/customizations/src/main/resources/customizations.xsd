@@ -9,6 +9,15 @@
 		schemaLocation="http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"/>
 	<xsd:import namespace="http://java.sun.com/xml/ns/persistence" 
 		schemaLocation="http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"/>
+
+	<xsd:element name="persistence"	type="hj:persistence"/>
+	<xsd:complexType name="persistence">
+		<xsd:sequence>
+			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
 	<!-- ... -->
 	<xsd:element name="ignored" type="hj:ignored"/>
 	<xsd:complexType name="ignored"/>

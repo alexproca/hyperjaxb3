@@ -289,6 +289,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	}
 
 	public void processModel(Outline outline) {
+		
+		CustomizationUtils.findCustomization(outline.getModel(), Customizations.PERSISTENCE_ELEMENT_NAME);
 		Collection<CClassInfo> classes = getProcessModel().process(
 				getProcessModel(), outline.getModel());
 

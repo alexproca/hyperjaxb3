@@ -19,6 +19,11 @@
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.cuone"/>
 			</jaxb:schemaBindings>
+			<hj:persistence>
+				<hj:default-one-to-many>
+					<hj:join-column/>
+				</hj:default-one-to-many>
+			</hj:persistence>
 		</xs:appinfo>
 	</xs:annotation>
 

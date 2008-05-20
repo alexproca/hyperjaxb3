@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,16 +19,16 @@ import org.jvnet.annox.model.XAnnotationField.XClass;
 import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
-import org.jvnet.jaxb2_commons.util.FieldUtils;
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultAnnotateFieldOutlineOneToMany implements
@@ -78,15 +79,39 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		xannotations.add(createOneToMany(outlineProcessor, fieldOutline,
 				options, coneToMany));
 
-		if (coneToMany.getJoinTable() != null
-				|| (coneToMany.getJoinColumn().isEmpty() && isDefaultJoinTable())) {
+		final boolean joinTable;
 
-			xannotations.add(createJoinTable(outlineProcessor, fieldOutline,
-					options, coneToMany));
+		if (coneToMany.getJoinTable() != null) {
+			joinTable = true;
+		} else if (!coneToMany.getJoinColumn().isEmpty()) {
+			joinTable = false;
 		} else {
-			xannotations.addAll(createJoinColumns(outlineProcessor,
-					fieldOutline, options, coneToMany));
+			final Model model = fieldOutline.parent().parent().getModel();
+			final Persistence persistence = Customizations
+					.<Persistence> findCustomization(model,
+							Customizations.PERSISTENCE_ELEMENT_NAME);
+
+			if (persistence == null || persistence.getDefaultOneToMany() == null) {
+				joinTable = isDefaultJoinTable();
+			} else if (persistence.getDefaultOneToMany().getJoinTable() != null) {
+				joinTable = true;
+			} else if (!persistence.getDefaultOneToMany().getJoinColumn().isEmpty()) {
+				joinTable = false;
+			} else {
+				joinTable = isDefaultJoinTable();
+			}
 		}
+
+		final Collection<XAnnotation> content;
+		if (joinTable) {
+			content = createJoinTable(outlineProcessor, fieldOutline, options,
+					coneToMany);
+		} else {
+			content = createJoinColumns(outlineProcessor, fieldOutline,
+					options, coneToMany);
+		}
+
+		xannotations.addAll(content);
 
 		xannotations.add(new XAnnotation(OrderBy.class));
 
@@ -127,7 +152,8 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 
 		final CClassInfo childClassInfo = (CClassInfo) type;
 
-		return new XAnnotationField.XClass("targetEntity", childClassInfo.fullName());
+		return new XAnnotationField.XClass("targetEntity", childClassInfo
+				.fullName());
 
 	}
 
@@ -225,14 +251,14 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		}
 	}
 
-	public XAnnotation createJoinTable(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
+	public Collection<XAnnotation> createJoinTable(
+			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
+			Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany) {
 
-		final String joinTableName = 
-			(coneToMany.getJoinTable() != null && coneToMany.getJoinTable().getName() != null) ? 
-			coneToMany.getJoinTable().getName() :
-			outlineProcessor.getNaming()
+		final String joinTableName = (coneToMany.getJoinTable() != null && coneToMany
+				.getJoinTable().getName() != null) ? coneToMany.getJoinTable()
+				.getName() : outlineProcessor.getNaming()
 				.getOneToManyJoinTableName(outlineProcessor, fieldOutline,
 						options);
 
@@ -258,7 +284,7 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 						new XAnnotation[] { inverseJoinColumn },
 						JoinColumn.class));
 
-		return joinTable;
+		return Collections.singletonList(joinTable);
 	}
 
 	public Collection<XAnnotation> createJoinColumns(
