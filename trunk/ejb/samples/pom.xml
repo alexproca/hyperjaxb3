@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2_commons-ant</artifactId>
-			<version>0.2.GA</version>
+			<version>0.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
