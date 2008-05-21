@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline;
 
 import java.util.Collection;
 
+import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.naming.Naming;
 import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
@@ -39,5 +40,7 @@ public interface ProcessOutline extends
 	public Annotate getAnnotate();
 
 	public Naming getNaming();
+	
+	public ModelCustomizations getCustomizations();
 
 }

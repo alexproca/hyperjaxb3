@@ -64,7 +64,9 @@
 
 	<bean name="adaptBuiltinTypeUse"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.AdaptBuiltinTypeUse"/>
-	
+
+	<bean name="customizations"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.customizations.base.DefaultModelCustomizations"/>
 	
 	
 	
@@ -100,6 +102,7 @@
 		<property name="wrapCollectionWildcardReference" ref="wrapCollectionWildcardReference"/>
 
 		<property name="adaptBuiltinTypeUse" ref="adaptBuiltinTypeUse"/>
+		<property name="customizations" ref="customizations"/>
 	</bean>
 	
 	<bean name="getTypes"
@@ -128,6 +131,7 @@
 		<property name="annotate" ref="annotate"/>
 		<property name="naming" ref="naming"/>
 		<property name="ignoring" ref="ignoring"/>
+		<property name="customizations" ref="customizations"/>
 	</bean>
 	
 	<bean name="processClassOutline"

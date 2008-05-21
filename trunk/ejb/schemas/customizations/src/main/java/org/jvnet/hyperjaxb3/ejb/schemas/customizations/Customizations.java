@@ -14,7 +14,6 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.exception.NestableRuntimeException;
 import org.jvnet.jaxb2_commons.util.ContextUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;

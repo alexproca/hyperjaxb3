@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.Annotate;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessClassOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessFieldOutline;
@@ -110,5 +111,15 @@ public class DefaultProcessOutline implements ProcessOutline {
 	@Required
 	public void setNaming(Naming naming) {
 		this.naming = naming;
+	}
+	
+	private ModelCustomizations customizations;
+	
+	public ModelCustomizations getCustomizations() {
+		return customizations;
+	}
+	
+	public void setCustomizations(ModelCustomizations customizations) {
+		this.customizations = customizations;
 	}
 }

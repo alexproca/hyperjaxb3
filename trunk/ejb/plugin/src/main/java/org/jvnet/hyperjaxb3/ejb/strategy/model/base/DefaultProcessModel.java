@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
@@ -362,5 +363,16 @@ public class DefaultProcessModel implements ProcessModel {
 
 	public void setIgnoring(Ignoring ignoring) {
 		this.ignoring = ignoring;
+	}
+
+	private ModelCustomizations customizations;
+
+	public ModelCustomizations getCustomizations() {
+		return customizations;
+	}
+
+	@Required
+	public void setCustomizations(ModelCustomizations customizations) {
+		this.customizations = customizations;
 	}
 }

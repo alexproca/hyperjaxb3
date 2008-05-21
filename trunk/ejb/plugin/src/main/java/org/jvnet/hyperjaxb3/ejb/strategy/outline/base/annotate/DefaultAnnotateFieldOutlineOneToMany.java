@@ -68,42 +68,15 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		final Collection<XAnnotation> xannotations = new ArrayList<XAnnotation>(
 				3);
 
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany = CustomizationUtils
-				.containsCustomization(fieldOutline.getPropertyInfo(),
-						Customizations.ONE_TO_MANY_ELEMENT_NAME) ? Customizations
-				.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany> findCustomization(
-						fieldOutline.getPropertyInfo(),
-						Customizations.ONE_TO_MANY_ELEMENT_NAME)
-				: new org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany();
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany = 
+			
+			outlineProcessor.getCustomizations().getOneToMany(fieldOutline);
 
 		xannotations.add(createOneToMany(outlineProcessor, fieldOutline,
 				options, coneToMany));
 
-		final boolean joinTable;
-
-		if (coneToMany.getJoinTable() != null) {
-			joinTable = true;
-		} else if (!coneToMany.getJoinColumn().isEmpty()) {
-			joinTable = false;
-		} else {
-			final Model model = fieldOutline.parent().parent().getModel();
-			final Persistence persistence = Customizations
-					.<Persistence> findCustomization(model,
-							Customizations.PERSISTENCE_ELEMENT_NAME);
-
-			if (persistence == null || persistence.getDefaultOneToMany() == null) {
-				joinTable = isDefaultJoinTable();
-			} else if (persistence.getDefaultOneToMany().getJoinTable() != null) {
-				joinTable = true;
-			} else if (!persistence.getDefaultOneToMany().getJoinColumn().isEmpty()) {
-				joinTable = false;
-			} else {
-				joinTable = isDefaultJoinTable();
-			}
-		}
-
 		final Collection<XAnnotation> content;
-		if (joinTable) {
+		if (coneToMany.getJoinTable() != null) {
 			content = createJoinTable(outlineProcessor, fieldOutline, options,
 					coneToMany);
 		} else {
