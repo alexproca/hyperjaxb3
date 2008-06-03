@@ -22,7 +22,16 @@
 			<hj:persistence>
 				<hj:default-one-to-many>
 					<hj:join-column/>
+					<hj:cascade>
+						<orm:cascade-all/>
+					</hj:cascade>
 				</hj:default-one-to-many>
+				<hj:default-many-to-one>
+					<hj:join-column/>
+					<hj:cascade>
+						<orm:cascade-all/>
+					</hj:cascade>
+				</hj:default-many-to-one>
 			</hj:persistence>
 		</xs:appinfo>
 	</xs:annotation>

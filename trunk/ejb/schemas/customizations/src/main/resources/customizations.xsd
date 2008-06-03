@@ -14,6 +14,7 @@
 	<xsd:complexType name="persistence">
 		<xsd:sequence>
 			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
+			<xsd:element name="default-many-to-one" type="hj:many-to-one"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -99,6 +100,7 @@
 		<xsd:attribute name="target-entity" type="xsd:string"/>
 		<xsd:attribute name="fetch" type="orm:fetch-type"/>
 		<xsd:attribute name="mapped-by" type="xsd:string"/>
+		<xsd:attribute name="inherit" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 
 	<!-- ... -->
@@ -118,6 +120,7 @@
 		<xsd:attribute name="target-entity" type="xsd:string"/>
 		<xsd:attribute name="fetch" type="orm:fetch-type"/>
 		<xsd:attribute name="optional" type="xsd:boolean"/>
+		<xsd:attribute name="inherit" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 	<!--- ... -->
 	<xsd:element name="basic" type="hj:basic"/>

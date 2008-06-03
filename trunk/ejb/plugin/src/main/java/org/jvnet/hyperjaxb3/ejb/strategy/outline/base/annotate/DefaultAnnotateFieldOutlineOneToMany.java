@@ -18,17 +18,13 @@ import org.jvnet.annox.model.XAnnotationField;
 import org.jvnet.annox.model.XAnnotationField.XClass;
 import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
-import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultAnnotateFieldOutlineOneToMany implements
@@ -51,16 +47,6 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		// return xannotations;
 	}
 
-	private boolean defaultJoinTable = true;
-
-	public boolean isDefaultJoinTable() {
-		return defaultJoinTable;
-	}
-
-	public void setDefaultJoinTable(boolean defaultJoinTable) {
-		this.defaultJoinTable = defaultJoinTable;
-	}
-
 	public Collection<XAnnotation> createOneToMany(
 			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
 			Options options) {
@@ -68,9 +54,9 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		final Collection<XAnnotation> xannotations = new ArrayList<XAnnotation>(
 				3);
 
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany = 
-			
-			outlineProcessor.getCustomizations().getOneToMany(fieldOutline);
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany =
+
+		outlineProcessor.getCustomizations().getOneToMany(fieldOutline);
 
 		xannotations.add(createOneToMany(outlineProcessor, fieldOutline,
 				options, coneToMany));
@@ -136,70 +122,20 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		return AnnotationUtils.create("mappedBy", oneToMany.getMappedBy());
 	}
 
-	private FetchType defaultFetch = null;
-
-	public FetchType getDefaultFetch() {
-		return defaultFetch;
-	}
-
-	public void setDefaultFetch(FetchType defaultFetch) {
-		this.defaultFetch = defaultFetch;
-	}
-
-	public FetchType getFetch(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options) {
-		return getDefaultFetch();
-	}
-
-	public XEnum createFetch(ProcessOutline outlineProcessor,
+	public XAnnotationField createFetch(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany oneToMany) {
-		if (oneToMany.getFetch() == null) {
-
-			final FetchType fetch = getFetch(outlineProcessor, fieldOutline,
-					options);
-
-			if (fetch == null) {
-				return null;
-			} else {
-				return new XAnnotationField.XEnum("fetch", fetch,
-						FetchType.class);
-			}
-		} else {
-			return new XAnnotationField.XEnum("fetch", FetchType
-					.valueOf(oneToMany.getFetch()), FetchType.class);
-		}
+		return oneToMany.getFetch() == null ? null :  AnnotationUtils.create("fetch", FetchType.valueOf(oneToMany.getFetch()));
 	}
 
-	private CascadeType[] defaultCascade = { CascadeType.ALL };
 
-	public CascadeType[] getDefaultCascade() {
-		return defaultCascade;
-	}
-
-	public void setDefaultCascade(CascadeType[] defaultCascade) {
-		this.defaultCascade = defaultCascade;
-	}
-
-	public CascadeType[] getCascade(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options) {
-		return getDefaultCascade();
-	}
-
-	public XAnnotationField.XEnumArray createCascade(
+	public XAnnotationField createCascade(
 			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
 			Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany oneToMany) {
 
 		if (oneToMany.getCascade() == null) {
-			final CascadeType[] cascade = getCascade(outlineProcessor,
-					fieldOutline, options);
-			if (cascade == null) {
-				return null;
-			} else {
-				return new XAnnotationField.XEnumArray("cascade", cascade,
-						CascadeType.class);
-			}
+			return null;
 		} else {
 			final Collection<CascadeType> cascade = new HashSet<CascadeType>();
 
@@ -218,9 +154,8 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 			if (oneToMany.getCascade().getCascadeRemove() != null) {
 				cascade.add(CascadeType.REMOVE);
 			}
-			return new XAnnotationField.XEnumArray("cascade", cascade
-					.toArray(new CascadeType[cascade.size()]),
-					CascadeType.class);
+			return AnnotationUtils.create("cascade", cascade
+					.toArray(new CascadeType[cascade.size()]));
 		}
 	}
 

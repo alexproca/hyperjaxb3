@@ -1,0 +1,13 @@
+<hj:persistence
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
+		<hj:default-one-to-many>
+			<hj:join-column/>
+		</hj:default-one-to-many>
+		<hj:default-many-to-one>
+			<hj:join-column/>
+			<hj:cascade>
+				<orm:cascade-all/>
+			</hj:cascade>
+		</hj:default-many-to-one>
+</hj:persistence>

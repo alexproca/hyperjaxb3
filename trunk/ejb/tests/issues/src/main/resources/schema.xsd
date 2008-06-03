@@ -3,8 +3,17 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	jaxb:version="2.1" 
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+
 	elementFormDefault="qualified" 
-	attributeFormDefault="unqualified">
+	attributeFormDefault="unqualified"
+
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+
+	jaxb:extensionBindingPrefixes="hj orm"
+
+	>
+
 	<xsd:annotation>
 		<xsd:appinfo>
 			<jaxb:schemaBindings>
@@ -299,5 +308,14 @@
 			<xsd:attribute name="value" use="optional" type="test:issue75SimpleType"/>
 		</xsd:complexType>
 	</xsd:element>
+
+	<xsd:complexType name="issue132Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:ignored/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:attribute name="value" use="optional" type="xsd:string"/>
+	</xsd:complexType>
 
 </xsd:schema>

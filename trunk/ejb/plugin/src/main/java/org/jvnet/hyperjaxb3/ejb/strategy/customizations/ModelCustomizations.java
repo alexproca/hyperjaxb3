@@ -1,5 +1,6 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.customizations;
 
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -22,4 +23,8 @@ public interface ModelCustomizations {
 	 */
 	public OneToMany getOneToMany(CPropertyInfo property);
 	public OneToMany getOneToMany(FieldOutline property);
+	
+	public ManyToOne getManyToOne(CPropertyInfo property);
+	public ManyToOne getManyToOne(FieldOutline property);
+	
 }

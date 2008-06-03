@@ -66,7 +66,15 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.AdaptBuiltinTypeUse"/>
 
 	<bean name="customizations"
-		class="org.jvnet.hyperjaxb3.ejb.strategy.customizations.base.DefaultModelCustomizations"/>
+		class="org.jvnet.hyperjaxb3.ejb.strategy.customizations.base.DefaultModelCustomizations">
+		<property name="defaultCustomizations">
+			<bean parent="abstractCustomizationsUnmarshalledResource">
+				<property name="resource" value="classpath:org/jvnet/hyperjaxb3/ejb/strategy/customizations/base/DefaultCustomizations.xml"/>
+			</bean>
+		</property>
+			
+
+	</bean>
 	
 	
 	
@@ -235,4 +243,18 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean name="customizationsContext"
+		class="org.jvnet.hyperjaxb3.beans.factory.JAXBContextFactoryBean">
+		<property name="contextPath"
+			value="com.sun.java.xml.ns.persistence:com.sun.java.xml.ns.persistence.orm:org.jvnet.hyperjaxb3.ejb.schemas.customizations"/>
+	</bean>
+	
+	<bean name="abstractCustomizationsUnmarshalledResource"
+		abstract="true"
+		class="org.jvnet.hyperjaxb3.beans.factory.UnmarshalledResourceFactoryBean">
+		<property name="context" ref="customizationsContext"/>
+	</bean>
+	
+	
 </beans>
