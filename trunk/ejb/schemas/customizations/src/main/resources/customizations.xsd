@@ -6,9 +6,9 @@
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" 
 	xmlns:persistence="http://java.sun.com/xml/ns/persistence">
 	<xsd:import namespace="http://java.sun.com/xml/ns/persistence/orm" 
-		schemaLocation="http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"/>
+		schemaLocation="orm/orm_1_0.xsd"/>
 	<xsd:import namespace="http://java.sun.com/xml/ns/persistence" 
-		schemaLocation="http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"/>
+		schemaLocation="persistence_1_0.xsd"/>
 
 	<xsd:element name="persistence"	type="hj:persistence"/>
 	<xsd:complexType name="persistence">
@@ -100,7 +100,7 @@
 		<xsd:attribute name="target-entity" type="xsd:string"/>
 		<xsd:attribute name="fetch" type="orm:fetch-type"/>
 		<xsd:attribute name="mapped-by" type="xsd:string"/>
-		<xsd:attribute name="inherit" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 
 	<!-- ... -->
@@ -120,7 +120,7 @@
 		<xsd:attribute name="target-entity" type="xsd:string"/>
 		<xsd:attribute name="fetch" type="orm:fetch-type"/>
 		<xsd:attribute name="optional" type="xsd:boolean"/>
-		<xsd:attribute name="inherit" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 	<!--- ... -->
 	<xsd:element name="basic" type="hj:basic"/>

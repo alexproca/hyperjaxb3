@@ -38,24 +38,28 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany;
 
+		final CClassInfo classInfo = (CClassInfo) property.parent();
+		final Persistence persistence = getModelCustomization(classInfo.model);
+		final OneToMany defaultOneToMany = persistence.getDefaultOneToMany();
+		if (defaultOneToMany == null) {
+			// TODO
+			throw new AssertionError(
+					"Default one-to-many element is not provided.");
+		}
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_MANY_ELEMENT_NAME)) {
 			coneToMany = Customizations
 					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany> findCustomization(
 							property, Customizations.ONE_TO_MANY_ELEMENT_NAME);
 
-		} else {
-			final CClassInfo classInfo = (CClassInfo) property.parent();
-			final Persistence persistence = getModelCustomization(classInfo.model);
-			if (persistence != null
-					&& persistence.getDefaultOneToMany() != null) {
-				coneToMany = persistence.getDefaultOneToMany();
-			} else {
-				// Default;
-				coneToMany = new org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany();
-				coneToMany.getJoinColumn().add(new JoinColumn());
+			if (coneToMany.isMerge()) {
+				coneToMany.mergeFrom(coneToMany, defaultOneToMany);
+				if (coneToMany.getJoinTable() != null) {
+					coneToMany.getJoinColumn().clear();
+				}
 			}
-
+		} else {
+			return defaultOneToMany;
 		}
 		return coneToMany;
 	}
@@ -66,6 +70,15 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 
 	public ManyToOne getManyToOne(CPropertyInfo property) {
 
+		final CClassInfo classInfo = (CClassInfo) property.parent();
+		final Persistence persistence = getModelCustomization(classInfo.model);
+		final ManyToOne defaultManyToOne = persistence.getDefaultManyToOne();
+		if (defaultManyToOne == null) {
+			// TODO
+			throw new AssertionError(
+					"Default many-to-one element is not provided.");
+		}
+
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cmanyToOne;
 
 		if (CustomizationUtils.containsCustomization(property,
@@ -73,19 +86,14 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 			cmanyToOne = Customizations
 					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne> findCustomization(
 							property, Customizations.MANY_TO_ONE_ELEMENT_NAME);
-
-		} else {
-			final CClassInfo classInfo = (CClassInfo) property.parent();
-			final Persistence persistence = getModelCustomization(classInfo.model);
-			if (persistence != null
-					&& persistence.getDefaultManyToOne() != null) {
-				cmanyToOne = persistence.getDefaultManyToOne();
-			} else {
-				// Default;
-				cmanyToOne = new org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne();
-				cmanyToOne.getJoinColumn().add(new JoinColumn());
+			if (cmanyToOne.isMerge()) {
+				cmanyToOne.mergeFrom(cmanyToOne, defaultManyToOne);
+				if (cmanyToOne.getJoinTable() != null) {
+					cmanyToOne.getJoinColumn().clear();
+				}
 			}
-
+		} else {
+			return defaultManyToOne;
 		}
 		return cmanyToOne;
 	}
