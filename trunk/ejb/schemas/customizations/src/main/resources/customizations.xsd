@@ -16,6 +16,7 @@
 			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
 			<xsd:element name="default-many-to-one" type="hj:many-to-one"/>
 		</xsd:sequence>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 
 

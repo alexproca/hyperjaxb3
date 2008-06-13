@@ -31,7 +31,22 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 		final Persistence persistence = Customizations
 				.<Persistence> findCustomization(model,
 						Customizations.PERSISTENCE_ELEMENT_NAME);
-		return persistence != null ? persistence : getDefaultCustomizations();
+		if (persistence == null) {
+			return getDefaultCustomizations();
+		}
+		if (!persistence.isMerge()) {
+			return persistence;
+		} else {
+			final Persistence defaultPersistence = getDefaultCustomizations();
+			persistence.mergeFrom(persistence, defaultPersistence);
+			if (persistence.getDefaultManyToOne().getJoinTable() != null) {
+				persistence.getDefaultManyToOne().getJoinColumn().clear();
+			}
+			if (persistence.getDefaultOneToMany().getJoinTable() != null) {
+				persistence.getDefaultOneToMany().getJoinColumn().clear();
+			}
+			return persistence;
+		}
 	}
 
 	public OneToMany getOneToMany(CPropertyInfo property) {
