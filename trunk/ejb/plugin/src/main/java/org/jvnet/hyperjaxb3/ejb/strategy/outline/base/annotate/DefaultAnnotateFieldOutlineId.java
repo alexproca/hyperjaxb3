@@ -104,13 +104,13 @@ public class DefaultAnnotateFieldOutlineId implements AnnotateFieldOutline {
 					AnnotationUtils
 							.create("name", cSequenceGenerator.getName()),
 					//
-					AnnotationUtils.create("name", cSequenceGenerator
+					AnnotationUtils.create("sequenceName", cSequenceGenerator
 							.getSequenceName()),
 					//
-					AnnotationUtils.create("name", cSequenceGenerator
+					AnnotationUtils.create("initialValue", cSequenceGenerator
 							.getInitialValue()),
 					//
-					AnnotationUtils.create("name", cSequenceGenerator
+					AnnotationUtils.create("allocationSize", cSequenceGenerator
 							.getAllocationSize()));
 			return Collections.singletonList(sequenceGenerator);
 		}

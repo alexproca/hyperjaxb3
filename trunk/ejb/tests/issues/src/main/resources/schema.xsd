@@ -318,4 +318,22 @@
 		<xsd:attribute name="value" use="optional" type="xsd:string"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="issue131SequenceGeneratorType">
+		<xsd:attribute name="id111" use="optional" type="xsd:int">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:id>
+						<hj:sequence-generator
+							name="issue131SequenceGenerator"
+							sequence-name="issue131SequenceGeneratorSequenceName"
+							initial-value="131"
+							allocation-size="131"/>
+					</hj:id>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="value" use="optional" type="xsd:string"/>
+	</xsd:complexType>
+
+
 </xsd:schema>
