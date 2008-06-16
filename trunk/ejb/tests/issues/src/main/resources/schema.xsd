@@ -318,16 +318,49 @@
 		<xsd:attribute name="value" use="optional" type="xsd:string"/>
 	</xsd:complexType>
 
+	<xsd:element name="issue131SequenceGenerator" type="test:issue131SequenceGeneratorType"/>
+
 	<xsd:complexType name="issue131SequenceGeneratorType">
-		<xsd:attribute name="id111" use="optional" type="xsd:int">
+		<xsd:attribute name="id" use="optional" type="xsd:int">
 			<xsd:annotation>
 				<xsd:appinfo>
 					<hj:id>
+						<hj:generated-value strategy="SEQUENCE" generator="issue131SequenceGenerator"/>
 						<hj:sequence-generator
 							name="issue131SequenceGenerator"
 							sequence-name="issue131SequenceGeneratorSequenceName"
 							initial-value="131"
 							allocation-size="131"/>
+					</hj:id>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="value" use="optional" type="xsd:string"/>
+	</xsd:complexType>
+
+	<xsd:element name="issue131TableGenerator" type="test:issue131TableGeneratorType"/>
+
+	<xsd:complexType name="issue131TableGeneratorType">
+		<xsd:attribute name="id" use="optional" type="xsd:int">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:id>
+						<hj:generated-value strategy="TABLE" generator="issue131TableGenerator"/>
+						<hj:table-generator
+							name="issue131TableGenerator"
+							table="issue131TableGeneratorTableName"
+							catalog="issue131TableGeneratorCatalogName"
+							schema="issue131TableGeneratorSchemaName"
+							pk-column-name="pkColumnName"
+							value-column-name="valueColumnName"
+							pk-column-value="issue131TableGeneratorPkColumnValue"
+							initial-value="131"
+							allocation-size="131">
+							<orm:unique-constraint>
+								<orm:column-name>pkColumnName</orm:column-name>
+								<orm:column-name>valueColumnName</orm:column-name>
+							</orm:unique-constraint>
+						</hj:table-generator>
 					</hj:id>
 				</xsd:appinfo>
 			</xsd:annotation>

@@ -167,8 +167,12 @@ public class DefaultAnnotateFieldOutlineId implements AnnotateFieldOutline {
 							.getInitialValue()),
 					//
 					AnnotationUtils.create("allocationSize", cTableGenerator
-							.getAllocationSize()), AnnotationUtils.create(
-							"uniqueConstraints", uniqueConstraints));
+							.getAllocationSize()),
+					//
+					new XAnnotationField.XAnnotationArray("uniqueConstraints",
+							uniqueConstraints
+									.toArray(new XAnnotation[uniqueConstraints
+											.size()]), UniqueConstraint.class));
 
 			return Collections.singletonList(tableGenerator);
 		}
