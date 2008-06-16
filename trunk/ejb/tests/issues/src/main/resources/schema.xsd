@@ -9,8 +9,9 @@
 
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 
-	jaxb:extensionBindingPrefixes="hj orm"
+	jaxb:extensionBindingPrefixes="hj orm xjc"
 
 	>
 
@@ -367,6 +368,23 @@
 		</xsd:attribute>
 		<xsd:attribute name="value" use="optional" type="xsd:string"/>
 	</xsd:complexType>
+
+	<xsd:element name="issue129" type="test:issue129Type"/>
+
+	<xsd:complexType name="issue129Type">
+		<xsd:attribute name="value129" use="optional" type="xsd:time">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:property>
+						<jaxb:baseType>
+							<xjc:javaType name="java.util.Calendar" adapter="org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.TimeStringAsCalendar"/>
+						</jaxb:baseType>
+					</jaxb:property>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
 
 
 </xsd:schema>

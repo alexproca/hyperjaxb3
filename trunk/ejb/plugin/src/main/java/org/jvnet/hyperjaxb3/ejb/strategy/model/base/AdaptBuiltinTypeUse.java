@@ -38,6 +38,7 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 	protected Log logger = LogFactory.getLog(getClass());
 
 	public TypeUse process(ProcessModel context, CPropertyInfo propertyInfo) {
+//		propertyInfo.g
 		final CBuiltinLeafInfo type = getType(context, propertyInfo);
 		final XSComponent schemaComponent = propertyInfo.getSchemaComponent();
 
