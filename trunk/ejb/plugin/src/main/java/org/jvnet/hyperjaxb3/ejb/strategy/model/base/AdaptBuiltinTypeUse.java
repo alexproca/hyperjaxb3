@@ -66,11 +66,14 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 	public TypeUse getType(ProcessModel context, CPropertyInfo propertyInfo) {
 		final CTypeInfo type = propertyInfo.ref().iterator().next();
-		// propertyInfo.gett
-		// final CBuiltinLeafInfo typeUse =
 
 		if (type instanceof CBuiltinLeafInfo) {
-			return (CBuiltinLeafInfo) type;
+			if (propertyInfo.getAdapter() != null) {
+				return TypeUseFactory.adapt((CBuiltinLeafInfo) type,
+						propertyInfo.getAdapter());
+			} else {
+				return (CBuiltinLeafInfo) type;
+			}
 		} else if (type instanceof CElementInfo) {
 			final CElementInfo elementInfo = (CElementInfo) type;
 			// elementInfo.getProperty()
@@ -92,8 +95,11 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 		adapters.put(new PropertyType(CBuiltinLeafInfo.BASE64_BYTE_ARRAY),
 				CBuiltinLeafInfo.BASE64_BYTE_ARRAY);
-//		adapters.put(new PropertyType(CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY),
-//				CBuiltinLeafInfo.BASE64_BYTE_ARRAY);
+		// adapters.put(new PropertyType(CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY),
+		// CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY);
+		adapters.put(new PropertyType(CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY),
+				new CExternalLeafInfo(byte[].class, new QName(
+						WellKnownNamespace.XML_SCHEMA, "hexBinary"), null));
 		adapters.put(new PropertyType(CBuiltinLeafInfo.BIG_DECIMAL),
 				CBuiltinLeafInfo.BIG_DECIMAL);
 		adapters.put(new PropertyType(CBuiltinLeafInfo.BIG_INTEGER),
@@ -114,7 +120,12 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 				CBuiltinLeafInfo.SHORT);
 		adapters.put(new PropertyType(CBuiltinLeafInfo.STRING),
 				CBuiltinLeafInfo.STRING);
-
+		adapters.put(new PropertyType(CBuiltinLeafInfo.NORMALIZED_STRING),
+				new CExternalLeafInfo(String.class, new QName(
+						WellKnownNamespace.XML_SCHEMA, "normalizedString"), null));
+		adapters.put(new PropertyType(CBuiltinLeafInfo.TOKEN),
+				new CExternalLeafInfo(String.class, new QName(
+						WellKnownNamespace.XML_SCHEMA, "token"), null));
 		adapters.put(
 
 		new PropertyType(CBuiltinLeafInfo.QNAME),

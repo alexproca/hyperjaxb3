@@ -15,6 +15,9 @@
 	<classpathentry path="ejb/tests/cu-one/target/generated-sources/xjc" output="ejb/tests/cu-one/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/cu-one/src/test/resources" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
 
+	<classpathentry path="ejb/tests/one/src/test/java" output="ejb/tests/one/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/one/target/generated-sources/xjc" output="ejb/tests/one/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/one/src/test/resources" output="ejb/tests/one/target/test-classes" kind="src"/>
 
 
 	<!--classpathentry path="ejb/tests/dl/target/generated-sources/xjc" output="ejb/tests/dl/target/classes" kind="src"/>

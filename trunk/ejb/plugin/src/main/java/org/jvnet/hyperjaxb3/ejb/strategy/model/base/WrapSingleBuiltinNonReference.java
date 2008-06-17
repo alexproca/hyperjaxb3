@@ -30,7 +30,8 @@ public class WrapSingleBuiltinNonReference extends AbstractWrapSingleBuiltin {
 		final TypeUse adaptingTypeUse = context.getAdaptBuiltinTypeUse()
 				.process(context, propertyInfo);
 
-		if (adaptingTypeUse == originalTypeUse) {
+		if (adaptingTypeUse == originalTypeUse
+				|| adaptingTypeUse.getAdapterUse() == null) {
 			logger.debug("No adaptation required.");
 			return CreateNoPropertyInfos.INSTANCE;
 
@@ -38,10 +39,11 @@ public class WrapSingleBuiltinNonReference extends AbstractWrapSingleBuiltin {
 			return new AdaptBuiltinNonReference(adaptingTypeUse);
 		}
 	}
-	
-	protected Collection<CPropertyInfo> wrapAnyType(ProcessModel context, CPropertyInfo propertyInfo) {
-		return new AdaptWildcardNonReference(CBuiltinLeafInfo.STRING).process(context,
-				propertyInfo);
+
+	protected Collection<CPropertyInfo> wrapAnyType(ProcessModel context,
+			CPropertyInfo propertyInfo) {
+		return new AdaptWildcardNonReference(CBuiltinLeafInfo.STRING).process(
+				context, propertyInfo);
 	}
-	
+
 }

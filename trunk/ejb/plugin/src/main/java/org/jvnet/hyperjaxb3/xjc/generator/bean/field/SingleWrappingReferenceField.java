@@ -14,9 +14,11 @@ import com.sun.codemodel.JType;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementInfo;
+import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
+import com.sun.tools.xjc.model.TypeUseFactory;
 import com.sun.tools.xjc.outline.Aspect;
 
 public class SingleWrappingReferenceField extends WrappingField {
@@ -29,7 +31,7 @@ public class SingleWrappingReferenceField extends WrappingField {
 	@Override
 	protected JExpression wrap(JExpression target) {
 
-		final JClass declaredType = getDeclaredType();
+		final JClass declaredType = (JClass) getDeclaredType();
 
 		final JClass scope = getScope();
 
@@ -58,14 +60,25 @@ public class SingleWrappingReferenceField extends WrappingField {
 	}
 
 	protected JClass getDeclaredType() {
-		final JClass declaredType = (JClass) getType().toType(outline.parent(),
-				Aspect.EXPOSED);
-		return declaredType;
+
+		final CElementPropertyInfo property = getElementInfo().getProperty();
+
+		if (property.getAdapter() == null) {
+			final CNonElement type = property.ref().iterator().next();
+			final JClass declaredType = (JClass) getType().toType(
+					outline.parent(), Aspect.EXPOSED);
+			return declaredType;
+		}
+		else
+		{
+			return (JClass) property.getAdapter().customType.toType(outline.parent(), Aspect.EXPOSED);
+			
+		}
 	}
 
 	protected CNonElement getType() {
-		final CNonElement type = getElementInfo().getProperty().ref()
-				.iterator().next();
+		final CElementPropertyInfo property = getElementInfo().getProperty();
+		final CNonElement type = property.ref().iterator().next();
 		return type;
 	}
 

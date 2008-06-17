@@ -17,7 +17,7 @@ public class AdaptBuiltinNonReference extends AbstractAdaptBuiltinPropertyInfo {
 	public String getPropertyName(ProcessModel context,
 			CPropertyInfo propertyInfo) {
 		// TODO Allow for customization
-		return propertyInfo.getName(true) + "Element";
+		return propertyInfo.getName(true) + "Item";
 	}
 
 	@Override
