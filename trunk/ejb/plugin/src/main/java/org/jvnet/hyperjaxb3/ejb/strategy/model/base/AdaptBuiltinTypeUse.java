@@ -24,6 +24,7 @@ import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsG
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsTime;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
 
+import com.sun.tools.xjc.model.CAdapter;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -38,8 +39,8 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 	protected Log logger = LogFactory.getLog(getClass());
 
 	public TypeUse process(ProcessModel context, CPropertyInfo propertyInfo) {
-//		propertyInfo.g
-		final CBuiltinLeafInfo type = getType(context, propertyInfo);
+		// propertyInfo.g
+		final TypeUse type = getType(context, propertyInfo);
 		final XSComponent schemaComponent = propertyInfo.getSchemaComponent();
 
 		if (schemaComponent != null) {
@@ -63,15 +64,24 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 		}
 	}
 
-	public CBuiltinLeafInfo getType(ProcessModel context,
-			CPropertyInfo propertyInfo) {
+	public TypeUse getType(ProcessModel context, CPropertyInfo propertyInfo) {
 		final CTypeInfo type = propertyInfo.ref().iterator().next();
+		// propertyInfo.gett
+		// final CBuiltinLeafInfo typeUse =
 
 		if (type instanceof CBuiltinLeafInfo) {
 			return (CBuiltinLeafInfo) type;
 		} else if (type instanceof CElementInfo) {
 			final CElementInfo elementInfo = (CElementInfo) type;
-			return (CBuiltinLeafInfo) elementInfo.getContentType();
+			// elementInfo.getProperty()
+			final CBuiltinLeafInfo originalType = (CBuiltinLeafInfo) elementInfo
+					.getContentType();
+			final CAdapter adapter = elementInfo.getProperty().getAdapter();
+			if (adapter != null) {
+				return TypeUseFactory.adapt(originalType, adapter);
+			} else {
+				return originalType;
+			}
 		} else {
 			throw new AssertionError("Unexpected type.");
 		}
