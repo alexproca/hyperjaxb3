@@ -37,12 +37,12 @@
 	<NCName>NCName</NCName>
 	<!-- ** #51 ID>id</ID-->
 	<ENTITY>ENTITY</ENTITY>
-	<!-- ** ENTITIES>ENTITY ENTITY</ENTITIES -->
+	<ENTITIES>ENTITY ENTITY</ENTITIES>
 	<NMTOKEN>NMTOKEN</NMTOKEN>
-	<!-- ** NMTOKENS>NMTOKENS NMTOKENS</NMTOKENS -->
+	<NMTOKENS>NMTOKENS NMTOKENS</NMTOKENS>
 
-	<!-- ** base64BinaryNillable>SGVsbG8gd29ybGQhCg==</base64BinaryNillable -->
-	<!-- ** hexBinaryNillable>ABCD</hexBinaryNillable -->
+	<base64BinaryNillable>SGVsbG8gd29ybGQhCg==</base64BinaryNillable>
+	<hexBinaryNillable>ABCD</hexBinaryNillable>
 	<durationNillable>P1Y2M3DT10H30M12.3S</durationNillable>
 	<dateTimeNillable>2005-01-01T12:00:00.123</dateTimeNillable>
 	<dateNillable>2005-01-01</dateNillable>
@@ -79,7 +79,7 @@
 	<NCNameNillable>NCName</NCNameNillable>
 	<!-- ** #51IDNillable>id</IDNillable-->
 	<ENTITYNillable>ENTITY</ENTITYNillable>
-	<!-- ** ENTITIESNillable>ENTITY ENTITY</ENTITIESNillable -->
+	<!-- ** #67 ENTITIESNillable>ENTITY ENTITY</ENTITIESNillable-->
 	<NMTOKENNillable>NMTOKEN</NMTOKENNillable>
-	<!-- ** NMTOKENSNillable>NMTOKENS NMTOKENS</NMTOKENSNillable -->
+	<!-- ** #67 NMTOKENSNillable>NMTOKENS NMTOKENS</NMTOKENSNillable-->
 </simpleTypes>

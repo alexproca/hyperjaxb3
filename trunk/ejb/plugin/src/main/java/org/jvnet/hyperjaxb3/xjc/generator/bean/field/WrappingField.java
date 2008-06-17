@@ -17,6 +17,7 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.MethodWriter;
+import com.sun.tools.xjc.model.CAdapter;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
@@ -33,46 +34,40 @@ public abstract class WrappingField extends AbstractField {
 	protected final JClass xmlAdapterClass;
 
 	private final JFieldRef coreField;
-	
+
 	public WrappingField(ClassOutlineImpl context, CPropertyInfo prop,
 			CPropertyInfo core) {
+		this(context, prop, core, prop.getAdapter());
+	}
+
+	public WrappingField(ClassOutlineImpl context, CPropertyInfo prop,
+			CPropertyInfo core, CAdapter adapter) {
 		super(context, prop);
 		this.core = core;
-		if (!Customizations.isGenerated(prop))
-		{
+		if (!Customizations.isGenerated(prop)) {
 			this.coreField = JExpr.refthis(core.getName(false));
-		}
-		else
-		{
+		} else {
 			this.coreField = null;
-			
+
 		}
-		this.xmlAdapterClass = prop.getAdapter() == null ? null : prop
-				.getAdapter().getAdapterClass(context.parent());
+		this.xmlAdapterClass = adapter == null ? null : adapter
+				.getAdapterClass(context.parent());
 
 		assert !exposedType.isPrimitive() && !implType.isPrimitive();
 	}
-	
-	public JExpression getCore()
-	{
-		if (coreField != null)
-		{
+
+	public JExpression getCore() {
+		if (coreField != null) {
 			return coreField;
-		}
-		else
-		{
+		} else {
 			return JExpr._this().invoke("get" + core.getName(true));
 		}
 	}
-	
-	public void setCore(JBlock block, JExpression value)
-	{
-		if (coreField != null)
-		{
+
+	public void setCore(JBlock block, JExpression value) {
+		if (coreField != null) {
 			block.assign(coreField, value);
-		}
-		else
-		{
+		} else {
 			block.invoke("set" + core.getName(true)).arg(value);
 		}
 	}

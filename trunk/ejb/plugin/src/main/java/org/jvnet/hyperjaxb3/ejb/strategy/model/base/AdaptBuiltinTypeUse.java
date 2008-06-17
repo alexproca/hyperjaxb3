@@ -92,6 +92,8 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 		adapters.put(new PropertyType(CBuiltinLeafInfo.BASE64_BYTE_ARRAY),
 				CBuiltinLeafInfo.BASE64_BYTE_ARRAY);
+//		adapters.put(new PropertyType(CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY),
+//				CBuiltinLeafInfo.BASE64_BYTE_ARRAY);
 		adapters.put(new PropertyType(CBuiltinLeafInfo.BIG_DECIMAL),
 				CBuiltinLeafInfo.BIG_DECIMAL);
 		adapters.put(new PropertyType(CBuiltinLeafInfo.BIG_INTEGER),

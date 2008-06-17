@@ -2,9 +2,8 @@
 	<base64Binary>SGVsbG8gd29ybGQhCg==</base64Binary>
 	<base64Binary>SGVsbG8gd29ybGQhCg==</base64Binary>
 
-	<!-- ** -->
-	<!-- ** hexBinary>ABCD</hexBinary-->
-	<!-- ** hexBinary>ABCD</hexBinary-->
+	<hexBinary>ABCD</hexBinary>
+	<hexBinary>ABCD</hexBinary>
 
 	<duration>P1Y2M3DT10H30M12.3S</duration>
 	<duration>P1Y2M3DT10H30M12.3S</duration>
@@ -63,41 +62,34 @@
 	<string>string</string>
 	<string>string</string>
 
-	<!-- ** -->
-	<!-- ** normalizedString>normalized string</normalizedString -->
-	<!-- ** normalizedString>normalized string</normalizedString -->
+	<normalizedString>normalized string</normalizedString>
+	<normalizedString>normalized string</normalizedString>
 
-	<!-- ** -->
-	<!-- ** token>token</token -->
-	<!-- ** token>token</token -->
+	<token>token</token>
+	<token>token</token>
 
-	<!-- ** -->
-	<!-- ** language>en</language -->
-	<!-- ** language>en</language -->
+	<language>en</language>
+	<language>de</language>
 
-	<!-- ** -->
-	<!-- ** Name>Name</Name -->
-	<!-- ** Name>Name</Name -->
+	<Name>Name</Name>
+	<Name>Name</Name>
 
-	<!-- ** -->
-	<!-- ** NCName>NCName</NCName -->
-	<!-- ** NCName>NCName</NCName -->
+	<NCName>NCName</NCName>
+	<NCName>NCName</NCName>
 
 	<!-- ** -->
 	<!-- ** ID>id</ID -->
 	<!-- ** ID>id</ID -->
 
-	<!-- ** -->
-	<!-- ** ENTITY>ENTITY</ENTITY -->
-	<!-- ** ENTITY>ENTITY</ENTITY -->
+	<ENTITY>ENTITY</ENTITY>
+	<ENTITY>ENTITY</ENTITY>
 
 	<!-- ** -->
 	<!-- ** ENTITIES>ENTITY ENTITY</ENTITIES -->
 	<!-- ** ENTITIES>ENTITY ENTITY</ENTITIES -->
 
-	<!-- ** -->
-	<!-- ** NMTOKEN>NMTOKEN</NMTOKEN -->
-	<!-- ** NMTOKEN>NMTOKEN</NMTOKEN -->
+	<NMTOKEN>NMTOKEN</NMTOKEN>
+	<NMTOKEN>NMTOKEN</NMTOKEN>
 
 	<!-- ** -->
 	<!-- ** NMTOKENS>NMTOKENS NMTOKENS</NMTOKENS -->
@@ -106,9 +98,8 @@
 	<base64BinaryNillable>SGVsbG8gd29ybGQhCg==</base64BinaryNillable>
 	<base64BinaryNillable>SGVsbG8gd29ybGQhCg==</base64BinaryNillable>
 
-	<!-- ** -->
-	<!-- ** hexBinaryNillable>ABCD</hexBinaryNillable -->
-	<!-- ** hexBinaryNillable>ABCD</hexBinaryNillable -->
+	<hexBinaryNillable>ABCD</hexBinaryNillable>
+	<hexBinaryNillable>ABCD</hexBinaryNillable>
 
 	<durationNillable>P1Y2M3DT10H30M12.3S</durationNillable>
 	<durationNillable>P1Y2M3DT10H30M12.3S</durationNillable>
@@ -170,41 +161,34 @@
 	<stringNillable>string</stringNillable>
 	<stringNillable>string</stringNillable>
 
-	<!-- ** -->
-	<!-- ** normalizedStringNillable>normalized string</normalizedStringNillable -->
-	<!-- ** normalizedStringNillable>normalized string</normalizedStringNillable -->
+	<normalizedStringNillable>normalized string</normalizedStringNillable>
+	<normalizedStringNillable>normalized string</normalizedStringNillable>
 
-	<!-- ** -->
-	<!-- ** tokenNillable>token</tokenNillable -->
-	<!-- ** tokenNillable>token</tokenNillable -->
+	<tokenNillable>token</tokenNillable>
+	<tokenNillable>token</tokenNillable>
 
-	<!-- ** -->
-	<!-- ** languageNillable>en</languageNillable -->
-	<!-- ** languageNillable>en</languageNillable -->
+	<languageNillable>en</languageNillable>
+	<languageNillable>en</languageNillable>
 
-	<!-- ** -->
-	<!-- ** NameNillable>Name</NameNillable -->
-	<!-- ** NameNillable>Name</NameNillable -->
+	<NameNillable>Name</NameNillable>
+	<NameNillable>Name</NameNillable>
 
-	<!-- ** -->
-	<!-- ** NCNameNillable>NCName</NCNameNillable -->
-	<!-- ** NCNameNillable>NCName</NCNameNillable -->
+	<NCNameNillable>NCName</NCNameNillable>
+	<NCNameNillable>NCName</NCNameNillable>
 
 	<!-- ** -->
 	<!-- ** IDNillable>id</IDNillable -->
 	<!-- ** IDNillable>id</IDNillable -->
 
-	<!-- ** -->
-	<!-- ** ENTITYNillable>ENTITY</ENTITYNillable -->
-	<!-- ** ENTITYNillable>ENTITY</ENTITYNillable -->
+	<ENTITYNillable>ENTITY</ENTITYNillable>
+	<ENTITYNillable>ENTITY</ENTITYNillable>
 
 	<!-- ** -->
 	<!-- ** ENTITIESNillable>ENTITY ENTITY</ENTITIESNillable -->
 	<!-- ** ENTITIESNillable>ENTITY ENTITY</ENTITIESNillable -->
 
-	<!-- ** -->
-	<!-- ** NMTOKENNillable>NMTOKEN</NMTOKENNillable -->
-	<!-- ** NMTOKENNillable>NMTOKEN</NMTOKENNillable -->
+	<NMTOKENNillable>NMTOKEN</NMTOKENNillable>
+	<NMTOKENNillable>NMTOKEN</NMTOKENNillable>
 
 	<!-- ** -->
 	<!-- ** NMTOKENSNillable>NMTOKENS NMTOKENS</NMTOKENSNillable -->

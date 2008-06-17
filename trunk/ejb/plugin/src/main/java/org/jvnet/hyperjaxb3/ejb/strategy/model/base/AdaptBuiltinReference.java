@@ -24,8 +24,10 @@ public class AdaptBuiltinReference extends AbstractAdaptBuiltinPropertyInfo {
 	protected FieldOutline generateField(final CPropertyInfo core,
 			ClassOutlineImpl classOutline, CPropertyInfo propertyInfo) {
 		assert core instanceof CReferencePropertyInfo;
+		final CReferencePropertyInfo referencePropertyInfo = (CReferencePropertyInfo) core;
+//		referencePropertyInfo.gete
 		SingleWrappingReferenceField fieldOutline = new SingleWrappingReferenceField(
-				classOutline, propertyInfo, (CReferencePropertyInfo) core);
+				classOutline, propertyInfo, referencePropertyInfo);
 		fieldOutline.generateAccessors();
 		return fieldOutline;
 	}

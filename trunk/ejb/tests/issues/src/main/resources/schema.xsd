@@ -385,6 +385,15 @@
 		</xsd:attribute>
 	</xsd:complexType>
 
+	<xsd:element name="issue33" type="test:issue33Type"/>
+	<xsd:complexType name="issue33Type">
+		<xsd:sequence>
+			<xsd:element name="hexBinary" type="xsd:hexBinary" minOccurs="0"/>
+			<xsd:element name="hexBinaryNillable" type="xsd:hexBinary" minOccurs="0" nillable="true"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
 
 
 </xsd:schema>

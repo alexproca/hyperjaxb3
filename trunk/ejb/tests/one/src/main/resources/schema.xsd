@@ -59,7 +59,7 @@
 			<xs:element name="anyURI" type="xs:anyURI" minOccurs="0"/>
 			<xs:element name="QName" type="xs:QName" minOccurs="0"/>
 
-			<!--xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0"/-->
+			<!-- ** xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0"/-->
 
 			<xs:element name="string" type="xs:string" minOccurs="0"/>
 			<xs:element name="normalizedString" type="xs:normalizedString" 
@@ -72,14 +72,12 @@
 			<!-- ** #51 xs:element name="IDREF" type="xs:IDREF" minOccurs="0"/-->
 			<!-- ** #51 xs:element name="IDREFS" type="xs:IDREFS"/-->
 			<xs:element name="ENTITY" type="xs:ENTITY" minOccurs="0"/>
-			<!-- ** xs:element name="ENTITIES" type="xs:ENTITIES" minOccurs="0"/ -->
+			<!-- ** #67 xs:element name="ENTITIES" type="xs:ENTITIES" minOccurs="0"/-->
 			<xs:element name="NMTOKEN" type="xs:NMTOKEN" minOccurs="0"/>
-			<!-- ** xs:element name="NMTOKENS" type="xs:NMTOKENS" minOccurs="0"/ -->
+			<!-- ** #67 xs:element name="NMTOKENS" type="xs:NMTOKENS" minOccurs="0"/-->
 
-			<!-- ** [#1] There is currently a bug in Hibernate Commons Annotations -->
-			<!-- ** See http://opensource.atlassian.com/projects/hibernate/browse/ANN-612 -->
-			<!-- ** xs:element name="base64BinaryNillable" type="xs:base64Binary" minOccurs="0" nillable="true"/-->
-			<!-- ** xs:element name="hexBinaryNillable" type="xs:hexBinary" minOccurs="0" nillable="true"/-->
+			<xs:element name="base64BinaryNillable" type="xs:base64Binary" minOccurs="0" nillable="true"/>
+			<xs:element name="hexBinaryNillable" type="xs:hexBinary" minOccurs="0" nillable="true"/>
 			<xs:element name="durationNillable" type="xs:duration" 
 				minOccurs="0" nillable="true"/>
 			<xs:element name="dateTimeNillable" type="xs:dateTime" 
@@ -136,7 +134,7 @@
 				nillable="true"/>
 			<xs:element name="QNameNillable" type="xs:QName" minOccurs="0" 
 				nillable="true"/>
-			<!--xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0"/-->
+			<!-- ** xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0"/-->
 			<xs:element name="stringNillable" type="xs:string" minOccurs="0" 
 				nillable="true"/>
 			<xs:element name="normalizedStringNillable" 
@@ -156,12 +154,12 @@
 			<!-- ** #51 xs:element name="IDREFSNillable" type="xs:IDREFS" nillable="true"/ -->
 			<xs:element name="ENTITYNillable" type="xs:ENTITY" minOccurs="0" 
 				nillable="true"/>
-			<!-- ** xs:element name="ENTITIESNillable" type="xs:ENTITIES" 
-				minOccurs="0" nillable="true"/ -->
+			<xs:element name="ENTITIESNillable" type="xs:ENTITIES" 
+				minOccurs="0" nillable="true"/>
 			<xs:element name="NMTOKENNillable" type="xs:NMTOKEN" minOccurs="0" 
 				nillable="true"/>
-			<!-- ** xs:element name="NMTOKENSNillable" type="xs:NMTOKENS" 
-				minOccurs="0" nillable="true"/ -->
+			<xs:element name="NMTOKENSNillable" type="xs:NMTOKENS" 
+				minOccurs="0" nillable="true"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -398,7 +396,7 @@
 	<xs:complexType name="simpleCollectionTypesType">
 		<xs:sequence>
 			<xs:element name="base64Binary" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
-			<!-- ** xs:element name="hexBinary" type="xs:hexBinary" minOccurs="0" maxOccurs="unbounded"/ -->
+			<xs:element name="hexBinary" type="xs:hexBinary" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="duration" type="xs:duration" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="dateTime" type="xs:dateTime" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="date" type="xs:date" minOccurs="0" maxOccurs="unbounded"/>
@@ -435,7 +433,7 @@
 			<xs:element name="anyURI" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="QName" type="xs:QName" minOccurs="0" maxOccurs="unbounded"/>
 
-			<!--xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0" maxOccurs="unbounded"/-->
+			<!-- ** xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0" maxOccurs="unbounded"/-->
 
 			<xs:element name="string" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="normalizedString" type="xs:normalizedString" 
@@ -448,14 +446,12 @@
 			<!-- ** #51 xs:element name="IDREF" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded"/ -->
 			<!-- ** #51 xs:element name="IDREFS" type="xs:IDREFS" minOccurs="0" maxOccurs="unbounded"/ -->
 			<xs:element name="ENTITY" type="xs:ENTITY" minOccurs="0" maxOccurs="unbounded"/>
-			<!-- ** xs:element name="ENTITIES" type="xs:ENTITIES" minOccurs="0" maxOccurs="unbounded"/-->
+			<xs:element name="ENTITIES" type="xs:ENTITIES" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="NMTOKEN" type="xs:NMTOKEN" minOccurs="0" maxOccurs="unbounded"/>
-			<!-- ** xs:element name="NMTOKENS" type="xs:NMTOKENS" minOccurs="0" maxOccurs="unbounded"/-->
+			<xs:element name="NMTOKENS" type="xs:NMTOKENS" minOccurs="0" maxOccurs="unbounded"/>
 
-			<!-- ** [#1] There is currently a bug in Hibernate Commons Annotations -->
-			<!-- ** See http://opensource.atlassian.com/projects/hibernate/browse/ANN-612 -->
 			<xs:element name="base64BinaryNillable" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-			<!-- ** xs:element name="hexBinaryNillable" type="xs:hexBinary" minOccurs="0" maxOccurs="unbounded" nillable="true"/ -->
+			<xs:element name="hexBinaryNillable" type="xs:hexBinary" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
 			<xs:element name="durationNillable" type="xs:duration" 
 				minOccurs="0" maxOccurs="unbounded" nillable="true"/>
 			<xs:element name="dateTimeNillable" type="xs:dateTime" 
@@ -512,7 +508,7 @@
 				nillable="true"/>
 			<xs:element name="QNameNillable" type="xs:QName" minOccurs="0" maxOccurs="unbounded" 
 				nillable="true"/>
-			<!--xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0" maxOccurs="unbounded"/-->
+			<!-- ** xs:element name="NOTATION" type="xs:NOTATION" minOccurs="0" maxOccurs="unbounded"/-->
 			<xs:element name="stringNillable" type="xs:string" minOccurs="0" maxOccurs="unbounded" 
 				nillable="true"/>
 			<xs:element name="normalizedStringNillable" 
@@ -533,12 +529,12 @@
 				nillable="true"/ -->
 			<xs:element name="ENTITYNillable" type="xs:ENTITY" minOccurs="0" maxOccurs="unbounded" 
 				nillable="true"/>
-			<!-- ** xs:element name="ENTITIESNillable" type="xs:ENTITIES" 
-				minOccurs="0" maxOccurs="unbounded" nillable="true"/-->
+			<xs:element name="ENTITIESNillable" type="xs:ENTITIES" 
+				minOccurs="0" maxOccurs="unbounded" nillable="true"/>
 			<xs:element name="NMTOKENNillable" type="xs:NMTOKEN" minOccurs="0" maxOccurs="unbounded" 
 				nillable="true"/>
-			<!-- ** xs:element name="NMTOKENSNillable" type="xs:NMTOKENS" 
-				minOccurs="0" maxOccurs="unbounded" nillable="true"/-->
+			<xs:element name="NMTOKENSNillable" type="xs:NMTOKENS" 
+				minOccurs="0" maxOccurs="unbounded" nillable="true"/>
 		</xs:sequence>
 	</xs:complexType>
 
