@@ -32,30 +32,30 @@ public class C {
 		this.d = d;
 	}
 
-	// private J<Object[]> e;
-	//
-	// @Transient
-	// public J<Object[]> getE() {
-	// return e;
-	// }
-	//
-	// public void setE(J<Object[]> e) {
-	// this.e = e;
-	// }
+	private J<Object[]> e;
 
-//	private J<Object> f;
-//
-//	@Transient
-//	public J<Object> getF() {
-//		return f;
-//	}
-//
-//	public void setF(J<Object> f) {
-//		this.f = f;
-//	}
-//
-//	public static class J<T> {
-//	}
+	@Transient
+	public J<Object[]> getE() {
+		return e;
+	}
+
+	public void setE(J<Object[]> e) {
+		this.e = e;
+	}
+
+	private J<Object> f;
+
+	@Transient
+	public J<Object> getF() {
+		return f;
+	}
+
+	public void setF(J<Object> f) {
+		this.f = f;
+	}
+
+	public static class J<T> {
+	}
 
 	@Override
 	public boolean equals(Object obj) {
