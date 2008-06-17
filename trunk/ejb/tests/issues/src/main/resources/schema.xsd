@@ -388,11 +388,22 @@
 	<xsd:element name="issue33" type="test:issue33Type"/>
 	<xsd:complexType name="issue33Type">
 		<xsd:sequence>
+			<xsd:element name="token" type="xsd:token" minOccurs="0"/>
+			<xsd:element name="normalizedString" type="xsd:normalizedString" minOccurs="0"/>
 			<xsd:element name="hexBinary" type="xsd:hexBinary" minOccurs="0"/>
+			<xsd:element name="tokenNillable" type="xsd:token" minOccurs="0" nillable="true"/>
+			<xsd:element name="normalizedStringNillable" type="xsd:normalizedString" minOccurs="0" nillable="true"/>
 			<xsd:element name="hexBinaryNillable" type="xsd:hexBinary" minOccurs="0" nillable="true"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:element name="issue67" type="test:issue67Type"/>
+	<xsd:complexType name="issue67Type">
+		<xsd:sequence>
+			<xsd:element name="strings" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+			<xsd:element name="ENTITIES" type="xsd:ENTITIES" minOccurs="0" nillable="true"/>
+		</xsd:sequence>
+	</xsd:complexType>
 
 
 

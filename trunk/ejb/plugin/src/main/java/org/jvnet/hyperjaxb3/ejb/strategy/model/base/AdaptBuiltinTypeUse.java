@@ -11,7 +11,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
+import org.jvnet.hyperjaxb3.lang.reflect.util.ReflectionUtils;
 import org.jvnet.hyperjaxb3.xjc.model.CExternalLeafInfo;
+import org.jvnet.hyperjaxb3.xjc.model.TypeUseUtils;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.DurationAsString;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.QNameAsString;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDate;
@@ -25,10 +27,15 @@ import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsT
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
 
 import com.sun.tools.xjc.model.CAdapter;
+import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CElementInfo;
+import com.sun.tools.xjc.model.CElementPropertyInfo;
+import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.model.TypeUseFactory;
 import com.sun.xml.bind.v2.WellKnownNamespace;
@@ -40,7 +47,7 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 	public TypeUse process(ProcessModel context, CPropertyInfo propertyInfo) {
 		// propertyInfo.g
-		final TypeUse type = getType(context, propertyInfo);
+		final TypeUse type = TypeUseUtils.getTypeUse(propertyInfo);
 		final XSComponent schemaComponent = propertyInfo.getSchemaComponent();
 
 		if (schemaComponent != null) {
@@ -64,31 +71,28 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 		}
 	}
 
-	public TypeUse getType(ProcessModel context, CPropertyInfo propertyInfo) {
-		final CTypeInfo type = propertyInfo.ref().iterator().next();
-
-		if (type instanceof CBuiltinLeafInfo) {
-			if (propertyInfo.getAdapter() != null) {
-				return TypeUseFactory.adapt((CBuiltinLeafInfo) type,
-						propertyInfo.getAdapter());
-			} else {
-				return (CBuiltinLeafInfo) type;
-			}
-		} else if (type instanceof CElementInfo) {
-			final CElementInfo elementInfo = (CElementInfo) type;
-			// elementInfo.getProperty()
-			final CBuiltinLeafInfo originalType = (CBuiltinLeafInfo) elementInfo
-					.getContentType();
-			final CAdapter adapter = elementInfo.getProperty().getAdapter();
-			if (adapter != null) {
-				return TypeUseFactory.adapt(originalType, adapter);
-			} else {
-				return originalType;
-			}
-		} else {
-			throw new AssertionError("Unexpected type.");
-		}
-	}
+	// public TypeUse getType(ProcessModel context, CPropertyInfo propertyInfo)
+	// {
+	// final CTypeInfo type = propertyInfo.ref().iterator().next();
+	// if (propertyInfo instanceof CAttributePropertyInfo
+	// || propertyInfo instanceof CValuePropertyInfo) {
+	// return TypeUseUtils.getTypeUse(propertyInfo);
+	// } else {
+	// if (type instanceof CBuiltinLeafInfo) {
+	// if (propertyInfo.getAdapter() != null) {
+	// return TypeUseFactory.adapt((CBuiltinLeafInfo) type,
+	// propertyInfo.getAdapter());
+	// } else {
+	// return (CBuiltinLeafInfo) type;
+	// }
+	// } else if (type instanceof CElementInfo) {
+	// final CElementInfo elementInfo = (CElementInfo) type;
+	// return getType(context, elementInfo.getProperty());
+	// } else {
+	// throw new AssertionError("Unexpected type.");
+	// }
+	// }
+	// }
 
 	private Map<PropertyType, TypeUse> adapters = new HashMap<PropertyType, TypeUse>();
 	{
@@ -120,9 +124,16 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 				CBuiltinLeafInfo.SHORT);
 		adapters.put(new PropertyType(CBuiltinLeafInfo.STRING),
 				CBuiltinLeafInfo.STRING);
+
+		adapters.put(new PropertyType(CBuiltinLeafInfo.ID),
+				new CExternalLeafInfo(String.class, new QName(
+						WellKnownNamespace.XML_SCHEMA, "ID"),
+						null));
+
 		adapters.put(new PropertyType(CBuiltinLeafInfo.NORMALIZED_STRING),
 				new CExternalLeafInfo(String.class, new QName(
-						WellKnownNamespace.XML_SCHEMA, "normalizedString"), null));
+						WellKnownNamespace.XML_SCHEMA, "normalizedString"),
+						null));
 		adapters.put(new PropertyType(CBuiltinLeafInfo.TOKEN),
 				new CExternalLeafInfo(String.class, new QName(
 						WellKnownNamespace.XML_SCHEMA, "token"), null));
