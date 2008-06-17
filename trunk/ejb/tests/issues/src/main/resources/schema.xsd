@@ -405,6 +405,13 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:complexType name="issue127Type">
+		<xsd:sequence>
+			<xsd:element name="time" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="date" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="dateTime" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
 
 
 </xsd:schema>
