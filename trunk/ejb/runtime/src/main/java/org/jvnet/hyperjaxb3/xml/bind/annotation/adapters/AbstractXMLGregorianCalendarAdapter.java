@@ -3,6 +3,8 @@ package org.jvnet.hyperjaxb3.xml.bind.annotation.adapters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.datatype.DatatypeFactory;
@@ -14,16 +16,20 @@ public abstract class AbstractXMLGregorianCalendarAdapter extends
 		XmlAdapter<XMLGregorianCalendar, Date> {
 
 	@Override
-	public final Date unmarshal(XMLGregorianCalendar date) throws Exception {
-		if (date == null) {
+	public final Date unmarshal(XMLGregorianCalendar calendar) throws Exception {
+		if (calendar == null) {
 			return null;
 		} else {
 			// TODO Optimize
-			final java.util.TimeZone timeZone = XMLGregorianCalendarUtils.TIMEZONE_UTC;
-			return date.normalize().toGregorianCalendar(timeZone,
-					Locale.getDefault(), null).getTime();
+			// final java.util.TimeZone timeZone =
+			// XMLGregorianCalendarUtils.TIMEZONE_UTC;
+			// return date.normalize().toGregorianCalendar(timeZone,
+			// Locale.getDefault(), null).getTime();
+			return createDate(calendar);
 		}
 	}
+
+	public abstract Date createDate(XMLGregorianCalendar calendar);
 
 	@Override
 	public final XMLGregorianCalendar marshal(Date date) throws Exception {
@@ -31,24 +37,17 @@ public abstract class AbstractXMLGregorianCalendarAdapter extends
 		if (date == null) {
 			return null;
 		} else {
-			final Calendar source = createCalendar(date);
 			final XMLGregorianCalendar target = DatatypeFactory.newInstance()
 					.newXMLGregorianCalendar();
-
-			setFields(source, target);
+			createCalendar(date, target);
 			return target;
 		}
 	}
 
-	public Calendar createCalendar(Date date) {
-		final Calendar source = Calendar
-				.getInstance(XMLGregorianCalendarUtils.TIMEZONE_UTC);
-		source.setTime(date);
-		// source.setTimeZone(new SimpleTimeZone(0, ""));
-		return source;
-	}
+	public abstract void createCalendar(Date date, XMLGregorianCalendar calendar);
 
-	public abstract void setFields(Calendar source, XMLGregorianCalendar target);
+	// public abstract void setFields(Calendar source, XMLGregorianCalendar
+	// target);
 
 	public void setDay(Calendar source, XMLGregorianCalendar target) {
 		target.setDay(source.get(Calendar.DAY_OF_MONTH));

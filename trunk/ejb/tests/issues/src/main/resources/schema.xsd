@@ -410,8 +410,25 @@
 			<xsd:element name="time" type="xsd:time" minOccurs="0"/>
 			<xsd:element name="date" type="xsd:date" minOccurs="0"/>
 			<xsd:element name="dateTime" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="gYearMonth" type="xsd:gYearMonth" minOccurs="0"/>
+			<xsd:element name="gYear" type="xsd:gYear" minOccurs="0"/>
+			<xsd:element name="gMonth" type="xsd:gMonth" minOccurs="0"/>
+			<xsd:element name="gMonthDay" type="xsd:gMonthDay" minOccurs="0"/>
+			<xsd:element name="gDay" type="xsd:gDay" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:complexType name="issue127TypeNillable">
+		<xsd:sequence>
+			<xsd:element name="time" type="xsd:time" minOccurs="0" nillable="true"/>
+			<xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+			<xsd:element name="dateTime" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+			<xsd:element name="gYearMonth" type="xsd:gYearMonth" minOccurs="0" nillable="true"/>
+			<xsd:element name="gYear" type="xsd:gYear" minOccurs="0" nillable="true"/>
+			<xsd:element name="gMonth" type="xsd:gMonth" minOccurs="0" nillable="true"/>
+			<xsd:element name="gMonthDay" type="xsd:gMonthDay" minOccurs="0" nillable="true"/>
+			<xsd:element name="gDay" type="xsd:gDay" minOccurs="0" nillable="true"/>
+		</xsd:sequence>
+	</xsd:complexType>
 
 </xsd:schema>

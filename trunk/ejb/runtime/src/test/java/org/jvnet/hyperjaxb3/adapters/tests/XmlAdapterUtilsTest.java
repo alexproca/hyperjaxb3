@@ -13,7 +13,9 @@ import junit.framework.TestCase;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.DurationAsString;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.QNameAsString;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.TimeStringAsCalendar;
+import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDate;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDateTime;
+import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsTime;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XmlAdapterUtils;
 import org.jvnet.hyperjaxb3.xml.datatype.util.XMLGregorianCalendarUtils;
 
@@ -70,6 +72,35 @@ public class XmlAdapterUtilsTest extends TestCase {
 				.getTimeInMillis(omega));
 	}
 
+	public void testXMLGregorianCalendarAsDate() throws Exception {
+
+		final java.sql.Date alpha = java.sql.Date.valueOf("2005-01-01");
+		
+		final XMLGregorianCalendar beta = XmlAdapterUtils.marshall(
+				XMLGregorianCalendarAsDate.class, alpha);
+
+		final java.util.Date gamma = XmlAdapterUtils.unmarshall(
+				XMLGregorianCalendarAsDate.class, beta);
+		final XMLGregorianCalendar delta = XmlAdapterUtils.marshall(
+				XMLGregorianCalendarAsDate.class, gamma);
+		Assert.assertEquals("Conversion failed.", beta, delta);
+	}
+	
+	public void testXMLGregorianCalendarAsTime() throws Exception {
+
+		final java.sql.Time alpha = java.sql.Time.valueOf("10:12:14");
+		
+		final XMLGregorianCalendar beta = XmlAdapterUtils.marshall(
+				XMLGregorianCalendarAsTime.class, alpha);
+
+		final java.util.Date gamma = XmlAdapterUtils.unmarshall(
+				XMLGregorianCalendarAsTime.class, beta);
+		final XMLGregorianCalendar delta = XmlAdapterUtils.marshall(
+				XMLGregorianCalendarAsTime.class, gamma);
+		Assert.assertEquals("Conversion failed.", beta, delta);
+	}
+	
+
 	public void testTimeStringAsCalendarXmlAdapter() throws Exception {
 
 		checkTimeStringAsCalendarXmlAdapter("10:20:30");
@@ -88,7 +119,7 @@ public class XmlAdapterUtilsTest extends TestCase {
 				TimeStringAsCalendar.class, gamma);
 		final String epsilon = XmlAdapterUtils.marshall(
 				TimeStringAsCalendar.class, delta);
-//		Assert.assertEquals("Conversion failed.", alpha, gamma);
+		// Assert.assertEquals("Conversion failed.", alpha, gamma);
 		Assert.assertEquals("Conversion failed.", beta, delta);
 		Assert.assertEquals("Conversion failed.", gamma, epsilon);
 	}

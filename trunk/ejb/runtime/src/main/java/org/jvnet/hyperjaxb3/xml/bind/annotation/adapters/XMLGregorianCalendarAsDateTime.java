@@ -1,19 +1,31 @@
 package org.jvnet.hyperjaxb3.xml.bind.annotation.adapters;
 
-import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-public class XMLGregorianCalendarAsDateTime extends AbstractXMLGregorianCalendarAdapter {
+import org.jvnet.hyperjaxb3.xml.datatype.util.XMLGregorianCalendarUtils;
 
-	public void setFields(Calendar source, XMLGregorianCalendar target) {
-		setYear(source, target);
-		setMonth(source, target);
-		setDay(source, target);
-		setHour(source, target);
-		setMinute(source, target);
-		setSecond(source, target);
-		setMillisecond(source, target);
-		setTimezone(source, target);
+public class XMLGregorianCalendarAsDateTime extends
+		AbstractXMLGregorianCalendarAdapter {
+
+	public Date createDate(XMLGregorianCalendar calendar) {
+		final java.util.TimeZone timeZone = XMLGregorianCalendarUtils.TIMEZONE_UTC;
+		final java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.normalize().toGregorianCalendar(
+				timeZone, Locale.UK, null).getTimeInMillis());
+		timestamp.setTime(timestamp.getTime() + 60000 * timestamp.getTimezoneOffset());
+		return timestamp;
+	}
+
+	@Override
+	public void createCalendar(Date date, XMLGregorianCalendar calendar) {
+		calendar.setYear(date.getYear() + 1900);
+		calendar.setMonth(date.getMonth() + 1);
+		calendar.setDay(date.getDate());
+		calendar.setHour(date.getHours());
+		calendar.setMinute(date.getMinutes());
+		calendar.setSecond(date.getSeconds());
+		calendar.setMillisecond((int) (date.getTime() % 1000));
 	}
 }

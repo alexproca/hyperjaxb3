@@ -1,6 +1,5 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.namespace.QName;
 
 import org.jvnet.hyperjaxb3.ejb.Constants;
@@ -43,6 +42,7 @@ public abstract class AbstractAdaptPropertyInfo implements
 			CPropertyInfo propertyInfo) {
 
 		final String propertyName = getPropertyName(context, propertyInfo);
+		final XSComponent source = getSchemaComponent(context, propertyInfo);
 
 		final QName propertyQName = getPropertyQName(context, propertyInfo);
 
@@ -56,9 +56,11 @@ public abstract class AbstractAdaptPropertyInfo implements
 
 		if (PropertyKind.ELEMENT.equals(propertyKind)) {
 			newPropertyInfo = createElementPropertyInfo(propertyName,
+					source,
 					propertyTypeInfo, propertyQName, customizations);
 		} else if (PropertyKind.ATTRIBUTE.equals(propertyKind)) {
 			newPropertyInfo = createAttributePropertyInfo(propertyName,
+					source,
 					propertyTypeInfo, propertyQName, customizations);
 
 		} else {
@@ -69,6 +71,10 @@ public abstract class AbstractAdaptPropertyInfo implements
 		Customizations.markGenerated(newPropertyInfo);
 
 		return newPropertyInfo;
+	}
+
+	public XSComponent getSchemaComponent(ProcessModel context, CPropertyInfo propertyInfo) {
+		return propertyInfo.getSchemaComponent();
 	}
 
 	public CCustomizations createCustomizations(ProcessModel context,
@@ -89,11 +95,12 @@ public abstract class AbstractAdaptPropertyInfo implements
 	}
 
 	public CPropertyInfo createAttributePropertyInfo(String propertyName,
+			XSComponent source,
 			TypeUse propertyType, QName propertyQName,
 			CCustomizations customizations) {
 		final CAttributePropertyInfo propertyInfo = new CAttributePropertyInfo(
 
-		propertyName, (XSComponent) null,
+		propertyName, source,
 
 		customizations, null, propertyQName, propertyType, propertyType
 				.getInfo().getTypeName(), false);
@@ -101,6 +108,7 @@ public abstract class AbstractAdaptPropertyInfo implements
 	}
 
 	public CPropertyInfo createElementPropertyInfo(String propertyName,
+			XSComponent source,
 			TypeUse propertyType, QName propertyQName,
 			CCustomizations customizations) {
 
@@ -108,7 +116,7 @@ public abstract class AbstractAdaptPropertyInfo implements
 
 		final CElementPropertyInfo propertyInfo = new CElementPropertyInfo(
 				propertyName, CollectionMode.NOT_REPEATED, propertyTypeInfo
-						.idUse(), propertyTypeInfo.getExpectedMimeType(), null,
+						.idUse(), propertyTypeInfo.getExpectedMimeType(), source,
 				customizations, null, true);
 
 		final CTypeRef typeRef = new CTypeRef(propertyTypeInfo, propertyQName,
