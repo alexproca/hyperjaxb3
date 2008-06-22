@@ -19,6 +19,7 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -250,6 +251,6 @@ public class DefaultProcessFieldOutline implements ProcessFieldOutline {
 
 		final CTypeInfo type = types.iterator().next();
 
-		return type instanceof CClassInfo;
+		return type instanceof CClass;
 	}
 }

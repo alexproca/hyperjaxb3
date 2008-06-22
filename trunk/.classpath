@@ -19,13 +19,16 @@
 	<classpathentry path="ejb/tests/one/target/generated-sources/xjc" output="ejb/tests/one/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/one/src/test/resources" output="ejb/tests/one/target/test-classes" kind="src"/>
 
+	<classpathentry path="ejb/tests/issues/src/main/java" output="ejb/tests/issues/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/src/test/java" output="ejb/tests/issues/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/target/generated-sources/xjc" output="ejb/tests/issues/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/src/test/resources" output="ejb/tests/issues/target/test-classes" kind="src"/>
+
+
 
 	<!--classpathentry path="ejb/tests/dl/target/generated-sources/xjc" output="ejb/tests/dl/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/dl/src/test/resources" output="ejb/tests/dl/target/test-classes" kind="src"/-->
 
-	<classpathentry path="ejb/tests/issues/src/test/java" output="ejb/tests/issues/target/test-classes" kind="src"/>
-	<classpathentry path="ejb/tests/issues/target/generated-sources/xjc" output="ejb/tests/issues/target/classes" kind="src"/>
-	<classpathentry path="ejb/tests/issues/src/test/resources" output="ejb/tests/issues/target/test-classes" kind="src"/>
 	<classpathentry path="dynamic/src/main/java" output="dynamic/target/classes" kind="src"/>
 	<classpathentry path="dynamic/src/test/java" output="dynamic/target/test-classes" kind="src"/>
 	<classpathentry path="dynamic/src/test/resources" output="dynamic/target/test-classes" kind="src"/>

@@ -446,5 +446,16 @@
 		<xsd:attribute name="text" use="optional" type="xsd:string"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="issueXXXType">
+		<xsd:attribute name="value" use="optional" type="xsd:string"/>
+	</xsd:complexType>
+
+	<xsd:element name="issueYYY" type="test:issueYYYType"/>
+
+	<xsd:complexType name="issueYYYType">
+		<xsd:sequence>
+			<xsd:element name="single" type="test:issueXXXType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
 
 </xsd:schema>

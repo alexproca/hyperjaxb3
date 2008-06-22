@@ -22,9 +22,11 @@ import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultAnnotateFieldOutlineManyToOne implements
@@ -81,10 +83,12 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cManyToOne) {
 		final XAnnotation manyToOne = new XAnnotation(ManyToOne.class,
-				createTargetEntity(outlineProcessor, fieldOutline, options,	cManyToOne),
-				createFetch(outlineProcessor, fieldOutline, options, cManyToOne),
-				createCascade(outlineProcessor, fieldOutline, options, cManyToOne),
-				createOptional(outlineProcessor, fieldOutline, options,	cManyToOne));
+				createTargetEntity(outlineProcessor, fieldOutline, options,
+						cManyToOne), createFetch(outlineProcessor,
+						fieldOutline, options, cManyToOne), createCascade(
+						outlineProcessor, fieldOutline, options, cManyToOne),
+				createOptional(outlineProcessor, fieldOutline, options,
+						cManyToOne));
 		return manyToOne;
 	}
 
@@ -100,9 +104,9 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 
 		final CTypeInfo type = types.iterator().next();
 
-		assert type instanceof CClassInfo;
+		assert type instanceof CClass;
 
-		final CClassInfo childClassInfo = (CClassInfo) type;
+		final NType childClassInfo = (NType) type;
 
 		return new XAnnotationField.XClass("targetEntity", childClassInfo
 				.fullName());
@@ -120,12 +124,12 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 	public XAnnotationField createFetch(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
-		return manyToOne.getFetch() == null ? null : AnnotationUtils.create("fetch", FetchType.valueOf(manyToOne.getFetch()));
+		return manyToOne.getFetch() == null ? null : AnnotationUtils.create(
+				"fetch", FetchType.valueOf(manyToOne.getFetch()));
 	}
 
-	public XAnnotationField createCascade(
-			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
-			Options options,
+	public XAnnotationField createCascade(ProcessOutline outlineProcessor,
+			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
 
 		if (manyToOne.getCascade() == null) {

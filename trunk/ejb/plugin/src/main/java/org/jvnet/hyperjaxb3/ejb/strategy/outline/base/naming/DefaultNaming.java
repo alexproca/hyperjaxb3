@@ -16,7 +16,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassRef;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -126,9 +128,24 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 	public String getEntityTableName(ProcessOutline context,
 			ClassOutline classOutline, Options options) {
+		return getEntityTableName(classOutline.target);
+	}
 
-		final String name = classOutline.target.getSqueezedName();
-		return getName(name);
+	public String getEntityTableName(final CClass classInfo) {
+		if (classInfo instanceof CClassInfo) {
+			final String name = ((CClassInfo) classInfo).getSqueezedName();
+			return getName(name);
+		} else if (classInfo instanceof CClassRef) {
+			final String fullName = ((CClassRef) classInfo).fullName();
+			if (!fullName.contains(".")) {
+				return getName(fullName);
+			} else {
+				return getName(fullName
+						.substring(fullName.lastIndexOf(".") + 1));
+			}
+		} else {
+			throw new AssertionError("Unexpected type.");
+		}
 	}
 
 	private String getTargetEntityTableName(ProcessOutline context,
@@ -141,14 +158,11 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		final CTypeInfo type = types.iterator().next();
 
-		assert type instanceof CClassInfo;
+		assert type instanceof CClass;
 
-		final CClassInfo childClassInfo = (CClassInfo) type;
+		final CClass childClassInfo = (CClass) type;
 
-		final ClassOutline childClassOutline = fieldOutline.parent().parent()
-				.getClazz(childClassInfo);
-
-		return getEntityTableName(context, childClassOutline, options);
+		return getEntityTableName(childClassInfo);
 	}
 
 	public String getManyToOneJoinColumnName(ProcessOutline context,
