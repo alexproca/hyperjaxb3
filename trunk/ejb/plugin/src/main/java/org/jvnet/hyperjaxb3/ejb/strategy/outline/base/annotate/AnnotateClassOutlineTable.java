@@ -2,11 +2,17 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.UniqueConstraint;
+
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
+import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateClassOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
@@ -34,21 +40,52 @@ public class AnnotateClassOutlineTable implements AnnotateClassOutline {
 					outlineProcessor, classOutline, options));
 		}
 
-		return Collections.singletonList(createTable(table));
+		return createTable(outlineProcessor, classOutline, options, table);
 	}
 
-	protected XAnnotation createTable(Table table) {
+	public Collection<XAnnotation> createTable(ProcessOutline outlineProcessor,
+			ClassOutline classOutline, Options options, Table table) {
 
 		assert table.getName() != null;
 
-		final XAnnotationField.XString name = new XAnnotationField.XString(
-				"name", table.getName());
-		final XAnnotationField.XString catalog = table.getCatalog() == null ? null
-				: new XAnnotationField.XString("catalog", table.getName());
-		final XAnnotationField.XString schema = table.getSchema() == null ? null
-				: new XAnnotationField.XString("schema", table.getName());
+		final XAnnotation xTable = new XAnnotation(
+				javax.persistence.Table.class,
+				//
+				AnnotationUtils.create("name", table.getName()),
+				//
+				AnnotationUtils.create("catalog", table.getCatalog()),
+				//
+				AnnotationUtils.create("schema", table.getSchema()),
+				//
+				createTable$UniqueConstraints(table.getUniqueConstraint()));
+		return Collections.singletonList(xTable);
+	}
 
-		return new XAnnotation(javax.persistence.Table.class, name, catalog,
-				schema);
+	public XAnnotationField.XAnnotationArray createTable$UniqueConstraints(
+			List<com.sun.java.xml.ns.persistence.orm.UniqueConstraint> cUniqueConstraints) {
+		if (cUniqueConstraints == null || cUniqueConstraints.isEmpty()) {
+			return null;
+		} else {
+			final List<XAnnotation> uniqueConstraints = new LinkedList<XAnnotation>();
+			for (final com.sun.java.xml.ns.persistence.orm.UniqueConstraint cUniqueConstraint : cUniqueConstraints) {
+				uniqueConstraints
+						.add(createUniqueConstraint(cUniqueConstraint));
+			}
+
+			final XAnnotationField.XAnnotationArray xUniqueConstraints = new XAnnotationField.XAnnotationArray(
+					"uniqueConstraints",
+					uniqueConstraints.toArray(new XAnnotation[uniqueConstraints
+							.size()]), UniqueConstraint.class);
+			return xUniqueConstraints;
+		}
+	}
+
+	public XAnnotation createUniqueConstraint(
+			final com.sun.java.xml.ns.persistence.orm.UniqueConstraint cUniqueConstraint) {
+		final List<String> columnNames = cUniqueConstraint.getColumnName();
+		final XAnnotation uniqueConstraint = new XAnnotation(
+				UniqueConstraint.class, AnnotationUtils.create("columnNames",
+						columnNames.toArray(new String[columnNames.size()])));
+		return uniqueConstraint;
 	}
 }

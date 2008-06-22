@@ -431,4 +431,20 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:complexType name="issue126Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:table name="ISSUE_126_TABLE">
+					<orm:unique-constraint>
+						<orm:column-name>VALUE_</orm:column-name>
+						<orm:column-name>TEXT</orm:column-name>
+					</orm:unique-constraint>
+				</hj:table>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:attribute name="value" use="optional" type="xsd:string"/>
+		<xsd:attribute name="text" use="optional" type="xsd:string"/>
+	</xsd:complexType>
+
+
 </xsd:schema>
