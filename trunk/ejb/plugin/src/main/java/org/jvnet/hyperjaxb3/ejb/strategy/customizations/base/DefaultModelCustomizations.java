@@ -6,6 +6,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -99,6 +100,33 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 
 	public Id getId(FieldOutline property) {
 		return getId(property.getPropertyInfo());
+	}
+
+	public Version getVersion(CPropertyInfo property) {
+		final Persistence persistence = getModelCustomization(property);
+		if (persistence.getDefaultVersion() == null) {
+			throw new AssertionError("Default version element is not provided.");
+		}
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version defaultVersion = new Version();
+		persistence.getDefaultVersion().copyTo(defaultVersion);
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version version;
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.VERSION_ELEMENT_NAME)) {
+			version = Customizations
+					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version> findCustomization(
+							property, Customizations.VERSION_ELEMENT_NAME);
+
+			if (version.isMerge()) {
+				version.mergeFrom(version, defaultVersion);
+			}
+		} else {
+			version = defaultVersion;
+		}
+		return version;
+	}
+
+	public Version getVersion(FieldOutline property) {
+		return getVersion(property.getPropertyInfo());
 	}
 
 	public Basic getBasic(CPropertyInfo property) {

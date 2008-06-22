@@ -12,26 +12,25 @@ import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultAnnotateFieldOutlineVersion implements AnnotateFieldOutline {
+public class DefaultAnnotateFieldOutlineVersion extends
+		AbstractAnnotateSimpleFieldOutline implements AnnotateFieldOutline {
 
 	public Collection<XAnnotation> process(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options) {
 
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version cversion = outlineProcessor
+				.getCustomizations().getVersion(fieldOutline);
+
 		final Collection<XAnnotation> xannotations = new ArrayList<XAnnotation>(
 				2);
 
-		xannotations
-				.add(createVersion(outlineProcessor, fieldOutline, options));
+		xannotations.add(new XAnnotation(Version.class));
 
-		xannotations.addAll(outlineProcessor.getAnnotate()
-				.getAnnotateFieldOutlineColumn().process(outlineProcessor,
-						fieldOutline, options));
+		xannotations.addAll(createColumn(outlineProcessor, fieldOutline,
+				options, cversion.getColumn()));
+		xannotations.addAll(createTemporal(outlineProcessor, fieldOutline,
+				options, cversion.getTemporal()));
 
 		return xannotations;
-	}
-
-	public XAnnotation createVersion(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options) {
-		return new XAnnotation(Version.class);
 	}
 }

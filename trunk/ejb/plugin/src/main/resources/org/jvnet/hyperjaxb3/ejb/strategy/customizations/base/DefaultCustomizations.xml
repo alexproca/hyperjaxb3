@@ -10,6 +10,9 @@
 			<column/>
 			<generated-value strategy="AUTO"/>
 		</default-id>
+		<default-version>
+			<column/>
+		</default-version>
 		<default-basic>
 			<column/>
 		</default-basic>	

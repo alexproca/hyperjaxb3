@@ -14,6 +14,7 @@
 	<xsd:complexType name="persistence">
 		<xsd:sequence>
 			<xsd:element name="default-id" type="hj:id"/>
+			<xsd:element name="default-version" type="hj:version"/>
 			<xsd:element name="default-basic" type="hj:basic"/>
 			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
 			<xsd:element name="default-many-to-one" type="hj:many-to-one"/>
@@ -60,6 +61,8 @@
 			<xsd:element name="column" type="orm:column" minOccurs="0"/>
 			<xsd:element name="temporal" type="orm:temporal" minOccurs="0"/>
 		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional" default="##default"/>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 	<!-- ... -->
 	<xsd:element name="table" type="orm:table"/>

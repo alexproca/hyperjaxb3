@@ -674,10 +674,12 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="version" type="xs:long">
+			<xs:element name="version" type="xs:dateTime">
 				<xs:annotation>
 					<xs:appinfo>
-						<hj:version/>
+						<hj:version>
+							<hj:column name="C_I_D_VERSION"/>
+						</hj:version>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

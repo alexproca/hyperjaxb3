@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.customizations;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 
@@ -21,6 +22,8 @@ public interface ModelCustomizations {
 	public Basic getBasic(CPropertyInfo property);
 	public Basic getBasic(FieldOutline property);
 	
+	public Version getVersion(CPropertyInfo property);
+	public Version getVersion(FieldOutline property);
 
 	/**
 	 * Returns the one-to-many customization for the given property. Must not
