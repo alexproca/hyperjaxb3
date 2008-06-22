@@ -13,6 +13,8 @@
 	<xsd:element name="persistence"	type="hj:persistence"/>
 	<xsd:complexType name="persistence">
 		<xsd:sequence>
+			<xsd:element name="default-id" type="hj:id"/>
+			<xsd:element name="default-basic" type="hj:basic"/>
 			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
 			<xsd:element name="default-many-to-one" type="hj:many-to-one"/>
 		</xsd:sequence>
@@ -40,6 +42,11 @@
 			<xsd:element name="sequence-generator" 
 				type="orm:sequence-generator" minOccurs="0"/>
 		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional"/>
+		<xsd:attribute name="attributeName" type="xsd:QName" use="optional"/>
+		<xsd:attribute name="javaType" type="xsd:string" use="optional"/>
+		<xsd:attribute name="schemaType" type="xsd:QName" use="optional"/>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 
 	<!-- ... -->
@@ -147,5 +154,6 @@
 		<xsd:attribute name="name" type="xsd:string" use="optional" default="##default"/>
 		<xsd:attribute name="fetch" type="orm:fetch-type"/>
 		<xsd:attribute name="optional" type="xsd:boolean"/>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 </xsd:schema>

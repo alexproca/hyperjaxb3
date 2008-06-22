@@ -6,24 +6,22 @@ import java.util.Collections;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang.Validate;
+import org.jvnet.annox.util.ClassUtils;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.TransientSingleField;
+import org.jvnet.hyperjaxb3.xjc.model.CExternalLeafInfo;
 
-import com.sun.java.xml.ns.persistence.orm.GeneratedValue;
-import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
-import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.GenericFieldRenderer;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
-import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultCreateDefaultIdPropertyInfos implements
 		CreateDefaultIdPropertyInfos {
@@ -68,8 +66,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 				propertyName, null, customizations, null, attributeName,
 				propertyTypeInfo, propertyTypeInfo.getTypeName(), false);
 
-		if (isTransient())
-		{
+		if (isTransient()) {
 			propertyInfo.realization = new GenericFieldRenderer(
 					TransientSingleField.class);
 		}
@@ -102,56 +99,43 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 	}
 
 	public String getPropertyName(ProcessModel context, CClassInfo classInfo) {
-		return getDefaultPropertyName();
-	}
-
-	private String defaultPropertyName = "Hjid";
-
-	public String getDefaultPropertyName() {
-		return defaultPropertyName;
-	}
-
-	public void setDefaultPropertyName(String defaultPropertyName) {
-		this.defaultPropertyName = defaultPropertyName;
-	}
-
-	private QName defaultAttributeName = new QName("hjid");
-
-	public QName getDefaultAttributeName() {
-		return defaultAttributeName;
-	}
-
-	public void setDefaultAttributeName(QName defaultAttributeName) {
-		this.defaultAttributeName = defaultAttributeName;
+		final Id id = context.getCustomizations().getId(classInfo);
+		final String name = id.getName();
+		Validate.notEmpty(name, "The hj:/@name attribute must not be empty.");
+		return name;
 	}
 
 	public QName getAttributeName(ProcessModel context, CClassInfo classInfo) {
-		return getDefaultAttributeName();
-	}
-
-	private CNonElement defaultPropertyTypeInfo = CBuiltinLeafInfo.LONG;
-
-	public CNonElement getDefaultPropertyTypeInfo() {
-		return defaultPropertyTypeInfo;
-	}
-
-	public void setDefaultPropertyTypeInfo(CNonElement defaultPropertyTypeInfo) {
-		this.defaultPropertyTypeInfo = defaultPropertyTypeInfo;
+		final Id id = context.getCustomizations().getId(classInfo);
+		final QName attributeName = id.getAttributeName();
+		return attributeName != null ? attributeName : new QName(
+				getPropertyName(context, classInfo));
 	}
 
 	public CNonElement getPropertyTypeInfo(ProcessModel context,
 			CClassInfo classInfo) {
-		return getDefaultPropertyTypeInfo();
+		final Id id = context.getCustomizations().getId(classInfo);
+		final String javaType = id.getJavaType();
+		Validate.notEmpty(javaType,
+				"The hj:/@javaType attribute must not be empty.");
+		final QName schemaType = id.getSchemaType();
+		Validate.notNull(schemaType,
+				"The hj:/@schemaType attribute must not be null.");
+		try {
+			final Class theClass = ClassUtils.forName(javaType);
+			return new CExternalLeafInfo(theClass, schemaType, null);
+		} catch (ClassNotFoundException cnfex) {
+			throw new IllegalArgumentException(
+					"Class name ["
+							+ javaType
+							+ "] provided in the hj:id/@javaType attribute could not be resolved.",
+					cnfex);
+		}
 	}
 
 	public CPluginCustomization createIdCustomization(ProcessModel context,
 			CClassInfo classInfo) {
-		final Id id = Customizations.getCustomizationsObjectFactory()
-				.createId();
-		final GeneratedValue generatedValue = Customizations
-				.getOrmObjectFactory().createGeneratedValue();
-		generatedValue.setStrategy("AUTO");
-		id.setGeneratedValue(generatedValue);
+		final Id id = context.getCustomizations().getId(classInfo);
 
 		final JAXBElement<Id> idElement = Customizations
 				.getCustomizationsObjectFactory().createId(id);

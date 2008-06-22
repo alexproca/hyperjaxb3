@@ -65,34 +65,29 @@ public class Customizations {
 		return context;
 	}
 
-	public static final QName PERSISTENCE_ELEMENT_NAME = new QName(
-			NAMESPACE_URI, "persistence");
+	public static QName hj(String localPart) {
+		return new QName(NAMESPACE_URI, localPart);
+	}
 
-	public static final QName ITEM_ELEMENT_NAME = new QName(NAMESPACE_URI,
-			"item");
+	public static final QName PERSISTENCE_ELEMENT_NAME = hj("persistence");
 
-	public static final QName IGNORED_ELEMENT_NAME = new QName(NAMESPACE_URI,
-			"ignored");
+	public static final QName ITEM_ELEMENT_NAME = hj("item");
 
-	public static final QName ID_ELEMENT_NAME = new QName(NAMESPACE_URI, "id");
+	public static final QName IGNORED_ELEMENT_NAME = hj("ignored");
 
-	public static final QName VERSION_ELEMENT_NAME = new QName(NAMESPACE_URI,
-			"version");
+	public static final QName ID_ELEMENT_NAME = hj("id");
 
-	public static final QName TABLE_ELEMENT_NAME = new QName(NAMESPACE_URI,
-			"table");
+	public static final QName VERSION_ELEMENT_NAME = hj("version");
 
-	public static final QName COLUMN_ELEMENT_NAME = new QName(NAMESPACE_URI,
-			"column");
+	public static final QName TABLE_ELEMENT_NAME = hj("table");
 
-	public static final QName ONE_TO_MANY_ELEMENT_NAME = new QName(
-			NAMESPACE_URI, "one-to-many");
+	public static final QName COLUMN_ELEMENT_NAME = hj("column");
 
-	public static final QName MANY_TO_ONE_ELEMENT_NAME = new QName(
-			NAMESPACE_URI, "many-to-one");
+	public static final QName ONE_TO_MANY_ELEMENT_NAME = hj("one-to-many");
 
-	public static final QName BASIC_ELEMENT_NAME = new QName(NAMESPACE_URI,
-			"basic");
+	public static final QName MANY_TO_ONE_ELEMENT_NAME = hj("many-to-one");
+
+	public static final QName BASIC_ELEMENT_NAME = hj("basic");
 
 	public static QName GENERATED_ELEMENT_NAME = new QName(
 			"http://jaxb2-commons.dev.java.net/basic", "generated");
@@ -184,6 +179,15 @@ public class Customizations {
 
 		return (T) unmarshall(customization);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T findCustomization(CClassInfo classInfo, QName name) {
+		final CPluginCustomization customization = CustomizationUtils
+				.findCustomization(classInfo, name);
+
+		return (T) unmarshall(customization);
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	public static <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {

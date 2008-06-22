@@ -16,49 +16,45 @@ import javax.persistence.UniqueConstraint;
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultAnnotateFieldOutlineId implements AnnotateFieldOutline {
+public class DefaultAnnotateFieldOutlineId extends
+		AbstractAnnotateSimpleFieldOutline implements AnnotateFieldOutline {
 
 	public Collection<XAnnotation> process(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options) {
 
-		return createAnnotations(outlineProcessor, fieldOutline, options);
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id id =
+		
+		outlineProcessor.getCustomizations().getId(fieldOutline);
+		
+		assert id != null;
+		
+		return createId(outlineProcessor, fieldOutline, options, id);
 	}
 
-	private Collection<XAnnotation> createAnnotations(
-			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
-			Options options) {
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id id = Customizations
-				.findCustomization(fieldOutline.getPropertyInfo(),
-						Customizations.ID_ELEMENT_NAME);
-
-		assert id != null;
-
+	protected Collection<XAnnotation> createId(ProcessOutline outlineProcessor,
+			FieldOutline fieldOutline, Options options,
+			final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id id) {
 		final Collection<XAnnotation> xannotations = new ArrayList<XAnnotation>(
 				2);
 
-		xannotations.add(createId());
+		xannotations.add(new XAnnotation(Id.class));
+		xannotations.addAll(createColumn(outlineProcessor, fieldOutline,
+				options, id.getColumn()));
 		xannotations.add(createGeneratedValue(id.getGeneratedValue()));
 
-		xannotations.addAll(outlineProcessor.getAnnotate()
-				.getAnnotateFieldOutlineColumn().process(outlineProcessor,
-						fieldOutline, options));
-
+		xannotations.addAll(createTemporal(outlineProcessor, fieldOutline,
+					options, id.getTemporal()));
 		xannotations.addAll(createSequenceGenerator(outlineProcessor,
 				fieldOutline, options, id));
 		xannotations.addAll(createTableGenerator(outlineProcessor,
 				fieldOutline, options, id));
 		return xannotations;
-	}
-
-	public XAnnotation createId() {
-		return new XAnnotation(Id.class);
 	}
 
 	public XAnnotation createGeneratedValue(
@@ -67,10 +63,9 @@ public class DefaultAnnotateFieldOutlineId implements AnnotateFieldOutline {
 		if (generatedValue == null) {
 			return null;
 		} else {
-
-			final XAnnotationField.XString generator = createGenerator(generatedValue
+			final XAnnotationField.XString generator = createGeneratedValue$Generator(generatedValue
 					.getGenerator());
-			final XAnnotationField.XEnum strategy = createStrategy(generatedValue
+			final XAnnotationField.XEnum strategy = createGeneratedValue$Strategy(generatedValue
 					.getStrategy());
 
 			return new XAnnotation(GeneratedValue.class, generator, strategy);
@@ -78,12 +73,12 @@ public class DefaultAnnotateFieldOutlineId implements AnnotateFieldOutline {
 		}
 	}
 
-	public XAnnotationField.XEnum createStrategy(String strategy) {
+	public XAnnotationField.XEnum createGeneratedValue$Strategy(String strategy) {
 		return strategy == null ? null : new XAnnotationField.XEnum("strategy",
 				GenerationType.valueOf(strategy), GenerationType.class);
 	}
 
-	public XAnnotationField.XString createGenerator(String generator) {
+	public XAnnotationField.XString createGeneratedValue$Generator(String generator) {
 		return generator == null ? null : new XAnnotationField.XString(
 				"generator", generator);
 	}

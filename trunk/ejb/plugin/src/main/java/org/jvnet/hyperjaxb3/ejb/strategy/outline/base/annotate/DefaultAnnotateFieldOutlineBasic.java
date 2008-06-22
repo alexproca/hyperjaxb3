@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Basic;
 import javax.persistence.FetchType;
@@ -11,72 +12,67 @@ import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
 import org.jvnet.annox.model.XAnnotationField.XBoolean;
 import org.jvnet.annox.model.XAnnotationField.XEnum;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
-import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultAnnotateFieldOutlineBasic implements AnnotateFieldOutline {
+public class DefaultAnnotateFieldOutlineBasic extends
+		AbstractAnnotateSimpleFieldOutline implements AnnotateFieldOutline {
 
 	public Collection<XAnnotation> process(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options) {
 
-		final Collection<XAnnotation> xannotations = createBasic(
-				outlineProcessor, fieldOutline, options);
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic basic =
 
-		return xannotations;
+		outlineProcessor.getCustomizations().getBasic(fieldOutline);
+
+		return create(outlineProcessor, fieldOutline, options, basic);
 	}
 
-	private Collection<XAnnotation> createBasic(
-			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
-			Options options) {
-
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic cbasic = CustomizationUtils
-				.containsCustomization(fieldOutline.getPropertyInfo(),
-						Customizations.BASIC_ELEMENT_NAME) ? Customizations
-				.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic> findCustomization(
-						fieldOutline.getPropertyInfo(),
-						Customizations.BASIC_ELEMENT_NAME)
-				: new org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic();
+	public Collection<XAnnotation> create(ProcessOutline outlineProcessor,
+			FieldOutline fieldOutline, Options options,
+			org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic cbasic) {
 
 		final Collection<XAnnotation> xannotations = new ArrayList<XAnnotation>(
 				2);
 
-		final XAnnotation basic = createBasic(outlineProcessor, fieldOutline,
-				options, cbasic);
-
-		xannotations.add(basic);
-
-		if (cbasic.getLob() != null) {
-			xannotations.add(createLob(outlineProcessor, fieldOutline, options,
-					cbasic));
-		}
-
-		xannotations.addAll(outlineProcessor.getAnnotate()
-				.getAnnotateFieldOutlineColumn().process(outlineProcessor,
-						fieldOutline, options));
+		xannotations.addAll(createBasic(outlineProcessor, fieldOutline,
+				options, cbasic));
+		xannotations.addAll(createColumn(outlineProcessor, fieldOutline,
+				options, cbasic.getColumn()));
+		xannotations.addAll(createLob(outlineProcessor, fieldOutline, options,
+				cbasic.getLob()));
+		xannotations.addAll(createTemporal(outlineProcessor, fieldOutline, options,
+				cbasic.getTemporal()));
+		xannotations.addAll(createEnumerated(outlineProcessor, fieldOutline, options,
+				cbasic.getEnumerated()));
+//		xannotations.addAll(outlineProcessor.getAnnotate()
+//				.getAnnotateFieldOutlineColumn().process(outlineProcessor,
+//						fieldOutline, options));
 		return xannotations;
 	}
 
-	public XAnnotation createLob(ProcessOutline outlineProcessor,
+	public Collection<XAnnotation> createLob(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic cbasic) {
-		return new XAnnotation(Lob.class);
+			com.sun.java.xml.ns.persistence.orm.Lob lob) {
+		if (lob != null) {
+			return Collections.singletonList(new XAnnotation(Lob.class));
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
-	private XAnnotation createBasic(ProcessOutline outlineProcessor,
+	public Collection<XAnnotation> createBasic(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options,
 			final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic cbasic) {
-		if (cbasic == null) {
-		}
-
-		final XAnnotation basic = new XAnnotation(Basic.class, createFetch(
-				outlineProcessor, fieldOutline, options), createOptional(
-				outlineProcessor, fieldOutline, options));
-		return basic;
+		final XAnnotation basic = new XAnnotation(Basic.class,
+		//
+				createBasic$Fetch(outlineProcessor, fieldOutline, options),
+				//
+				createBasic$Optional(outlineProcessor, fieldOutline, options));
+		return Collections.singletonList(basic);
 	}
 
 	private Boolean defaultOptional = null;
@@ -94,7 +90,7 @@ public class DefaultAnnotateFieldOutlineBasic implements AnnotateFieldOutline {
 		return isDefaultOptional();
 	}
 
-	public XBoolean createOptional(ProcessOutline outlineProcessor,
+	public XBoolean createBasic$Optional(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options) {
 		final Boolean optional = getOptional(outlineProcessor, fieldOutline,
 				options);
@@ -121,7 +117,7 @@ public class DefaultAnnotateFieldOutlineBasic implements AnnotateFieldOutline {
 		return getDefaultFetch();
 	}
 
-	public XEnum createFetch(ProcessOutline outlineProcessor,
+	public XEnum createBasic$Fetch(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options) {
 
 		final FetchType fetch = getFetch(outlineProcessor, fieldOutline,

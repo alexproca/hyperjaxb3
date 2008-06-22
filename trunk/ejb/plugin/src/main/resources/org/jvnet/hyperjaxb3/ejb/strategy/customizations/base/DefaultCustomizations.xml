@@ -1,16 +1,28 @@
-<hj:persistence
+<persistence
+	xmlns="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
-		<hj:default-one-to-many>
-			<hj:join-column/>
-			<hj:cascade>
+		<default-id
+			name="Hjid"
+			javaType="java.lang.Long"
+			schemaType="xsd:long">
+			<column/>
+			<generated-value strategy="AUTO"/>
+		</default-id>
+		<default-basic>
+			<column/>
+		</default-basic>	
+		<default-one-to-many>
+			<join-column/>
+			<cascade>
 				<orm:cascade-all/>
-			</hj:cascade>
-		</hj:default-one-to-many>
-		<hj:default-many-to-one>
-			<hj:join-column/>
-			<hj:cascade>
+			</cascade>
+		</default-one-to-many>
+		<default-many-to-one>
+			<join-column/>
+			<cascade>
 				<orm:cascade-all/>
-			</hj:cascade>
-		</hj:default-many-to-one>
-</hj:persistence>
+			</cascade>
+		</default-many-to-one>
+</persistence>

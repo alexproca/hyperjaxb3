@@ -16,7 +16,6 @@ import javax.persistence.OrderBy;
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
 import org.jvnet.annox.model.XAnnotationField.XClass;
-import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
@@ -36,15 +35,6 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 			FieldOutline fieldOutline, Options options) {
 
 		return createOneToMany(outlineProcessor, fieldOutline, options);
-		//
-		// // if
-		//
-		// xannotations.add(createJoinTable(outlineProcessor, fieldOutline,
-		// options));
-		//
-		// xannotations.add(new XAnnotation(OrderBy.class));
-		//
-		// return xannotations;
 	}
 
 	public Collection<XAnnotation> createOneToMany(

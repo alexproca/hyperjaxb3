@@ -20,6 +20,7 @@
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.cuone"/>
 			</jaxb:schemaBindings>
 			<hj:persistence>
+				<hj:default-id name="Myid"/>
 				<hj:default-one-to-many>
 					<hj:join-table/>
 				</hj:default-one-to-many>
@@ -97,6 +98,11 @@
 	</xs:complexType>
 
 	<xs:complexType name="three">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:id name="ThreeId" attributeName="test:tid"/>
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="basic-clob" type="xs:string" minOccurs="0">
 				<xs:annotation>
@@ -118,6 +124,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:id>
+							<hj:column name="FOUR_CUSTOM_ID"/>
 							<hj:generated-value strategy="SEQUENCE"/>
 							<!--hj:sequence-generator name="four-sequence" sequence-name="FOUR_SEQ"/-->
 						</hj:id>	
@@ -127,5 +134,24 @@
 			<xs:element name="value" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:element name="five" type="test:five"/>
+
+	<xs:complexType name="five">
+		<xs:sequence>
+			<xs:element name="id" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id merge="false">
+							<hj:column name="FIVE_CUSTOM_ID"/>
+							<!--hj:temporal>DATE</hj:temporal-->
+						</hj:id>	
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
 
 </xs:schema>

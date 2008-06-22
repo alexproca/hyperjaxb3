@@ -102,28 +102,38 @@ public class DefaultProcessFieldOutline implements ProcessFieldOutline {
 							+ propertyInfo.getName(true)
 							+ "] is a homogeneous single field.");
 
-					if (isFieldOutlineTemporal(context, fieldOutline, options)) {
-						logger.debug("Field outline  ["
-								+ propertyInfo.getName(true)
-								+ "] is a basic field.");
-						return context.getAnnotate()
-								.getAnnotateFieldOutlineTemporal();
-					} else if (isFieldOutlineEnum(context, fieldOutline,
-							options)) {
-						logger.debug("Field outline  ["
-								+ propertyInfo.getName(true)
-								+ "] is a enum  field.");
-						return context.getAnnotate()
-								.getAnnotateFieldOutlineEnumerated();
-					} else if (isFieldOutlineBasic(context, fieldOutline,
-							options)) {
-						logger.debug("Field outline  ["
-								+ propertyInfo.getName(true)
-								+ "] is a basic field.");
+					// if (isFieldOutlineTemporal(context, fieldOutline,
+					// options)) {
+					// logger.debug("Field outline ["
+					// + propertyInfo.getName(true)
+					// + "] is a basic field.");
+					// return context.getAnnotate()
+					// .getAnnotateFieldOutlineTemporal();
+					// } else if (isFieldOutlineEnum(context, fieldOutline,
+					// options)) {
+					// logger.debug("Field outline ["
+					// + propertyInfo.getName(true)
+					// + "] is a enum field.");
+					// return context.getAnnotate()
+					// .getAnnotateFieldOutlineEnumerated();
+					// } else if (isFieldOutlineBasic(context, fieldOutline,
+					// options)) {
+					// logger.debug("Field outline ["
+					// + propertyInfo.getName(true)
+					// + "] is a basic field.");
+					// return context.getAnnotate()
+					// .getAnnotateFieldOutlineBasic();
+					// } else
+					if (isFieldOutlineBasic(context, fieldOutline, options)
+							|| isFieldOutlineTemporal(context, fieldOutline,
+									options)
+							|| isFieldOutlineEnum(context, fieldOutline,
+									options)) {
 						return context.getAnnotate()
 								.getAnnotateFieldOutlineBasic();
-					} else if (isFieldOutlineComplex(context, fieldOutline,
-							options)) {
+					} else
+
+					if (isFieldOutlineComplex(context, fieldOutline, options)) {
 						logger.debug("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex field.");
