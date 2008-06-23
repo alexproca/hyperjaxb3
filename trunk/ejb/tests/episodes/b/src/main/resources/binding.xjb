@@ -14,7 +14,7 @@
 		</jaxb:schemaBindings>
 	</jaxb:bindings>
 
-	<!--jaxb:bindings scd="x-schema::a">
+	<jaxb:bindings scd="x-schema::a">
 		<jaxb:schemaBindings>
 			<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.episodes.a.tests"/>
 		</jaxb:schemaBindings>
@@ -24,6 +24,6 @@
 		<jaxb:bindings scd="~a:A1Type">
 			<jaxb:class ref="org.jvnet.hyperjaxb3.ejb.tests.episodes.a.tests.A1Type"/>
 		</jaxb:bindings>
-	</jaxb:bindings-->
+	</jaxb:bindings>
 
 </jaxb:bindings>

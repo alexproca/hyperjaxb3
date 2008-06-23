@@ -14,7 +14,7 @@
 		    <xsd:extension base="a:AType">
 				<xsd:sequence>
 					<xsd:element name="b" type="b:B1Type"/>
-					<!--xsd:element name="ba" type="a:AType" minOccurs="0" maxOccurs="unbounded"/-->
+					<xsd:element name="ba" type="a:AType" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
 		    </xsd:extension>
 		</xsd:complexContent>

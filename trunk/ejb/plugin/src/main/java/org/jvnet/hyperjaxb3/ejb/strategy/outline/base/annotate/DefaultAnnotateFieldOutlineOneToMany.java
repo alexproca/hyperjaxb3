@@ -21,9 +21,9 @@ import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultAnnotateFieldOutlineOneToMany implements
@@ -97,9 +97,9 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 
 		final CTypeInfo type = types.iterator().next();
 
-		assert type instanceof CClassInfo;
+		assert type instanceof NType;
 
-		final CClassInfo childClassInfo = (CClassInfo) type;
+		final NType childClassInfo = (NType) type;
 
 		return new XAnnotationField.XClass("targetEntity", childClassInfo
 				.fullName());
