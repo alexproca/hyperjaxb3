@@ -13,6 +13,7 @@
 	<modules>
 		<module>any</module>
 		<module>derby</module>
+		<module>episodes</module>
 		<module>issues</module>
 		<module>one</module>
 		<module>po-customized</module>

@@ -80,7 +80,7 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 	public boolean isRootClass(ProcessModel context, CClassInfo classInfo) {
 		// TODO #72 Check parent classes for ignored
-		return classInfo.getBaseClass() == null;
+		return classInfo.getBaseClass() == null && classInfo.getRefBaseClass() == null;
 	}
 
 	public Collection<CPropertyInfo> getIdPropertyInfos(ProcessModel context,
