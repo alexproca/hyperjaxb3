@@ -6,7 +6,6 @@
 	<artifactId>hyperjaxb3-ejb-plugin</artifactId>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 EJB Plugin</name>
-	<url>http://hyperjaxb3.dev.java.net/core</url>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb</artifactId>
