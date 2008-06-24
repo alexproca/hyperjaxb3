@@ -157,7 +157,7 @@ public class Customizations {
 	private final static com.sun.java.xml.ns.persistence.ObjectFactory persistenceObjectFactory = new com.sun.java.xml.ns.persistence.ObjectFactory();
 
 	private final static com.sun.java.xml.ns.persistence.orm.ObjectFactory ormObjectFactory = new com.sun.java.xml.ns.persistence.orm.ObjectFactory();
-
+	
 	private final static org.jvnet.hyperjaxb3.ejb.schemas.customizations.ObjectFactory customizationsObjectFactory = new org.jvnet.hyperjaxb3.ejb.schemas.customizations.ObjectFactory();
 
 	public static com.sun.java.xml.ns.persistence.ObjectFactory getPersistenceObjectFactory() {
@@ -179,7 +179,7 @@ public class Customizations {
 
 		return (T) unmarshall(customization);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T> T findCustomization(CClassInfo classInfo, QName name) {
 		final CPluginCustomization customization = CustomizationUtils
@@ -187,7 +187,6 @@ public class Customizations {
 
 		return (T) unmarshall(customization);
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	public static <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
