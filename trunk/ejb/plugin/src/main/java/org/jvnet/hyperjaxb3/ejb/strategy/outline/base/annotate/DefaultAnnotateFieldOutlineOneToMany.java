@@ -15,19 +15,13 @@ import javax.persistence.OrderBy;
 
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
-import org.jvnet.annox.model.XAnnotationField.XClass;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultAnnotateFieldOutlineOneToMany implements
-		AnnotateFieldOutline {
+public class DefaultAnnotateFieldOutlineOneToMany extends AbstractAnnotateFieldOutlineXToX {
 
 	// TODO #73 Target entity
 
@@ -77,76 +71,13 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 				createTargetEntity(outlineProcessor, fieldOutline, options),
 				//
 				createCascade(outlineProcessor, fieldOutline, options,
-						oneToMany),
+						oneToMany.getCascade()),
 				//
-				createFetch(outlineProcessor, fieldOutline, options, oneToMany),
+				createFetch(outlineProcessor, fieldOutline, options, oneToMany.getFetch()),
 				//
 				createMappedBy(outlineProcessor, fieldOutline, options,
-						oneToMany));
+						oneToMany.getMappedBy()));
 
-	}
-
-	public XClass createTargetEntity(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options) {
-
-		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
-
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
-
-		assert types.size() == 1;
-
-		final CTypeInfo type = types.iterator().next();
-
-		assert type instanceof NType;
-
-		final NType childClassInfo = (NType) type;
-
-		return new XAnnotationField.XClass("targetEntity", childClassInfo
-				.fullName());
-
-	}
-
-	public XAnnotationField createMappedBy(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany oneToMany) {
-		return AnnotationUtils.create("mappedBy", oneToMany.getMappedBy());
-	}
-
-	public XAnnotationField createFetch(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany oneToMany) {
-		return oneToMany.getFetch() == null ? null :  AnnotationUtils.create("fetch", FetchType.valueOf(oneToMany.getFetch()));
-	}
-
-
-	public XAnnotationField createCascade(
-			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
-			Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany oneToMany) {
-
-		if (oneToMany.getCascade() == null) {
-			return null;
-		} else {
-			final Collection<CascadeType> cascade = new HashSet<CascadeType>();
-
-			if (oneToMany.getCascade().getCascadeAll() != null) {
-				cascade.add(CascadeType.ALL);
-			}
-			if (oneToMany.getCascade().getCascadeMerge() != null) {
-				cascade.add(CascadeType.MERGE);
-			}
-			if (oneToMany.getCascade().getCascadePersist() != null) {
-				cascade.add(CascadeType.PERSIST);
-			}
-			if (oneToMany.getCascade().getCascadeRefresh() != null) {
-				cascade.add(CascadeType.REFRESH);
-			}
-			if (oneToMany.getCascade().getCascadeRemove() != null) {
-				cascade.add(CascadeType.REMOVE);
-			}
-			return AnnotationUtils.create("cascade", cascade
-					.toArray(new CascadeType[cascade.size()]));
-		}
 	}
 
 	public Collection<XAnnotation> createJoinTable(
@@ -208,7 +139,7 @@ public class DefaultAnnotateFieldOutlineOneToMany implements
 		return joinColumnAnnotations;
 	}
 
-	private XAnnotation createJoinColumn(ProcessOutline outlineProcessor,
+	public XAnnotation createJoinColumn(ProcessOutline outlineProcessor,
 			FieldOutline fieldOutline, Options options,
 			com.sun.java.xml.ns.persistence.orm.JoinColumn column) {
 		final String defaultColumnName = outlineProcessor.getNaming()

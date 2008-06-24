@@ -3,34 +3,23 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
-import org.jvnet.annox.model.XAnnotationField.XClass;
-import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.AnnotateFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.model.CClass;
-import com.sun.tools.xjc.model.CClassInfo;
-import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultAnnotateFieldOutlineManyToOne implements
-		AnnotateFieldOutline {
+public class DefaultAnnotateFieldOutlineManyToOne extends
+		AbstractAnnotateFieldOutlineXToX {
 
 	// TODO #73 Target entity
 
@@ -52,24 +41,21 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 
 		outlineProcessor.getCustomizations().getManyToOne(fieldOutline);
 
-		// final org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne
-		// cManyToOne = CustomizationUtils
-		// .containsCustomization(fieldOutline.getPropertyInfo(),
-		// Customizations.MANY_TO_ONE_ELEMENT_NAME) ? Customizations
-		// .<org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne>
-		// findCustomization(
-		// fieldOutline.getPropertyInfo(),
-		// Customizations.MANY_TO_ONE_ELEMENT_NAME)
-		// : new org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne();
-
 		xannotations.add(createManyToOne(outlineProcessor, fieldOutline,
 				options, cManyToOne));
 
 		final Collection<XAnnotation> content;
 		if (cManyToOne.getJoinTable() != null) {
+			final com.sun.java.xml.ns.persistence.orm.JoinTable cjoinTable = cManyToOne
+					.getJoinTable();
+			if (cjoinTable.getName() == null) {
+				cjoinTable.setName(outlineProcessor.getNaming()
+						.getManyToOneJoinTableName(outlineProcessor,
+								fieldOutline, options));
+			}
 
 			content = createJoinTable(outlineProcessor, fieldOutline, options,
-					cManyToOne);
+					cjoinTable);
 		} else {
 			content = createJoinColumns(outlineProcessor, fieldOutline,
 					options, cManyToOne);
@@ -83,78 +69,25 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cManyToOne) {
 		final XAnnotation manyToOne = new XAnnotation(ManyToOne.class,
-				createTargetEntity(outlineProcessor, fieldOutline, options,
-						cManyToOne), createFetch(outlineProcessor,
-						fieldOutline, options, cManyToOne), createCascade(
-						outlineProcessor, fieldOutline, options, cManyToOne),
+		// 
+				createTargetEntity(outlineProcessor, fieldOutline, options),
+				//
+				createFetch(outlineProcessor, fieldOutline, options, cManyToOne
+						.getFetch()),
+				//
+				createCascade(outlineProcessor, fieldOutline, options,
+						cManyToOne.getCascade()),
+				//
 				createOptional(outlineProcessor, fieldOutline, options,
-						cManyToOne));
+						cManyToOne.isOptional()));
 		return manyToOne;
 	}
 
-	public XClass createTargetEntity(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
-
-		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
-
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
-
-		assert types.size() == 1;
-
-		final CTypeInfo type = types.iterator().next();
-
-		assert type instanceof CClass;
-
-		final NType childClassInfo = (NType) type;
-
-		return new XAnnotationField.XClass("targetEntity", childClassInfo
-				.fullName());
-
-	}
-
 	public XAnnotationField createOptional(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
+			FieldOutline fieldOutline, Options options, Boolean optional) {
 
-		return AnnotationUtils.create("optional", manyToOne.isOptional());
+		return AnnotationUtils.create("optional", optional);
 
-	}
-
-	public XAnnotationField createFetch(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
-		return manyToOne.getFetch() == null ? null : AnnotationUtils.create(
-				"fetch", FetchType.valueOf(manyToOne.getFetch()));
-	}
-
-	public XAnnotationField createCascade(ProcessOutline outlineProcessor,
-			FieldOutline fieldOutline, Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne manyToOne) {
-
-		if (manyToOne.getCascade() == null) {
-			return null;
-		} else {
-			final Collection<CascadeType> cascade = new HashSet<CascadeType>();
-
-			if (manyToOne.getCascade().getCascadeAll() != null) {
-				cascade.add(CascadeType.ALL);
-			}
-			if (manyToOne.getCascade().getCascadeMerge() != null) {
-				cascade.add(CascadeType.MERGE);
-			}
-			if (manyToOne.getCascade().getCascadePersist() != null) {
-				cascade.add(CascadeType.PERSIST);
-			}
-			if (manyToOne.getCascade().getCascadeRefresh() != null) {
-				cascade.add(CascadeType.REFRESH);
-			}
-			if (manyToOne.getCascade().getCascadeRemove() != null) {
-				cascade.add(CascadeType.REMOVE);
-			}
-			return AnnotationUtils.create("cascade", cascade
-					.toArray(new CascadeType[cascade.size()]));
-		}
 	}
 
 	public XAnnotation createJoinColumn(ProcessOutline outlineProcessor,
@@ -173,13 +106,12 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 	public Collection<XAnnotation> createJoinTable(
 			ProcessOutline outlineProcessor, FieldOutline fieldOutline,
 			Options options,
-			org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cmanyToOne) {
+			com.sun.java.xml.ns.persistence.orm.JoinTable cjoinTable) {
 
-		final String joinTableName = (cmanyToOne.getJoinTable() != null && cmanyToOne
-				.getJoinTable().getName() != null) ? cmanyToOne.getJoinTable()
-				.getName() : outlineProcessor.getNaming()
-				.getManyToOneJoinTableName(outlineProcessor, fieldOutline,
-						options);
+		final String joinTableName = (cjoinTable != null && cjoinTable
+				.getName() != null) ? cjoinTable.getName() : outlineProcessor
+				.getNaming().getManyToOneJoinTableName(outlineProcessor,
+						fieldOutline, options);
 
 		final String joinColumnName = outlineProcessor.getNaming()
 				.getManyToOneJoinTableJoinColumnName(outlineProcessor,
@@ -196,7 +128,11 @@ public class DefaultAnnotateFieldOutlineManyToOne implements
 				new XAnnotationField.XString("name", inverseJoinColumnName));
 
 		final XAnnotation joinTable = new XAnnotation(JoinTable.class,
-				new XAnnotationField.XString("name", joinTableName),
+				//
+				new XAnnotationField.XString("name", cjoinTable.getName()),
+				new XAnnotationField.XString("catalog", cjoinTable.getCatalog()),
+				new XAnnotationField.XString("schema", cjoinTable.getSchema()),
+				
 				new XAnnotationField.XAnnotationArray("joinColumns",
 						new XAnnotation[] { joinColumn }, JoinColumn.class),
 				new XAnnotationField.XAnnotationArray("inverseJoinColumns",
