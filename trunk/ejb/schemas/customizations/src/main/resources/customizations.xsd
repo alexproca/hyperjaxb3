@@ -5,6 +5,7 @@
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" 
 	xmlns:persistence="http://java.sun.com/xml/ns/persistence">
+
 	<xsd:import namespace="http://java.sun.com/xml/ns/persistence/orm" 
 		schemaLocation="orm/orm_1_0.xsd"/>
 	<xsd:import namespace="http://java.sun.com/xml/ns/persistence" 
@@ -13,6 +14,7 @@
 	<xsd:element name="persistence"	type="hj:persistence"/>
 	<xsd:complexType name="persistence">
 		<xsd:sequence>
+			<xsd:element name="default-entity" type="hj:entity"/>
 			<xsd:element name="default-id" type="hj:id"/>
 			<xsd:element name="default-version" type="hj:version"/>
 			<xsd:element name="default-basic" type="hj:basic"/>
@@ -26,6 +28,24 @@
 	<!-- ... -->
 	<xsd:element name="ignored" type="hj:ignored"/>
 	<xsd:complexType name="ignored"/>
+
+
+
+
+	<!-- Entity -->
+	<xsd:element name="entity" type="hj:entity"/>
+
+	<xsd:complexType name="entity">
+		<xsd:complexContent>
+			<xsd:extension base="orm:entity">
+				<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+
+
 	<!-- ... -->
 	<xsd:element name="id" type="hj:id"/>
 	<xsd:complexType name="id">

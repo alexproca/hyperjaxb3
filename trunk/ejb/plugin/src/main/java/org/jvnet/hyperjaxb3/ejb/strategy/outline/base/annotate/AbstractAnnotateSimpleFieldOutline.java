@@ -1,17 +1,26 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedQueries;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
+import org.jvnet.annox.model.XClass;
 import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
@@ -25,6 +34,14 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.java.xml.ns.persistence.orm.Column;
+import com.sun.java.xml.ns.persistence.orm.ColumnResult;
+import com.sun.java.xml.ns.persistence.orm.Entity;
+import com.sun.java.xml.ns.persistence.orm.EntityResult;
+import com.sun.java.xml.ns.persistence.orm.FieldResult;
+import com.sun.java.xml.ns.persistence.orm.NamedNativeQuery;
+import com.sun.java.xml.ns.persistence.orm.NamedQuery;
+import com.sun.java.xml.ns.persistence.orm.QueryHint;
+import com.sun.java.xml.ns.persistence.orm.SqlResultSetMapping;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -246,5 +263,214 @@ public class AbstractAnnotateSimpleFieldOutline {
 		}
 		return value == null ? null : new XAnnotationField.XEnum("value",
 				value, EnumType.class);
+	}
+
+	public static Collection<XAnnotation> annotations(
+			XAnnotation... annotations) {
+		if (annotations == null) {
+			return null;
+		} else if (annotations.length == 0) {
+			return Collections.emptyList();
+		} else {
+			return Arrays.asList(annotations);
+		}
+	}
+
+	public Collection<XAnnotation> createEntityAnnotations(Entity centity) {
+		return annotations(
+		//
+				createEntity(centity),
+				//
+				createNamedQuery(centity.getNamedQuery()),
+				//
+				createNamedNativeQuery(centity.getNamedNativeQuery()),
+				//
+				createSqlResultSetMapping(centity.getSqlResultSetMapping())
+		//
+		);
+	}
+
+	// 8.1
+	public XAnnotation createEntity(Entity cEntity) {
+		return new XAnnotation(javax.persistence.Entity.class, AnnotationUtils
+				.create("name", cEntity.getName()));
+	}
+
+	// 8.3.1
+	public XAnnotation createNamedQuery(Collection<NamedQuery> cNamedQueries) {
+		return transform(NamedQueries.class, cNamedQueries,
+				new Transformer<NamedQuery, XAnnotation>() {
+					public XAnnotation transform(NamedQuery input) {
+						return createNamedQuery(input);
+					}
+				});
+	}
+
+	public XAnnotation createNamedQuery(NamedQuery cNamedQuery) {
+		return new XAnnotation(javax.persistence.NamedQuery.class,
+				AnnotationUtils.create("query", cNamedQuery.getQuery()),
+				AnnotationUtils.create("hint", createQueryHint(cNamedQuery
+						.getHint())),
+
+				AnnotationUtils.create("name", cNamedQuery.getName()));
+
+	}
+
+	public Collection<XAnnotation> createQueryHint(
+			Collection<QueryHint> queryHints) {
+		return transform(queryHints, new Transformer<QueryHint, XAnnotation>() {
+			public XAnnotation transform(QueryHint input) {
+				return createQueryHint(input);
+			}
+		});
+	}
+
+	public XAnnotation createQueryHint(QueryHint queryHint) {
+		return new XAnnotation(javax.persistence.QueryHint.class,
+				AnnotationUtils.create("name", queryHint.getName()),
+				AnnotationUtils.create("value", queryHint.getValue()));
+	}
+
+	// 8.3.2
+	public XAnnotation createNamedNativeQuery(
+			Collection<NamedNativeQuery> cNamedNativeQueries) {
+		return transform(NamedNativeQueries.class, cNamedNativeQueries,
+				new Transformer<NamedNativeQuery, XAnnotation>() {
+					public XAnnotation transform(NamedNativeQuery input) {
+						return createNamedNativeQuery(input);
+					}
+				});
+	}
+
+	public XAnnotation createNamedNativeQuery(NamedNativeQuery cNamedNativeQuery) {
+		return new XAnnotation(javax.persistence.NamedNativeQuery.class,
+		//
+				AnnotationUtils.create("name", cNamedNativeQuery.getName()),
+				//
+				AnnotationUtils.create("query", cNamedNativeQuery.getQuery()),
+				//
+				AnnotationUtils.create("hints",
+						createQueryHint(cNamedNativeQuery.getHint())),
+				//
+				cNamedNativeQuery.getResultClass() == null ? null
+						: new XAnnotationField.XClass("resultClass",
+								cNamedNativeQuery.getResultClass()),
+				//
+				AnnotationUtils.create("resultSetMapping", cNamedNativeQuery
+						.getResultSetMapping()));
+	}
+
+	public XAnnotation createSqlResultSetMapping(
+			Collection<SqlResultSetMapping> cSqlResultSetMappings) {
+		return transform(SqlResultSetMappings.class, cSqlResultSetMappings,
+				new Transformer<SqlResultSetMapping, XAnnotation>() {
+					public XAnnotation transform(SqlResultSetMapping input) {
+						return createSqlResultSetMapping(input);
+					}
+				});
+	}
+
+	public XAnnotation createSqlResultSetMapping(
+			SqlResultSetMapping cSqlResultSetMapping) {
+		return new XAnnotation(javax.persistence.SqlResultSetMapping.class,
+		//
+				AnnotationUtils.create("name", cSqlResultSetMapping.getName()),
+				//
+				AnnotationUtils.create("entityResult",
+						createEntityResult(cSqlResultSetMapping
+								.getEntityResult())),
+				//
+				AnnotationUtils.create("columnResult",
+						createColumnResult(cSqlResultSetMapping
+								.getColumnResult())));
+	}
+
+	public Collection<XAnnotation> createEntityResult(
+			List<EntityResult> cEntityResults) {
+		return transform(cEntityResults,
+				new Transformer<EntityResult, XAnnotation>() {
+					public XAnnotation transform(EntityResult cEntityResult) {
+						return createEntityResult(cEntityResult);
+					}
+				});
+	}
+
+	public XAnnotation createEntityResult(EntityResult cEntityResult) {
+		return new XAnnotation(javax.persistence.EntityResult.class,
+		//
+				new XAnnotationField.XClass("entityClass", cEntityResult
+						.getEntityClass()),
+
+				//
+				AnnotationUtils.create("fields",
+						createFieldResult(cEntityResult.getFieldResult())),
+				//
+				AnnotationUtils.create("discriminatorColumn", cEntityResult
+						.getDiscriminatorColumn()));
+	}
+
+	public Collection<XAnnotation> createFieldResult(
+			List<FieldResult> fieldResult) {
+		return transform(fieldResult,
+				new Transformer<FieldResult, XAnnotation>() {
+					public XAnnotation transform(FieldResult cFieldResult) {
+						return createFieldResult(cFieldResult);
+					}
+				});
+	}
+
+	public XAnnotation createFieldResult(FieldResult cFieldResult) {
+		return new XAnnotation(javax.persistence.FieldResult.class,
+		//
+				AnnotationUtils.create("name", cFieldResult.getName()),
+				//
+				AnnotationUtils.create("column", cFieldResult.getColumn()));
+	}
+
+	public Collection<XAnnotation> createColumnResult(
+			Collection<ColumnResult> cColumnResults) {
+		return transform(cColumnResults,
+				new Transformer<ColumnResult, XAnnotation>() {
+					public XAnnotation transform(ColumnResult cColumnResult) {
+						return createColumnResult(cColumnResult);
+					}
+				});
+	}
+
+	public XAnnotation createColumnResult(ColumnResult columnResult) {
+		return new XAnnotation(javax.persistence.ColumnResult.class,
+				AnnotationUtils.create("name", columnResult.getName()));
+	}
+
+	public interface Transformer<I, O> {
+		public O transform(I input);
+	}
+
+	public static <T> XAnnotation transform(
+			Class<? extends Annotation> collectionClass,
+			Collection<T> collection, Transformer<T, XAnnotation> transformer) {
+		if (collection == null || collection.isEmpty()) {
+			return null;
+		} else if (collection.size() == 1) {
+			return transformer.transform(collection.iterator().next());
+		} else {
+
+			return new XAnnotation(collectionClass, AnnotationUtils.create(
+					"value", transform(collection, transformer)));
+		}
+	}
+
+	public static <T> Collection<XAnnotation> transform(
+			Collection<T> collection, Transformer<T, XAnnotation> transformer) {
+		if (collection == null || collection.isEmpty()) {
+			return null;
+		} else {
+			final Collection<XAnnotation> annotations = new ArrayList<XAnnotation>(
+					collection.size());
+			for (T item : collection) {
+				annotations.add(transformer.transform(item));
+			}
+			return annotations;
+		}
 	}
 }
