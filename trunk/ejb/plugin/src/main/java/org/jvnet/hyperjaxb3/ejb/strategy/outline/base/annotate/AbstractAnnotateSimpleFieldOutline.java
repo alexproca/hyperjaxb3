@@ -16,11 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
-import org.jvnet.annox.model.XClass;
 import org.jvnet.annox.model.XAnnotationField.XEnum;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
