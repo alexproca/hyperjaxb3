@@ -31,6 +31,8 @@
 	<classpathentry path="ejb/tests/episodes/b/target/generated-sources/xjc" output="ejb/tests/episodes/b/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/episodes/b/src/test/resources" output="ejb/tests/episodes/b/target/test-classes" kind="src"/-->
 
+	<classpathentry path="ejb/tests/cda/src/test/java" output="ejb/tests/cda/target/test-classes" kind="src"/>
+
 
 	<!--classpathentry path="ejb/tests/dl/target/generated-sources/xjc" output="ejb/tests/dl/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/dl/src/test/resources" output="ejb/tests/dl/target/test-classes" kind="src"/-->
