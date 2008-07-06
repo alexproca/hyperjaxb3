@@ -6,8 +6,10 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 
+import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 /**
@@ -40,5 +42,12 @@ public interface ModelCustomizations {
 	
 	public ManyToOne getManyToOne(CPropertyInfo property);
 	public ManyToOne getManyToOne(FieldOutline property);
+
 	
+	
+	
+	
+	// New generation
+	
+	public Entity getEntity(ClassOutline classOutline);
 }

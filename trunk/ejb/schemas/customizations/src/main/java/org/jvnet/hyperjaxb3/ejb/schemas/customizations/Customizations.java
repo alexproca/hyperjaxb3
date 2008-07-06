@@ -32,12 +32,14 @@ public class Customizations {
 
 	public static final String NAMESPACE_URI = "http://hyperjaxb3.jvnet.org/ejb/schemas/customizations";
 
+	public static final String ORM_NAMESPACE_URI = "http://java.sun.com/xml/ns/persistence/orm";
+
 	public static final Set<String> NAMESPACES;
 	static {
 		final Set<String> namespaces = new HashSet<String>(3);
 		namespaces.add(NAMESPACE_URI);
 		namespaces.add("http://java.sun.com/xml/ns/persistence");
-		namespaces.add("http://java.sun.com/xml/ns/persistence/orm");
+		namespaces.add(ORM_NAMESPACE_URI);
 		NAMESPACES = Collections.unmodifiableSet(namespaces);
 	}
 
@@ -68,6 +70,10 @@ public class Customizations {
 	public static QName hj(String localPart) {
 		return new QName(NAMESPACE_URI, localPart);
 	}
+	
+	public static QName orm(String localPart) {
+		return new QName(ORM_NAMESPACE_URI, localPart);
+	}
 
 	public static final QName PERSISTENCE_ELEMENT_NAME = hj("persistence");
 
@@ -91,6 +97,12 @@ public class Customizations {
 
 	public static QName GENERATED_ELEMENT_NAME = new QName(
 			"http://jaxb2-commons.dev.java.net/basic", "generated");
+	
+	
+	
+	// 
+	public static final QName ENTITY_ELEMENT_NAME = hj("entity");
+
 
 	public static void markAsAcknowledged(
 			final CPluginCustomization customization) {

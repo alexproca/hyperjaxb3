@@ -7,6 +7,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
+import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class DefaultModelCustomizations implements ModelCustomizations {
@@ -229,5 +231,35 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 
 	public ManyToOne getManyToOne(FieldOutline property) {
 		return getManyToOne(property.getPropertyInfo());
+	}
+	
+	public Entity getEntity(ClassOutline classOutline) {
+		return getEntity(classOutline.target);
+	}
+
+	public Entity getEntity(CClassInfo classInfo) {
+		
+		final Persistence persistence = getModelCustomization(classInfo);
+		final Entity defaultEntity = persistence.getDefaultEntity();
+		if (defaultEntity == null) {
+			// TODO
+			throw new AssertionError(
+					"Default entity element is not provided.");
+		}
+
+		final Entity cEntity;
+
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.ENTITY_ELEMENT_NAME)) {
+			cEntity = Customizations
+					.<Entity> findCustomization(
+							classInfo, Customizations.ENTITY_ELEMENT_NAME);
+			if (cEntity.isMerge()) {
+				cEntity.mergeFrom(cEntity, defaultEntity);
+			}
+		} else {
+			return defaultEntity;
+		}
+		return cEntity;
 	}
 }
