@@ -1,6 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
 
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.naming.Naming;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
@@ -24,8 +25,11 @@ public interface Mapping {
 
 //	public FieldOutlineMapping<EmbeddedId> getEmbeddedIdMapping();
 //	public FieldOutlineMapping<Embedded> getEmbeddedMapping();
+	
+	public FieldOutlineMapping<?> getToOneMapping();
 
 	public FieldOutlineMapping<ManyToOne> getManyToOneMapping();
+	public FieldOutlineMapping<?> getToManyMapping();
 	public FieldOutlineMapping<OneToMany> getOneToManyMapping();
 	
 //	public FieldOutlineMapping<OneToOne> getOneToOneMapping();
@@ -36,4 +40,7 @@ public interface Mapping {
 	public ModelCustomizations getCustomizations();
 	
 	public Naming getNaming();
+	
+	public Ignoring getIgnoring();
+	
 }

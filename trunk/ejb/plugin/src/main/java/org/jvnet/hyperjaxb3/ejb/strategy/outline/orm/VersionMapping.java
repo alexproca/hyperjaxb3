@@ -5,7 +5,7 @@ import com.sun.java.xml.ns.persistence.orm.Version;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class VersionMapping extends AttributeMapping implements
+public class VersionMapping extends PropertyMapping implements
 		FieldOutlineMapping<Version> {
 
 	public Version process(Mapping context, FieldOutline fieldOutline,

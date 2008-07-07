@@ -1,34 +1,45 @@
-<persistence
-	xmlns="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
-	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
-		<default-entity class="##default">
-		</default-entity>
-			
-		<default-id
-			name="Hjid"
-			javaType="java.lang.Long"
-			schemaType="xsd:long">
-			<column/>
-			<generated-value strategy="AUTO"/>
-		</default-id>
-		<default-version>
-			<column/>
-		</default-version>
-		<default-basic>
-			<column/>
-		</default-basic>	
-		<default-one-to-many>
-			<join-column/>
-			<cascade>
-				<orm:cascade-all/>
-			</cascade>
-		</default-one-to-many>
-		<default-many-to-one>
-			<join-column/>
-			<cascade>
-				<orm:cascade-all/>
-			</cascade>
-		</default-many-to-one>
+<persistence xmlns="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
+	<default-entity class="##default">
+	</default-entity>
+	<default-id name="Hjid" javaType="java.lang.Long" schemaType="xsd:long">
+		<column/>
+		<generated-value strategy="AUTO"/>
+	</default-id>
+	<default-version>
+		<column/>
+	</default-version>
+	<default-basic>
+		<column/>
+	</default-basic>
+	<default-to-one>
+		<many-to-one/>
+	</default-to-one>
+	<default-to-many>
+		<one-to-many/>
+	</default-to-many>
+	<default-many-to-one>
+		<join-column/>
+		<cascade>
+			<orm:cascade-all/>
+		</cascade>
+	</default-many-to-one>
+	<default-one-to-many>
+		<join-column/>
+		<cascade>
+			<orm:cascade-all/>
+		</cascade>
+	</default-one-to-many>
+	<default-one-to-one>
+		<join-column/>
+		<cascade>
+			<orm:cascade-all/>
+		</cascade>
+	</default-one-to-one>
+	<default-many-to-many>
+		<join-table/>
+		<cascade>
+			<orm:cascade-all/>
+		</cascade>
+	</default-many-to-many>
 </persistence>

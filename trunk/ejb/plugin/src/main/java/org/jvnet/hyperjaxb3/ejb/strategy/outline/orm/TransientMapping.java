@@ -6,7 +6,6 @@ import com.sun.tools.xjc.outline.FieldOutline;
 
 public class TransientMapping implements FieldOutlineMapping<Transient> {
 
-	@Override
 	public Transient process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
 

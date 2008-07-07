@@ -91,7 +91,11 @@ public class Customizations {
 
 	public static final QName ONE_TO_MANY_ELEMENT_NAME = hj("one-to-many");
 
+	public static final QName ONE_TO_ONE_ELEMENT_NAME = hj("one-to-one");
+
 	public static final QName MANY_TO_ONE_ELEMENT_NAME = hj("many-to-one");
+
+	public static final QName MANY_TO_MANY_ELEMENT_NAME = hj("many-to-many");
 
 	public static final QName BASIC_ELEMENT_NAME = hj("basic");
 

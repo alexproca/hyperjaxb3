@@ -6,7 +6,7 @@ import com.sun.java.xml.ns.persistence.orm.Id;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class IdMapping extends AttributeMapping implements
+public class IdMapping extends PropertyMapping implements
 		FieldOutlineMapping<Id> {
 
 	public Id process(Mapping context, FieldOutline fieldOutline,

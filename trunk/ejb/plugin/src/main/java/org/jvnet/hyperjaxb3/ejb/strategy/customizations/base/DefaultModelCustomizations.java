@@ -3,8 +3,10 @@ package org.jvnet.hyperjaxb3.ejb.strategy.customizations.base;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
@@ -233,6 +235,82 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 		return getManyToOne(property.getPropertyInfo());
 	}
 	
+	public OneToOne getOneToOne(CPropertyInfo property) {
+
+		final Persistence persistence = getModelCustomization(property);
+		final OneToOne defaultOneToOne = persistence.getDefaultOneToOne();
+		if (defaultOneToOne == null) {
+			// TODO
+			throw new AssertionError(
+					"Default one-to-one element is not provided.");
+		}
+
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne cOneToOne;
+
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
+			cOneToOne = Customizations
+					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne> findCustomization(
+							property, Customizations.ONE_TO_ONE_ELEMENT_NAME);
+			if (cOneToOne.isMerge()) {
+				cOneToOne.mergeFrom(cOneToOne, defaultOneToOne);
+				if (cOneToOne.getJoinTable() != null) {
+					cOneToOne.getJoinColumn().clear();
+				}
+			}
+		} else {
+			return defaultOneToOne;
+		}
+		return cOneToOne;
+	}
+
+	public OneToOne getOneToOne(FieldOutline property) {
+		return getOneToOne(property.getPropertyInfo());
+	}
+	
+	public ManyToMany getManyToMany(CPropertyInfo property) {
+
+		final Persistence persistence = getModelCustomization(property);
+		final ManyToMany defaultManyToMany = persistence.getDefaultManyToMany();
+		if (defaultManyToMany == null) {
+			// TODO
+			throw new AssertionError(
+					"Default many-to-many element is not provided.");
+		}
+
+		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany cManyToMany;
+
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.MANY_TO_MANY_ELEMENT_NAME)) {
+			cManyToMany = Customizations
+					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany> findCustomization(
+							property, Customizations.MANY_TO_MANY_ELEMENT_NAME);
+			if (cManyToMany.isMerge()) {
+				cManyToMany.mergeFrom(cManyToMany, defaultManyToMany);
+			}
+		} else {
+			return defaultManyToMany;
+		}
+		return cManyToMany;
+	}
+
+	public ManyToMany getManyToMany(FieldOutline property) {
+		return getManyToMany(property.getPropertyInfo());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public Entity getEntity(ClassOutline classOutline) {
 		return getEntity(classOutline.target);
 	}
@@ -261,5 +339,13 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 			return defaultEntity;
 		}
 		return cEntity;
+	}
+
+	public Object getToMany(FieldOutline property) {
+		return getToMany(property.getPropertyInfo());
+	}
+
+	public Object getToOne(FieldOutline property) {
+		return getToOne(property.getPropertyInfo());
 	}
 }

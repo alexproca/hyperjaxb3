@@ -18,7 +18,7 @@ import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.xml.xsom.XSComponent;
 
-public class AttributeMapping {
+public class PropertyMapping {
 
 	public Column createColumn(Mapping context, FieldOutline fieldOutline,
 			Column column) {

@@ -18,8 +18,12 @@
 			<xsd:element name="default-id" type="hj:id"/>
 			<xsd:element name="default-version" type="hj:version"/>
 			<xsd:element name="default-basic" type="hj:basic"/>
-			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
+			<xsd:element name="default-to-one" type="hj:to-one"/>
+			<xsd:element name="default-to-many" type="hj:to-many"/>
 			<xsd:element name="default-many-to-one" type="hj:many-to-one"/>
+			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
+			<xsd:element name="default-one-to-one" type="hj:one-to-one"/>
+			<xsd:element name="default-many-to-many" type="hj:many-to-many"/>
 		</xsd:sequence>
 		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
@@ -99,6 +103,27 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="one-to-one" type="hj:one-to-one"/>
+	<!-- ... -->
+	<xsd:complexType name="one-to-one">
+		<xsd:complexContent>
+			<xsd:extension base="orm:one-to-one">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="many-to-many" type="hj:many-to-many"/>
+	<!-- ... -->
+	<xsd:complexType name="many-to-many">
+		<xsd:complexContent>
+			<xsd:extension base="orm:many-to-many">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 	<!--- ... -->
 	<xsd:element name="basic" type="hj:basic"/>
 	<!--- ... -->
@@ -109,4 +134,20 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+
+	<xsd:complexType name="to-one">
+		<xsd:choice>
+			<xsd:element name="many-to-one" type="hj:many-to-one"/>
+			<xsd:element name="one-to-one" type="hj:one-to-one"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="to-many">
+		<xsd:choice>
+			<xsd:element name="one-to-many" type="hj:one-to-many"/>
+			<xsd:element name="many-to-many" type="hj:many-to-many"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+
 </xsd:schema>

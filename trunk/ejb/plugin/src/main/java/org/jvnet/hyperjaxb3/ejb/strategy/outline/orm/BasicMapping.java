@@ -26,7 +26,7 @@ import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.xml.xsom.XSComponent;
 
-public class BasicMapping extends AttributeMapping implements
+public class BasicMapping extends PropertyMapping implements
 		FieldOutlineMapping<Basic> {
 
 	public Basic process(Mapping context, FieldOutline fieldOutline,
