@@ -841,7 +841,8 @@
       <xsd:element name="attribute-override" type="orm:attribute-override" 
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
   </xsd:complexType>
 
   <!-- **************************************************** -->
@@ -855,7 +856,8 @@
 
       </xsd:documentation>
     </xsd:annotation>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
   </xsd:complexType>
 
   <!-- **************************************************** -->
@@ -1093,7 +1095,8 @@
       <xsd:element name="cascade" type="orm:cascade-type" 
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
@@ -1194,7 +1197,8 @@
       <xsd:element name="cascade" type="orm:cascade-type" 
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
@@ -1413,7 +1417,8 @@
       <xsd:element name="attribute-override" type="orm:attribute-override" 
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
   </xsd:complexType>
 
   <!-- **************************************************** -->
