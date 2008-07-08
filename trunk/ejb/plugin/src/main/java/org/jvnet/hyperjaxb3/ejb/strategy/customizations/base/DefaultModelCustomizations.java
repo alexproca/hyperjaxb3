@@ -8,6 +8,8 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToMany;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
@@ -234,7 +236,7 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public ManyToOne getManyToOne(FieldOutline property) {
 		return getManyToOne(property.getPropertyInfo());
 	}
-	
+
 	public OneToOne getOneToOne(CPropertyInfo property) {
 
 		final Persistence persistence = getModelCustomization(property);
@@ -267,7 +269,7 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public OneToOne getOneToOne(FieldOutline property) {
 		return getOneToOne(property.getPropertyInfo());
 	}
-	
+
 	public ManyToMany getManyToMany(CPropertyInfo property) {
 
 		final Persistence persistence = getModelCustomization(property);
@@ -297,41 +299,26 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public ManyToMany getManyToMany(FieldOutline property) {
 		return getManyToMany(property.getPropertyInfo());
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public Entity getEntity(ClassOutline classOutline) {
 		return getEntity(classOutline.target);
 	}
 
 	public Entity getEntity(CClassInfo classInfo) {
-		
+
 		final Persistence persistence = getModelCustomization(classInfo);
 		final Entity defaultEntity = persistence.getDefaultEntity();
 		if (defaultEntity == null) {
 			// TODO
-			throw new AssertionError(
-					"Default entity element is not provided.");
+			throw new AssertionError("Default entity element is not provided.");
 		}
 
 		final Entity cEntity;
 
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.ENTITY_ELEMENT_NAME)) {
-			cEntity = Customizations
-					.<Entity> findCustomization(
-							classInfo, Customizations.ENTITY_ELEMENT_NAME);
+			cEntity = Customizations.<Entity> findCustomization(classInfo,
+					Customizations.ENTITY_ELEMENT_NAME);
 			if (cEntity.isMerge()) {
 				cEntity.mergeFrom(cEntity, defaultEntity);
 			}
@@ -348,4 +335,124 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public Object getToOne(FieldOutline property) {
 		return getToOne(property.getPropertyInfo());
 	}
+
+	public Object getToOne(CPropertyInfo property) {
+
+		final Persistence persistence = getModelCustomization(property);
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.MANY_TO_ONE_ELEMENT_NAME)) {
+			return getManyToOne(property);
+		} else if (CustomizationUtils.containsCustomization(property,
+				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
+			return getOneToOne(property);
+		} else {
+			final ToOne defaultToOne = persistence.getDefaultToOne();
+			if (defaultToOne.getOneToOne() != null) {
+				final OneToOne defaultToOne$OneToOne = defaultToOne
+						.getOneToOne();
+
+				final OneToOne defaultOneToOne = persistence
+						.getDefaultOneToOne();
+
+				if (defaultOneToOne == null) {
+					throw new AssertionError(
+							"Default One-to-one element is not provided.");
+				}
+
+				if (defaultToOne$OneToOne.isMerge()) {
+					defaultToOne$OneToOne.mergeFrom(defaultToOne$OneToOne,
+							defaultOneToOne);
+					if (defaultToOne$OneToOne.getJoinTable() != null) {
+						defaultToOne$OneToOne.getJoinColumn().clear();
+					}
+				}
+
+				return defaultToOne$OneToOne;
+			} else if (defaultToOne.getManyToOne() != null) {
+				final ManyToOne defaultToOne$ManyToOne = defaultToOne
+						.getManyToOne();
+
+				final ManyToOne defaultManyToOne = persistence
+						.getDefaultManyToOne();
+
+				if (defaultManyToOne == null) {
+					throw new AssertionError(
+							"Default many-to-one element is not provided.");
+				}
+
+				if (defaultToOne$ManyToOne.isMerge()) {
+					defaultToOne$ManyToOne.mergeFrom(defaultToOne$ManyToOne,
+							defaultManyToOne);
+					if (defaultToOne$ManyToOne.getJoinTable() != null) {
+						defaultToOne$ManyToOne.getJoinColumn().clear();
+					}
+				}
+
+				return defaultToOne$ManyToOne;
+			} else {
+				throw new AssertionError(
+						"Either one-to-one or many-to-one elements must be provided in the default-to-one element.");
+			}
+
+		}
+	}
+
+	public Object getToMany(CPropertyInfo property) {
+
+		final Persistence persistence = getModelCustomization(property);
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.MANY_TO_MANY_ELEMENT_NAME)) {
+			return getManyToMany(property);
+		} else if (CustomizationUtils.containsCustomization(property,
+				Customizations.ONE_TO_MANY_ELEMENT_NAME)) {
+			return getOneToMany(property);
+		} else {
+			final ToMany defaultToMany = persistence.getDefaultToMany();
+			if (defaultToMany.getOneToMany() != null) {
+				final OneToMany defaultToMany$OneToMany = defaultToMany
+						.getOneToMany();
+
+				final OneToMany defaultOneToMany = persistence
+						.getDefaultOneToMany();
+
+				if (defaultOneToMany == null) {
+					throw new AssertionError(
+							"Default one-to-many element is not provided.");
+				}
+
+				if (defaultToMany$OneToMany.isMerge()) {
+					defaultToMany$OneToMany.mergeFrom(defaultToMany$OneToMany,
+							defaultOneToMany);
+					if (defaultToMany$OneToMany.getJoinTable() != null) {
+						defaultToMany$OneToMany.getJoinColumn().clear();
+					}
+				}
+
+				return defaultToMany$OneToMany;
+			} else if (defaultToMany.getManyToMany() != null) {
+				final ManyToMany defaultToMany$ManyToMany = defaultToMany
+						.getManyToMany();
+
+				final ManyToMany defaultManyToMany = persistence
+						.getDefaultManyToMany();
+
+				if (defaultManyToMany == null) {
+					throw new AssertionError(
+							"Default many-to-many element is not provided.");
+				}
+
+				if (defaultToMany$ManyToMany.isMerge()) {
+					defaultToMany$ManyToMany.mergeFrom(
+							defaultToMany$ManyToMany, defaultManyToMany);
+				}
+
+				return defaultToMany$ManyToMany;
+			} else {
+				throw new AssertionError(
+						"Either one-to-many or many-to-many elements must be provided in the default-to-many element.");
+			}
+
+		}
+	}
+
 }
