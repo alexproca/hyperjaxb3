@@ -13,7 +13,7 @@ import com.sun.java.xml.ns.persistence.orm.Table;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 
-public class EntityMapping implements ClassOutlineMapping<Object> {
+public class EntityMapping implements ClassOutlineMapping<Entity> {
 
 	private static Log logger = LogFactory.getLog(EntityMapping.class);
 
