@@ -8,8 +8,10 @@ import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.Id;
+import com.sun.java.xml.ns.persistence.orm.ManyToMany;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
+import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.java.xml.ns.persistence.orm.Transient;
 import com.sun.java.xml.ns.persistence.orm.Version;
 
@@ -27,13 +29,12 @@ public interface Mapping {
 //	public FieldOutlineMapping<Embedded> getEmbeddedMapping();
 	
 	public FieldOutlineMapping<?> getToOneMapping();
-
 	public FieldOutlineMapping<ManyToOne> getManyToOneMapping();
+	public FieldOutlineMapping<OneToOne> getOneToOneMapping();
+	
 	public FieldOutlineMapping<?> getToManyMapping();
 	public FieldOutlineMapping<OneToMany> getOneToManyMapping();
-	
-//	public FieldOutlineMapping<OneToOne> getOneToOneMapping();
-//	public FieldOutlineMapping<ManyToMany> getManyToManyMapping();
+	public FieldOutlineMapping<ManyToMany> getManyToManyMapping();
 	
 	public FieldOutlineMapping<Transient> getTransientMapping();
 	
