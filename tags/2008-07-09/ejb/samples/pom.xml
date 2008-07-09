@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jvnet.hyperjaxb3</groupId>
+	<artifactId>hyperjaxb3-ejb-samples</artifactId>
+	<packaging>pom</packaging>
+	<name>Hyperjaxb3 EJB Samples</name>
+	<version>0.4-SNAPSHOT</version>
+	<parent>
+		<groupId>org.jvnet.hyperjaxb3</groupId>
+		<artifactId>hyperjaxb3-samples</artifactId>
+		<version>0.4-SNAPSHOT</version>
+		<relativePath>../../samples/pom.xml</relativePath>
+	</parent>
+	<modules>
+		<module>po-initial</module>
+		<!--module>po-maven-jaxb2-plugin</module-->
+	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.jvnet.hyperjaxb3</groupId>
+			<artifactId>hyperjaxb3-ejb-plugin</artifactId>
+			<version>0.4-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2_commons-ant</artifactId>
+			<version>0.3-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<defaultGoal>install</defaultGoal>
+	</build>
+</project>
