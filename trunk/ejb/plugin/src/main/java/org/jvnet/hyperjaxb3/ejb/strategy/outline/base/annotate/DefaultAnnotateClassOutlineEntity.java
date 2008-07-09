@@ -38,7 +38,7 @@ public class DefaultAnnotateClassOutlineEntity implements AnnotateClassOutline {
 		outlineProcessor.getAnnotate().getAnnotateClassOutlineTable().process(
 				outlineProcessor, classOutline, options));
 
-		if (classOutline.getSuperClass() == null) {
+		if (classOutline.target.getBaseClass() != null || classOutline.target.getRefBaseClass() != null) {
 			final XAnnotation inheritance = createInheritance(outlineProcessor,
 					classOutline, options);
 			xannotations.add(inheritance);
