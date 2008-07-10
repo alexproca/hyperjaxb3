@@ -218,7 +218,7 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>annotate</artifactId>
-				<version>0.4-SNAPSHOT</version>
+				<version>0.4.0</version>
 			</dependency>
 			<!-- Hyperjaxb -->
 			<dependency>
@@ -295,12 +295,12 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.6-SNAPSHOT</version>
+				<version>0.6.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-testing</artifactId>
-				<version>0.6-SNAPSHOT</version>
+				<version>0.6.0</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
