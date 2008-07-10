@@ -54,7 +54,7 @@
 		                                               <plugin>
                                 		                       <groupId>org.jvnet.jaxb2_commons</groupId>
                 		                                       <artifactId>basic</artifactId>
-		                                                       <version>0.3-SNAPSHOT</version>
+		                                                       <version>0.3.0</version>
 								</plugin>
 							</plugins>
 							<episodes>
