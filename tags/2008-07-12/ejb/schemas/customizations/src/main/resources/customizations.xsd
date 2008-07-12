@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" 
+	targetNamespace="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" 
+	xmlns:persistence="http://java.sun.com/xml/ns/persistence">
+
+	<xsd:import namespace="http://java.sun.com/xml/ns/persistence/orm" 
+		schemaLocation="orm/orm_1_0.xsd"/>
+	<xsd:import namespace="http://java.sun.com/xml/ns/persistence" 
+		schemaLocation="persistence_1_0.xsd"/>
+
+	<xsd:element name="persistence"	type="hj:persistence"/>
+	<xsd:complexType name="persistence">
+		<xsd:sequence>
+			<xsd:element name="default-entity" type="hj:entity"/>
+			<xsd:element name="default-id" type="hj:id"/>
+			<xsd:element name="default-version" type="hj:version"/>
+			<xsd:element name="default-basic" type="hj:basic"/>
+			<xsd:element name="default-to-one" type="hj:to-one"/>
+			<xsd:element name="default-to-many" type="hj:to-many"/>
+			<xsd:element name="default-many-to-one" type="hj:many-to-one"/>
+			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
+			<xsd:element name="default-one-to-one" type="hj:one-to-one"/>
+			<xsd:element name="default-many-to-many" type="hj:many-to-many"/>
+		</xsd:sequence>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+	</xsd:complexType>
+
+
+	<!-- ... -->
+	<xsd:element name="ignored" type="hj:ignored"/>
+	<xsd:complexType name="ignored"/>
+
+	<!-- Entity -->
+	<xsd:element name="entity" type="hj:entity"/>
+
+	<xsd:complexType name="entity">
+		<xsd:complexContent>
+			<xsd:extension base="orm:entity">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+
+
+	<!-- ... -->
+	<xsd:element name="id" type="hj:id"/>
+	<xsd:complexType name="id">
+		<xsd:complexContent>
+			<xsd:extension base="orm:id">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			    <xsd:attribute name="attributeName" type="xsd:QName"/>
+			    <xsd:attribute name="javaType" type="xsd:string"/>
+			    <xsd:attribute name="schemaType" type="xsd:QName"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- ... -->
+	<xsd:element name="version" type="hj:version"/>
+	<xsd:complexType name="version">
+		<xsd:complexContent>
+			<xsd:extension base="orm:version">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="table" type="orm:table"/>
+	<!-- ... -->
+	<xsd:element name="column" type="orm:column"/>
+	<!-- ... -->
+	<xsd:element name="embeddable" type="hj:embeddable"/>
+	<xsd:complexType name="embeddable">
+		<xsd:complexContent>
+			<xsd:extension base="orm:embeddable">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- ... -->
+	<xsd:element name="one-to-many" type="hj:one-to-many"/>
+	<!-- ... -->
+	<xsd:complexType name="one-to-many">
+		<xsd:complexContent>
+			<xsd:extension base="orm:one-to-many">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="many-to-one" type="hj:many-to-one"/>
+	<!-- ... -->
+	<xsd:complexType name="many-to-one">
+		<xsd:complexContent>
+			<xsd:extension base="orm:many-to-one">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="one-to-one" type="hj:one-to-one"/>
+	<!-- ... -->
+	<xsd:complexType name="one-to-one">
+		<xsd:complexContent>
+			<xsd:extension base="orm:one-to-one">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="many-to-many" type="hj:many-to-many"/>
+	<!-- ... -->
+	<xsd:complexType name="many-to-many">
+		<xsd:complexContent>
+			<xsd:extension base="orm:many-to-many">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!--- ... -->
+	<xsd:element name="basic" type="hj:basic"/>
+	<!--- ... -->
+	<xsd:complexType name="basic">
+		<xsd:complexContent>
+			<xsd:extension base="orm:basic">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="to-one">
+		<xsd:choice>
+			<xsd:element name="many-to-one" type="hj:many-to-one"/>
+			<xsd:element name="one-to-one" type="hj:one-to-one"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="to-many">
+		<xsd:choice>
+			<xsd:element name="one-to-many" type="hj:one-to-many"/>
+			<xsd:element name="many-to-many" type="hj:many-to-many"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+
+</xsd:schema>
