@@ -153,7 +153,7 @@
 	
 	
 	
-	<bean name="processOutline" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.DefaultProcessOutline">
+	<!--bean name="processOutline" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.DefaultProcessOutline">
 		<property name="processClassOutline" ref="processClassOutline"/>
 		<property name="processFieldOutlines" ref="processFieldOutlines"/>
 		<property name="processFieldOutline" ref="processFieldOutline"/>
@@ -173,12 +173,12 @@
 	
 	<bean name="processFieldOutline"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.DefaultProcessFieldOutline">
-	</bean>
+	</bean-->
 	
 
 
 	<!-- Annotate -->	
-	<bean name="annotate" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotate">
+	<!--bean name="annotate" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotate">
 		<property name="annotateClassOutlineEntity" ref="annotateClassOutlineEntity"/>
 		<property name="annotateClassOutlineTable" ref="annotateClassOutlineTable"/>
 		<property name="annotateFieldOutlineColumn" ref="annotateFieldOutlineColumn"/>
@@ -234,7 +234,7 @@
 	
 	<bean name="annotateFieldOutlineOneToMany"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotateFieldOutlineOneToMany">
-	</bean>
+	</bean-->
 	
 	<bean name="reservedNames" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">

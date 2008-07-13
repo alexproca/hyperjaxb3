@@ -11,7 +11,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 

@@ -1,32 +1,21 @@
 package org.jvnet.hyperjaxb3.ejb.plugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
-import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import org.jvnet.hyperjaxb3.ejb.test.RoundtripTest;
-import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.UntypedListFieldRenderer;
 import org.jvnet.jaxb2_commons.plugin.spring.AbstractSpringConfigurablePlugin;
 import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.w3c.dom.Element;
@@ -35,25 +24,14 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JClass;
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JMod;
-import com.sun.codemodel.JPackage;
-import com.sun.codemodel.fmt.JTextFile;
-import com.sun.java.xml.ns.persistence.Persistence;
-import com.sun.java.xml.ns.persistence.Persistence.PersistenceUnit;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.generator.bean.BeanGenerator;
-import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.FieldRendererFactory;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
-import com.sun.tools.xjc.outline.ClassOutline;
-import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 /**

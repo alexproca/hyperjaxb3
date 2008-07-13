@@ -18,7 +18,6 @@ import javax.persistence.SqlResultSetMappings;
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.AbstractAnnotateSimpleFieldOutline.Transformer;
 
 import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
 import com.sun.java.xml.ns.persistence.orm.AttributeOverride;
