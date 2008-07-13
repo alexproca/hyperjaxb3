@@ -434,12 +434,14 @@
 	<xsd:complexType name="issue126Type">
 		<xsd:annotation>
 			<xsd:appinfo>
-				<hj:table name="ISSUE_126_TABLE">
-					<orm:unique-constraint>
-						<orm:column-name>VALUE_</orm:column-name>
-						<orm:column-name>TEXT</orm:column-name>
-					</orm:unique-constraint>
-				</hj:table>
+				<hj:entity>
+					<orm:table name="ISSUE_126_TABLE">
+						<orm:unique-constraint>
+							<orm:column-name>VALUE_</orm:column-name>
+							<orm:column-name>TEXT</orm:column-name>
+						</orm:unique-constraint>
+					</orm:table>
+				</hj:entity>
 			</xsd:appinfo>
 		</xsd:annotation>
 		<xsd:attribute name="value" use="optional" type="xsd:string"/>

@@ -4,7 +4,8 @@
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
-	jaxb:extensionBindingPrefixes="hj">
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+	jaxb:extensionBindingPrefixes="hj orm">
 
 	<!-- jaxb:bindings scd="x-schema::">
 		<jaxb:bindings scd="~PurchaseOrderType" -->
@@ -15,25 +16,31 @@
 			<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.pocustomized"/>
 		</jaxb:schemaBindings>
 		<jaxb:bindings node="xs:complexType[@name='PurchaseOrderType']">
-			<hj:table name="po"/>
+			<hj:entity>
+				<orm:table name="po"/>
+			</hj:entity>
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='USAddress']">
-			<hj:table name="address"/>
+			<hj:entity>
+				<orm:table name="address"/>
+			</hj:entity>
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:complexType">
-			<hj:table name="item"/>
+			<hj:entity>
+				<orm:table name="item"/>
+			</hj:entity>
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:attribute[@name='partNum']">
 			<hj:id merge="false"/>
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:element[@name='USPrice']">
 			<hj:basic>
-				<hj:column name="Price"/>
+				<orm:column name="Price"/>
 			</hj:basic>
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:complexType//xs:element[@name='productName']">
 			<hj:basic>
-				<hj:column length="1024"/>
+				<orm:column length="1024"/>
 			</hj:basic>
 		</jaxb:bindings>
 	</jaxb:bindings>
