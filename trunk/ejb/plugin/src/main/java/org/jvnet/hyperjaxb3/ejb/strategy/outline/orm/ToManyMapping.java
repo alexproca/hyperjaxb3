@@ -8,7 +8,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
 public class ToManyMapping implements FieldOutlineMapping<Object> {
 
 	public Object process(Mapping context, FieldOutline fieldOutline,
-			Options options) {
+			Options options) throws Exception {
 
 		final Object ToMany = context.getCustomizations().getToMany(
 				fieldOutline);

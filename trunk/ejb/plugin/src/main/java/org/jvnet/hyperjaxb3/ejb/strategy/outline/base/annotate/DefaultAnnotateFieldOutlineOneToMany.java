@@ -21,7 +21,8 @@ import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultAnnotateFieldOutlineOneToMany extends AbstractAnnotateFieldOutlineXToX {
+public class DefaultAnnotateFieldOutlineOneToMany extends
+		AbstractAnnotateFieldOutlineXToX {
 
 	// TODO #73 Target entity
 
@@ -65,15 +66,15 @@ public class DefaultAnnotateFieldOutlineOneToMany extends AbstractAnnotateFieldO
 			FieldOutline fieldOutline, Options options,
 			org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany oneToMany) {
 
-		return new XAnnotation(
-				javax.persistence.OneToMany.class,
-				//
+		return new XAnnotation(javax.persistence.OneToMany.class,
+		//
 				createTargetEntity(outlineProcessor, fieldOutline, options),
 				//
 				createCascade(outlineProcessor, fieldOutline, options,
 						oneToMany.getCascade()),
 				//
-				createFetch(outlineProcessor, fieldOutline, options, oneToMany.getFetch()),
+				createFetch(outlineProcessor, fieldOutline, options, oneToMany
+						.getFetch()),
 				//
 				createMappedBy(outlineProcessor, fieldOutline, options,
 						oneToMany.getMappedBy()));
@@ -88,16 +89,13 @@ public class DefaultAnnotateFieldOutlineOneToMany extends AbstractAnnotateFieldO
 		final String joinTableName = (coneToMany.getJoinTable() != null && coneToMany
 				.getJoinTable().getName() != null) ? coneToMany.getJoinTable()
 				.getName() : outlineProcessor.getNaming()
-				.getOneToManyJoinTableName(outlineProcessor, fieldOutline,
-						options);
+				.getOneToManyJoinTableName(fieldOutline);
 
 		final String joinColumnName = outlineProcessor.getNaming()
-				.getOneToManyJoinTableJoinColumnName(outlineProcessor,
-						fieldOutline, options);
+				.getOneToManyJoinTableJoinColumnName(fieldOutline);
 
 		final String inverseJoinColumnName = outlineProcessor.getNaming()
-				.getOneToManyJoinTableInverseJoinColumnName(outlineProcessor,
-						fieldOutline, options);
+				.getOneToManyJoinTableInverseJoinColumnName(fieldOutline);
 
 		final XAnnotation joinColumn = new XAnnotation(JoinColumn.class,
 				new XAnnotationField.XString("name", joinColumnName));
@@ -143,8 +141,7 @@ public class DefaultAnnotateFieldOutlineOneToMany extends AbstractAnnotateFieldO
 			FieldOutline fieldOutline, Options options,
 			com.sun.java.xml.ns.persistence.orm.JoinColumn column) {
 		final String defaultColumnName = outlineProcessor.getNaming()
-				.getOneToManyJoinColumnName(outlineProcessor, fieldOutline,
-						options);
+				.getOneToManyJoinColumnName(fieldOutline);
 		final XAnnotation joinColumn = new XAnnotation(JoinColumn.class,
 				AnnotationUtils.create("name", column.getName(),
 						defaultColumnName),

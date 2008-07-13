@@ -155,23 +155,7 @@
 	</bean>
 	
 
-	<bean name="ignoring" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.ignoring.DefaultIgnoring">
-		<property name="isPackageOutlineIgnored" ref="isPackageOutlineIgnored"/>
-		<property name="isClassOutlineIgnored" ref="isClassOutlineIgnored"/>
-		<property name="isFieldOutlineIgnored" ref="isFieldOutlineIgnored"/>
-	</bean>
-
-	<bean name="isPackageOutlineIgnored"
-		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.ignoring.DefaultIsPackageOutlineIgnored">
-	</bean>
-		
-	<bean name="isClassOutlineIgnored"
-		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.ignoring.DefaultIsClassOutlineIgnored">
-	</bean>
-	<bean name="isFieldOutlineIgnored"
-		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.ignoring.DefaultIsFieldOutlineIgnored">
-	</bean>
-	
+	<bean name="ignoring" class="org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring"/>
 
 	<!-- Annotate -->	
 	<bean name="annotate" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotate">
@@ -232,7 +216,7 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotateFieldOutlineOneToMany">
 	</bean>
 	
-	<bean name="naming" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.naming.DefaultNaming">
+	<bean name="naming" class="org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.DefaultNaming">
 		<property name="reservedNames" ref="reservedNames"/>
 	</bean>
 
@@ -255,6 +239,18 @@
 		class="org.jvnet.hyperjaxb3.beans.factory.UnmarshalledResourceFactoryBean">
 		<property name="context" ref="customizationsContext"/>
 	</bean>
+
+	<bean name="annotationsProcessor"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.AnnotationsProcessor">
+		<property name="processModel" ref="processModel"/>
+		<property name="annotateOutline" ref="processOutline"/>
+	</bean>
 	
+	
+	<!-- Variants -->
+	<bean name="annotations"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.ClassPersistenceProcessor">
+		<property name="outlineProcessor" ref="annotationsProcessor"/>
+	</bean>
 	
 </beans>

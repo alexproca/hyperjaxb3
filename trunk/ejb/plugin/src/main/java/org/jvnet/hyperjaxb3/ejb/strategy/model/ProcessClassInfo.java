@@ -5,6 +5,6 @@ import java.util.Collection;
 import com.sun.tools.xjc.model.CClassInfo;
 
 public interface ProcessClassInfo extends
-		EjbClassInfoProcessor<Collection<CClassInfo>> {
+		ClassInfoProcessor<Collection<CClassInfo>, ProcessModel> {
 
 }

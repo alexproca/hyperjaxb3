@@ -23,7 +23,6 @@ public class ManyToOneMapping extends AssociationMapping implements
 		createManyToOne$Name(context, fieldOutline, manyToOne);
 		createManyToOne$TargetEntity(context, fieldOutline, manyToOne);
 		createManyToOne$JoinTableOrJoinColumn(context, fieldOutline, manyToOne);
-		// TODO Auto-generated method stub
 		return manyToOne;
 	}
 
@@ -80,7 +79,7 @@ public class ManyToOneMapping extends AssociationMapping implements
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming().getManyToOneJoinColumnName(
-					null, fieldOutline, null));
+					fieldOutline));
 		}
 	}
 
@@ -97,7 +96,7 @@ public class ManyToOneMapping extends AssociationMapping implements
 		if (joinTable.getName() == null
 				|| "##default".equals(joinTable.getName())) {
 			joinTable.setName(context.getNaming().getManyToOneJoinTableName(
-					null, fieldOutline, null));
+					fieldOutline));
 		}
 	}
 
@@ -154,8 +153,7 @@ public class ManyToOneMapping extends AssociationMapping implements
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming()
-					.getManyToOneJoinTableJoinColumnName(null, fieldOutline,
-							null));
+					.getManyToOneJoinTableJoinColumnName(fieldOutline));
 		}
 	}
 
@@ -164,8 +162,7 @@ public class ManyToOneMapping extends AssociationMapping implements
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming()
-					.getManyToOneJoinTableInverseJoinColumnName(null,
-							fieldOutline, null));
+					.getManyToOneJoinTableInverseJoinColumnName(fieldOutline));
 		}
 	}
 }

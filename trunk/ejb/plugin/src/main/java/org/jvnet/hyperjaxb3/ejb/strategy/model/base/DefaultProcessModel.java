@@ -1,11 +1,17 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
+import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
@@ -13,18 +19,46 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.GetTypes;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessClassInfo;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessPropertyInfos;
-import org.jvnet.hyperjaxb3.ejb.strategy.model.base.ignoring.DefaultIgnoring;
-import org.jvnet.hyperjaxb3.ejb.strategy.model.ignoring.Ignoring;
+import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JMod;
+import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.generator.bean.BeanGenerator;
+import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
+import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 public class DefaultProcessModel implements ProcessModel {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-	public Collection<CClassInfo> process(ProcessModel context, Model model) {
+	private final Method generateFieldDecl;
+	{
+		try {
+			generateFieldDecl = BeanGenerator.class.getDeclaredMethod(
+					"generateFieldDecl", new Class[] { ClassOutlineImpl.class,
+							CPropertyInfo.class });
+			generateFieldDecl.setAccessible(true);
+		} catch (Exception ex) {
+			throw new ExceptionInInitializerError(ex);
+
+		}
+	}
+
+	public Collection<CClassInfo> process(EjbPlugin context, Outline outline,
+			Options options) {
+
+		final Model model = outline.getModel();
+
+		CustomizationUtils.findCustomization(model,
+				Customizations.PERSISTENCE_ELEMENT_NAME);
 
 		logger.debug("Processing model [...].");
 
@@ -33,9 +67,9 @@ public class DefaultProcessModel implements ProcessModel {
 		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
 
 		for (final CClassInfo classInfo : classInfos) {
-			if (!context.getIgnoring().isClassInfoIgnored(context, classInfo)) {
+			if (!getIgnoring().isClassInfoIgnored(classInfo)) {
 				final Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
-						.process(context, classInfo);
+						.process(this, classInfo);
 				if (targetClassInfos != null) {
 					for (final CClassInfo targetClassInfo : targetClassInfos) {
 						includedClasses.add(targetClassInfo);
@@ -44,7 +78,116 @@ public class DefaultProcessModel implements ProcessModel {
 			}
 		}
 
+		for (final CClassInfo classInfo : includedClasses) {
+			final ClassOutline classOutline = outline.getClazz(classInfo);
+			if (Customizations.isGenerated(classInfo)) {
+				generateClassBody(outline, (ClassOutlineImpl) classOutline);
+			}
+
+			for (final CPropertyInfo propertyInfo : classInfo.getProperties()) {
+				if (outline.getField(propertyInfo) == null) {
+					generateFieldDecl(outline, (ClassOutlineImpl) classOutline,
+							propertyInfo);
+				}
+			}
+		}
+
 		return includedClasses;
+	}
+
+	private void generateClassBody(Outline outline, ClassOutlineImpl cc) {
+
+		final JCodeModel codeModel = outline.getCodeModel();
+		final Model model = outline.getModel();
+		CClassInfo target = cc.target;
+
+		// if serialization support is turned on, generate
+		// [RESULT]
+		// class ... implements Serializable {
+		// private static final long serialVersionUID = <id>;
+		// ....
+		// }
+		if (model.serializable) {
+			cc.implClass._implements(Serializable.class);
+			if (model.serialVersionUID != null) {
+				cc.implClass.field(JMod.PRIVATE | JMod.STATIC | JMod.FINAL,
+						codeModel.LONG, "serialVersionUID", JExpr
+								.lit(model.serialVersionUID));
+			}
+		}
+
+		// used to simplify the generated annotations
+		// String mostUsedNamespaceURI =
+		// cc._package().getMostUsedNamespaceURI();
+
+		// [RESULT]
+		// @XmlType(name="foo", targetNamespace="bar://baz")
+		// XmlTypeWriter xtw = cc.implClass.annotate2(XmlTypeWriter.class);
+		// writeTypeName(cc.target.getTypeName(), xtw, mostUsedNamespaceURI);
+
+		// if(model.options.target.isLaterThan(SpecVersion.V2_1)) {
+		// // @XmlSeeAlso
+		// Iterator<CClassInfo> subclasses = cc.target.listSubclasses();
+		// if(subclasses.hasNext()) {
+		// XmlSeeAlsoWriter saw =
+		// cc.implClass.annotate2(XmlSeeAlsoWriter.class);
+		// while (subclasses.hasNext()) {
+		// CClassInfo s = subclasses.next();
+		// saw.value(outline.getClazz(s).implRef);
+		// }
+		// }
+		// }
+
+		// if(target.isElement()) {
+		// String namespaceURI = target.getElementName().getNamespaceURI();
+		// String localPart = target.getElementName().getLocalPart();
+		//
+		// // [RESULT]
+		// // @XmlRootElement(name="foo", targetNamespace="bar://baz")
+		// XmlRootElementWriter xrew =
+		// cc.implClass.annotate2(XmlRootElementWriter.class);
+		// xrew.name(localPart);
+		// if(!namespaceURI.equals(mostUsedNamespaceURI)) // only generate if
+		// necessary
+		// xrew.namespace(namespaceURI);
+		// }
+
+		// if(target.isOrdered()) {
+		// for(CPropertyInfo p : target.getProperties() ) {
+		// if( ! (p instanceof CAttributePropertyInfo )) {
+		// xtw.propOrder(p.getName(false));
+		// }
+		// }
+		// } else {
+		// // produce empty array
+		// xtw.getAnnotationUse().paramArray("propOrder");
+		// }
+
+		for (CPropertyInfo prop : target.getProperties()) {
+			generateFieldDecl(outline, cc, prop);
+		}
+
+		assert !target.declaresAttributeWildcard();
+		// if( target.declaresAttributeWildcard() ) {
+		// generateAttributeWildcard(cc);
+		// }
+
+		// generate some class level javadoc
+		// cc.ref.javadoc().append(target.javadoc);
+
+		// cc._package().objectFactoryGenerator().populate(cc);
+	}
+
+	private FieldOutline generateFieldDecl(Outline outline,
+			ClassOutlineImpl cc, CPropertyInfo prop) {
+
+		try {
+			return (FieldOutline) generateFieldDecl.invoke(outline,
+					new Object[] { cc, prop });
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException(ex);
+		}
 	}
 
 	private ProcessClassInfo processClassInfo;

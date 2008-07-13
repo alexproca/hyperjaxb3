@@ -23,9 +23,12 @@ import org.jvnet.hyperjaxb3.ejb.test.RoundtripTest;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.UntypedListFieldRenderer;
 import org.jvnet.jaxb2_commons.plugin.spring.AbstractSpringConfigurablePlugin;
+import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -61,18 +64,18 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-	private final Method generateFieldDecl;
-	{
-		try {
-			generateFieldDecl = BeanGenerator.class.getDeclaredMethod(
-					"generateFieldDecl", new Class[] { ClassOutlineImpl.class,
-							CPropertyInfo.class });
-			generateFieldDecl.setAccessible(true);
-		} catch (Exception ex) {
-			throw new ExceptionInInitializerError(ex);
-
-		}
-	}
+	// private final Method generateFieldDecl;
+	// {
+	// try {
+	// generateFieldDecl = BeanGenerator.class.getDeclaredMethod(
+	// "generateFieldDecl", new Class[] { ClassOutlineImpl.class,
+	// CPropertyInfo.class });
+	// generateFieldDecl.setAccessible(true);
+	// } catch (Exception ex) {
+	// throw new ExceptionInInitializerError(ex);
+	//
+	// }
+	// }
 
 	public String getOptionName() {
 		return "Xhyperjaxb3-ejb";
@@ -139,6 +142,20 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		this.generateTransientId = generateTransientId;
 	}
 
+	private String variant = "annotations";
+
+	public String getVariant() {
+		return variant;
+	}
+
+	public void setVariant(String variant) {
+		this.variant = variant;
+	}
+
+	public String getOutlineProcessorBeanName() {
+		return getVariant();
+	}
+
 	// @Override
 	// public List<String> getCustomizationURIs() {
 	// return Collections.singletonList(Constants.NAMESPACE_URI);
@@ -152,22 +169,22 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	@Override
 	public boolean run(Outline outline, Options options,
 			ErrorHandler errorHandler) {
-		
-		getProcessModel().getCreateDefaultIdPropertyInfos().setTransient(isGenerateTransientId());
+
+		// getProcessModel().getCreateDefaultIdPropertyInfos().setTransient(
+		// isGenerateTransientId());
 
 		try {
-			processModel(outline);
+			// processModel(outline, options);
 
-			processOutline(outline, options);
+			// processOutline(outline, options);
 
-			for (final CClassInfo classInfo : outline.getModel().beans()
-					.values()) {
-				checkCustomizations(classInfo);
-				for (final CPropertyInfo propertyInfo : classInfo
-						.getProperties()) {
-					checkCustomizations(classInfo, propertyInfo);
-				}
-			}
+			final OutlineProcessor<?, EjbPlugin> outlineProcessor = getOutlineProcessor();
+
+			outlineProcessor.process(this, outline, options);
+
+			generateRoundtripTestClass(outline);
+
+			checkCustomizations(outline);
 
 		} catch (Exception ex) {
 			try {
@@ -182,132 +199,133 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		return true;
 	}
 
-	public void processOutline(Outline outline, Options options)
-			throws IOException, JAXBException {
-		final ProcessOutline outlineProcessor = getOutlineProcessor();
-
-		final Collection<ClassOutline> includedClasses = outlineProcessor
-				.process(outlineProcessor, outline, options);
-
-		final Persistence persistence = createPersistence(outline,
-				includedClasses);
-
-		/*
-		 * final File metaInf = new File(options.targetDir, "META-INF");
-		 * 
-		 * metaInf.mkdirs();
-		 * 
-		 * final File persistenceXml = new File(metaInf, "persistence.xml");
-		 * 
-		 * Writer writer = null;
-		 * 
-		 * try { writer = new FileWriter(persistenceXml);
-		 * PersistenceUtils.createMarshaller().marshal(persistence, writer); }
-		 * finally { if (writer != null) try { writer.close(); } catch
-		 * (IOException ignored) { } }
-		 */
-
-		final JCodeModel codeModel = outline.getCodeModel();
-
-		final JPackage defaultPackage = codeModel._package("");
-
-		final JTextFile persistenceXmlFile = new JTextFile(
-				"META-INF/persistence.xml");
-
-		defaultPackage.addResourceFile(persistenceXmlFile);
-
-		final Writer writer = new StringWriter();
-		PersistenceUtils.createMarshaller().marshal(persistence, writer);
-		persistenceXmlFile.setContents(writer.toString());
-
+	private void generateRoundtripTestClass(Outline outline) {
 		if (getRoundtripTestClassName() != null) {
 			GeneratorContextUtils.generateContextPathAwareClass(outline,
 					getRoundtripTestClassName(), RoundtripTest.class);
 		}
-
-		// TODO HACK!!! REMOVE ME!!!
-		new File(getTargetDir(), "META-INF").mkdir();
-
 	}
 
-	protected Persistence createPersistence(Outline outline,
-			final Collection<ClassOutline> includedClasses)
-			throws JAXBException {
-		final String generatedPersistenceUnitName = getPersistenceUnitName() != null ? getPersistenceUnitName()
-				: OutlineUtils.getContextPath(outline);
-
-		final Persistence persistence;
-		final PersistenceUnit persistenceUnit;
-
-		final File persistenceXml = getPersistenceXml();
-
-		if (persistenceXml != null) {
-			try {
-
-				persistence = (Persistence) PersistenceUtils.CONTEXT
-						.createUnmarshaller().unmarshal(persistenceXml);
-
-				PersistenceUnit foundPersistenceUnit = null;
-
-				for (final PersistenceUnit unit : persistence
-						.getPersistenceUnit()) {
-					if (getPersistenceUnitName() != null
-							&& getPersistenceUnitName().equals(unit.getName())) {
-						foundPersistenceUnit = unit;
-					} else if ("##generated".equals(unit.getName())) {
-						foundPersistenceUnit = unit;
-						foundPersistenceUnit
-								.setName(generatedPersistenceUnitName);
-					}
-				}
-				if (foundPersistenceUnit != null) {
-					persistenceUnit = foundPersistenceUnit;
-				} else {
-					persistenceUnit = new PersistenceUnit();
-					persistence.getPersistenceUnit().add(persistenceUnit);
-					persistenceUnit.setName(generatedPersistenceUnitName);
-				}
-
-			} catch (Exception ex) {
-				throw new JAXBException("Persistence XML file ["
-						+ persistenceXml + "] could not be parsed.", ex);
-			}
-
-		} else {
-			persistence = new Persistence();
-			persistence.setVersion("1.0");
-			persistenceUnit = new PersistenceUnit();
-			persistence.getPersistenceUnit().add(persistenceUnit);
-			persistenceUnit.setName(generatedPersistenceUnitName);
-		}
-
-		for (final ClassOutline classOutline : includedClasses) {
-			persistenceUnit.getClazz().add(
-					OutlineUtils.getClassName(classOutline));
-		}
-		return persistence;
-	}
-
-	public void processModel(Outline outline) {
-		
-		CustomizationUtils.findCustomization(outline.getModel(), Customizations.PERSISTENCE_ELEMENT_NAME);
-		Collection<CClassInfo> classes = getProcessModel().process(
-				getProcessModel(), outline.getModel());
-
-		for (final CClassInfo classInfo : classes) {
-			final ClassOutline classOutline = outline.getClazz(classInfo);
-			if (Customizations.isGenerated(classInfo)) {
-				generateClassBody(outline, (ClassOutlineImpl) classOutline);
-			}
-
+	private void checkCustomizations(Outline outline) {
+		for (final CClassInfo classInfo : outline.getModel().beans().values()) {
+			checkCustomizations(classInfo);
 			for (final CPropertyInfo propertyInfo : classInfo.getProperties()) {
-				if (outline.getField(propertyInfo) == null) {
-					generateFieldDecl(outline, (ClassOutlineImpl) classOutline,
-							propertyInfo);
-				}
+				checkCustomizations(classInfo, propertyInfo);
 			}
 		}
 	}
+
+	// public void processOutline(Outline outline, Options options)
+	// throws IOException, JAXBException {
+	// final OutlineProcessor<?, EjbPlugin> outlineProcessor =
+	// getOutlineProcessor();
+	//		
+	// outlineProcessor.process(this, outline, options);
+	//
+	// final Collection<ClassOutline> includedClasses = outlineProcessor
+	// .process(outlineProcessor, outline, options);
+	//
+	// final Persistence persistence = createPersistence(outline,
+	// includedClasses);
+	//
+	// /*
+	// * final File metaInf = new File(options.targetDir, "META-INF");
+	// *
+	// * metaInf.mkdirs();
+	// *
+	// * final File persistenceXml = new File(metaInf, "persistence.xml");
+	// *
+	// * Writer writer = null;
+	// *
+	// * try { writer = new FileWriter(persistenceXml);
+	// * PersistenceUtils.createMarshaller().marshal(persistence, writer); }
+	// * finally { if (writer != null) try { writer.close(); } catch
+	// * (IOException ignored) { } }
+	// */
+	//
+	// final JCodeModel codeModel = outline.getCodeModel();
+	//
+	// final JPackage defaultPackage = codeModel._package("");
+	//
+	// final JTextFile persistenceXmlFile = new JTextFile(
+	// "META-INF/persistence.xml");
+	//
+	// defaultPackage.addResourceFile(persistenceXmlFile);
+	//
+	// final Writer writer = new StringWriter();
+	// PersistenceUtils.createMarshaller().marshal(persistence, writer);
+	// persistenceXmlFile.setContents(writer.toString());
+	//
+	// generateRoundtripTestClass(outline);
+	//
+	// // TODO HACK!!! REMOVE ME!!!
+	// new File(getTargetDir(), "META-INF").mkdir();
+
+	// }
+
+	// protected Persistence createPersistence(Outline outline,
+	// final Collection<ClassOutline> includedClasses)
+	// throws JAXBException {
+	// final String generatedPersistenceUnitName = getPersistenceUnitName() !=
+	// null ? getPersistenceUnitName()
+	// : OutlineUtils.getContextPath(outline);
+	//
+	// final Persistence persistence;
+	// final PersistenceUnit persistenceUnit;
+	//
+	// final File persistenceXml = getPersistenceXml();
+	//
+	// if (persistenceXml != null) {
+	// try {
+	//
+	// persistence = (Persistence) PersistenceUtils.CONTEXT
+	// .createUnmarshaller().unmarshal(persistenceXml);
+	//
+	// PersistenceUnit foundPersistenceUnit = null;
+	//
+	// for (final PersistenceUnit unit : persistence
+	// .getPersistenceUnit()) {
+	// if (getPersistenceUnitName() != null
+	// && getPersistenceUnitName().equals(unit.getName())) {
+	// foundPersistenceUnit = unit;
+	// } else if ("##generated".equals(unit.getName())) {
+	// foundPersistenceUnit = unit;
+	// foundPersistenceUnit
+	// .setName(generatedPersistenceUnitName);
+	// }
+	// }
+	// if (foundPersistenceUnit != null) {
+	// persistenceUnit = foundPersistenceUnit;
+	// } else {
+	// persistenceUnit = new PersistenceUnit();
+	// persistence.getPersistenceUnit().add(persistenceUnit);
+	// persistenceUnit.setName(generatedPersistenceUnitName);
+	// }
+	//
+	// } catch (Exception ex) {
+	// throw new JAXBException("Persistence XML file ["
+	// + persistenceXml + "] could not be parsed.", ex);
+	// }
+	//
+	// } else {
+	// persistence = new Persistence();
+	// persistence.setVersion("1.0");
+	// persistenceUnit = new PersistenceUnit();
+	// persistence.getPersistenceUnit().add(persistenceUnit);
+	// persistenceUnit.setName(generatedPersistenceUnitName);
+	// }
+	//
+	// for (final ClassOutline classOutline : includedClasses) {
+	// persistenceUnit.getClazz().add(
+	// OutlineUtils.getClassName(classOutline));
+	// }
+	// return persistence;
+	// }
+
+	// public void processModel(Outline outline, Options options) throws
+	// Exception {
+	// getProcessModel().process(getProcessModel(), outline, options);
+	// }
 
 	private void checkCustomizations(CClassInfo classInfo,
 			CPropertyInfo customizable) {
@@ -355,18 +373,6 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 						: element.getPrefix());
 	}
 
-	// private OutlineAnnotator outlineAnnotator = new
-	// DefaultOutlineAnnotator();
-	//
-	// public OutlineAnnotator getOutlineAnnotator() {
-	// return outlineAnnotator;
-	// }
-	//
-	// public void setOutlineAnnotator(OutlineAnnotator annotationStrategy) {
-	// this.outlineAnnotator = annotationStrategy;
-	// }
-	//
-
 	@Override
 	public void postProcessModel(Model model, ErrorHandler errorHandler) {
 		// super.postProcessModel(model, errorHandler);
@@ -377,8 +383,34 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	}
 
 	@Override
+	protected int getAutowireMode() {
+		return AutowireCapableBeanFactory.AUTOWIRE_NO;
+	}
+
+	@Override
 	public void onActivated(Options options) throws BadCommandLineException {
 		super.onActivated(options);
+
+		if (getOutlineProcessor() == null) {
+			try {
+				final Object bean = getApplicationContext().getBean(
+						getOutlineProcessorBeanName());
+				if (!(bean instanceof OutlineProcessor)) {
+					throw new BadCommandLineException("Variant bean ["
+							+ getOutlineProcessorBeanName() + "] of class ["
+							+ bean.getClass() + "] does not implement ["
+							+ OutlineProcessor.class.getName() + "] interface.");
+				} else {
+					setOutlineProcessor((OutlineProcessor<?, EjbPlugin>) bean);
+				}
+
+			} catch (BeansException bex) {
+				throw new BadCommandLineException(
+						"Could not load variant bean ["
+								+ getOutlineProcessorBeanName() + "].", bex);
+			}
+		}
+
 		if (getTargetDir() == null) {
 			setTargetDir(options.targetDir);
 		}
@@ -391,26 +423,27 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		options.setFieldRendererFactory(fieldRendererFactory, this);
 	}
 
-	private ProcessOutline outlineProcessor;
+	private OutlineProcessor<?, EjbPlugin> outlineProcessor;
 
-	public ProcessOutline getOutlineProcessor() {
+	public OutlineProcessor<?, EjbPlugin> getOutlineProcessor() {
 		return outlineProcessor;
 	}
 
-	public void setOutlineProcessor(ProcessOutline outlineProcessor) {
+	public void setOutlineProcessor(
+			OutlineProcessor<?, EjbPlugin> outlineProcessor) {
 		this.outlineProcessor = outlineProcessor;
 	}
 
-	private ProcessModel processModel;
-
-	public ProcessModel getProcessModel() {
-		return processModel;
-	}
-
-	public void setProcessModel(ProcessModel processModel) {
-		logger.debug("Setting process model.");
-		this.processModel = processModel;
-	}
+	// private ProcessModel processModel;
+	//
+	// public ProcessModel getProcessModel() {
+	// return processModel;
+	// }
+	//
+	// public void setProcessModel(ProcessModel processModel) {
+	// logger.debug("Setting process model.");
+	// this.processModel = processModel;
+	// }
 
 	@Override
 	public List<String> getCustomizationURIs() {
@@ -425,100 +458,4 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		return super.isCustomizationTagName(namespace, localPart)
 				|| Customizations.NAMESPACES.contains(namespace);
 	}
-
-	private void generateClassBody(Outline outline, ClassOutlineImpl cc) {
-
-		final JCodeModel codeModel = outline.getCodeModel();
-		final Model model = outline.getModel();
-		CClassInfo target = cc.target;
-
-		// if serialization support is turned on, generate
-		// [RESULT]
-		// class ... implements Serializable {
-		// private static final long serialVersionUID = <id>;
-		// ....
-		// }
-		if (model.serializable) {
-			cc.implClass._implements(Serializable.class);
-			if (model.serialVersionUID != null) {
-				cc.implClass.field(JMod.PRIVATE | JMod.STATIC | JMod.FINAL,
-						codeModel.LONG, "serialVersionUID", JExpr
-								.lit(model.serialVersionUID));
-			}
-		}
-
-		// used to simplify the generated annotations
-		// String mostUsedNamespaceURI =
-		// cc._package().getMostUsedNamespaceURI();
-
-		// [RESULT]
-		// @XmlType(name="foo", targetNamespace="bar://baz")
-		// XmlTypeWriter xtw = cc.implClass.annotate2(XmlTypeWriter.class);
-		// writeTypeName(cc.target.getTypeName(), xtw, mostUsedNamespaceURI);
-
-		// if(model.options.target.isLaterThan(SpecVersion.V2_1)) {
-		// // @XmlSeeAlso
-		// Iterator<CClassInfo> subclasses = cc.target.listSubclasses();
-		// if(subclasses.hasNext()) {
-		// XmlSeeAlsoWriter saw =
-		// cc.implClass.annotate2(XmlSeeAlsoWriter.class);
-		// while (subclasses.hasNext()) {
-		// CClassInfo s = subclasses.next();
-		// saw.value(outline.getClazz(s).implRef);
-		// }
-		// }
-		// }
-
-		// if(target.isElement()) {
-		// String namespaceURI = target.getElementName().getNamespaceURI();
-		// String localPart = target.getElementName().getLocalPart();
-		//
-		// // [RESULT]
-		// // @XmlRootElement(name="foo", targetNamespace="bar://baz")
-		// XmlRootElementWriter xrew =
-		// cc.implClass.annotate2(XmlRootElementWriter.class);
-		// xrew.name(localPart);
-		// if(!namespaceURI.equals(mostUsedNamespaceURI)) // only generate if
-		// necessary
-		// xrew.namespace(namespaceURI);
-		// }
-
-		// if(target.isOrdered()) {
-		// for(CPropertyInfo p : target.getProperties() ) {
-		// if( ! (p instanceof CAttributePropertyInfo )) {
-		// xtw.propOrder(p.getName(false));
-		// }
-		// }
-		// } else {
-		// // produce empty array
-		// xtw.getAnnotationUse().paramArray("propOrder");
-		// }
-
-		for (CPropertyInfo prop : target.getProperties()) {
-			generateFieldDecl(outline, cc, prop);
-		}
-
-		assert !target.declaresAttributeWildcard();
-		// if( target.declaresAttributeWildcard() ) {
-		// generateAttributeWildcard(cc);
-		// }
-
-		// generate some class level javadoc
-		// cc.ref.javadoc().append(target.javadoc);
-
-		// cc._package().objectFactoryGenerator().populate(cc);
-	}
-
-	private FieldOutline generateFieldDecl(Outline outline,
-			ClassOutlineImpl cc, CPropertyInfo prop) {
-
-		try {
-			return (FieldOutline) generateFieldDecl.invoke(outline,
-					new Object[] { cc, prop });
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new RuntimeException(ex);
-		}
-	}
-
 }

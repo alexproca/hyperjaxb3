@@ -37,7 +37,7 @@ public class AnnotateClassOutlineTable implements AnnotateClassOutline {
 
 		if (table.getName() == null) {
 			table.setName(outlineProcessor.getNaming().getEntityTableName(
-					outlineProcessor, classOutline, options));
+					classOutline));
 		}
 
 		return createTable(outlineProcessor, classOutline, options, table);

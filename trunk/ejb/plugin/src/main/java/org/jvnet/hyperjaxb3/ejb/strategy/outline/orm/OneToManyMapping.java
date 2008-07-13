@@ -80,7 +80,7 @@ public class OneToManyMapping extends AssociationMapping implements
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming().getOneToManyJoinColumnName(
-					null, fieldOutline, null));
+					fieldOutline));
 		}
 	}
 
@@ -97,7 +97,7 @@ public class OneToManyMapping extends AssociationMapping implements
 		if (joinTable.getName() == null
 				|| "##default".equals(joinTable.getName())) {
 			joinTable.setName(context.getNaming().getOneToManyJoinTableName(
-					null, fieldOutline, null));
+					fieldOutline));
 		}
 	}
 
@@ -154,8 +154,7 @@ public class OneToManyMapping extends AssociationMapping implements
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming()
-					.getOneToManyJoinTableJoinColumnName(null, fieldOutline,
-							null));
+					.getOneToManyJoinTableJoinColumnName(fieldOutline));
 		}
 	}
 
@@ -164,8 +163,7 @@ public class OneToManyMapping extends AssociationMapping implements
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming()
-					.getOneToManyJoinTableInverseJoinColumnName(null,
-							fieldOutline, null));
+					.getOneToManyJoinTableInverseJoinColumnName(fieldOutline));
 		}
 	}
 }

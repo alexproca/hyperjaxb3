@@ -18,14 +18,15 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	private static Log logger = LogFactory.getLog(EntityMapping.class);
 
 	public Entity process(Mapping context, ClassOutline classOutline,
-			Options options) {
-		final Entity entity = context.getCustomizations().getEntity(classOutline);
+			Options options) throws Exception {
+		final Entity entity = context.getCustomizations().getEntity(
+				classOutline);
 		createEntity(context, classOutline, entity);
 		return entity;
 	}
 
 	public void createEntity(Mapping context, ClassOutline classOutline,
-			final Entity entity) {
+			final Entity entity) throws Exception {
 		createEntity$Name(context, classOutline, entity);
 		createEntity$Class(context, classOutline, entity);
 
@@ -106,14 +107,12 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createTable(Mapping context, ClassOutline classOutline,
 			final Table table) {
 		if (table.getName() == null || "##default".equals(table.getName())) {
-			// TODO
-			table.setName(context.getNaming().getEntityTableName(null,
-					classOutline, null));
+			table.setName(context.getNaming().getEntityTableName(classOutline));
 		}
 	}
 
 	public void createEntity$Attributes(Mapping context,
-			ClassOutline classOutline, final Entity entity) {
+			ClassOutline classOutline, final Entity entity) throws Exception {
 		final Attributes attributes = context.getAttributesMapping().process(
 				context, classOutline, null);
 		entity.setAttributes(attributes);

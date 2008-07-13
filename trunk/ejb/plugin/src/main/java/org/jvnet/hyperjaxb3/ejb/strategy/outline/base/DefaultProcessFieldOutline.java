@@ -81,8 +81,7 @@ public class DefaultProcessFieldOutline implements ProcessFieldOutline {
 
 	public AnnotateFieldOutline getAnnotateFieldOutline(ProcessOutline context,
 			FieldOutline fieldOutline, Options options) {
-		if (context.getIgnoring().isFieldOutlineIgnored(context, fieldOutline,
-				options)) {
+		if (context.getIgnoring().isFieldOutlineIgnored(fieldOutline)) {
 			return context.getAnnotate().getAnnotateFieldOutlineTransient();
 		} else if (isFieldOutlineId(context, fieldOutline, options)) {
 			return context.getAnnotate().getAnnotateFieldOutlineId();

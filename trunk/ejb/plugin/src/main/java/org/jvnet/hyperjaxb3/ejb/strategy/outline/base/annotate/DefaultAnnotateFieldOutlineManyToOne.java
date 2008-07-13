@@ -50,8 +50,7 @@ public class DefaultAnnotateFieldOutlineManyToOne extends
 					.getJoinTable();
 			if (cjoinTable.getName() == null) {
 				cjoinTable.setName(outlineProcessor.getNaming()
-						.getManyToOneJoinTableName(outlineProcessor,
-								fieldOutline, options));
+						.getManyToOneJoinTableName(fieldOutline));
 			}
 
 			content = createJoinTable(outlineProcessor, fieldOutline, options,
@@ -94,8 +93,7 @@ public class DefaultAnnotateFieldOutlineManyToOne extends
 			FieldOutline fieldOutline, Options options) {
 
 		final String joinColumnName = outlineProcessor.getNaming()
-				.getManyToOneJoinColumnName(outlineProcessor, fieldOutline,
-						options);
+				.getManyToOneJoinColumnName(fieldOutline);
 
 		final XAnnotation joinColumn = new XAnnotation(JoinColumn.class,
 				new XAnnotationField.XString("name", joinColumnName));
@@ -110,16 +108,13 @@ public class DefaultAnnotateFieldOutlineManyToOne extends
 
 		final String joinTableName = (cjoinTable != null && cjoinTable
 				.getName() != null) ? cjoinTable.getName() : outlineProcessor
-				.getNaming().getManyToOneJoinTableName(outlineProcessor,
-						fieldOutline, options);
+				.getNaming().getManyToOneJoinTableName(fieldOutline);
 
 		final String joinColumnName = outlineProcessor.getNaming()
-				.getManyToOneJoinTableJoinColumnName(outlineProcessor,
-						fieldOutline, options);
+				.getManyToOneJoinTableJoinColumnName(fieldOutline);
 
 		final String inverseJoinColumnName = outlineProcessor.getNaming()
-				.getManyToOneJoinTableInverseJoinColumnName(outlineProcessor,
-						fieldOutline, options);
+				.getManyToOneJoinTableInverseJoinColumnName(fieldOutline);
 
 		final XAnnotation joinColumn = new XAnnotation(JoinColumn.class,
 				new XAnnotationField.XString("name", joinColumnName));
@@ -127,12 +122,13 @@ public class DefaultAnnotateFieldOutlineManyToOne extends
 		final XAnnotation inverseJoinColumn = new XAnnotation(JoinColumn.class,
 				new XAnnotationField.XString("name", inverseJoinColumnName));
 
-		final XAnnotation joinTable = new XAnnotation(JoinTable.class,
+		final XAnnotation joinTable = new XAnnotation(
+				JoinTable.class,
 				//
 				new XAnnotationField.XString("name", cjoinTable.getName()),
 				new XAnnotationField.XString("catalog", cjoinTable.getCatalog()),
 				new XAnnotationField.XString("schema", cjoinTable.getSchema()),
-				
+
 				new XAnnotationField.XAnnotationArray("joinColumns",
 						new XAnnotation[] { joinColumn }, JoinColumn.class),
 				new XAnnotationField.XAnnotationArray("inverseJoinColumns",
@@ -169,8 +165,7 @@ public class DefaultAnnotateFieldOutlineManyToOne extends
 			FieldOutline fieldOutline, Options options,
 			com.sun.java.xml.ns.persistence.orm.JoinColumn column) {
 		final String defaultColumnName = outlineProcessor.getNaming()
-				.getManyToOneJoinColumnName(outlineProcessor, fieldOutline,
-						options);
+				.getManyToOneJoinColumnName(fieldOutline);
 		final XAnnotation joinColumn = new XAnnotation(JoinColumn.class,
 				AnnotationUtils.create("name", column.getName(),
 						defaultColumnName),

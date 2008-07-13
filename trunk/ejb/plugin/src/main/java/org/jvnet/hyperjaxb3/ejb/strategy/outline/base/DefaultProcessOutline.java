@@ -5,14 +5,15 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.Annotate;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessClassOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessFieldOutline;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessFieldOutlines;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.Ignoring;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.naming.Naming;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -24,7 +25,7 @@ public class DefaultProcessOutline implements ProcessOutline {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-	public Collection<ClassOutline> process(ProcessOutline context,
+	public Collection<ClassOutline> process(EjbPlugin context,
 			Outline outline, Options options) {
 		logger.debug("Processing outline with context path ["
 				+ OutlineUtils.getContextPath(outline) + "].");
@@ -34,10 +35,10 @@ public class DefaultProcessOutline implements ProcessOutline {
 				classes.size());
 
 		for (final ClassOutline classOutline : classes) {
-			if (!context.getIgnoring().isClassOutlineIgnored(context,
-					classOutline, options)) {
+			if (!getIgnoring().isClassOutlineIgnored(
+					classOutline)) {
 				final ClassOutline processedClassOutline = getProcessClassOutline()
-						.process(context, classOutline, options);
+						.process(this, classOutline, options);
 				if (processedClassOutline != null) {
 					processedClassOutlines.add(processedClassOutline);
 				}

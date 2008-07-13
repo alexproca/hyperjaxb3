@@ -2,9 +2,10 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline;
 
 import java.util.Collection;
 
+import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.Ignoring;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.naming.Naming;
+import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 
 import com.sun.tools.xjc.Options;
@@ -19,9 +20,9 @@ import com.sun.tools.xjc.outline.Outline;
  *            Type of the context.
  */
 public interface ProcessOutline extends
-		OutlineProcessor<Collection<ClassOutline>, ProcessOutline> {
+		OutlineProcessor<Collection<ClassOutline>, EjbPlugin> {
 
-	public Collection<ClassOutline> process(ProcessOutline outlineProcessor,
+	public Collection<ClassOutline> process(EjbPlugin context,
 			Outline outline, Options options);
 
 	/**

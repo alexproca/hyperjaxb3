@@ -3,8 +3,8 @@ package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
 import java.rmi.UnexpectedException;
 
 import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.ignoring.Ignoring;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.naming.Naming;
+import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;

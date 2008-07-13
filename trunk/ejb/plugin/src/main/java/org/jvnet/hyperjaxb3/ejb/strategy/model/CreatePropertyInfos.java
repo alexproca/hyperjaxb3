@@ -8,7 +8,7 @@ import com.sun.tools.xjc.model.CPropertyInfo;
  * Creates properties for the given property.
  */
 public interface CreatePropertyInfos extends
-		EjbPropertyInfoProcessor<Collection<CPropertyInfo>> {
+		PropertyInfoProcessor<Collection<CPropertyInfo>, ProcessModel> {
 
 	/**
 	 * Creates a collection of properties for the given property.

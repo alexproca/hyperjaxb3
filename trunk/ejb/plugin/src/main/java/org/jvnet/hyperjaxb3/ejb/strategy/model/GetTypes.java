@@ -5,6 +5,6 @@ import java.util.Collection;
 import com.sun.tools.xjc.model.CTypeInfo;
 
 public interface GetTypes extends
-		EjbPropertyInfoProcessor<Collection<? extends CTypeInfo>> {
+		PropertyInfoProcessor<Collection<? extends CTypeInfo>, ProcessModel> {
 
 }

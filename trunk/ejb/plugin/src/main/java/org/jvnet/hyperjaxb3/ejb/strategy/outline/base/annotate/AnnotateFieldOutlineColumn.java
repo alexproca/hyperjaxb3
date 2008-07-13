@@ -30,8 +30,7 @@ public class AnnotateFieldOutlineColumn implements AnnotateFieldOutline {
 				: new Column();
 
 		if (column.getName() == null) {
-			column.setName(context.getNaming().getColumnName(context,
-					fieldOutline, options));
+			column.setName(context.getNaming().getColumnName(fieldOutline));
 		}
 
 		// If string
@@ -60,31 +59,28 @@ public class AnnotateFieldOutlineColumn implements AnnotateFieldOutline {
 				}
 			}
 		}
-		
+
 		// If decimal
 		{
-		if (column.getPrecision() == null)
-		{
-			final Long totalDigits = SimpleTypeAnalyzer.getTotalDigits(fieldOutline
-					.getPropertyInfo().getSchemaComponent());
-			if (totalDigits != null)
-			{
-				column.setPrecision(totalDigits.intValue());
-			}
-			
-		}
+			if (column.getPrecision() == null) {
+				final Long totalDigits = SimpleTypeAnalyzer
+						.getTotalDigits(fieldOutline.getPropertyInfo()
+								.getSchemaComponent());
+				if (totalDigits != null) {
+					column.setPrecision(totalDigits.intValue());
+				}
 
-		if (column.getScale() == null)
-		{
-			final Long fractionDigits = SimpleTypeAnalyzer.getFractionDigits(fieldOutline
-					.getPropertyInfo().getSchemaComponent());
-			if (fractionDigits != null)
-			{
-				column.setScale(fractionDigits.intValue());
+			}
+
+			if (column.getScale() == null) {
+				final Long fractionDigits = SimpleTypeAnalyzer
+						.getFractionDigits(fieldOutline.getPropertyInfo()
+								.getSchemaComponent());
+				if (fractionDigits != null) {
+					column.setScale(fractionDigits.intValue());
+				}
 			}
 		}
-		}
-		
 
 		return Collections.singletonList(createColumn(column));
 	}

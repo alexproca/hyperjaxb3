@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.base.naming;
+package org.jvnet.hyperjaxb3.ejb.strategy.naming.impl;
 
 import java.util.Collection;
 import java.util.Map;
@@ -10,12 +10,11 @@ import java.util.Map.Entry;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.ProcessOutline;
-import org.jvnet.hyperjaxb3.ejb.strategy.outline.naming.Naming;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassRef;
@@ -100,34 +99,27 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 	}
 
-	public String getColumnName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
+	public String getColumnName(FieldOutline fieldOutline) {
 
 		final String fieldName = fieldOutline.getPropertyInfo().getName(true);
 
 		return getName(fieldName);
 	}
 
-	public String getOneToManyJoinTableName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
-		final String targetEntityTableName = getTargetEntityTableName(context,
-				fieldOutline, options);
-		final String entityTableName = getEntityTableName(context, fieldOutline
-				.parent(), options);
-		final String fieldColumnName = getColumnName(context, fieldOutline,
-				options);
+	public String getOneToManyJoinTableName(FieldOutline fieldOutline) {
+		final String targetEntityTableName = getTargetEntityTableName(fieldOutline);
+		final String entityTableName = getEntityTableName(fieldOutline.parent());
+		final String fieldColumnName = getColumnName(fieldOutline);
 		return getName(entityTableName + "_" + fieldColumnName + "_"
 				+ targetEntityTableName);
 	}
 
-	public String getEntityTableName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
+	public String getEntityTableName(FieldOutline fieldOutline) {
 		final String name = fieldOutline.parent().target.getSqueezedName();
 		return getName(name);
 	}
 
-	public String getEntityTableName(ProcessOutline context,
-			ClassOutline classOutline, Options options) {
+	public String getEntityTableName(ClassOutline classOutline) {
 		return getEntityTableName(classOutline.target);
 	}
 
@@ -148,8 +140,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 		}
 	}
 
-	private String getTargetEntityTableName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
+	private String getTargetEntityTableName(FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
 		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
@@ -165,65 +156,46 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getEntityTableName(childClassInfo);
 	}
 
-	public String getManyToOneJoinColumnName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
-		final String entityTableName = getTargetEntityTableName(context,
-				fieldOutline, options);
-		final String fieldColumnName = getColumnName(context, fieldOutline,
-				options);
+	public String getManyToOneJoinColumnName(FieldOutline fieldOutline) {
+		final String entityTableName = getTargetEntityTableName(fieldOutline);
+		final String fieldColumnName = getColumnName(fieldOutline);
 		return getName(fieldColumnName + "_" + entityTableName + "_ID");
 	}
 
-	public String getOneToManyJoinColumnName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
+	public String getOneToManyJoinColumnName(FieldOutline fieldOutline) {
 
-		final String entityTableName = getEntityTableName(context, fieldOutline
-				.parent(), options);
-		final String fieldColumnName = getColumnName(context, fieldOutline,
-				options);
+		final String entityTableName = getEntityTableName(fieldOutline.parent());
+		final String fieldColumnName = getColumnName(fieldOutline);
 
 		return getName(fieldColumnName + "_" + entityTableName + "_ID");
 	}
 
-	public String getOneToManyJoinTableJoinColumnName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
-		final String entityTableName = getEntityTableName(context, fieldOutline
-				.parent(), options);
-
-		// final String
-		// final String string
-		// getColumnName(context, fieldOutline, options)
-
-		// outlineProcessor.getNaming().getColumnName(context, fieldOutline,
-		// options);
+	public String getOneToManyJoinTableJoinColumnName(FieldOutline fieldOutline) {
+		final String entityTableName = getEntityTableName(fieldOutline.parent());
 
 		return getName("PARENT_" + entityTableName + "_ID");
 	}
 
 	public String getOneToManyJoinTableInverseJoinColumnName(
-			ProcessOutline context, FieldOutline fieldOutline, Options options) {
+			FieldOutline fieldOutline) {
 		return getName(
 
-		"CHILD_" + getTargetEntityTableName(context, fieldOutline, options)
+		"CHILD_" + getTargetEntityTableName(fieldOutline)
 
 		+ "_ID");
 	}
 
-	public String getManyToOneJoinTableName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
-		return getOneToManyJoinTableName(context, fieldOutline, options);
+	public String getManyToOneJoinTableName(FieldOutline fieldOutline) {
+		return getOneToManyJoinTableName(fieldOutline);
 	}
 
 	public String getManyToOneJoinTableInverseJoinColumnName(
-			ProcessOutline context, FieldOutline fieldOutline, Options options) {
-		return getOneToManyJoinTableInverseJoinColumnName(context,
-				fieldOutline, options);
+			FieldOutline fieldOutline) {
+		return getOneToManyJoinTableInverseJoinColumnName(fieldOutline);
 	}
 
-	public String getManyToOneJoinTableJoinColumnName(ProcessOutline context,
-			FieldOutline fieldOutline, Options options) {
-		return getOneToManyJoinTableJoinColumnName(context, fieldOutline,
-				options);
+	public String getManyToOneJoinTableJoinColumnName(FieldOutline fieldOutline) {
+		return getOneToManyJoinTableJoinColumnName(fieldOutline);
 	}
 
 }

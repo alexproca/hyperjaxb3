@@ -136,8 +136,7 @@ public class AbstractAnnotateSimpleFieldOutline {
 		}
 
 		if (column.getName() == null) {
-			column.setName(context.getNaming().getColumnName(context,
-					fieldOutline, options));
+			column.setName(context.getNaming().getColumnName(fieldOutline));
 		}
 
 		// If string

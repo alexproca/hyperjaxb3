@@ -46,8 +46,7 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		final CPropertyInfo[] propertyInfos = classInfo.getProperties()
 				.toArray(new CPropertyInfo[classInfo.getProperties().size()]);
 		for (final CPropertyInfo propertyInfo : propertyInfos) {
-			if (!context.getIgnoring().isPropertyInfoIgnored(context,
-					propertyInfo)) {
+			if (!context.getIgnoring().isPropertyInfoIgnored(propertyInfo)) {
 				newPropertyInfos.addAll(process(context, propertyInfo));
 			}
 		}
@@ -80,7 +79,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 	public boolean isRootClass(ProcessModel context, CClassInfo classInfo) {
 		// TODO #72 Check parent classes for ignored
-		return classInfo.getBaseClass() == null && classInfo.getRefBaseClass() == null;
+		return classInfo.getBaseClass() == null
+				&& classInfo.getRefBaseClass() == null;
 	}
 
 	public Collection<CPropertyInfo> getIdPropertyInfos(ProcessModel context,

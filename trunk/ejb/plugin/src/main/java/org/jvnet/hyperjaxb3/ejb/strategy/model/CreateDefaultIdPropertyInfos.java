@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.sun.tools.xjc.model.CPropertyInfo;
 
 public interface CreateDefaultIdPropertyInfos extends
-		EjbClassInfoProcessor<Collection<CPropertyInfo>> {
+		ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> {
 
 	public boolean isTransient();
 
