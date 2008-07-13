@@ -39,7 +39,7 @@ public class DefaultAnnotateFieldOutlineManyToOne extends
 
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cManyToOne =
 
-		outlineProcessor.getCustomizations().getManyToOne(fieldOutline);
+		outlineProcessor.getCustomizing().getManyToOne(fieldOutline);
 
 		xannotations.add(createManyToOne(outlineProcessor, fieldOutline,
 				options, cManyToOne));

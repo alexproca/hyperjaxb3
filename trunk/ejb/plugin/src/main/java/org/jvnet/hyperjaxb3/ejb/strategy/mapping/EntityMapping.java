@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import javax.persistence.InheritanceType;
 
@@ -19,8 +19,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 
 	public Entity process(Mapping context, ClassOutline classOutline,
 			Options options) throws Exception {
-		final Entity entity = context.getCustomizations().getEntity(
-				classOutline);
+		final Entity entity = context.getCustomizing().getEntity(classOutline);
 		createEntity(context, classOutline, entity);
 		return entity;
 	}
@@ -54,7 +53,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createEntity$Inheritance(Mapping context,
 			ClassOutline classOutline, final Entity entity) {
 		final InheritanceType inheritanceStrategy = getInheritanceStrategy(
-				context, classOutline);
+				context, classOutline, entity);
 
 		if (isEntityClassHierarchyRoot(context, classOutline)) {
 			if (entity.getInheritance() == null
@@ -73,7 +72,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	private void createEntity$Table(Mapping context, ClassOutline classOutline,
 			Entity entity) {
 		final InheritanceType inheritanceStrategy = getInheritanceStrategy(
-				context, classOutline);
+				context, classOutline, entity);
 		switch (inheritanceStrategy) {
 		case JOINED:
 			if (entity.getTable() == null) {
@@ -119,10 +118,8 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	}
 
 	public javax.persistence.InheritanceType getInheritanceStrategy(
-			Mapping context, ClassOutline classOutline) {
+			Mapping context, ClassOutline classOutline, Entity entity) {
 		if (isEntityClassHierarchyRoot(context, classOutline)) {
-			// TODO
-			final Entity entity = null; // getEntity();
 			if (entity.getInheritance() != null
 					&& entity.getInheritance().getStrategy() != null) {
 				return InheritanceType.valueOf(entity.getInheritance()
@@ -133,7 +130,11 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 		} else {
 			final ClassOutline superClassOutline = getSuperClassOutline(
 					context, classOutline);
-			return getInheritanceStrategy(context, superClassOutline);
+			final Entity superClassEntity = context.getCustomizing().getEntity(
+					superClassOutline);
+
+			return getInheritanceStrategy(context, superClassOutline,
+					superClassEntity);
 		}
 	}
 

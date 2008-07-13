@@ -26,7 +26,7 @@ public class DefaultAnnotateFieldOutlineBasic extends
 
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic basic =
 
-		outlineProcessor.getCustomizations().getBasic(fieldOutline);
+		outlineProcessor.getCustomizing().getBasic(fieldOutline);
 
 		return create(outlineProcessor, fieldOutline, options, basic);
 	}

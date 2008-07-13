@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
@@ -25,6 +25,7 @@ import com.sun.java.xml.ns.persistence.orm.Version;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -179,11 +180,30 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 	}
 
 	public boolean isFieldOutlineBasic(FieldOutline fieldOutline) {
+
+		return isFieldOutlineCore(fieldOutline)
+				|| isFieldOutlineEnumerated(fieldOutline);
+	}
+
+	public boolean isFieldOutlineCore(FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 
 		final JType type = getter.type();
-
 		return JTypeUtils.isBasicType(type);
+	}
+
+	public boolean isFieldOutlineEnumerated(FieldOutline fieldOutline) {
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		if (types.size() == 1) {
+
+			final CTypeInfo type = types.iterator().next();
+
+			return type instanceof CEnumLeafInfo;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {

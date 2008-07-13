@@ -99,14 +99,14 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 	}
 
 	public String getPropertyName(ProcessModel context, CClassInfo classInfo) {
-		final Id id = context.getCustomizations().getId(classInfo);
+		final Id id = context.getCustomizing().getId(classInfo);
 		final String name = id.getName();
 		Validate.notEmpty(name, "The hj:/@name attribute must not be empty.");
 		return name;
 	}
 
 	public QName getAttributeName(ProcessModel context, CClassInfo classInfo) {
-		final Id id = context.getCustomizations().getId(classInfo);
+		final Id id = context.getCustomizing().getId(classInfo);
 		final QName attributeName = id.getAttributeName();
 		return attributeName != null ? attributeName : new QName(
 				getPropertyName(context, classInfo));
@@ -114,7 +114,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 	public CNonElement getPropertyTypeInfo(ProcessModel context,
 			CClassInfo classInfo) {
-		final Id id = context.getCustomizations().getId(classInfo);
+		final Id id = context.getCustomizing().getId(classInfo);
 		final String javaType = id.getJavaType();
 		Validate.notEmpty(javaType,
 				"The hj:/@javaType attribute must not be empty.");
@@ -135,7 +135,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 	public CPluginCustomization createIdCustomization(ProcessModel context,
 			CClassInfo classInfo) {
-		final Id id = context.getCustomizations().getId(classInfo);
+		final Id id = context.getCustomizing().getId(classInfo);
 
 		final JAXBElement<Id> idElement = Customizations
 				.getCustomizationsObjectFactory().createId(id);

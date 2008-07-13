@@ -1,30 +1,17 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import javax.persistence.EnumType;
-import javax.xml.namespace.QName;
 
-import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
-import org.jvnet.hyperjaxb3.xjc.model.CExternalLeafInfo;
-import org.jvnet.hyperjaxb3.xsd.util.XMLSchemaConstrants;
-import org.jvnet.hyperjaxb3.xsom.SimpleTypeAnalyzer;
-import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
-import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
-
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JType;
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.java.xml.ns.persistence.orm.Lob;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
-import com.sun.xml.xsom.XSComponent;
 
 public class BasicMapping extends PropertyMapping implements
 		FieldOutlineMapping<Basic> {
@@ -32,7 +19,7 @@ public class BasicMapping extends PropertyMapping implements
 	public Basic process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
 
-		final Basic basic = context.getCustomizations().getBasic(fieldOutline);
+		final Basic basic = context.getCustomizing().getBasic(fieldOutline);
 
 		createBasic$Name(context, fieldOutline, basic);
 
@@ -50,8 +37,7 @@ public class BasicMapping extends PropertyMapping implements
 
 		}
 
-		// TODO Auto-generated method stub
-		return null;
+		return basic;
 	}
 
 	public void createBasic$Name(Mapping context, FieldOutline fieldOutline,
@@ -85,7 +71,7 @@ public class BasicMapping extends PropertyMapping implements
 
 		final CTypeInfo type = types.iterator().next();
 
-		return type instanceof CExternalLeafInfo;
+		return type instanceof CEnumLeafInfo;
 	}
 
 	public String getEnumerated(FieldOutline fieldOutline) {

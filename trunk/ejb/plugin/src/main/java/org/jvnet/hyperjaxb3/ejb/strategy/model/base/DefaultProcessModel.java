@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
-import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
@@ -508,14 +508,14 @@ public class DefaultProcessModel implements ProcessModel {
 		this.ignoring = ignoring;
 	}
 
-	private ModelCustomizations customizations;
+	private Customizing customizing;
 
-	public ModelCustomizations getCustomizations() {
-		return customizations;
+	public Customizing getCustomizing() {
+		return customizing;
 	}
 
 	@Required
-	public void setCustomizations(ModelCustomizations customizations) {
-		this.customizations = customizations;
+	public void setCustomizing(Customizing customizations) {
+		this.customizing = customizations;
 	}
 }

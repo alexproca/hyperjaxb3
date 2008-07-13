@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
@@ -10,7 +10,7 @@ public class ToOneMapping implements FieldOutlineMapping<Object> {
 	public Object process(Mapping context, FieldOutline fieldOutline,
 			Options options) throws Exception {
 
-		final Object toOne = context.getCustomizations().getToOne(fieldOutline);
+		final Object toOne = context.getCustomizing().getToOne(fieldOutline);
 
 		if (toOne instanceof ManyToOne) {
 			return context.getManyToOneMapping().process(context, fieldOutline,

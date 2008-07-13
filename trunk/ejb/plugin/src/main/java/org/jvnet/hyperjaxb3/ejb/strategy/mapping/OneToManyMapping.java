@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
@@ -17,14 +17,13 @@ public class OneToManyMapping extends AssociationMapping implements
 	public OneToMany process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
 
-		final OneToMany OneToMany = context.getCustomizations().getOneToMany(
+		final OneToMany oneToMany = context.getCustomizing().getOneToMany(
 				fieldOutline);
 
-		createOneToMany$Name(context, fieldOutline, OneToMany);
-		createOneToMany$TargetEntity(context, fieldOutline, OneToMany);
-		createOneToMany$JoinTableOrJoinColumn(context, fieldOutline, OneToMany);
-		// TODO Auto-generated method stub
-		return OneToMany;
+		createOneToMany$Name(context, fieldOutline, oneToMany);
+		createOneToMany$TargetEntity(context, fieldOutline, oneToMany);
+		createOneToMany$JoinTableOrJoinColumn(context, fieldOutline, oneToMany);
+		return oneToMany;
 	}
 
 	public void createOneToMany$Name(Mapping context,

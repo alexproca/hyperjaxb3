@@ -3,7 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.model;
 import java.util.Collection;
 
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
-import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 
@@ -72,5 +72,5 @@ public interface ProcessModel extends
 
 	public Ignoring getIgnoring();
 
-	public ModelCustomizations getCustomizations();
+	public Customizing getCustomizing();
 }

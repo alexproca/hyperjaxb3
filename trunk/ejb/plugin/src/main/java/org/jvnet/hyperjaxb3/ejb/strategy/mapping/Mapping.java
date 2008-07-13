@@ -1,10 +1,9 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
-import java.rmi.UnexpectedException;
-
-import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
@@ -19,7 +18,7 @@ import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.java.xml.ns.persistence.orm.Transient;
 import com.sun.java.xml.ns.persistence.orm.Version;
 
-public abstract class Mapping {
+public class Mapping {
 
 	private ClassOutlineMapping<Entity> entityMapping = new EntityMapping();
 
@@ -52,7 +51,7 @@ public abstract class Mapping {
 		this.idMapping = idMapping;
 	}
 
-	private FieldOutlineMapping<Basic> basicMapping;
+	private FieldOutlineMapping<Basic> basicMapping = new BasicMapping();
 
 	public FieldOutlineMapping<Basic> getBasicMapping() {
 		return basicMapping;
@@ -85,7 +84,7 @@ public abstract class Mapping {
 		this.embeddedIdMaping = embeddedIdMaping;
 	}
 
-	private FieldOutlineMapping<Embedded> embeddedMapping;
+	private FieldOutlineMapping<Embedded> embeddedMapping;// = new EmbeddedMapping();
 
 	public FieldOutlineMapping<Embedded> getEmbeddedMapping() {
 		throw new UnsupportedOperationException();
@@ -150,7 +149,7 @@ public abstract class Mapping {
 		this.oneToManyMapping = oneToManyMapping;
 	}
 
-	private FieldOutlineMapping<ManyToMany> manyToManyMapping;
+	private FieldOutlineMapping<ManyToMany> manyToManyMapping;// = new ManyToOneMapping();
 
 	public FieldOutlineMapping<ManyToMany> getManyToManyMapping() {
 		throw new UnsupportedOperationException();
@@ -173,14 +172,15 @@ public abstract class Mapping {
 		this.transientMapping = transientMapping;
 	}
 
-	private ModelCustomizations modelCustomizations;
+	private Customizing customizing;
 
-	public ModelCustomizations getCustomizations() {
-		return modelCustomizations;
+	public Customizing getCustomizing() {
+		return customizing;
 	}
 
-	public void setModelCustomizations(ModelCustomizations modelCustomizations) {
-		this.modelCustomizations = modelCustomizations;
+	@Required
+	public void setCustomizing(Customizing modelCustomizations) {
+		this.customizing = modelCustomizations;
 	}
 
 	private Naming naming;
@@ -189,6 +189,7 @@ public abstract class Mapping {
 		return naming;
 	}
 
+	@Required
 	public void setNaming(Naming naming) {
 		this.naming = naming;
 	}
@@ -199,6 +200,7 @@ public abstract class Mapping {
 		return ignoring;
 	}
 
+	@Required
 	public void setIgnoring(Ignoring ignoring) {
 		this.ignoring = ignoring;
 	}

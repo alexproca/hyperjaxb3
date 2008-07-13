@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
@@ -17,7 +17,7 @@ public class ManyToOneMapping extends AssociationMapping implements
 	public ManyToOne process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
 
-		final ManyToOne manyToOne = context.getCustomizations().getManyToOne(
+		final ManyToOne manyToOne = context.getCustomizing().getManyToOne(
 				fieldOutline);
 
 		createManyToOne$Name(context, fieldOutline, manyToOne);

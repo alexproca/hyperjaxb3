@@ -19,7 +19,7 @@ public class DefaultAnnotateFieldOutlineVersion extends
 			FieldOutline fieldOutline, Options options) {
 
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version cversion = outlineProcessor
-				.getCustomizations().getVersion(fieldOutline);
+				.getCustomizing().getVersion(fieldOutline);
 
 		final Collection<XAnnotation> xannotations = new ArrayList<XAnnotation>(
 				2);

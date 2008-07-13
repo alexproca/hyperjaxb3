@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.java.xml.ns.persistence.orm.Version;
@@ -11,7 +11,8 @@ public class VersionMapping extends PropertyMapping implements
 	public Version process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
 
-		final Version version = context.getCustomizations().getVersion(fieldOutline);
+		final Version version = context.getCustomizing().getVersion(
+				fieldOutline);
 
 		createVersion$Name(context, fieldOutline, version);
 		createVersion$Column(context, fieldOutline, version);
@@ -24,17 +25,18 @@ public class VersionMapping extends PropertyMapping implements
 		version.setName(fieldOutline.getPropertyInfo().getName(true));
 	}
 
-	public void createVersion$Column(Mapping context, FieldOutline fieldOutline,
-			final Version version) {
+	public void createVersion$Column(Mapping context,
+			FieldOutline fieldOutline, final Version version) {
 		if (version.getColumn() == null) {
 			version.setColumn(new Column());
 		}
 
-		version.setColumn(createColumn(context, fieldOutline, version.getColumn()));
+		version.setColumn(createColumn(context, fieldOutline, version
+				.getColumn()));
 	}
 
-	public void createVersion$Temporal(Mapping context, FieldOutline fieldOutline,
-			Version version) {
+	public void createVersion$Temporal(Mapping context,
+			FieldOutline fieldOutline, Version version) {
 		if (version.getTemporal() == null && isTemporal(fieldOutline)) {
 			version.setTemporal(getTemporalType(fieldOutline));
 		}

@@ -30,7 +30,7 @@ public class DefaultAnnotateFieldOutlineId extends
 
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id id =
 		
-		outlineProcessor.getCustomizations().getId(fieldOutline);
+		outlineProcessor.getCustomizing().getId(fieldOutline);
 		
 		assert id != null;
 		

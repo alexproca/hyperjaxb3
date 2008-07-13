@@ -1,7 +1,8 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.customizations.base;
+package org.jvnet.hyperjaxb3.ejb.strategy.customizing.impl;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
@@ -11,8 +12,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
-import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -22,7 +22,7 @@ import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class DefaultModelCustomizations implements ModelCustomizations {
+public class DefaultCustomizing implements Customizing {
 
 	private Persistence defaultCustomizations;
 
@@ -63,14 +63,12 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 		if (persistence.getDefaultId() == null) {
 			throw new AssertionError("Default id element is not provided.");
 		}
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id defaultId = new Id();
-		persistence.getDefaultId().copyTo(defaultId);
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id id;
+		final Id defaultId = (Id) persistence.getDefaultId().copyTo(new Id());
+		final Id id;
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.ID_ELEMENT_NAME)) {
-			id = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id> findCustomization(
-							classInfo, Customizations.ID_ELEMENT_NAME);
+			id = Customizations.<Id> findCustomization(classInfo,
+					Customizations.ID_ELEMENT_NAME);
 
 			if (id.isMerge()) {
 				id.mergeFrom(id, defaultId);
@@ -86,14 +84,12 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 		if (persistence.getDefaultId() == null) {
 			throw new AssertionError("Default id element is not provided.");
 		}
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id defaultId = new Id();
-		persistence.getDefaultId().copyTo(defaultId);
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id id;
+		final Id defaultId = (Id) persistence.getDefaultId().copyTo(new Id());
+		final Id id;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ID_ELEMENT_NAME)) {
-			id = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id> findCustomization(
-							property, Customizations.ID_ELEMENT_NAME);
+			id = Customizations.<Id> findCustomization(property,
+					Customizations.ID_ELEMENT_NAME);
 
 			if (id.isMerge()) {
 				id.mergeFrom(id, defaultId);
@@ -113,14 +109,13 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 		if (persistence.getDefaultVersion() == null) {
 			throw new AssertionError("Default version element is not provided.");
 		}
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version defaultVersion = new Version();
-		persistence.getDefaultVersion().copyTo(defaultVersion);
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version version;
+		final Version defaultVersion = (Version) persistence
+				.getDefaultVersion().copyTo(new Version());
+		final Version version;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.VERSION_ELEMENT_NAME)) {
-			version = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version> findCustomization(
-							property, Customizations.VERSION_ELEMENT_NAME);
+			version = Customizations.<Version> findCustomization(property,
+					Customizations.VERSION_ELEMENT_NAME);
 
 			if (version.isMerge()) {
 				version.mergeFrom(version, defaultVersion);
@@ -140,14 +135,13 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 		if (persistence.getDefaultBasic() == null) {
 			throw new AssertionError("Default basic element is not provided.");
 		}
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic defaultBasic = new Basic();
-		persistence.getDefaultBasic().copyTo(defaultBasic);
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic basic;
+		final Basic defaultBasic = (Basic) persistence.getDefaultBasic()
+				.copyTo(new Basic());
+		final Basic basic;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.BASIC_ELEMENT_NAME)) {
-			basic = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic> findCustomization(
-							property, Customizations.BASIC_ELEMENT_NAME);
+			basic = Customizations.<Basic> findCustomization(property,
+					Customizations.BASIC_ELEMENT_NAME);
 
 			if (basic.isMerge()) {
 				basic.mergeFrom(basic, defaultBasic);
@@ -164,19 +158,18 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 
 	public OneToMany getOneToMany(CPropertyInfo property) {
 
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany;
+		final OneToMany coneToMany;
 		final Persistence persistence = getModelCustomization(property);
-		final OneToMany defaultOneToMany = persistence.getDefaultOneToMany();
-		if (defaultOneToMany == null) {
-			// TODO
+		if (persistence.getDefaultOneToMany() == null) {
 			throw new AssertionError(
 					"Default one-to-many element is not provided.");
 		}
+		final OneToMany defaultOneToMany = (OneToMany) persistence
+				.getDefaultOneToMany().copyTo(new OneToMany());
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_MANY_ELEMENT_NAME)) {
-			coneToMany = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany> findCustomization(
-							property, Customizations.ONE_TO_MANY_ELEMENT_NAME);
+			coneToMany = Customizations.<OneToMany> findCustomization(property,
+					Customizations.ONE_TO_MANY_ELEMENT_NAME);
 
 			if (coneToMany.isMerge()) {
 				coneToMany.mergeFrom(coneToMany, defaultOneToMany);
@@ -207,20 +200,20 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public ManyToOne getManyToOne(CPropertyInfo property) {
 
 		final Persistence persistence = getModelCustomization(property);
-		final ManyToOne defaultManyToOne = persistence.getDefaultManyToOne();
-		if (defaultManyToOne == null) {
+		if (persistence.getDefaultManyToOne() == null) {
 			// TODO
 			throw new AssertionError(
 					"Default many-to-one element is not provided.");
 		}
+		final ManyToOne defaultManyToOne = (ManyToOne) persistence
+				.getDefaultManyToOne().copyTo(new ManyToOne());
 
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne cmanyToOne;
+		final ManyToOne cmanyToOne;
 
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.MANY_TO_ONE_ELEMENT_NAME)) {
-			cmanyToOne = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne> findCustomization(
-							property, Customizations.MANY_TO_ONE_ELEMENT_NAME);
+			cmanyToOne = Customizations.<ManyToOne> findCustomization(property,
+					Customizations.MANY_TO_ONE_ELEMENT_NAME);
 			if (cmanyToOne.isMerge()) {
 				cmanyToOne.mergeFrom(cmanyToOne, defaultManyToOne);
 				if (cmanyToOne.getJoinTable() != null) {
@@ -240,20 +233,20 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public OneToOne getOneToOne(CPropertyInfo property) {
 
 		final Persistence persistence = getModelCustomization(property);
-		final OneToOne defaultOneToOne = persistence.getDefaultOneToOne();
-		if (defaultOneToOne == null) {
+		if (persistence.getDefaultOneToOne() == null) {
 			// TODO
 			throw new AssertionError(
 					"Default one-to-one element is not provided.");
 		}
+		final OneToOne defaultOneToOne = (OneToOne) persistence
+				.getDefaultOneToOne().copyTo(new OneToOne());
 
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne cOneToOne;
+		final OneToOne cOneToOne;
 
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
-			cOneToOne = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne> findCustomization(
-							property, Customizations.ONE_TO_ONE_ELEMENT_NAME);
+			cOneToOne = Customizations.<OneToOne> findCustomization(property,
+					Customizations.ONE_TO_ONE_ELEMENT_NAME);
 			if (cOneToOne.isMerge()) {
 				cOneToOne.mergeFrom(cOneToOne, defaultOneToOne);
 				if (cOneToOne.getJoinTable() != null) {
@@ -273,20 +266,20 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public ManyToMany getManyToMany(CPropertyInfo property) {
 
 		final Persistence persistence = getModelCustomization(property);
-		final ManyToMany defaultManyToMany = persistence.getDefaultManyToMany();
-		if (defaultManyToMany == null) {
+		if (persistence.getDefaultManyToMany() == null) {
 			// TODO
 			throw new AssertionError(
 					"Default many-to-many element is not provided.");
 		}
+		final ManyToMany defaultManyToMany = (ManyToMany) persistence
+				.getDefaultManyToMany().copyTo(new ManyToMany());
 
-		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany cManyToMany;
+		final ManyToMany cManyToMany;
 
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.MANY_TO_MANY_ELEMENT_NAME)) {
-			cManyToMany = Customizations
-					.<org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany> findCustomization(
-							property, Customizations.MANY_TO_MANY_ELEMENT_NAME);
+			cManyToMany = Customizations.<ManyToMany> findCustomization(
+					property, Customizations.MANY_TO_MANY_ELEMENT_NAME);
 			if (cManyToMany.isMerge()) {
 				cManyToMany.mergeFrom(cManyToMany, defaultManyToMany);
 			}
@@ -307,11 +300,12 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 	public Entity getEntity(CClassInfo classInfo) {
 
 		final Persistence persistence = getModelCustomization(classInfo);
-		final Entity defaultEntity = persistence.getDefaultEntity();
-		if (defaultEntity == null) {
+		if (persistence.getDefaultEntity() == null) {
 			// TODO
 			throw new AssertionError("Default entity element is not provided.");
 		}
+		final Entity defaultEntity = (Entity) persistence.getDefaultEntity()
+				.copyTo(new Entity());
 
 		final Entity cEntity;
 
@@ -346,7 +340,8 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
 			return getOneToOne(property);
 		} else {
-			final ToOne defaultToOne = persistence.getDefaultToOne();
+			final ToOne defaultToOne = (ToOne) persistence.getDefaultToOne()
+					.copyTo(new ToOne());
 			if (defaultToOne.getOneToOne() != null) {
 				final OneToOne defaultToOne$OneToOne = defaultToOne
 						.getOneToOne();
@@ -407,7 +402,8 @@ public class DefaultModelCustomizations implements ModelCustomizations {
 				Customizations.ONE_TO_MANY_ELEMENT_NAME)) {
 			return getOneToMany(property);
 		} else {
-			final ToMany defaultToMany = persistence.getDefaultToMany();
+			final ToMany defaultToMany = (ToMany) persistence
+					.getDefaultToMany().copyTo(new ToMany());
 			if (defaultToMany.getOneToMany() != null) {
 				final OneToMany defaultToMany$OneToMany = defaultToMany
 						.getOneToMany();

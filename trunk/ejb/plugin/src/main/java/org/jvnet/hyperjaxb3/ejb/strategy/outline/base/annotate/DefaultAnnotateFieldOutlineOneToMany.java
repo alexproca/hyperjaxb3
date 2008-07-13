@@ -41,7 +41,7 @@ public class DefaultAnnotateFieldOutlineOneToMany extends
 
 		final org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany coneToMany =
 
-		outlineProcessor.getCustomizations().getOneToMany(fieldOutline);
+		outlineProcessor.getCustomizing().getOneToMany(fieldOutline);
 
 		xannotations.add(createOneToMany(outlineProcessor, fieldOutline,
 				options, coneToMany));

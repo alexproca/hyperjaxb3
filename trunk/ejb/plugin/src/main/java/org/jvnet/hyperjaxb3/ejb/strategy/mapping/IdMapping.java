@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.outline.orm;
+package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.Column;
@@ -12,7 +12,7 @@ public class IdMapping extends PropertyMapping implements
 	public Id process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
 
-		final Id id = context.getCustomizations().getId(fieldOutline);
+		final Id id = context.getCustomizing().getId(fieldOutline);
 
 		createId$Name(context, fieldOutline, id);
 		createId$Column(context, fieldOutline, id);

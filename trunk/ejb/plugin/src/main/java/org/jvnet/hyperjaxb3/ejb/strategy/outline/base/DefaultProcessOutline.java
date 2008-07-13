@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
-import org.jvnet.hyperjaxb3.ejb.strategy.customizations.ModelCustomizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.Annotate;
@@ -114,13 +114,13 @@ public class DefaultProcessOutline implements ProcessOutline {
 		this.naming = naming;
 	}
 	
-	private ModelCustomizations customizations;
+	private Customizing customizing;
 	
-	public ModelCustomizations getCustomizations() {
-		return customizations;
+	public Customizing getCustomizing() {
+		return customizing;
 	}
 	
-	public void setCustomizations(ModelCustomizations customizations) {
-		this.customizations = customizations;
+	public void setCustomizing(Customizing customizations) {
+		this.customizing = customizations;
 	}
 }
