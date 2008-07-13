@@ -3,6 +3,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
+	
+	<bean name="ignoring" class="org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring"/>
+	
+	<bean name="naming" class="org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.DefaultNaming">
+		<property name="reservedNames" ref="reservedNames"/>
+	</bean>
+
+	<bean name="customizing"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.customizing.impl.DefaultCustomizing">
+		<property name="defaultCustomizations">
+			<bean parent="abstractCustomizationsUnmarshalledResource">
+				<property name="resource" value="classpath:org/jvnet/hyperjaxb3/ejb/strategy/customizing/impl/DefaultCustomizations.xml"/>
+			</bean>
+		</property>
+	</bean>
+
+	
+	<bean name="mapping"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping">
+		<property name="customizing" ref="customizing"/>
+		<property name="naming" ref="naming"/>
+		<property name="ignoring" ref="ignoring"/>
+	</bean>
+	
+	<bean name="annotateOutline"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.annotate.AnnotateOutline">
+		<property name="mapping" ref="mapping"/>
+		<property name="ignoring" ref="ignoring"/>
+	</bean>
+	
+	
 	<bean
 		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 	
@@ -65,16 +96,6 @@
 	<bean name="adaptBuiltinTypeUse"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.AdaptBuiltinTypeUse"/>
 
-	<bean name="customizations"
-		class="org.jvnet.hyperjaxb3.ejb.strategy.customizations.base.DefaultModelCustomizations">
-		<property name="defaultCustomizations">
-			<bean parent="abstractCustomizationsUnmarshalledResource">
-				<property name="resource" value="classpath:org/jvnet/hyperjaxb3/ejb/strategy/customizations/base/DefaultCustomizations.xml"/>
-			</bean>
-		</property>
-			
-
-	</bean>
 	
 	
 	
@@ -110,7 +131,7 @@
 		<property name="wrapCollectionWildcardReference" ref="wrapCollectionWildcardReference"/>
 
 		<property name="adaptBuiltinTypeUse" ref="adaptBuiltinTypeUse"/>
-		<property name="customizations" ref="customizations"/>
+		<property name="customizing" ref="customizing"/>
 	</bean>
 	
 	<bean name="getTypes"
@@ -139,7 +160,7 @@
 		<property name="annotate" ref="annotate"/>
 		<property name="naming" ref="naming"/>
 		<property name="ignoring" ref="ignoring"/>
-		<property name="customizations" ref="customizations"/>
+		<property name="customizing" ref="customizing"/>
 	</bean>
 	
 	<bean name="processClassOutline"
@@ -155,7 +176,6 @@
 	</bean>
 	
 
-	<bean name="ignoring" class="org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring"/>
 
 	<!-- Annotate -->	
 	<bean name="annotate" class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotate">
@@ -216,14 +236,10 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.outline.base.annotate.DefaultAnnotateFieldOutlineOneToMany">
 	</bean>
 	
-	<bean name="naming" class="org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.DefaultNaming">
-		<property name="reservedNames" ref="reservedNames"/>
-	</bean>
-
 	<bean name="reservedNames" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
 			<list>
-				<value>classpath*:org/jvnet/hyperjaxb3/ejb/strategy/outline/base/naming/reservedNames.properties</value>
+				<value>classpath*:org/jvnet/hyperjaxb3/ejb/strategy/naming/impl/ReservedNames.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -243,7 +259,7 @@
 	<bean name="annotationsProcessor"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.AnnotationsProcessor">
 		<property name="processModel" ref="processModel"/>
-		<property name="annotateOutline" ref="processOutline"/>
+		<property name="annotateOutline" ref="annotateOutline"/>
 	</bean>
 	
 	
