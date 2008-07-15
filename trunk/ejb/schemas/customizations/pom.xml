@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
@@ -16,10 +15,6 @@
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>runtime</artifactId>
 		</dependency>
-		<!--dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>tools</artifactId>
-		</dependency-->
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-schemas-persistence</artifactId>
@@ -51,17 +46,16 @@
 								<arg>-Xmergeable</arg>
 							</args>
 							<plugins>
-		                                               <plugin>
-                                		                       <groupId>org.jvnet.jaxb2_commons</groupId>
-                		                                       <artifactId>basic</artifactId>
-		                                                       <version>0.3.0</version>
+								<plugin>
+									<groupId>org.jvnet.jaxb2_commons</groupId>
+									<artifactId>basic</artifactId>
+									<version>0.3.0</version>
 								</plugin>
 							</plugins>
 							<episodes>
 								<episode>
 									<groupId>org.jvnet.hyperjaxb3</groupId>
 									<artifactId>hyperjaxb3-ejb-schemas-persistence</artifactId>
-									<version>0.4-SNAPSHOT</version>
 								</episode>
 							</episodes>
 						</configuration>
