@@ -20,9 +20,11 @@
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.cuone"/>
 			</jaxb:schemaBindings>
 			<hj:persistence>
-				<hj:default-id name="Myid"/>
+				<hj:default-generated-id name="Myid">
+					<orm:column name="MY_ID"/>
+				</hj:default-generated-id>
 				<hj:default-one-to-many>
-					<hj:join-table/>
+					<orm:join-table/>
 				</hj:default-one-to-many>
 			</hj:persistence>
 		</xs:appinfo>
@@ -38,7 +40,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:one-to-many>
-							<hj:join-column name="O2MJC_ONE_ID"/>
+							<orm:join-column name="O2MJC_ONE_ID"/>
 						</hj:one-to-many>
 					</xs:appinfo>
 				</xs:annotation>
@@ -47,7 +49,14 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:one-to-many>
-							<hj:join-table name="ONE_O2MJT_TWO"/>
+							<orm:join-table name="ONE_O2MJT_TWO">
+								<orm:join-column name="ONE_ID"/>
+								<orm:inverse-join-column name="TWO_ID"/>
+								<orm:unique-constraint>
+									<orm:column-name>ONE_ID</orm:column-name>
+									<orm:column-name>TWO_ID</orm:column-name>
+								</orm:unique-constraint>
+							</orm:join-table>
 						</hj:one-to-many>
 					</xs:appinfo>
 				</xs:annotation>
@@ -55,8 +64,8 @@
 			<xs:element name="one-to-many-children" type="test:two" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:appinfo>
-						<hj:one-to-many mappedBy="manyToOneParent">
-							<hj:join-column name="O2M_ONE_ID"/>
+						<hj:one-to-many mapped-by="manyToOneParent">
+							<orm:join-column name="O2M_ONE_ID"/>
 						</hj:one-to-many>
 					</xs:appinfo>
 				</xs:annotation>
@@ -71,7 +80,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:many-to-one>
-							<hj:join-column name="M2OJC_THREE_ID"/>
+							<orm:join-column name="M2OJC_THREE_ID"/>
 						</hj:many-to-one>
 					</xs:appinfo>
 				</xs:annotation>
@@ -80,7 +89,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:many-to-one>
-							<hj:join-table name="TWO_M2OJT_THREE"/>
+							<orm:join-table name="TWO_M2OJT_THREE"/>
 						</hj:many-to-one>
 					</xs:appinfo>
 				</xs:annotation>
@@ -89,7 +98,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:many-to-one>
-							<hj:join-column name="O2M_ONE_ID"/>
+							<orm:join-column name="O2M_ONE_ID"/>
 						</hj:many-to-one>
 					</xs:appinfo>
 				</xs:annotation>
@@ -100,7 +109,7 @@
 	<xs:complexType name="three">
 		<xs:annotation>
 			<xs:appinfo>
-				<hj:id name="ThreeId" attributeName="test:tid"/>
+				<hj:generated-id name="ThreeId" attributeName="test:tid"/>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -108,7 +117,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:basic>
-							<hj:lob/>
+							<orm:lob/>
 						</hj:basic>
 					</xs:appinfo>
 				</xs:annotation>
@@ -119,14 +128,21 @@
 	<xs:element name="four" type="test:four"/>
 
 	<xs:complexType name="four">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:entity>
+					<orm:sequence-generator name="another-four-sequence" sequence-name="ANOTHER_FOUR_SEQ"/>
+				</hj:entity>	
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="id" type="xs:int" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:id>
-							<hj:column name="FOUR_CUSTOM_ID"/>
-							<hj:generated-value strategy="SEQUENCE"/>
-							<!--hj:sequence-generator name="four-sequence" sequence-name="FOUR_SEQ"/-->
+							<orm:column name="FOUR_CUSTOM_ID"/>
+							<orm:generated-value strategy="SEQUENCE" generator="four-sequence"/>
+							<orm:sequence-generator name="four-sequence" sequence-name="FOUR_SEQ"/>
 						</hj:id>	
 					</xs:appinfo>
 				</xs:annotation>
@@ -143,8 +159,8 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:id merge="false">
-							<hj:column name="FIVE_CUSTOM_ID"/>
-							<!--hj:temporal>DATE</hj:temporal-->
+							<orm:column name="FIVE_CUSTOM_ID"/>
+							<orm:temporal>DATE</orm:temporal>
 						</hj:id>	
 					</xs:appinfo>
 				</xs:annotation>
@@ -152,6 +168,4 @@
 			<xs:element name="value" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-
-
 </xs:schema>

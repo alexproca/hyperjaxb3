@@ -9,6 +9,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.Validate;
 import org.jvnet.annox.util.ClassUtils;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
@@ -99,14 +100,14 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 	}
 
 	public String getPropertyName(ProcessModel context, CClassInfo classInfo) {
-		final Id id = context.getCustomizing().getId(classInfo);
+		final GeneratedId id = context.getCustomizing().getGeneratedId(classInfo);
 		final String name = id.getName();
 		Validate.notEmpty(name, "The hj:/@name attribute must not be empty.");
 		return name;
 	}
 
 	public QName getAttributeName(ProcessModel context, CClassInfo classInfo) {
-		final Id id = context.getCustomizing().getId(classInfo);
+		final GeneratedId id = context.getCustomizing().getGeneratedId(classInfo);
 		final QName attributeName = id.getAttributeName();
 		return attributeName != null ? attributeName : new QName(
 				getPropertyName(context, classInfo));
@@ -114,7 +115,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 	public CNonElement getPropertyTypeInfo(ProcessModel context,
 			CClassInfo classInfo) {
-		final Id id = context.getCustomizing().getId(classInfo);
+		final GeneratedId id = context.getCustomizing().getGeneratedId(classInfo);
 		final String javaType = id.getJavaType();
 		Validate.notEmpty(javaType,
 				"The hj:/@javaType attribute must not be empty.");
@@ -135,8 +136,9 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 	public CPluginCustomization createIdCustomization(ProcessModel context,
 			CClassInfo classInfo) {
-		final Id id = context.getCustomizing().getId(classInfo);
-
+		final GeneratedId generatedId = context.getCustomizing().getGeneratedId(classInfo);
+		final Id draftId = new Id();
+		final Id id = (Id) draftId.mergeFrom(generatedId, draftId);
 		final JAXBElement<Id> idElement = Customizations
 				.getCustomizationsObjectFactory().createId(id);
 

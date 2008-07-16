@@ -1,14 +1,15 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.customizing;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -19,7 +20,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
  */
 public interface Customizing {
 
-	public Id getId(CClassInfo classInfo);
+	public GeneratedId getGeneratedId(CClassInfo classInfo);
 
 	public Id getId(CPropertyInfo property);
 

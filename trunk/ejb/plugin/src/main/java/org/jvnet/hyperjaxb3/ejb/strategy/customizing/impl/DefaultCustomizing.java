@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.customizing.impl;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
@@ -36,39 +37,62 @@ public class DefaultCustomizing implements Customizing {
 	}
 
 	public Persistence getModelCustomization(Model model) {
-		final Persistence persistence = Customizations
+		final Persistence cPersistence = Customizations
 				.<Persistence> findCustomization(model,
 						Customizations.PERSISTENCE_ELEMENT_NAME);
-		if (persistence == null) {
+		if (cPersistence == null) {
 			return getDefaultCustomizations();
 		}
-		if (!persistence.isMerge()) {
-			return persistence;
+		if (!cPersistence.isMerge()) {
+			return cPersistence;
 		} else {
 			final Persistence defaultPersistence = getDefaultCustomizations();
-			persistence.mergeFrom(persistence, defaultPersistence);
-			if (persistence.getDefaultManyToOne().getJoinTable() != null) {
-				persistence.getDefaultManyToOne().getJoinColumn().clear();
+			if (cPersistence.getDefaultManyToOne() != null) {
+				if (cPersistence.getDefaultManyToOne().getJoinTable() != null) {
+					defaultPersistence.getDefaultManyToOne().getJoinColumn()
+							.clear();
+				} else if (!cPersistence.getDefaultManyToOne().getJoinColumn()
+						.isEmpty()) {
+					defaultPersistence.getDefaultManyToOne().setJoinTable(null);
+				}
 			}
-			if (persistence.getDefaultOneToMany().getJoinTable() != null) {
-				persistence.getDefaultOneToMany().getJoinColumn().clear();
+			if (cPersistence.getDefaultOneToOne() != null) {
+				if (cPersistence.getDefaultOneToOne().getJoinTable() != null) {
+					defaultPersistence.getDefaultOneToOne().getJoinColumn()
+							.clear();
+				} else if (!cPersistence.getDefaultOneToOne().getJoinColumn()
+						.isEmpty()) {
+					defaultPersistence.getDefaultOneToOne().setJoinTable(null);
+				}
 			}
-			return persistence;
+			if (cPersistence.getDefaultOneToMany() != null) {
+				if (cPersistence.getDefaultOneToMany().getJoinTable() != null) {
+					defaultPersistence.getDefaultOneToMany().getJoinColumn()
+							.clear();
+				} else if (!cPersistence.getDefaultOneToMany().getJoinColumn()
+						.isEmpty()) {
+					defaultPersistence.getDefaultOneToMany().setJoinTable(null);
+				}
+			}
+
+			cPersistence.mergeFrom(cPersistence, defaultPersistence);
+			return cPersistence;
 		}
 	}
 
-	public Id getId(CClassInfo classInfo) {
+	public GeneratedId getGeneratedId(CClassInfo classInfo) {
 
 		final Persistence persistence = getModelCustomization(classInfo);
-		if (persistence.getDefaultId() == null) {
+		if (persistence.getDefaultGeneratedId() == null) {
 			throw new AssertionError("Default id element is not provided.");
 		}
-		final Id defaultId = (Id) persistence.getDefaultId().copyTo(new Id());
-		final Id id;
+		final GeneratedId defaultId = (GeneratedId) persistence
+				.getDefaultGeneratedId().copyTo(new GeneratedId());
+		final GeneratedId id;
 		if (CustomizationUtils.containsCustomization(classInfo,
-				Customizations.ID_ELEMENT_NAME)) {
-			id = Customizations.<Id> findCustomization(classInfo,
-					Customizations.ID_ELEMENT_NAME);
+				Customizations.GENERATED_ID_ELEMENT_NAME)) {
+			id = Customizations.<GeneratedId> findCustomization(classInfo,
+					Customizations.GENERATED_ID_ELEMENT_NAME);
 
 			if (id.isMerge()) {
 				id.mergeFrom(id, defaultId);
@@ -171,16 +195,23 @@ public class DefaultCustomizing implements Customizing {
 			coneToMany = Customizations.<OneToMany> findCustomization(property,
 					Customizations.ONE_TO_MANY_ELEMENT_NAME);
 
-			if (coneToMany.isMerge()) {
-				coneToMany.mergeFrom(coneToMany, defaultOneToMany);
-				if (coneToMany.getJoinTable() != null) {
-					coneToMany.getJoinColumn().clear();
-				}
-			}
+			merge(coneToMany, defaultOneToMany);
 		} else {
 			return defaultOneToMany;
 		}
 		return coneToMany;
+	}
+
+	private void merge(final OneToMany cOneToMany,
+			final OneToMany defaultOneToMany) {
+		if (cOneToMany.isMerge()) {
+			if (cOneToMany.getJoinTable() != null) {
+				defaultOneToMany.getJoinColumn().clear();
+			} else if (!cOneToMany.getJoinColumn().isEmpty()) {
+				defaultOneToMany.setJoinTable(null);
+			}
+			cOneToMany.mergeFrom(cOneToMany, defaultOneToMany);
+		}
 	}
 
 	public Persistence getModelCustomization(CPropertyInfo property) {
@@ -214,16 +245,23 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.MANY_TO_ONE_ELEMENT_NAME)) {
 			cmanyToOne = Customizations.<ManyToOne> findCustomization(property,
 					Customizations.MANY_TO_ONE_ELEMENT_NAME);
-			if (cmanyToOne.isMerge()) {
-				cmanyToOne.mergeFrom(cmanyToOne, defaultManyToOne);
-				if (cmanyToOne.getJoinTable() != null) {
-					cmanyToOne.getJoinColumn().clear();
-				}
-			}
+			merge(cmanyToOne, defaultManyToOne);
 		} else {
 			return defaultManyToOne;
 		}
 		return cmanyToOne;
+	}
+
+	private void merge(final ManyToOne cManyToOne,
+			final ManyToOne defaultManyToOne) {
+		if (cManyToOne.isMerge()) {
+			if (cManyToOne.getJoinTable() != null) {
+				defaultManyToOne.getJoinColumn().clear();
+			} else if (!cManyToOne.getJoinColumn().isEmpty()) {
+				defaultManyToOne.setJoinTable(null);
+			}
+			cManyToOne.mergeFrom(cManyToOne, defaultManyToOne);
+		}
 	}
 
 	public ManyToOne getManyToOne(FieldOutline property) {
@@ -247,16 +285,22 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
 			cOneToOne = Customizations.<OneToOne> findCustomization(property,
 					Customizations.ONE_TO_ONE_ELEMENT_NAME);
-			if (cOneToOne.isMerge()) {
-				cOneToOne.mergeFrom(cOneToOne, defaultOneToOne);
-				if (cOneToOne.getJoinTable() != null) {
-					cOneToOne.getJoinColumn().clear();
-				}
-			}
+			merge(cOneToOne, defaultOneToOne);
 		} else {
 			return defaultOneToOne;
 		}
 		return cOneToOne;
+	}
+
+	private void merge(final OneToOne cOneToOne, final OneToOne defaultOneToOne) {
+		if (cOneToOne.isMerge()) {
+			if (cOneToOne.getJoinTable() != null) {
+				defaultOneToOne.getJoinColumn().clear();
+			} else if (!cOneToOne.getJoinColumn().isEmpty()) {
+				defaultOneToOne.setJoinTable(null);
+			}
+			cOneToOne.mergeFrom(cOneToOne, defaultOneToOne);
+		}
 	}
 
 	public OneToOne getOneToOne(FieldOutline property) {
@@ -280,13 +324,18 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.MANY_TO_MANY_ELEMENT_NAME)) {
 			cManyToMany = Customizations.<ManyToMany> findCustomization(
 					property, Customizations.MANY_TO_MANY_ELEMENT_NAME);
-			if (cManyToMany.isMerge()) {
-				cManyToMany.mergeFrom(cManyToMany, defaultManyToMany);
-			}
+			merge(cManyToMany, defaultManyToMany);
 		} else {
 			return defaultManyToMany;
 		}
 		return cManyToMany;
+	}
+
+	private void merge(final ManyToMany cManyToMany,
+			final ManyToMany defaultManyToMany) {
+		if (cManyToMany.isMerge()) {
+			cManyToMany.mergeFrom(cManyToMany, defaultManyToMany);
+		}
 	}
 
 	public ManyToMany getManyToMany(FieldOutline property) {
@@ -343,8 +392,7 @@ public class DefaultCustomizing implements Customizing {
 			final ToOne defaultToOne = (ToOne) persistence.getDefaultToOne()
 					.copyTo(new ToOne());
 			if (defaultToOne.getOneToOne() != null) {
-				final OneToOne defaultToOne$OneToOne = defaultToOne
-						.getOneToOne();
+				final OneToOne cOneToOne = defaultToOne.getOneToOne();
 
 				final OneToOne defaultOneToOne = persistence
 						.getDefaultOneToOne();
@@ -354,18 +402,11 @@ public class DefaultCustomizing implements Customizing {
 							"Default One-to-one element is not provided.");
 				}
 
-				if (defaultToOne$OneToOne.isMerge()) {
-					defaultToOne$OneToOne.mergeFrom(defaultToOne$OneToOne,
-							defaultOneToOne);
-					if (defaultToOne$OneToOne.getJoinTable() != null) {
-						defaultToOne$OneToOne.getJoinColumn().clear();
-					}
-				}
+				merge(cOneToOne, defaultOneToOne);
 
-				return defaultToOne$OneToOne;
+				return cOneToOne;
 			} else if (defaultToOne.getManyToOne() != null) {
-				final ManyToOne defaultToOne$ManyToOne = defaultToOne
-						.getManyToOne();
+				final ManyToOne cManyToOne = defaultToOne.getManyToOne();
 
 				final ManyToOne defaultManyToOne = persistence
 						.getDefaultManyToOne();
@@ -375,15 +416,9 @@ public class DefaultCustomizing implements Customizing {
 							"Default many-to-one element is not provided.");
 				}
 
-				if (defaultToOne$ManyToOne.isMerge()) {
-					defaultToOne$ManyToOne.mergeFrom(defaultToOne$ManyToOne,
-							defaultManyToOne);
-					if (defaultToOne$ManyToOne.getJoinTable() != null) {
-						defaultToOne$ManyToOne.getJoinColumn().clear();
-					}
-				}
+				merge(cManyToOne, defaultManyToOne);
 
-				return defaultToOne$ManyToOne;
+				return cManyToOne;
 			} else {
 				throw new AssertionError(
 						"Either one-to-one or many-to-one elements must be provided in the default-to-one element.");
@@ -405,8 +440,7 @@ public class DefaultCustomizing implements Customizing {
 			final ToMany defaultToMany = (ToMany) persistence
 					.getDefaultToMany().copyTo(new ToMany());
 			if (defaultToMany.getOneToMany() != null) {
-				final OneToMany defaultToMany$OneToMany = defaultToMany
-						.getOneToMany();
+				final OneToMany cOneToMany = defaultToMany.getOneToMany();
 
 				final OneToMany defaultOneToMany = persistence
 						.getDefaultOneToMany();
@@ -416,18 +450,10 @@ public class DefaultCustomizing implements Customizing {
 							"Default one-to-many element is not provided.");
 				}
 
-				if (defaultToMany$OneToMany.isMerge()) {
-					defaultToMany$OneToMany.mergeFrom(defaultToMany$OneToMany,
-							defaultOneToMany);
-					if (defaultToMany$OneToMany.getJoinTable() != null) {
-						defaultToMany$OneToMany.getJoinColumn().clear();
-					}
-				}
-
-				return defaultToMany$OneToMany;
+				merge(cOneToMany, defaultOneToMany);
+				return cOneToMany;
 			} else if (defaultToMany.getManyToMany() != null) {
-				final ManyToMany defaultToMany$ManyToMany = defaultToMany
-						.getManyToMany();
+				final ManyToMany cManyToMany = defaultToMany.getManyToMany();
 
 				final ManyToMany defaultManyToMany = persistence
 						.getDefaultManyToMany();
@@ -437,12 +463,9 @@ public class DefaultCustomizing implements Customizing {
 							"Default many-to-many element is not provided.");
 				}
 
-				if (defaultToMany$ManyToMany.isMerge()) {
-					defaultToMany$ManyToMany.mergeFrom(
-							defaultToMany$ManyToMany, defaultManyToMany);
-				}
+				merge(cManyToMany, defaultManyToMany);
 
-				return defaultToMany$ManyToMany;
+				return cManyToMany;
 			} else {
 				throw new AssertionError(
 						"Either one-to-many or many-to-many elements must be provided in the default-to-many element.");
