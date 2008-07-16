@@ -15,11 +15,8 @@
 package org.jvnet.hyperjaxb3.maven2;
 
 import java.io.File;
-import java.net.URI;
-import java.util.Enumeration;
 
 import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -163,7 +160,7 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 */
 	protected void setupCmdLineArgs(Options xjcOpts)
 			throws MojoExecutionException {
-
+		System.out.println("Setting arguments(1):" + recursiveToString(getArgs()));
 
 		if ("ejb".equals(variant)) {
 			getArgs().add("-Xhyperjaxb3-ejb");
