@@ -60,7 +60,7 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 */
 	@MojoParameter
 	public String[] resourceIncludes = new String[] { "**/*.hbm.xml",
-			"**/*.cfg.xml", "META-INF/persistence.xml" };
+			"**/*.orm.xml", "**/*.cfg.xml", "META-INF/persistence.xml" };
 
 	/**
 	 * Persistence variant. Switches between various persistence
@@ -101,7 +101,7 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 */
 	@MojoParameter(expression = "${maven.hj3.generateEquals}", defaultValue = "true")
 	public boolean generateEquals = true;
-	
+
 	/**
 	 * 
 	 * Whether the generated id property must be transient.
@@ -109,7 +109,13 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 */
 	@MojoParameter(expression = "${maven.hj3.generateTransientId}", defaultValue = "false")
 	public boolean generateTransientId = false;
-	
+
+	/**
+	 * Generation result. Possible values are "annotations", "mappingFiles".
+	 * 
+	 */
+	@MojoParameter(expression = "${maven.hj3.result}", defaultValue = "annotations")
+	public String result = "annotations";
 
 	/**
 	 * Sets up the verbose and debug mode depending on mvn logging level, and
@@ -160,10 +166,13 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 */
 	protected void setupCmdLineArgs(Options xjcOpts)
 			throws MojoExecutionException {
-		System.out.println("Setting arguments(1):" + recursiveToString(getArgs()));
-
 		if ("ejb".equals(variant)) {
 			getArgs().add("-Xhyperjaxb3-ejb");
+
+			if (result != null) {
+				getArgs().add("-Xhyperjaxb3-ejb-result=" + result);
+			}
+
 			if (roundtripTestClassName != null) {
 				getArgs().add(
 						"-Xhyperjaxb3-ejb-roundtripTestClassName="
@@ -179,21 +188,20 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 						"-Xhyperjaxb3-ejb-persistenceXml="
 								+ persistenceXml.getAbsolutePath());
 			}
+
 			if (generateTransientId) {
-				getArgs().add(
-						"-Xhyperjaxb3-ejb-generateTransientId=true");
+				getArgs().add("-Xhyperjaxb3-ejb-generateTransientId=true");
 			}
 
 		}
-		
+
 		if (generateEquals) {
 			getArgs().add("-Xequals");
 		}
 		if (generateHashCode) {
 			getArgs().add("-XhashCode");
 		}
-		
-		
+
 		super.setupCmdLineArgs(xjcOpts);
 	}
 

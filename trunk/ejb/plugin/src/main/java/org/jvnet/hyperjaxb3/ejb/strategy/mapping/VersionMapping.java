@@ -1,5 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
+import org.jvnet.jaxb2_commons.util.OutlineUtils;
+
 import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.java.xml.ns.persistence.orm.Version;
 import com.sun.tools.xjc.Options;
@@ -22,7 +24,7 @@ public class VersionMapping extends PropertyMapping implements
 
 	public void createVersion$Name(Mapping context, FieldOutline fieldOutline,
 			final Version version) {
-		version.setName(fieldOutline.getPropertyInfo().getName(true));
+		version.setName(OutlineUtils.getPropertyName(fieldOutline));
 	}
 
 	public void createVersion$Column(Mapping context,

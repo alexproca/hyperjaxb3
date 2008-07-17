@@ -2,6 +2,8 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
+import org.jvnet.jaxb2_commons.util.OutlineUtils;
+
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
@@ -11,8 +13,7 @@ import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class OneToManyMapping extends AssociationMapping implements
-		FieldOutlineMapping<OneToMany> {
+public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 
 	public OneToMany process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
@@ -28,7 +29,7 @@ public class OneToManyMapping extends AssociationMapping implements
 
 	public void createOneToMany$Name(Mapping context,
 			FieldOutline fieldOutline, final OneToMany OneToMany) {
-		OneToMany.setName(fieldOutline.getPropertyInfo().getName(true));
+		OneToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
 	}
 
 	public void createOneToMany$TargetEntity(Mapping context,

@@ -11,7 +11,7 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
-public class AnnotationsProcessor implements
+public class ModelAndOutlineProcessor implements
 		OutlineProcessor<Collection<ClassOutline>, EjbPlugin> {
 
 	public Collection<ClassOutline> process(EjbPlugin context, Outline outline,
@@ -19,7 +19,7 @@ public class AnnotationsProcessor implements
 
 		getProcessModel().process(context, outline, options);
 
-		return getAnnotateOutline().process(context, outline, options);
+		return getProcessOutline().process(context, outline, options);
 	}
 
 	private OutlineProcessor<Collection<CClassInfo>, EjbPlugin> processModel;
@@ -34,15 +34,15 @@ public class AnnotationsProcessor implements
 		this.processModel = outlineProcessor;
 	}
 
-	private OutlineProcessor<Collection<ClassOutline>, EjbPlugin> annotateOutline;
+	private OutlineProcessor<Collection<ClassOutline>, EjbPlugin> processOutline;
 
-	public OutlineProcessor<Collection<ClassOutline>, EjbPlugin> getAnnotateOutline() {
-		return annotateOutline;
+	public OutlineProcessor<Collection<ClassOutline>, EjbPlugin> getProcessOutline() {
+		return processOutline;
 	}
 
-	public void setAnnotateOutline(
+	public void setProcessOutline(
 			OutlineProcessor<Collection<ClassOutline>, EjbPlugin> annotateOutline) {
-		this.annotateOutline = annotateOutline;
+		this.processOutline = annotateOutline;
 	}
 
 }

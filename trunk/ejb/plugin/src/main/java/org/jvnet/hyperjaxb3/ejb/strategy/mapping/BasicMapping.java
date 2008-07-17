@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import javax.persistence.EnumType;
 
+import org.jvnet.jaxb2_commons.util.OutlineUtils;
+
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.java.xml.ns.persistence.orm.Lob;
@@ -12,6 +14,7 @@ import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.xml.bind.api.impl.NameConverter;
 
 public class BasicMapping extends PropertyMapping implements
 		FieldOutlineMapping<Basic> {
@@ -42,7 +45,7 @@ public class BasicMapping extends PropertyMapping implements
 
 	public void createBasic$Name(Mapping context, FieldOutline fieldOutline,
 			final Basic basic) {
-		basic.setName(fieldOutline.getPropertyInfo().getName(true));
+		basic.setName(OutlineUtils.getPropertyName(fieldOutline));
 	}
 
 	public void createBasic$Column(Mapping context, FieldOutline fieldOutline,

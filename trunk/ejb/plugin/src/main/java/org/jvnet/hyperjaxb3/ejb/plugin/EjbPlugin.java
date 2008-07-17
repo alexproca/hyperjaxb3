@@ -120,18 +120,18 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		this.generateTransientId = generateTransientId;
 	}
 
-	private String variant = "annotations";
+	private String result = "annotations";
 
-	public String getVariant() {
-		return variant;
+	public String getResult() {
+		return result;
 	}
 
-	public void setVariant(String variant) {
-		this.variant = variant;
+	public void setResult(String variant) {
+		this.result = variant;
 	}
 
 	public String getOutlineProcessorBeanName() {
-		return getVariant();
+		return getResult();
 	}
 
 	// @Override

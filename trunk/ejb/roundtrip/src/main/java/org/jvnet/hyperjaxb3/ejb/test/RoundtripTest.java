@@ -57,7 +57,7 @@ public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
 		// final Serializable id =
 		final Object mergedObject = saveManager.merge(unmarshalledObject);
 		saveManager.getTransaction().commit();
-		final Object id = EntityUtils.getId(mergedObject);
+		final Object id = EntityUtils.getId(saveManager, mergedObject);
 		// saveSession.getIdentifier(object);
 		saveManager.clear();
 		// Close the session

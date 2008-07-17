@@ -108,7 +108,7 @@ public class AnnotateOutline implements
 
 	public FieldOutline process(AnnotateOutline context,
 			FieldOutline fieldOutline, Options options, Attributes attributes) {
-		final String name = fieldOutline.getPropertyInfo().getName(true);
+		final String name = OutlineUtils.getPropertyName(fieldOutline);
 		logger.debug("Processing field [" + name + "].");
 
 		final JMethod issetter = FieldAccessorUtils.issetter(fieldOutline);

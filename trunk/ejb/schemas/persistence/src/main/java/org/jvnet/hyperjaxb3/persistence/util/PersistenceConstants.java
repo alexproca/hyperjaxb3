@@ -12,6 +12,13 @@ public class PersistenceConstants {
 			.getName()
 			+ ":" + Entity.class.getPackage().getName();
 
-	public static final String SCHEMA_LOCATION = "http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd";
+	public static final String PERSISTENCE_NAMESPACE_URI = "http://java.sun.com/xml/ns/persistence";
+
+	public static final String ORM_NAMESPACE_URI = "http://java.sun.com/xml/ns/persistence/orm";
+
+	public static final String SCHEMA_LOCATION = PERSISTENCE_NAMESPACE_URI
+			+ " http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd\n"
+			+ ORM_NAMESPACE_URI
+			+ " http://java.sun.com/xml/ns/persistence/orm_1_0.xsd";
 
 }

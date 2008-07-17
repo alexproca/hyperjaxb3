@@ -257,16 +257,38 @@
 	</bean>
 
 	<bean name="annotationsProcessor"
-		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.AnnotationsProcessor">
+		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.ModelAndOutlineProcessor">
 		<property name="processModel" ref="processModel"/>
-		<property name="annotateOutline" ref="annotateOutline"/>
+		<property name="processOutline" ref="annotateOutline"/>
 	</bean>
 	
+	
+	
+	
+	
+	<bean name="marshalMappings"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.MarshalMappings">
+		<property name="mapping" ref="mapping"/>
+		<property name="ignoring" ref="ignoring"/>
+	</bean>
+	
+	
+	<bean name="mappingFilesProcessor"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.ModelAndOutlineProcessor">
+		<property name="processModel" ref="processModel"/>
+		<property name="processOutline" ref="marshalMappings"/>
+	</bean>
 	
 	<!-- Variants -->
 	<bean name="annotations"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.ClassPersistenceProcessor">
 		<property name="outlineProcessor" ref="annotationsProcessor"/>
 	</bean>
+	
+	<bean name="mappingFiles"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.MappingFilePersistenceProcessor">
+		<property name="outlineProcessor" ref="mappingFilesProcessor"/>
+	</bean>
+	
 	
 </beans>

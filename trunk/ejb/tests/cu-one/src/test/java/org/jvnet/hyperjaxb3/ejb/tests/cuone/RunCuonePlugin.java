@@ -7,6 +7,7 @@ public class RunCuonePlugin extends RunEjbHyperjaxb3Mojo {
 
 	@Override
 	protected void configureHyperjaxb3Mojo(Hyperjaxb3Mojo mojo) {
+		mojo.getArgs().add("-Xhyperjaxb3-ejb-result=mappingFiles");
 		super.configureHyperjaxb3Mojo(mojo);
 	}
 

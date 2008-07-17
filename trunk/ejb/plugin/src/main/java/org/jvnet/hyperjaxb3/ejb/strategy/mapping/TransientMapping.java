@@ -1,5 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
+import org.jvnet.jaxb2_commons.util.OutlineUtils;
+
 import com.sun.java.xml.ns.persistence.orm.Transient;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -24,7 +26,7 @@ public class TransientMapping implements FieldOutlineMapping<Transient> {
 
 	public void createTransient$Name(Mapping context,
 			FieldOutline fieldOutline, final Transient _transient) {
-		_transient.setName(fieldOutline.getPropertyInfo().getName(true));
+		_transient.setName(OutlineUtils.getPropertyName(fieldOutline));
 	}
 
 }

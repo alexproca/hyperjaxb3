@@ -1,16 +1,11 @@
 package org.jvnet.hyperjaxb3.persistence.util;
 
-import java.util.Collection;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
-
 import com.sun.java.xml.ns.persistence.Persistence;
-import com.sun.java.xml.ns.persistence.Persistence.PersistenceUnit;
-import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 public class PersistenceUtils {
 
@@ -31,13 +26,29 @@ public class PersistenceUtils {
 			throw new ExceptionInInitializerError(jaxbex);
 		}
 	}
-	
 
 	public static Marshaller createMarshaller() throws JAXBException {
 		final Marshaller marshaller = CONTEXT.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
 				PersistenceConstants.SCHEMA_LOCATION);
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
+				NAMESPACE_PREFIX_MAPPER);
+
 		return marshaller;
 	}
+
+	public static final NamespacePrefixMapper NAMESPACE_PREFIX_MAPPER = new NamespacePrefixMapper() {
+		public String getPreferredPrefix(String namespaceUri,
+				String suggestion, boolean requirePrefix) {
+			if (PersistenceConstants.ORM_NAMESPACE_URI.equals(namespaceUri)) {
+				return "orm";
+			} else if (PersistenceConstants.PERSISTENCE_NAMESPACE_URI
+					.equals(namespaceUri)) {
+				return "";
+			} else {
+				return suggestion;
+			}
+		}
+	};
 }
