@@ -145,36 +145,17 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	// }
 	//
 	@Override
-	public boolean run(Outline outline, Options options,
-			ErrorHandler errorHandler) {
+	public boolean run(Outline outline, Options options) throws Exception {
 
-		// getProcessModel().getCreateDefaultIdPropertyInfos().setTransient(
-		// isGenerateTransientId());
+		final OutlineProcessor<?, EjbPlugin> outlineProcessor = getOutlineProcessor();
 
-		try {
-			// processModel(outline, options);
+		outlineProcessor.process(this, outline, options);
 
-			// processOutline(outline, options);
+		generateRoundtripTestClass(outline);
 
-			final OutlineProcessor<?, EjbPlugin> outlineProcessor = getOutlineProcessor();
-
-			outlineProcessor.process(this, outline, options);
-
-			generateRoundtripTestClass(outline);
-
-			checkCustomizations(outline);
-
-		} catch (Exception ex) {
-			try {
-				logger.error("Outline processing error.", ex);
-				errorHandler.error(new SAXParseException(
-						"Outline processing error.", null, ex));
-			} catch (SAXException ignored) {
-				// Exception is ignored
-			}
-			return false;
-		}
+		checkCustomizations(outline);
 		return true;
+
 	}
 
 	private void generateRoundtripTestClass(Outline outline) {
@@ -367,17 +348,30 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	@Override
 	public void onActivated(Options options) throws BadCommandLineException {
-		
-		Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-		
+
+		Thread.currentThread().setContextClassLoader(
+				getClass().getClassLoader());
+
 		super.onActivated(options);
 
+		final FieldRendererFactory fieldRendererFactory = new FieldRendererFactory() {
+
+			public FieldRenderer getList(JClass coreList) {
+				return new UntypedListFieldRenderer(coreList);
+			}
+		};
+		options.setFieldRendererFactory(fieldRendererFactory, this);
+	}
+
+	@Override
+	public void init(Options options) throws Exception {
+		super.init(options);
 		if (getOutlineProcessor() == null) {
 			try {
 				final Object bean = getApplicationContext().getBean(
 						getOutlineProcessorBeanName());
 				if (!(bean instanceof OutlineProcessor)) {
-					throw new BadCommandLineException("Variant bean ["
+					throw new BadCommandLineException("Result bean ["
 							+ getOutlineProcessorBeanName() + "] of class ["
 							+ bean.getClass() + "] does not implement ["
 							+ OutlineProcessor.class.getName() + "] interface.");
@@ -395,13 +389,6 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		if (getTargetDir() == null) {
 			setTargetDir(options.targetDir);
 		}
-		final FieldRendererFactory fieldRendererFactory = new FieldRendererFactory() {
-
-			public FieldRenderer getList(JClass coreList) {
-				return new UntypedListFieldRenderer(coreList);
-			}
-		};
-		options.setFieldRendererFactory(fieldRendererFactory, this);
 	}
 
 	private OutlineProcessor<?, EjbPlugin> outlineProcessor;
