@@ -67,7 +67,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 				propertyName, null, customizations, null, attributeName,
 				propertyTypeInfo, propertyTypeInfo.getTypeName(), false);
 
-		if (cid.isTransient()) {
+		if (cid.isTransient() != null && cid.isTransient()) {
 			propertyInfo.realization = new GenericFieldRenderer(
 					TransientSingleField.class);
 		}
