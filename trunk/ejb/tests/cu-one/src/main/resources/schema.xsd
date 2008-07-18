@@ -20,7 +20,7 @@
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.cuone"/>
 			</jaxb:schemaBindings>
 			<hj:persistence>
-				<hj:default-generated-id name="Myid">
+				<hj:default-generated-id name="Myid" transient="true">
 					<orm:column name="MY_ID"/>
 				</hj:default-generated-id>
 				<hj:default-one-to-many>
@@ -61,6 +61,24 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+			<xs:element name="many-to-many-join-table" type="test:two" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:many-to-many>
+							<orm:join-table name="ONE_M2MJT_TWO">
+								<orm:join-column name="ONE_ID"/>
+								<orm:inverse-join-column name="TWO_ID"/>
+								<orm:unique-constraint>
+									<orm:column-name>ONE_ID</orm:column-name>
+									<orm:column-name>TWO_ID</orm:column-name>
+								</orm:unique-constraint>
+							</orm:join-table>
+						</hj:many-to-many>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 			<xs:element name="one-to-many-children" type="test:two" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:appinfo>
@@ -71,7 +89,10 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
 	</xs:complexType>
+
+	<xs:element name="two" type="test:two"/>
 
 	<xs:complexType name="two">
 		<xs:sequence>
@@ -94,6 +115,34 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+			<xs:element name="one-to-one-join-column" type="test:three" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:one-to-one>
+							<orm:join-column name="O2OJC_THREE_ID"/>
+						</hj:one-to-one>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="one-to-one-join-table" type="test:three" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:one-to-one>
+							<orm:join-table name="TWO_O2OJT_THREE">
+								<orm:join-column name="TWO_ID"/>
+								<orm:inverse-join-column name="THREE_ID"/>
+								<orm:unique-constraint>
+									<orm:column-name>TWO_ID</orm:column-name>
+									<orm:column-name>THREE_ID</orm:column-name>
+								</orm:unique-constraint>
+							</orm:join-table>
+						</hj:one-to-one>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+
 			<xs:element name="many-to-one-parent" type="test:one" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
@@ -103,13 +152,18 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+
 		</xs:sequence>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
 	</xs:complexType>
+
+	<xs:element name="three" type="test:three"/>
 
 	<xs:complexType name="three">
 		<xs:annotation>
 			<xs:appinfo>
-				<hj:generated-id name="ThreeId" attributeName="test:tid"/>
+				<hj:generated-id name="ThreeId" attributeName="test:tid" transient="false"/>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -123,6 +177,7 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
 	</xs:complexType>
 
 	<xs:element name="four" type="test:four"/>
@@ -168,28 +223,5 @@
 			<xs:element name="value" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-
-	<xs:element name="SexType">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="sex">
-					<xs:simpleType>
-			                         <xs:annotation>
-			                                 <xs:appinfo>
-			                                         <jaxb:typesafeEnumClass name="sex">
-			                                                 <jaxb:typesafeEnumMember name="MALE" value="MA LE" />
-			                                                 <jaxb:typesafeEnumMember name="FEMALE" value="FEM ALE" />
-			                                         </jaxb:typesafeEnumClass>
-                			                 </xs:appinfo>
-			                         </xs:annotation>
-			                         <xs:restriction base="xs:string">
-			                                 <xs:enumeration value="MA LE" />
-			                                 <xs:enumeration value="FEM ALE" />
-			                         </xs:restriction>
-			        	</xs:simpleType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
 
 </xs:schema>

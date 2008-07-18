@@ -13,7 +13,7 @@ import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
+public class OneToManyMapping extends AssociationMapping<OneToMany> {
 
 	public OneToMany process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
@@ -28,12 +28,12 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 	}
 
 	public void createOneToMany$Name(Mapping context,
-			FieldOutline fieldOutline, final OneToMany OneToMany) {
-		OneToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
+			FieldOutline fieldOutline, final OneToMany oneToMany) {
+		oneToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
 	}
 
 	public void createOneToMany$TargetEntity(Mapping context,
-			FieldOutline fieldOutline, final OneToMany OneToMany) {
+			FieldOutline fieldOutline, final OneToMany oneToMany) {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
@@ -47,123 +47,22 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 
 		final NType childClassInfo = (NType) type;
 
-		OneToMany.setTargetEntity(childClassInfo.fullName());
+		oneToMany.setTargetEntity(childClassInfo.fullName());
 
 	}
 
 	public void createOneToMany$JoinTableOrJoinColumn(Mapping context,
-			FieldOutline fieldOutline, OneToMany OneToMany) {
+			FieldOutline fieldOutline, OneToMany oneToMany) {
 
-		if (OneToMany.getJoinColumn() != null
-				&& !OneToMany.getJoinColumn().isEmpty()) {
-			for (JoinColumn joinColumn : OneToMany.getJoinColumn()) {
-				createOneToMany$JoinColumn(context, fieldOutline, joinColumn);
-			}
-		} else if (OneToMany.getJoinTable() != null) {
-			final JoinTable joinTable = OneToMany.getJoinTable();
-			createOneToMany$JoinTable(context, fieldOutline, joinTable);
+		if (!oneToMany.getJoinColumn().isEmpty()) {
+			createJoinColumns(context, fieldOutline, oneToMany.getJoinColumn());
+		} else if (oneToMany.getJoinTable() != null) {
+			createJoinTable(context, fieldOutline, oneToMany.getJoinTable());
 		} else {
 			final JoinColumn joinColumn = new JoinColumn();
-			OneToMany.getJoinColumn().add(joinColumn);
-			createOneToMany$JoinColumn(context, fieldOutline, joinColumn);
+			oneToMany.getJoinColumn().add(joinColumn);
+			createJoinColumns(context, fieldOutline, oneToMany.getJoinColumn());
 		}
 
-	}
-
-	public void createOneToMany$JoinColumn(Mapping context,
-			FieldOutline fieldOutline, JoinColumn joinColumn) {
-		createOneToMany$JoinColumn$Name(context, fieldOutline, joinColumn);
-	}
-
-	public void createOneToMany$JoinColumn$Name(Mapping context,
-			FieldOutline fieldOutline, JoinColumn joinColumn) {
-		if (joinColumn.getName() == null
-				|| "##default".equals(joinColumn.getName())) {
-			joinColumn.setName(context.getNaming().getOneToManyJoinColumnName(
-					fieldOutline));
-		}
-	}
-
-	public void createOneToMany$JoinTable(Mapping context,
-			FieldOutline fieldOutline, JoinTable joinTable) {
-		createOneToMany$JoinTable$Name(context, fieldOutline, joinTable);
-		createOneToMany$JoinTable$JoinColumn(context, fieldOutline, joinTable);
-		createOneToMany$JoinTable$InverseJoinColumn(context, fieldOutline,
-				joinTable);
-	}
-
-	public void createOneToMany$JoinTable$Name(Mapping context,
-			FieldOutline fieldOutline, JoinTable joinTable) {
-		if (joinTable.getName() == null
-				|| "##default".equals(joinTable.getName())) {
-			joinTable.setName(context.getNaming().getOneToManyJoinTableName(
-					fieldOutline));
-		}
-	}
-
-	public void createOneToMany$JoinTable$JoinColumn(Mapping context,
-			FieldOutline fieldOutline, JoinTable joinTable) {
-
-		if (joinTable.getJoinColumn() == null
-				|| joinTable.getJoinColumn().isEmpty()) {
-			final JoinColumn joinColumn = new JoinColumn();
-			joinTable.getJoinColumn().add(joinColumn);
-			createOneToMany$JoinTable$JoinColumn(context, fieldOutline,
-					joinColumn);
-		} else {
-			for (JoinColumn joinColumn : joinTable.getJoinColumn()) {
-				createOneToMany$JoinTable$JoinColumn(context, fieldOutline,
-						joinColumn);
-			}
-		}
-	}
-
-	public void createOneToMany$JoinTable$InverseJoinColumn(Mapping context,
-			FieldOutline fieldOutline, JoinTable joinTable) {
-
-		if (joinTable.getInverseJoinColumn() == null
-				|| joinTable.getInverseJoinColumn().isEmpty()) {
-			final JoinColumn joinColumn = new JoinColumn();
-			joinTable.getInverseJoinColumn().add(joinColumn);
-			createOneToMany$JoinTable$InverseJoinColumn(context, fieldOutline,
-					joinColumn);
-		} else {
-			for (JoinColumn joinColumn : joinTable.getInverseJoinColumn()) {
-				createOneToMany$JoinTable$InverseJoinColumn(context,
-						fieldOutline, joinColumn);
-			}
-		}
-	}
-
-	public void createOneToMany$JoinTable$JoinColumn(Mapping context,
-			FieldOutline fieldOutline, JoinColumn joinColumn) {
-
-		createOneToMany$JoinTable$JoinColumn$Name(context, fieldOutline,
-				joinColumn);
-	}
-
-	public void createOneToMany$JoinTable$InverseJoinColumn(Mapping context,
-			FieldOutline fieldOutline, JoinColumn joinColumn) {
-
-		createOneToMany$JoinTable$InverseJoinColumn$Name(context, fieldOutline,
-				joinColumn);
-	}
-
-	public void createOneToMany$JoinTable$JoinColumn$Name(Mapping context,
-			FieldOutline fieldOutline, JoinColumn joinColumn) {
-		if (joinColumn.getName() == null
-				|| "##default".equals(joinColumn.getName())) {
-			joinColumn.setName(context.getNaming()
-					.getOneToManyJoinTableJoinColumnName(fieldOutline));
-		}
-	}
-
-	public void createOneToMany$JoinTable$InverseJoinColumn$Name(
-			Mapping context, FieldOutline fieldOutline, JoinColumn joinColumn) {
-		if (joinColumn.getName() == null
-				|| "##default".equals(joinColumn.getName())) {
-			joinColumn.setName(context.getNaming()
-					.getOneToManyJoinTableInverseJoinColumnName(fieldOutline));
-		}
 	}
 }

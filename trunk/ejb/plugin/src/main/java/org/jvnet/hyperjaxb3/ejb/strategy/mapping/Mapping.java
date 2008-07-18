@@ -72,11 +72,12 @@ public class Mapping {
 	}
 
 	private FieldOutlineMapping<EmbeddedId> embeddedIdMaping;// = new
-																// EmbeddedIdMapping();
+
+	// EmbeddedIdMapping();
 
 	public FieldOutlineMapping<EmbeddedId> getEmbeddedIdMapping() {
 		throw new UnsupportedOperationException();
-//		return embeddedIdMaping;
+		// return embeddedIdMaping;
 	}
 
 	public void setEmbeddedIdMaping(
@@ -84,11 +85,12 @@ public class Mapping {
 		this.embeddedIdMaping = embeddedIdMaping;
 	}
 
-	private FieldOutlineMapping<Embedded> embeddedMapping;// = new EmbeddedMapping();
+	private FieldOutlineMapping<Embedded> embeddedMapping;// = new
+															// EmbeddedMapping();
 
 	public FieldOutlineMapping<Embedded> getEmbeddedMapping() {
 		throw new UnsupportedOperationException();
-//		return embeddedMapping;
+		// return embeddedMapping;
 	}
 
 	public void setEmbeddedMapping(FieldOutlineMapping<Embedded> embeddedMapping) {
@@ -116,12 +118,10 @@ public class Mapping {
 		this.manyToOneMapping = manyToOneMapping;
 	}
 
-	private FieldOutlineMapping<OneToOne> oneToOneMapping;// = new
-															// OneToOneMapping();
+	private FieldOutlineMapping<OneToOne> oneToOneMapping = new OneToOneMapping();
 
 	public FieldOutlineMapping<OneToOne> getOneToOneMapping() {
-		throw new UnsupportedOperationException();
-//		return oneToOneMapping;
+		return oneToOneMapping;
 	}
 
 	public void setOneToOneMapping(FieldOutlineMapping<OneToOne> oneToOneMapping) {
@@ -149,11 +149,10 @@ public class Mapping {
 		this.oneToManyMapping = oneToManyMapping;
 	}
 
-	private FieldOutlineMapping<ManyToMany> manyToManyMapping;// = new ManyToOneMapping();
+	private FieldOutlineMapping<ManyToMany> manyToManyMapping = new ManyToManyMapping();
 
 	public FieldOutlineMapping<ManyToMany> getManyToManyMapping() {
-		throw new UnsupportedOperationException();
-//		return manyToManyMapping;
+		return manyToManyMapping;
 	}
 
 	public void setManyToManyMapping(

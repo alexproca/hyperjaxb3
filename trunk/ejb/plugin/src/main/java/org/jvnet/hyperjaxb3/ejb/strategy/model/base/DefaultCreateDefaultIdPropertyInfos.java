@@ -49,13 +49,13 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 	protected CPropertyInfo createPropertyInfo(ProcessModel context,
 			CClassInfo classInfo) {
-		final String propertyName = getPropertyName(context, classInfo);
-		final QName attributeName = getAttributeName(context, classInfo);
-		final CNonElement propertyTypeInfo = getPropertyTypeInfo(context,
+		final GeneratedId cid = context.getCustomizing().getGeneratedId(
 				classInfo);
+		final String propertyName = getPropertyName(context, cid);
+		final QName attributeName = getAttributeName(context, cid);
+		final CNonElement propertyTypeInfo = getPropertyTypeInfo(context, cid);
 		final CCustomizations customizations = new CCustomizations();
-		final CPluginCustomization id = createIdCustomization(context,
-				classInfo);
+		final CPluginCustomization id = createIdCustomization(context, cid);
 		customizations.add(id);
 		//		
 		// CPluginCustomization generated = CustomizationUtils
@@ -67,7 +67,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 				propertyName, null, customizations, null, attributeName,
 				propertyTypeInfo, propertyTypeInfo.getTypeName(), false);
 
-		if (isTransient()) {
+		if (cid.isTransient()) {
 			propertyInfo.realization = new GenericFieldRenderer(
 					TransientSingleField.class);
 		}
@@ -99,23 +99,25 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 		return propertyInfo;
 	}
 
-	public String getPropertyName(ProcessModel context, CClassInfo classInfo) {
-		final GeneratedId id = context.getCustomizing().getGeneratedId(classInfo);
+	public String getPropertyName(ProcessModel context, GeneratedId id) {
+		// final GeneratedId id =
+		// context.getCustomizing().getGeneratedId(classInfo);
 		final String name = id.getName();
 		Validate.notEmpty(name, "The hj:/@name attribute must not be empty.");
 		return name;
 	}
 
-	public QName getAttributeName(ProcessModel context, CClassInfo classInfo) {
-		final GeneratedId id = context.getCustomizing().getGeneratedId(classInfo);
+	public QName getAttributeName(ProcessModel context, GeneratedId id) {
+		// final GeneratedId id =
+		// context.getCustomizing().getGeneratedId(classInfo);
 		final QName attributeName = id.getAttributeName();
 		return attributeName != null ? attributeName : new QName(
-				getPropertyName(context, classInfo));
+				getPropertyName(context, id));
 	}
 
-	public CNonElement getPropertyTypeInfo(ProcessModel context,
-			CClassInfo classInfo) {
-		final GeneratedId id = context.getCustomizing().getGeneratedId(classInfo);
+	public CNonElement getPropertyTypeInfo(ProcessModel context, GeneratedId id) {
+		// final GeneratedId id =
+		// context.getCustomizing().getGeneratedId(classInfo);
 		final String javaType = id.getJavaType();
 		Validate.notEmpty(javaType,
 				"The hj:/@javaType attribute must not be empty.");
@@ -135,8 +137,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 	}
 
 	public CPluginCustomization createIdCustomization(ProcessModel context,
-			CClassInfo classInfo) {
-		final GeneratedId generatedId = context.getCustomizing().getGeneratedId(classInfo);
+			GeneratedId generatedId) {
 		final Id draftId = new Id();
 		final Id id = (Id) draftId.mergeFrom(generatedId, draftId);
 		final JAXBElement<Id> idElement = Customizations

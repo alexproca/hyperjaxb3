@@ -48,7 +48,7 @@ public class PropertyMapping {
 	}
 
 	public String createColumn$Name(Mapping context, FieldOutline fieldOutline) {
-		return context.getNaming().getColumnName(fieldOutline);
+		return context.getNaming().getColumn$Name(fieldOutline);
 	}
 
 	public Integer createColumn$Scale(FieldOutline fieldOutline) {
