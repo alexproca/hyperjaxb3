@@ -72,6 +72,7 @@
 			<include name="persistence-api-*.jar"/>
 			<include name="jta-*.jar"/>
 			<include name="log4j-*.jar"/>
+			<include name="slf4j-*.jar"/>
 			<include name="runtime-*.jar"/>
 			<include name="testing-*.jar"/>
 			<include name="xmlunit-*.jar"/>
