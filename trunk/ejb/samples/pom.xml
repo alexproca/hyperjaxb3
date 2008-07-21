@@ -6,11 +6,11 @@
 	<artifactId>hyperjaxb3-ejb-samples</artifactId>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 EJB Samples</name>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.4</version>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-samples</artifactId>
-		<version>0.4-SNAPSHOT</version>
+		<version>0.4</version>
 		<relativePath>../../samples/pom.xml</relativePath>
 	</parent>
 	<modules>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-plugin</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>

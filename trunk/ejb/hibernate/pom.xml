@@ -5,7 +5,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-hibernate</artifactId>
 	<packaging>pom</packaging>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.4</version>
 	<name>Hyperjaxb3 EJB Hibernate</name>
 	<modules>
 		<module>sample</module>
