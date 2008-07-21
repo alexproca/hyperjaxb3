@@ -38,7 +38,7 @@
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<configuration>
-					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.potlcustomized.RoundtripTest</roundtripTestClassName>
+					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.poctl.RoundtripTest</roundtripTestClassName>
 				</configuration>
 			</plugin>
 		</plugins>
