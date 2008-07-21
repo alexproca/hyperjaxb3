@@ -1144,7 +1144,7 @@ public class CreateXAnnotations {
 				//
 						createManyToOne(cManyToOne),
 						//
-						createJoinColumn(cManyToOne.getJoinColumn()),
+						createJoinColumns(cManyToOne.getJoinColumn()),
 						//
 						createJoinTable(cManyToOne.getJoinTable())
 				//
@@ -1164,7 +1164,7 @@ public class CreateXAnnotations {
 						//
 						createMapKey(cOneToMany.getMapKey()),
 						//
-						createJoinColumn(cOneToMany.getJoinColumn()),
+						createJoinColumns(cOneToMany.getJoinColumn()),
 						//
 						createJoinTable(cOneToMany.getJoinTable())
 				//
@@ -1182,7 +1182,7 @@ public class CreateXAnnotations {
 						createPrimaryKeyJoinColumn(cOneToOne
 								.getPrimaryKeyJoinColumn()),
 						//
-						createJoinColumn(cOneToOne.getJoinColumn()),
+						createJoinColumns(cOneToOne.getJoinColumn()),
 						//
 						createJoinTable(cOneToOne.getJoinTable())
 				//
