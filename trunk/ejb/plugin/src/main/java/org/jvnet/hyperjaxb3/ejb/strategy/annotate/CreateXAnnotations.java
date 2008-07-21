@@ -1095,7 +1095,7 @@ public class CreateXAnnotations {
 				//
 						createEmbeddedId(cEmbeddedId),
 						//
-						createAttributeOverride(cEmbeddedId
+						createAttributeOverrides(cEmbeddedId
 								.getAttributeOverride())
 				//
 				);
@@ -1179,7 +1179,7 @@ public class CreateXAnnotations {
 				//
 						createOneToOne(cOneToOne),
 						//
-						createPrimaryKeyJoinColumn(cOneToOne
+						createPrimaryKeyJoinColumns(cOneToOne
 								.getPrimaryKeyJoinColumn()),
 						//
 						createJoinColumns(cOneToOne.getJoinColumn()),
@@ -1215,7 +1215,7 @@ public class CreateXAnnotations {
 				//
 						createEmbedded(cEmbedded),
 						//
-						createAttributeOverride(cEmbedded
+						createAttributeOverrides(cEmbedded
 								.getAttributeOverride())
 				//		
 				);
