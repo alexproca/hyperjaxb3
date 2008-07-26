@@ -40,7 +40,6 @@
 					<args>
 						<arg>-Xannotate</arg>
 					</args>
-					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.po.RoundtripTest</roundtripTestClassName>
 				</configuration>
 				<dependencies>
 					<dependency>
