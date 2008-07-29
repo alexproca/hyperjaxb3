@@ -1,5 +1,0 @@
-<anySingleStrictMixed xmlns="urn:test">
-	a
-	<anySingleStrictMixed/>
-	b
-</anySingleStrictMixed>
