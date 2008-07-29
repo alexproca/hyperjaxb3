@@ -8,9 +8,6 @@
 	<version>0.4</version>
 	<name>Hyperjaxb3</name>
 	<url>http://hj3.dev.java.net</url>
-	<properties>
-		<continuousIntegrationServer>true</continuousIntegrationServer>
-	</properties>
 	<modules>
 		<!-- General -->
 		<!--module>hibernate</module-->

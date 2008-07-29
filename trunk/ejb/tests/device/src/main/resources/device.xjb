@@ -5,69 +5,100 @@
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+    xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+
     jaxb:extensionBindingPrefixes="hj"
     schemaLocation="device.xsd" 
-    node="/xsd:schema"
->
+    node="/xsd:schema">
     
     <jaxb:bindings node="xsd:complexType[@name='deviceConfigurationType']">        
-        <hj:table name="devcfgs"/>
+	<hj:entity>
+	        <orm:table name="devcfgs"/>
+	</hj:entity>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='deviceConfigurationType']//xsd:element[@name='identifier']">
-        <hj:id/>
-        <hj:column length="30"/>
+        <hj:id>
+		<orm:column length="30"/>
+	</hj:id>
     </jaxb:bindings>
     
     <jaxb:bindings node="xsd:complexType[@name='projectType']">        
-        <hj:table name="projects"/>
+	<hj:entity>
+		<orm:table name="projects"/>
+	</hj:entity>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='projectType']//xsd:element[@name='identifier']">
-        <hj:id/>
-        <hj:column length="30"/>
+        <hj:id>
+	        <hj:column length="30"/>
+	</hj:id>
     </jaxb:bindings>        
     
     <jaxb:bindings node="xsd:complexType[@name='serverType']">
-        <hj:table name="devices"/>
+	<hj:entity>
+	        <orm:table name="devices"/>
+	</hj:entity>
     </jaxb:bindings>    
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='identifier']">
-        <hj:id/>
-        <hj:column length="30"/>
+        <hj:id>
+	        <orm:column length="30"/>
+	</hj:id>
     </jaxb:bindings>
     
     <jaxb:bindings node="xsd:complexType[@name='diskArrayType']">
-        <hj:table name="devices"/>
+	<hj:entity>
+	        <orm:table name="devices"/>
+	</hj:entity>
     </jaxb:bindings>    
     <jaxb:bindings node="xsd:complexType[@name='diskArrayType']//xsd:element[@name='identifier']">
-        <hj:id/>
-        <hj:column length="30"/>
+        <hj:id>
+	        <orm:column length="30"/>
+	</hj:id>
     </jaxb:bindings>
     
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='diskSummary']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='memorySummary']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='zfsConfigCheckResults']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='svmConfigCheckResults']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='vxvmConfigCheckResults']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='mirroredDiskCheckResults']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='patchCheckResults']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='serverType']//xsd:element[@name='dreamDisabledResults']">
-        <hj:column length="4000"/>
+	<hj:basic>
+	        <orm:column length="4000"/>
+	</hj:basic>
     </jaxb:bindings>
     <jaxb:bindings node="xsd:complexType[@name='applicationType']//xsd:element[@name='description']">
-        <hj:column length="2000"/>
+	<hj:basic>
+	        <orm:column length="2000"/>
+	</hj:basic>
     </jaxb:bindings>
     
     

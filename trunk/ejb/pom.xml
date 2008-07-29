@@ -19,6 +19,7 @@
 	</modules>
 	<profiles>
 		<profile>
+			<id>hyperjaxb3-ejb-continuousIntegrationDeploy</id>
 			<activation>
 				<property>
 					<name>continuousIntegrationDeploy</name>
@@ -30,6 +31,7 @@
 			</modules>
 		</profile>
 		<profile>
+			<id>hyperjaxb3-ejb-continuousIntegrationInstall</id>
 			<activation>
 				<property>
 					<name>continuousIntegrationInstall</name>

@@ -71,10 +71,10 @@
 			</build>
 		</profile>
 		<profile>
-			<id>continuousIntegrationServer</id>
+			<id>hyperjaxb3-ejb-tests-continuousIntegrationInstall</id>
 			<activation>
 				<property>
-					<name>continuousIntegrationServer</name>
+					<name>continuousIntegrationInstall</name>
 				</property>   
 			</activation>
 			<modules>
@@ -98,7 +98,7 @@
 				<module>nml</module>
 				<module>nokis</module>
 				<module>ows</module>
-				<module>pesc</module>
+				<!--module>pesc</module-->
 				<module>po</module>
 				<module>po-tl-customized</module>
 				<module>punit</module>
