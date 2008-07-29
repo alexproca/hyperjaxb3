@@ -1,7 +1,0 @@
-<mixedHeteroReference name="zero">
-	one
-	<mixedHeteroReference name="two"/>
-	three
-	<three/>
-	four
-</mixedHeteroReference>
