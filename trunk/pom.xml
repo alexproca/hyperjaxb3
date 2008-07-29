@@ -196,12 +196,12 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>runtime</artifactId>
-				<version>0.3.0</version>
+				<version>0.4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>testing</artifactId>
-				<version>0.3.0</version>
+				<version>0.4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
@@ -211,7 +211,7 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>basic</artifactId>
-				<version>0.3.0</version>
+				<version>0.4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
