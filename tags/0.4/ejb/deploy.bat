@@ -1,1 +1,0 @@
-mvn -DcontinuousIntegrationDeploy clean install
