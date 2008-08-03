@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- $Header: /cvs/hyperjaxb3/samples/po-ws/src/test/resources/samples/queryRequest.xml,v 1.3 2007/09/29 00:29:16 najmi Exp $ -->
+<proto:queryRequest 
+    xmlns="urn:org:javanet:hyperjaxb3:samples:po-ws:purchaseorder.xsd" 
+    xmlns:data="urn:org:javanet:hyperjaxb3:samples:po-ws:purchaseorder.xsd" 
+    xmlns:proto="urn:org:javanet:hyperjaxb3:samples:po-ws:po-service-protocol.xsd" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="urn:org:javanet:hyperjaxb3:samples:po-ws:po-service-protocol.xsd  ../../../wsdl/po-service-protocol.xsd"
+    queryString="SELECT OBJECT(po) FROM PurchaseOrderType po" />
