@@ -1,1 +1,0 @@
-mvn -DcontinuousIntegrationInstall clean install
