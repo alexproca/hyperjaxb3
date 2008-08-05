@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jax-ws/ri/runtime http://java.sun.com/webservices/docs/2.0/jaxws/sun-jaxws.xsd">
+    <endpoint
+        name="OrderService"
+        implementation="org.jvnet.hyperjaxb3.samples.pows.server.OrderServicePortTypeImpl"
+        wsdl="WEB-INF/wsdl/po-service.wsdl"
+        service="{urn:org:javanet:hyperjaxb3:samples:po-ws:po-service.wsdl}OrderService"
+        port="{urn:org:javanet:hyperjaxb3:samples:po-ws:po-service.wsdl}OrderServicePort"
+        
+        url-pattern="/orderService/*"
+        enable-mtom="true"/>    
+</endpoints>
