@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="urn:org:javanet:hyperjaxb3:samples:po-ws:po-service.wsdl"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:proto="urn:org:javanet:hyperjaxb3:samples:po-ws:po-service-protocol.xsd"
+             xmlns:tns="urn:org:javanet:hyperjaxb3:samples:po-ws:po-service.wsdl" 
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+    
+    <documentation>
+        This file defines the WSDL interface to a simple purchase ordre service.
+    </documentation>
+    
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="urn:org:javanet:hyperjaxb3:samples:po-ws:po-service-protocol.xsd" schemaLocation="./po-service-protocol.xsd"/>                        
+        </xsd:schema>                
+    </types>
+    
+    <message name="QueryRequestMessage">
+        <part name="queryRequest" element="proto:queryRequest"/>
+    </message>
+    
+    <message name="QueryResponseMessage">
+        <part name="queryResponse" element="proto:queryResponse"/>
+    </message>
+    
+    <message name="UpdateRequestMessage">
+        <part name="updateRequest" element="proto:updateRequest"/>
+    </message>
+    
+    <message name="UpdateResponseMessage">
+        <part name="updateResponse" element="proto:updateResponse"/>
+    </message>
+    
+    <portType name="OrderServicePortType">
+        <operation name="update">
+            <input name="updateRequestMessage" message="tns:UpdateRequestMessage"/>
+            <output name="updateResponseMessage" message="tns:UpdateResponseMessage"/>
+        </operation>
+        
+        <operation name="query">
+            <input name="queryRequestMessage" message="tns:QueryRequestMessage"/>
+            <output name="queryResponseMessage" message="tns:QueryResponseMessage"/>
+        </operation>
+    </portType>
+    
+    <binding name="OrderServiceBinding" type="tns:OrderServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="update">
+            <soap:operation soapAction="updateOrder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="query">
+            <soap:operation soapAction="queryOrder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    
+    
+    <service name="OrderService">
+        <port binding="tns:OrderServiceBinding" name="OrderServicePort">
+            <soap:address location="http://localhost:8080/hyperjaxb3-sample-po-ws/orderService"/>
+        </port>
+    </service>
+    
+</definitions>
