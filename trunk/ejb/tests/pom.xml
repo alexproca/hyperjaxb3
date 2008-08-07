@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb</artifactId>
-		<version>0.4</version>
+		<version>0.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>hyperjaxb3-ejb-tests</artifactId>
 	<packaging>pom</packaging>
@@ -109,6 +109,7 @@
 				<module>sepa</module>
 				<module>service</module>
 				<module>simple</module>
+				<module>uniprot</module>
 				<!--module>verylong</module-->
 				<module>web</module>
 				<module>xacml</module>
@@ -155,7 +156,7 @@
 				<plugin>
 					<groupId>org.jvnet.hyperjaxb3</groupId>
 					<artifactId>maven-hyperjaxb3-plugin</artifactId>
-					<version>0.4</version>
+					<version>0.5-SNAPSHOT</version>
 					<executions>
 						<execution>
 							<goals>

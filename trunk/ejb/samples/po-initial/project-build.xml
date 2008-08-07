@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="hyperjaxb3-hibernate-sample-ant" default="install">
 	<property name="artifactId" value="hyperjaxb3-sample-po-initial-ant"/>
-	<property name="version" value="0.4"/>
+	<property name="version" value="0.5-SNAPSHOT"/>
 	<path id="compile.path">
 		<fileset dir="${basedir}/lib">
 			<include name="commons-lang-*.jar"/>
@@ -111,11 +111,11 @@
 		<mkdir dir="${basedir}/target/generated-sources/xjc"/>
 		<xjc destdir="${basedir}/target/generated-sources/xjc" extension="true">
 			<arg line="
+				-Xhyperjaxb3-ejb
+				-Xhyperjaxb3-ejb-roundtripTestClassName=RoundtripTest
 				-Xequals
 				-XhashCode
-				-XtoString
-				-Xhyperjaxb3-ejb
-				-Xhyperjaxb3-ejb-roundtripTestClassName=RoundtripTest"/>
+				-XtoString"/>
 			<binding dir="${basedir}/src/main/resources">
 			 	<include name="**/*.xjb"/>
 			</binding>
