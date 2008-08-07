@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
+	jaxb:extensionBindingPrefixes="hj" jaxb:version="2.0">
+	<xs:annotation>
+		<xs:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.embeddable"/>
+			</jaxb:schemaBindings>
+		</xs:appinfo>
+	</xs:annotation>
+	<!-- ... -->
+	<xs:element name="a" type="aType"/>
+	<xs:complexType name="aType">
+		<xs:sequence>
+			<xs:element name="b" type="bType" minOccurs="0"/>
+			<xs:element name="b1" type="bType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="bType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="c" type="xs:string" minOccurs="0"/>
+			<xs:element name="d" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
