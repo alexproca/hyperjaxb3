@@ -1,5 +1,0 @@
-<test:anySingleStrict xmlns:test="urn:test">
-	<test:anySingleLax>
-		<p>test</p>
-	</test:anySingleLax>
-</test:anySingleStrict>
