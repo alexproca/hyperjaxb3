@@ -61,6 +61,7 @@
 				<module>sepa</module>
 				<module>service</module>
 				<module>simple</module>
+				<module>transient-ids</module>
 				<!--module>verylong</module-->
 				<module>web</module>
 				<module>xacml</module>
