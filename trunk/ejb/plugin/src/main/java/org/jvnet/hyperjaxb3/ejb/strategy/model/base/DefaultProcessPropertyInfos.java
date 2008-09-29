@@ -77,10 +77,58 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		return propertyInfo.accept(classifyingVisitor);
 	}
 
+	// public boolean isNonRootClass(ProcessModel context, CClassInfo classInfo)
+	// {
+	// // // TODO #72 Check parent classes for ignored
+	// // return classInfo.getBaseClass() == null
+	// // // CustomizationUtils.containsCustomization(classInfo, name)
+	// //
+	// // && classInfo.getRefBaseClass() == null;
+	// //
+	// // return ! (classInfo.getBaseClass() != null ||
+	// // classInfo.getRefBaseClass() != null)
+	// //
+	// if (CustomizationUtils.containsCustomization(classInfo,
+	// Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME))
+	// {
+	// return true;
+	// }
+	// if (classInfo.getRefBaseClass() != null) {
+	// return true;
+	// } else if (classInfo.getBaseClass() != null) {
+	// return isNonRootClass(context, classInfo);
+	// } else {
+	// return false;
+	// }
+	// }
+
 	public boolean isRootClass(ProcessModel context, CClassInfo classInfo) {
-		// TODO #72 Check parent classes for ignored
-		return classInfo.getBaseClass() == null
-				&& classInfo.getRefBaseClass() == null;
+		if (classInfo.getRefBaseClass() != null) {
+			return false;
+		} else if (classInfo.getBaseClass() != null) {
+			return !CustomizationUtils.containsCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
+					&& !isSelfOrAncestorRootClass(context, classInfo
+							.getBaseClass());
+		} else {
+			return !CustomizationUtils.containsCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+		}
+	}
+
+	public boolean isSelfOrAncestorRootClass(ProcessModel context,
+			CClassInfo classInfo) {
+		if (isRootClass(context, classInfo)) {
+			return true;
+		} else if (classInfo.getRefBaseClass() != null) {
+			return false;
+		} else if (classInfo.getBaseClass() != null) {
+			return isSelfOrAncestorRootClass(context, classInfo.getBaseClass());
+		} else {
+			return !CustomizationUtils.containsCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+		}
+
 	}
 
 	public Collection<CPropertyInfo> getIdPropertyInfos(ProcessModel context,
