@@ -13,7 +13,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
 public class AdaptBuiltinReference extends AbstractAdaptBuiltinPropertyInfo {
 
 	public AdaptBuiltinReference(TypeUse type,
-			Class<? extends XmlAdapter> adapterClass) {
+			Class<? extends XmlAdapter<?,?>> adapterClass) {
 		super(type, adapterClass);
 	}
 

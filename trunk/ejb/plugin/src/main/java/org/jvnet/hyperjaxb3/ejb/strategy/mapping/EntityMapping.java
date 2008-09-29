@@ -2,8 +2,8 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import javax.persistence.InheritanceType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
@@ -15,7 +15,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 
 public class EntityMapping implements ClassOutlineMapping<Entity> {
 
-	private static Log logger = LogFactory.getLog(EntityMapping.class);
+	// private static Log logger = LogFactory.getLog(EntityMapping.class);
 
 	public Entity process(Mapping context, ClassOutline classOutline,
 			Options options) throws Exception {
@@ -106,7 +106,9 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createTable(Mapping context, ClassOutline classOutline,
 			final Table table) {
 		if (table.getName() == null || "##default".equals(table.getName())) {
-			table.setName(context.getNaming().getEntityTable$Name(classOutline));
+			table
+					.setName(context.getNaming().getEntityTable$Name(
+							classOutline));
 		}
 	}
 
@@ -145,7 +147,20 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 
 	public boolean isEntityClassHierarchyRoot(Mapping context,
 			ClassOutline classOutline) {
-		return getSuperClassOutline(context, classOutline) == null;
+		final ClassOutline superClassOutline = getSuperClassOutline(context,
+				classOutline);
+
+		if (superClassOutline == null) {
+			return true;
+		} else if (CustomizationUtils.containsCustomization(classOutline,
+				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
+			return true;
+		} else if (context.getIgnoring().isClassOutlineIgnored(
+				superClassOutline)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

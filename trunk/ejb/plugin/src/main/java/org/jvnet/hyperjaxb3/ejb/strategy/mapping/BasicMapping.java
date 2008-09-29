@@ -14,7 +14,6 @@ import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
-import com.sun.xml.bind.api.impl.NameConverter;
 
 public class BasicMapping extends PropertyMapping implements
 		FieldOutlineMapping<Basic> {

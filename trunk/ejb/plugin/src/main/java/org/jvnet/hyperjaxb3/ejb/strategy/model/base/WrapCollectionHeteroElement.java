@@ -23,7 +23,6 @@ import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
-import com.sun.codemodel.JType;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.model.CClassInfo;
@@ -32,7 +31,6 @@ import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
-import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.xml.bind.v2.model.core.ID;
 
@@ -119,17 +117,17 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 
 	private class ItemFieldRenderer implements FieldRenderer {
 		
-		private final CPropertyInfo core;
+//		private final CPropertyInfo core;
 
 		public ItemFieldRenderer(final CPropertyInfo core) {
 			super();
-			this.core = core;
+//			this.core = core;
 		}
 
 		public FieldOutline generate(ClassOutlineImpl classOutline,
 				CPropertyInfo propertyInfo) {
 			
-			final FieldOutline coreFieldOutline = classOutline.parent().getField(core);
+//			final FieldOutline coreFieldOutline = classOutline.parent().getField(core);
 
 			final FieldOutline fieldOutline =
 			new SingleField(classOutline, propertyInfo) {

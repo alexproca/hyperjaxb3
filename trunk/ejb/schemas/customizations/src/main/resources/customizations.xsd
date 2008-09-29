@@ -15,6 +15,7 @@
 	<xsd:complexType name="persistence">
 		<xsd:sequence>
 			<xsd:element name="default-entity" type="hj:entity"/>
+			<xsd:element name="default-mapped-superclass" type="hj:mapped-superclass"/>
 			<xsd:element name="default-id" type="hj:id"/>
 			<xsd:element name="default-generated-id" type="hj:generated-id"/>
 			<xsd:element name="default-version" type="hj:version"/>
@@ -47,6 +48,15 @@
 
 
 
+	<xsd:element name="mapped-superclass" type="hj:mapped-superclass"/>
+
+	<xsd:complexType name="mapped-superclass">
+		<xsd:complexContent>
+			<xsd:extension base="orm:mapped-superclass">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 
 	<!-- ... -->
 	<xsd:element name="id" type="hj:id"/>

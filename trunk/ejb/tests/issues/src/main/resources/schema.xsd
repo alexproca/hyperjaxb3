@@ -460,4 +460,41 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+
+	<xsd:element name="issue140Base" type="test:issue140BaseType"/>
+	<xsd:complexType name="issue140BaseType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:mapped-superclass/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="a" type="xsd:string"/>
+			<xsd:element name="b" type="xsd:long"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="issue140ExtendedA" type="test:issue140ExtendedAType"/>
+	<xsd:complexType name="issue140ExtendedAType">
+		<xsd:complexContent>
+		    <xsd:extension base="test:issue140BaseType">
+				<xsd:sequence>
+					<xsd:element name="c" type="xsd:dateTime"/>
+					<xsd:element name="d" type="xsd:byte"/>
+				</xsd:sequence>
+		    </xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="issue140ExtendedB" type="test:issue140ExtendedBType"/>
+	<xsd:complexType name="issue140ExtendedBType">
+		<xsd:complexContent>
+		    <xsd:extension base="test:issue140BaseType">
+				<xsd:sequence>
+					<xsd:element name="e" type="xsd:integer"/>
+					<xsd:element name="f" type="xsd:time"/>
+				</xsd:sequence>
+		    </xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
 </xsd:schema>

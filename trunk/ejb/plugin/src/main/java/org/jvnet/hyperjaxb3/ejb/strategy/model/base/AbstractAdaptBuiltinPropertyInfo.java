@@ -20,7 +20,7 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 		AbstractAdaptPropertyInfo {
 
 	public AbstractAdaptBuiltinPropertyInfo(TypeUse type,
-			Class<? extends XmlAdapter> adapterClass) {
+			Class<? extends XmlAdapter<?,?>> adapterClass) {
 		this.propertyType = TypeUseFactory.adapt(type, adapterClass, false);
 	}
 

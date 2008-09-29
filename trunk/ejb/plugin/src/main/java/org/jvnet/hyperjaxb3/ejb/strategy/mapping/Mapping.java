@@ -7,18 +7,28 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
-import com.sun.java.xml.ns.persistence.orm.Embedded;
-import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
 import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.Id;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
+import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.java.xml.ns.persistence.orm.Transient;
 import com.sun.java.xml.ns.persistence.orm.Version;
 
 public class Mapping {
+
+	private ClassOutlineMapping<Object> entityOrMappedSuperclassMapping = new EntityOrMappedSuperclassMapping();
+
+	public ClassOutlineMapping<Object> getEntityOrMappedSuperclassMapping() {
+		return entityOrMappedSuperclassMapping;
+	}
+
+	public void setEntityOrMappedSuperclassMapping(
+			ClassOutlineMapping<Object> entityOrMappedSuperclassMapping) {
+		this.entityOrMappedSuperclassMapping = entityOrMappedSuperclassMapping;
+	}
 
 	private ClassOutlineMapping<Entity> entityMapping = new EntityMapping();
 
@@ -28,6 +38,17 @@ public class Mapping {
 
 	public void setEntityMapping(ClassOutlineMapping<Entity> entityMapping) {
 		this.entityMapping = entityMapping;
+	}
+
+	private ClassOutlineMapping<MappedSuperclass> mappedSuperclassMapping = new MappedSuperclassMapping();
+
+	public ClassOutlineMapping<MappedSuperclass> getMappedSuperclassMapping() {
+		return mappedSuperclassMapping;
+	}
+
+	public void setMappedSuperclassMapping(
+			ClassOutlineMapping<MappedSuperclass> mappedSuperclassMapping) {
+		this.mappedSuperclassMapping = mappedSuperclassMapping;
 	}
 
 	private ClassOutlineMapping<Attributes> attributesMapping = new AttributesMapping();
@@ -71,6 +92,7 @@ public class Mapping {
 		this.versionMapping = versionMapping;
 	}
 
+	/*
 	private FieldOutlineMapping<EmbeddedId> embeddedIdMaping;// = new
 
 	// EmbeddedIdMapping();
@@ -84,9 +106,10 @@ public class Mapping {
 			FieldOutlineMapping<EmbeddedId> embeddedIdMaping) {
 		this.embeddedIdMaping = embeddedIdMaping;
 	}
+*/
+	/*private FieldOutlineMapping<Embedded> embeddedMapping;// = new
 
-	private FieldOutlineMapping<Embedded> embeddedMapping;// = new
-															// EmbeddedMapping();
+	// EmbeddedMapping();
 
 	public FieldOutlineMapping<Embedded> getEmbeddedMapping() {
 		throw new UnsupportedOperationException();
@@ -95,7 +118,7 @@ public class Mapping {
 
 	public void setEmbeddedMapping(FieldOutlineMapping<Embedded> embeddedMapping) {
 		this.embeddedMapping = embeddedMapping;
-	}
+	}*/
 
 	private FieldOutlineMapping<?> toOneMapping = new ToOneMapping();
 

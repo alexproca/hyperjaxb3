@@ -5,22 +5,19 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.xml.bind.JAXBElement;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.CodeModelUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
-import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 
 import com.sun.codemodel.fmt.JTextFile;
 import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.EntityMappings;
+import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
@@ -63,15 +60,28 @@ public class MarshalMappings implements
 
 		classOutline._package()._package().addResourceFile(classOrmXmlFile);
 
-		final Entity draftEntity = context.getMapping().getEntityMapping()
-				.process(context.getMapping(), classOutline, options);
-
-		final Entity entity = new Entity();
-		entity.mergeFrom(draftEntity, entity);
-
 		final EntityMappings entityMappings = new EntityMappings();
 		entityMappings.setVersion("1.0");
-		entityMappings.getEntity().add(entity);
+
+		final Object draftEntityOrSuperclass = context.getMapping()
+				.getEntityOrMappedSuperclassMapping().process(
+						context.getMapping(), classOutline, options);
+		if (draftEntityOrSuperclass instanceof Entity) {
+			final Entity draftEntity = (Entity) draftEntityOrSuperclass;
+
+			final Entity entity = new Entity();
+			entity.mergeFrom(draftEntity, entity);
+			entityMappings.getEntity().add(entity);
+		} else if (draftEntityOrSuperclass instanceof MappedSuperclass) {
+			final MappedSuperclass draftMappedSuperclass = (MappedSuperclass) draftEntityOrSuperclass;
+
+			final MappedSuperclass entity = new MappedSuperclass();
+			entity.mergeFrom(draftMappedSuperclass, entity);
+			entityMappings.getMappedSuperclass().add(entity);
+		} else {
+			throw new AssertionError(
+					"Either one-to-many or many-to-many mappings are expected.");
+		}
 
 		final Writer writer = new StringWriter();
 		PersistenceUtils.createMarshaller().marshal(entityMappings, writer);

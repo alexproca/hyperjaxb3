@@ -11,7 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
-import org.jvnet.hyperjaxb3.lang.reflect.util.ReflectionUtils;
 import org.jvnet.hyperjaxb3.xjc.model.CExternalLeafInfo;
 import org.jvnet.hyperjaxb3.xjc.model.TypeUseUtils;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.DurationAsString;
@@ -26,16 +25,8 @@ import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsG
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsTime;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
 
-import com.sun.tools.xjc.model.CAdapter;
-import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
-import com.sun.tools.xjc.model.CElementInfo;
-import com.sun.tools.xjc.model.CElementPropertyInfo;
-import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.CReferencePropertyInfo;
-import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.model.TypeUseFactory;
 import com.sun.xml.bind.v2.WellKnownNamespace;

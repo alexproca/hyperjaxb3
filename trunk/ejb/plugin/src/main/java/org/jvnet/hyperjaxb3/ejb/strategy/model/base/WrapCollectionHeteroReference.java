@@ -15,13 +15,9 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.item.Item;
 import org.jvnet.hyperjaxb3.item.MixedItem;
-import org.jvnet.hyperjaxb3.xjc.generator.bean.field.ElementField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.SingleField;
-import org.jvnet.hyperjaxb3.xjc.generator.bean.field.SingleWrappingReferenceObjectField;
-import org.jvnet.hyperjaxb3.xjc.generator.bean.field.StringField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappedCollectionField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappingCollectionField;
-import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.ElementAsString;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 
@@ -41,7 +37,6 @@ import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
-import com.sun.tools.xjc.model.TypeUseFactory;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -183,11 +178,11 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 	}
 
 	private class MixedItemFieldRederer implements FieldRenderer {
-		private final FieldRenderer core;
+//		private final FieldRenderer core;
 
 		public MixedItemFieldRederer(final FieldRenderer core) {
 			super();
-			this.core = core;
+//			this.core = core;
 		}
 
 		public FieldOutline generate(ClassOutlineImpl classOutline,
@@ -230,11 +225,11 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 	}
 
 	private class ItemFieldRederer implements FieldRenderer {
-		private final FieldRenderer core;
+//		private final FieldRenderer core;
 
 		public ItemFieldRederer(final FieldRenderer core) {
 			super();
-			this.core = core;
+//			this.core = core;
 		}
 
 		public FieldOutline generate(ClassOutlineImpl classOutline,

@@ -47,6 +47,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 		this.reservedNames = reservedNames;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean updated = false;
 
 	private Map<String, String> nameKeyMap = new TreeMap<String, String>();

@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
-import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CPropertyInfo;

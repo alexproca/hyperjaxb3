@@ -8,7 +8,6 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CElementInfo;

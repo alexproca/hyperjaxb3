@@ -109,6 +109,7 @@ public class Customizations {
 	// 
 	public static final QName ENTITY_ELEMENT_NAME = hj("entity");
 
+	public static final QName MAPPED_SUPERCLASS_ELEMENT_NAME = hj("mapped-superclass");
 
 	public static void markAsAcknowledged(
 			final CPluginCustomization customization) {

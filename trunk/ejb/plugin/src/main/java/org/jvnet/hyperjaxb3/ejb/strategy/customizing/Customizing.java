@@ -10,6 +10,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 
+import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -19,6 +20,8 @@ import com.sun.tools.xjc.outline.FieldOutline;
  * Customizations interface.
  */
 public interface Customizing {
+	
+	public Object getEntityOrMappedSuperclass(ClassOutline classOutline);
 
 	public GeneratedId getGeneratedId(CClassInfo classInfo);
 
@@ -72,4 +75,6 @@ public interface Customizing {
 	// New generation
 
 	public Entity getEntity(ClassOutline classOutline);
+
+	public MappedSuperclass getMappedSuperclass(ClassOutline classOutline);
 }

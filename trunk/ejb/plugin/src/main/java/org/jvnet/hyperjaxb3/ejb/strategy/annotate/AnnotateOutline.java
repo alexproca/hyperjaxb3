@@ -22,6 +22,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Entity;
+import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -58,21 +59,47 @@ public class AnnotateOutline implements
 		logger.debug("Processing class outline ["
 				+ OutlineUtils.getClassName(classOutline) + "].");
 
-		final Entity entity = context.getMapping().getEntityMapping().process(
-				context.getMapping(), classOutline, options);
+		final Object entityOrMappedSuperclass = context.getMapping()
+				.getEntityOrMappedSuperclassMapping().process(
+						context.getMapping(), classOutline, options);
 
-		final Attributes attributes = entity.getAttributes() == null ? new Attributes()
-				: entity.getAttributes();
+		final Attributes attributes;
+		final Collection<XAnnotation> annotations;
+		if (entityOrMappedSuperclass instanceof Entity)
 
-		Collection<XAnnotation> enityAnnotations = context
-				.getCreateXAnnotations().createEntityAnnotations(entity);
+		{
+
+			final Entity entity = (Entity) entityOrMappedSuperclass;
+
+			attributes = entity.getAttributes() == null ? new Attributes()
+					: entity.getAttributes();
+
+			annotations = context.getCreateXAnnotations()
+					.createEntityAnnotations(entity);
+		}
+
+		else if (entityOrMappedSuperclass instanceof MappedSuperclass) {
+			final MappedSuperclass entity = (MappedSuperclass) entityOrMappedSuperclass;
+
+			attributes = entity.getAttributes() == null ? new Attributes()
+					: entity.getAttributes();
+
+			annotations = context.getCreateXAnnotations()
+					.createMappedSuperclassAnnotations(entity);
+
+		} else {
+			throw new AssertionError(
+					"Either entity or mapped superclass expected, but an instance of ["
+							+ entityOrMappedSuperclass.getClass()
+							+ "] received.");
+		}
 
 		logger.debug("Annotating the class ["
 				+ OutlineUtils.getClassName(classOutline) + "]:\n"
-				+ ArrayUtils.toString(enityAnnotations));
+				+ ArrayUtils.toString(annotations));
 
 		context.getApplyXAnnotations().annotate(classOutline.ref.owner(),
-				classOutline.ref, enityAnnotations);
+				classOutline.ref, annotations);
 
 		if (classOutline.target.declaresAttributeWildcard()) {
 			processAttributeWildcard(classOutline);

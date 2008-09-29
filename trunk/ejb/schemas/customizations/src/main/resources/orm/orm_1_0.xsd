@@ -1458,7 +1458,8 @@
       <xsd:element name="post-load" type="orm:post-load" minOccurs="0"/>
       <xsd:element name="attributes" type="orm:attributes" minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="class" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="class" type="xsd:string" use="required"/-->
+    <xsd:attribute name="class" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="metadata-complete" type="xsd:boolean"/>
   </xsd:complexType>

@@ -26,7 +26,6 @@ import com.sun.codemodel.JType;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.SingleField;
-import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;

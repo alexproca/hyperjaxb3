@@ -2,6 +2,8 @@
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
 	<hj:default-entity class="##default">
 	</hj:default-entity>
+	<hj:default-mapped-superclass class="##default">
+	</hj:default-mapped-superclass>
 	<hj:default-id>
 		<orm:column/>
 	</hj:default-id>

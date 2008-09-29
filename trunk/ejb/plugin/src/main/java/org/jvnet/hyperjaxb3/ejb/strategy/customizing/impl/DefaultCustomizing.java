@@ -7,6 +7,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.MappedSuperclass;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
@@ -471,6 +472,58 @@ public class DefaultCustomizing implements Customizing {
 						"Either one-to-many or many-to-many elements must be provided in the default-to-many element.");
 			}
 
+		}
+	}
+
+	public MappedSuperclass getMappedSuperclass(ClassOutline classOutline) {
+		return getMappedSuperclass(classOutline.target);
+	}
+
+	public MappedSuperclass getMappedSuperclass(CClassInfo classInfo) {
+
+		final Persistence persistence = getModelCustomization(classInfo);
+		if (persistence.getDefaultMappedSuperclass() == null) {
+			// TODO
+			throw new AssertionError(
+					"Default mapped superclass element is not provided.");
+		}
+		final MappedSuperclass defaultMappedSuperclass = (MappedSuperclass) persistence
+				.getDefaultMappedSuperclass().copyTo(new MappedSuperclass());
+
+		final MappedSuperclass cMappedSuperclass;
+
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
+			cMappedSuperclass = Customizations
+					.<MappedSuperclass> findCustomization(classInfo,
+							Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+			if (cMappedSuperclass.isMerge()) {
+				cMappedSuperclass.mergeFrom(cMappedSuperclass,
+						defaultMappedSuperclass);
+			}
+		} else {
+			return defaultMappedSuperclass;
+		}
+		return cMappedSuperclass;
+	}
+
+	@Override
+	public Object getEntityOrMappedSuperclass(ClassOutline classOutline) {
+		return getEntityOrMappedSuperclass(classOutline.target);
+	}
+
+	public Object getEntityOrMappedSuperclass(CClassInfo classInfo) {
+
+//		final Persistence persistence = getModelCustomization(classInfo);
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.ENTITY_ELEMENT_NAME)) {
+			return getEntity(classInfo);
+		} else if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
+			return getMappedSuperclass(classInfo);
+		} else {
+			// Default is entity
+			return getEntity(classInfo);
 		}
 	}
 

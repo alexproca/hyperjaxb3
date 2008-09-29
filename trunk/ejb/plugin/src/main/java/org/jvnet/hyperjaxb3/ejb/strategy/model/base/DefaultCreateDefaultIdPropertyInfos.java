@@ -125,7 +125,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 		Validate.notNull(schemaType,
 				"The hj:/@schemaType attribute must not be null.");
 		try {
-			final Class theClass = ClassUtils.forName(javaType);
+			final Class<?> theClass = ClassUtils.forName(javaType);
 			return new CExternalLeafInfo(theClass, schemaType, null);
 		} catch (ClassNotFoundException cnfex) {
 			throw new IllegalArgumentException(
