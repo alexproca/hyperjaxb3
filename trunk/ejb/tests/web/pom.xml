@@ -31,6 +31,9 @@
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<configuration>
+					<schemaIncludes>
+						<include>web-app_2_4.xsd</include>
+					</schemaIncludes>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.tests.web.tests.RoundtripTest</roundtripTestClassName>
 				</configuration>
 			</plugin>
