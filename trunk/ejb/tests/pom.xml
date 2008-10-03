@@ -104,7 +104,7 @@
 				<module>po-tl-customized</module>
 				<module>punit</module>
 				<module>px</module>
-				<module>rim</module>
+				<!--module>rim</module-->
 				<!--module>sbml</module-->
 				<module>sml</module>
 				<module>sepa</module>

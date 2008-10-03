@@ -592,7 +592,7 @@ public class CreateXAnnotations {
 	// 9.1.13
 	public XAnnotation createAssociationOverrides(
 			List<AssociationOverride> cAssociationOverrides) {
-		return transform(javax.persistence.AssociationOverride.class,
+		return transform(javax.persistence.AssociationOverrides.class,
 				cAssociationOverrides,
 				new Transformer<AssociationOverride, XAnnotation>() {
 					public XAnnotation transform(AssociationOverride input) {

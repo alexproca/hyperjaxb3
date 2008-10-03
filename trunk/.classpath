@@ -6,14 +6,11 @@
 	<classpathentry path="ejb/tests/nml/src/test/resources" output="ejb/tests/nml/target/test-classes" kind="src"/-->
 
 
-	<classpathentry path="ejb/tests/any/src/test/java" output="ejb/tests/any/target/test-classes" kind="src"/>
+	<!--classpathentry path="ejb/tests/any/src/test/java" output="ejb/tests/any/target/test-classes" kind="src"/>
 	<classpathentry path="ejb/tests/any/target/generated-sources/xjc" output="ejb/tests/any/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/any/src/test/resources" output="ejb/tests/any/target/test-classes" kind="src"/>
 
 
-	<classpathentry path="ejb/tests/cu-one/src/test/java" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
-	<classpathentry path="ejb/tests/cu-one/target/generated-sources/xjc" output="ejb/tests/cu-one/target/classes" kind="src"/>
-	<classpathentry path="ejb/tests/cu-one/src/test/resources" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
 
 	<classpathentry path="ejb/tests/one/src/test/java" output="ejb/tests/one/target/test-classes" kind="src"/>
 	<classpathentry path="ejb/tests/one/target/generated-sources/xjc" output="ejb/tests/one/target/classes" kind="src"/>
@@ -22,7 +19,7 @@
 	<classpathentry path="ejb/tests/issues/src/main/java" output="ejb/tests/issues/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/issues/src/test/java" output="ejb/tests/issues/target/test-classes" kind="src"/>
 	<classpathentry path="ejb/tests/issues/target/generated-sources/xjc" output="ejb/tests/issues/target/classes" kind="src"/>
-	<classpathentry path="ejb/tests/issues/src/test/resources" output="ejb/tests/issues/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/src/test/resources" output="ejb/tests/issues/target/test-classes" kind="src"/-->
 
 	<!--classpathentry path="ejb/tests/episodes/a/target/generated-sources/xjc" output="ejb/tests/episodes/a/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/episodes/a/src/test/resources" output="ejb/tests/episodes/a/target/test-classes" kind="src"/>
@@ -31,11 +28,6 @@
 	<classpathentry path="ejb/tests/episodes/b/target/generated-sources/xjc" output="ejb/tests/episodes/b/target/classes" kind="src"/>
 	<classpathentry path="ejb/tests/episodes/b/src/test/resources" output="ejb/tests/episodes/b/target/test-classes" kind="src"/-->
 
-	<classpathentry path="ejb/tests/cda/src/test/java" output="ejb/tests/cda/target/test-classes" kind="src"/>
-
-
-	<!--classpathentry path="ejb/tests/dl/target/generated-sources/xjc" output="ejb/tests/dl/target/classes" kind="src"/>
-	<classpathentry path="ejb/tests/dl/src/test/resources" output="ejb/tests/dl/target/test-classes" kind="src"/-->
 
 	<classpathentry path="dynamic/src/main/java" output="dynamic/target/classes" kind="src"/>
 	<classpathentry path="dynamic/src/test/java" output="dynamic/target/test-classes" kind="src"/>
@@ -64,6 +56,19 @@
 	<classpathentry path="maven/testing/src/main/java" output="maven/testing/target/classes" kind="src"/>
 	<classpathentry path="maven/testing/src/test/java" output="maven/testing/target/test-classes" kind="src"/>
 	<classpathentry path="maven/testing/src/test/resources" output="maven/testing/target/test-classes" kind="src"/>
+
+
+
+	<!--classpathentry path="ejb/tests/star/src/test/java" output="ejb/tests/star/target/test-classes" kind="src"/-->
+	<classpathentry path="ejb/tests/star/target/generated-sources/xjc" output="ejb/tests/star/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/star/src/test/resources" output="ejb/tests/star/target/test-classes" kind="src"/>
+
+
+	<classpathentry path="ejb/tests/cu-one/src/test/java" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/cu-one/target/generated-sources/xjc" output="ejb/tests/cu-one/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/cu-one/src/test/resources" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
+
+
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
 	<classpathentry path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules" kind="con"/>
 	<classpathentry path="target/classes" kind="output"/>

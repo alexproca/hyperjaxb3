@@ -116,8 +116,9 @@ public class DefaultNaming implements Naming, InitializingBean {
 	}
 
 	public String getEntityTable$Name(FieldOutline fieldOutline) {
-		final String name = fieldOutline.parent().target.getSqueezedName();
-		return getName(name);
+//		final String name = fieldOutline.parent().target.getSqueezedName();
+//		return getName(name);
+		return getEntityTable$Name(fieldOutline.parent());
 	}
 
 	public String getEntityTable$Name(ClassOutline classOutline) {
@@ -126,6 +127,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 	public String getEntityTableName(final CClass classInfo) {
 		if (classInfo instanceof CClassInfo) {
+//			class
 			final String name = ((CClassInfo) classInfo).getSqueezedName();
 			return getName(name);
 		} else if (classInfo instanceof CClassRef) {
