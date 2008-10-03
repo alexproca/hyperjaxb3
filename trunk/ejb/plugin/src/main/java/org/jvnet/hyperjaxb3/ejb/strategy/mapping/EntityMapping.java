@@ -55,7 +55,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 		final InheritanceType inheritanceStrategy = getInheritanceStrategy(
 				context, classOutline, entity);
 
-		if (isEntityClassHierarchyRoot(context, classOutline)) {
+		if (isRootClass(context, classOutline)) {
 			if (entity.getInheritance() == null
 					|| entity.getInheritance().getStrategy() == null) {
 				entity.setInheritance(new Inheritance());
@@ -81,7 +81,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 			createTable(context, classOutline, entity.getTable());
 			break;
 		case SINGLE_TABLE:
-			if (isEntityClassHierarchyRoot(context, classOutline)) {
+			if (isRootClass(context, classOutline)) {
 				if (entity.getTable() == null) {
 					entity.setTable(new Table());
 				}
@@ -121,7 +121,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 
 	public javax.persistence.InheritanceType getInheritanceStrategy(
 			Mapping context, ClassOutline classOutline, Entity entity) {
-		if (isEntityClassHierarchyRoot(context, classOutline)) {
+		if (isRootClass(context, classOutline)) {
 			if (entity.getInheritance() != null
 					&& entity.getInheritance().getStrategy() != null) {
 				return InheritanceType.valueOf(entity.getInheritance()
@@ -130,8 +130,8 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 				return javax.persistence.InheritanceType.JOINED;
 			}
 		} else {
-			final ClassOutline superClassOutline = getSuperClassOutline(
-					context, classOutline);
+			final ClassOutline superClassOutline = getSuperClass(context,
+					classOutline);
 			final Entity superClassEntity = context.getCustomizing().getEntity(
 					superClassOutline);
 
@@ -140,27 +140,51 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 		}
 	}
 
-	public ClassOutline getSuperClassOutline(Mapping context,
-			ClassOutline classOutline) {
+	public ClassOutline getSuperClass(Mapping context, ClassOutline classOutline) {
 		return classOutline.getSuperClass();
 	}
 
-	public boolean isEntityClassHierarchyRoot(Mapping context,
-			ClassOutline classOutline) {
-		final ClassOutline superClassOutline = getSuperClassOutline(context,
-				classOutline);
+	/*
+	 * public ClassOutline getSuperClassOutline(Mapping context, ClassOutline
+	 * classOutline) { return classOutline.getSuperClass(); }
+	 * 
+	 * public boolean isEntityClassHierarchyRoot(Mapping context, ClassOutline
+	 * classOutline) { final ClassOutline superClassOutline =
+	 * getSuperClassOutline(context, classOutline);
+	 * 
+	 * if (superClassOutline == null) { return true; } else if
+	 * (CustomizationUtils.containsCustomization(classOutline,
+	 * Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) { return true; } else if
+	 * (context.getIgnoring().isClassOutlineIgnored( superClassOutline)) {
+	 * return true; } else { return false; } }
+	 */
 
-		if (superClassOutline == null) {
-			return true;
-		} else if (CustomizationUtils.containsCustomization(classOutline,
-				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
-			return true;
-		} else if (context.getIgnoring().isClassOutlineIgnored(
-				superClassOutline)) {
-			return true;
+	public boolean isRootClass(Mapping context, ClassOutline classOutline) {
+		if (classOutline.getSuperClass() != null) {
+			return !CustomizationUtils.containsCustomization(classOutline,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
+					&& !isSelfOrAncestorRootClass(context, classOutline
+							.getSuperClass());
 		} else {
-			return false;
+			return !CustomizationUtils.containsCustomization(classOutline,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
 		}
+	}
+
+	public boolean isSelfOrAncestorRootClass(Mapping context,
+			ClassOutline classOutline) {
+		if (context.getIgnoring().isClassOutlineIgnored(classOutline)) {
+			return false;
+		} else if (isRootClass(context, classOutline)) {
+			return true;
+		} else if (classOutline.getSuperClass() != null) {
+			return isSelfOrAncestorRootClass(context, classOutline
+					.getSuperClass());
+		} else {
+			return !CustomizationUtils.containsCustomization(classOutline,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+		}
+
 	}
 
 }
