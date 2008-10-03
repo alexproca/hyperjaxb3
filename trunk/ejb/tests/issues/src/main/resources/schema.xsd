@@ -495,6 +495,17 @@
 		    </xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:element name="issue140ExtendedC" type="test:issue140ExtendedCType"/>
+	<xsd:complexType name="issue140ExtendedCType">
+		<xsd:complexContent>
+		    <xsd:extension base="test:issue140ExtendedBType">
+				<xsd:sequence>
+					<xsd:element name="g" type="xsd:decimal"/>
+					<xsd:element name="h" type="xsd:date"/>
+				</xsd:sequence>
+		    </xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 
 
 </xsd:schema>
