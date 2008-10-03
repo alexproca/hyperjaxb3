@@ -507,7 +507,6 @@ public class DefaultCustomizing implements Customizing {
 		return cMappedSuperclass;
 	}
 
-	@Override
 	public Object getEntityOrMappedSuperclass(ClassOutline classOutline) {
 		return getEntityOrMappedSuperclass(classOutline.target);
 	}

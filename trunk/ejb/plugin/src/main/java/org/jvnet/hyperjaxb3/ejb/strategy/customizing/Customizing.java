@@ -20,7 +20,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
  * Customizations interface.
  */
 public interface Customizing {
-	
+
 	public Object getEntityOrMappedSuperclass(ClassOutline classOutline);
 
 	public GeneratedId getGeneratedId(CClassInfo classInfo);
@@ -62,7 +62,7 @@ public interface Customizing {
 	public ManyToOne getManyToOne(CPropertyInfo property);
 
 	public ManyToOne getManyToOne(FieldOutline property);
-	
+
 	public OneToOne getOneToOne(CPropertyInfo property);
 
 	public OneToOne getOneToOne(FieldOutline property);
@@ -70,7 +70,6 @@ public interface Customizing {
 	public ManyToMany getManyToMany(CPropertyInfo property);
 
 	public ManyToMany getManyToMany(FieldOutline property);
-	
 
 	// New generation
 
