@@ -8,7 +8,6 @@ import com.sun.tools.xjc.outline.ClassOutline;
 public class EntityOrMappedSuperclassMapping implements
 		ClassOutlineMapping<Object> {
 
-	@Override
 	public Object process(Mapping context, ClassOutline classOutline,
 			Options options) throws Exception {
 		final Object EntityOrMappedSuperclass = context.getCustomizing()
