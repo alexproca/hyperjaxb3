@@ -1,6 +1,8 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.naming.impl;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -116,8 +118,8 @@ public class DefaultNaming implements Naming, InitializingBean {
 	}
 
 	public String getEntityTable$Name(FieldOutline fieldOutline) {
-//		final String name = fieldOutline.parent().target.getSqueezedName();
-//		return getName(name);
+		// final String name = fieldOutline.parent().target.getSqueezedName();
+		// return getName(name);
 		return getEntityTable$Name(fieldOutline.parent());
 	}
 
@@ -125,19 +127,46 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getEntityTableName(classOutline.target);
 	}
 
+	private Map<String, String> forwardTableNamesMap = Collections
+			.synchronizedMap(new HashMap<String, String>());
+
+	private Map<String, String> reverseTableNamesMap = Collections
+			.synchronizedMap(new HashMap<String, String>());
+
+	public String getTableName(String qualifiedName) {
+		if (forwardTableNamesMap.containsKey(qualifiedName)) {
+			return forwardTableNamesMap.get(qualifiedName);
+		} else {
+			final String shortName = qualifiedName.substring(qualifiedName
+					.lastIndexOf(".") + 1);
+
+			if (!reverseTableNamesMap.containsKey(shortName)) {
+				forwardTableNamesMap.put(qualifiedName, shortName);
+				reverseTableNamesMap.put(shortName, qualifiedName);
+				return shortName;
+			} else {
+				for (int index = 0; index < Integer.MAX_VALUE; index++) {
+					final String name = shortName + "_" + index;
+
+					if (!reverseTableNamesMap.containsKey(name)) {
+						forwardTableNamesMap.put(qualifiedName, name);
+						reverseTableNamesMap.put(name, qualifiedName);
+						return name;
+					}
+				}
+				throw new AssertionError(
+						"Could not create a table name for the qualified name ["
+								+ qualifiedName + "]");
+			}
+		}
+	}
+
 	public String getEntityTableName(final CClass classInfo) {
 		if (classInfo instanceof CClassInfo) {
-//			class
-			final String name = ((CClassInfo) classInfo).getSqueezedName();
-			return getName(name);
+			return getName(getTableName(((CClassInfo) classInfo).fullName()));
 		} else if (classInfo instanceof CClassRef) {
 			final String fullName = ((CClassRef) classInfo).fullName();
-			if (!fullName.contains(".")) {
-				return getName(fullName);
-			} else {
-				return getName(fullName
-						.substring(fullName.lastIndexOf(".") + 1));
-			}
+			return getName(getTableName(fullName));
 		} else {
 			throw new AssertionError("Unexpected type.");
 		}

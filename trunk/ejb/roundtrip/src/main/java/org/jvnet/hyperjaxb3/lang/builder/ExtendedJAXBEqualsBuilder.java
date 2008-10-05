@@ -1,8 +1,5 @@
 package org.jvnet.hyperjaxb3.lang.builder;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.dom.DOMSource;
 
