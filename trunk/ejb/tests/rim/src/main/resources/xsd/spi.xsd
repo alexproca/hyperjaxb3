@@ -9,7 +9,7 @@
   attributeFormDefault="unqualified"
   >
   
-  <!-- Import the rim.xsd file with XML schema mappaing from RIM -->
+  <!-- Import the rim.xsd file with XML schema mapping from RIM -->
   <import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" schemaLocation="rim.xsd"/>
   <import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" schemaLocation="rs.xsd"/>
   

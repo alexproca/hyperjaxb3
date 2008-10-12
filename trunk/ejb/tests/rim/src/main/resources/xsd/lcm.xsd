@@ -25,6 +25,7 @@
         <extension base="rs:RegistryRequestType">
           <sequence>
             <element ref="rim:RegistryObjectList" minOccurs="0" maxOccurs="1"/>
+            <element ref="rim:ObjectRefList" minOccurs="0" maxOccurs="1" />
           </sequence>
           <attribute name="mode" use="optional" default="createOrReplace">
             <simpleType>

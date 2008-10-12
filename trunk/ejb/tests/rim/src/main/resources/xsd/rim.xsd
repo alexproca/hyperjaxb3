@@ -6,6 +6,7 @@
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+  xmlns:wsa="http://www.w3.org/2005/08/addressing"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
   >
@@ -15,7 +16,7 @@
   </annotation>
   <import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
   <import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://schemas.opengis.net/gml/2.1.2/xlinks.xsd"/>
-  <!--import namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing" schemaLocation="file:///home/najmi/Desktop/addressing.xsd"/-->
+  <import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://www.w3.org/2006/03/addressing/ws-addr.xsd"/>
   
   <!-- Begin information model mapping from ebRIM. -->
   <!-- Define Data Types -->
@@ -138,7 +139,7 @@
       </extension>
     </complexContent>
   </complexType>
-  <element name="OtherValue" type="tns:AnyValueType"/>
+  <element name="AnyValue" type="tns:AnyValueType"/>
   
   <complexType name="ExtensibleObjectType" abstract="true">
     <annotation>
@@ -747,7 +748,7 @@
     <complexContent>
       <extension base="tns:ExtensibleObjectType">
         <sequence>          
-          <!--element name="NotifyTo" type="wsa:EndpointReferenceType" minOccurs="1" maxOccurs="1" /-->
+          <element name="NotifyTo" type="wsa:EndpointReferenceType" minOccurs="1" maxOccurs="1" />
         </sequence>
 
         <!-- Canonical modes: push, pull, push-pull -->

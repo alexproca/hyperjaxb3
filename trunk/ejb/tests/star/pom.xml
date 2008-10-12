@@ -19,10 +19,21 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.2.2.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>1.7.3.3</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.2-504.jdbc3</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -35,6 +46,7 @@
 					<!--result>mappingFiles</result-->
 					<schemaIncludes>
 						<include>STAR/Rev5.1.4/BODs/Developer/*.xsd</include>
+						<!--include>STAR/Rev5.1.4/BODs/Standalone/AcknowledgeCreditApplication.xsd</include-->
 					</schemaIncludes>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.star.RoundtripTest</roundtripTestClassName>
 				</configuration>
