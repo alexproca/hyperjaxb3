@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jaxb:bindings version="1.0" 
+               xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+               xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+               xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               jaxb:extensionBindingPrefixes="xjc hj"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb  http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
+    
+    <jaxb:bindings schemaLocation="_2008A_XML/OTA_RailAvailRS.xsd" node="/xs:schema">        
+
+	<jaxb:bindings node="xs:complexType[@name='PriceRuleType']//xs:attribute[@name='Value']">
+		<jaxb:property name="QualifyingValue"/>
+	</jaxb:bindings>
+
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="_2008A_XML/OTA_TourInformation.xsd" node="/xs:schema">        
+
+	<jaxb:bindings node="xs:complexType[@name='TourInformationType']//xs:element[@name='Duration']">
+		<jaxb:property name="TourDuration"/>
+	</jaxb:bindings>
+
+
+    </jaxb:bindings>
+
+
+
+</jaxb:bindings>
