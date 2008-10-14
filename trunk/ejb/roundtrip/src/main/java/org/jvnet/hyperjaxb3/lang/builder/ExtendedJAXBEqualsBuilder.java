@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.lang.builder;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.dom.DOMSource;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
@@ -14,6 +15,7 @@ import org.w3c.dom.Node;
 public class ExtendedJAXBEqualsBuilder extends
 		org.jvnet.jaxb2_commons.lang.builder.ExtendedJAXBEqualsBuilder {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public EqualsBuilder append(Object lhs, Object rhs) {
 
@@ -50,6 +52,10 @@ public class ExtendedJAXBEqualsBuilder extends
 						.getTimeInMillis((XMLGregorianCalendar) lhs),
 						XMLGregorianCalendarUtils
 								.getTimeInMillis((XMLGregorianCalendar) rhs));
+			} else if (lhs instanceof Comparable && rhs instanceof Comparable
+					&& ObjectUtils.equals(lhs.getClass(), rhs.getClass())) {
+				super
+						.appendSuper(((Comparable<Object>) lhs).compareTo(rhs) == 0);
 			} else {
 				super.append(lhs, rhs);
 			}
