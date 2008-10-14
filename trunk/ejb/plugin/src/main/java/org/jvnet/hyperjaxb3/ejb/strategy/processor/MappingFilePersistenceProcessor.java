@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.xml.bind.JAXBException;
 
@@ -124,6 +125,7 @@ public class MappingFilePersistenceProcessor implements
 			persistenceUnit.getMappingFile().add(
 					className.replace('.', '/') + ".orm.xml");
 		}
+		Collections.sort(persistenceUnit.getMappingFile());
 		return persistence;
 	}
 

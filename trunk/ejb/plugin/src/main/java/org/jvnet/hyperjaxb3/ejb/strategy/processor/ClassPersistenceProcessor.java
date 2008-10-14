@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.xml.bind.JAXBException;
 
@@ -119,10 +120,13 @@ public class ClassPersistenceProcessor implements
 			persistenceUnit.setName(generatedPersistenceUnitName);
 		}
 
+		// final S
+
 		for (final ClassOutline classOutline : includedClasses) {
 			persistenceUnit.getClazz().add(
 					OutlineUtils.getClassName(classOutline));
 		}
+		Collections.sort(persistenceUnit.getClazz());
 		return persistence;
 	}
 
