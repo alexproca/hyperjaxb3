@@ -15,6 +15,13 @@
 
 
     <jaxb:bindings schemaLocation="_2008A_XML/OTA_CommonTypes.xsd" node="/xs:schema">
+
+		<hj:persistence>
+			<hj:default-one-to-many>
+				<orm:join-table/>
+			</hj:default-one-to-many>
+		</hj:persistence>
+
 		<jaxb:bindings node="xs:attributeGroup[@name='OTA_PayloadStdAttributes']/xs:attribute[@name='Version']">
 			<hj:basic>
 				<orm:column precision="8" scale="4"/>
@@ -28,11 +35,6 @@
 		<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.ota"/>
 	</jaxb:schemaBindings>
 
-		<hj:persistence>
-			<hj:default-one-to-many>
-				<orm:join-table/>
-			</hj:default-one-to-many>
-		</hj:persistence>
 
 
     </jaxb:bindings>
