@@ -2,11 +2,12 @@
 <xs:schema
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
 
-	jaxb:extensionBindingPrefixes="hj orm"
+	jaxb:extensionBindingPrefixes="hj orm xjc"
 	jaxb:version="2.1"
 	targetNamespace="urn:test"
 	xmlns:test="urn:test"
@@ -16,6 +17,9 @@
 
 	<xs:annotation>
 		<xs:appinfo>
+			<jaxb:globalBindings>
+				<!--xjc:simple/-->
+			</jaxb:globalBindings>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.cuone"/>
 			</jaxb:schemaBindings>
@@ -225,7 +229,7 @@
 	</xs:complexType>
 
 	<!--xs:complexType name="six">
-		<xs:choice maxOccurs="unbounded">
+		<xs:all>
 		<xs:annotation>
 			<xs:appinfo>
 				<jaxb:property name="XY"/>
@@ -234,8 +238,7 @@
 
 			<xs:element name="x" type="xs:string" minOccurs="0"/>
 			<xs:element name="y" type="xs:integer" minOccurs="0"/>
-		</xs:choice>
+		</xs:all>
 	</xs:complexType-->
-
 
 </xs:schema>
