@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+
+	<!--classpathentry path="ejb/tests/nml/src/test/java" output="ejb/tests/nml/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/nml/target/generated-sources/xjc" output="ejb/tests/nml/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/nml/src/test/resources" output="ejb/tests/nml/target/test-classes" kind="src"/-->
+
+
+	<!--classpathentry path="ejb/tests/any/src/test/java" output="ejb/tests/any/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/any/target/generated-sources/xjc" output="ejb/tests/any/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/any/src/test/resources" output="ejb/tests/any/target/test-classes" kind="src"/>
+
+
+
+	<classpathentry path="ejb/tests/one/src/test/java" output="ejb/tests/one/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/one/target/generated-sources/xjc" output="ejb/tests/one/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/one/src/test/resources" output="ejb/tests/one/target/test-classes" kind="src"/>
+
+	<classpathentry path="ejb/tests/issues/src/main/java" output="ejb/tests/issues/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/src/test/java" output="ejb/tests/issues/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/target/generated-sources/xjc" output="ejb/tests/issues/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/issues/src/test/resources" output="ejb/tests/issues/target/test-classes" kind="src"/-->
+
+	<!--classpathentry path="ejb/tests/episodes/a/target/generated-sources/xjc" output="ejb/tests/episodes/a/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/episodes/a/src/test/resources" output="ejb/tests/episodes/a/target/test-classes" kind="src"/>
+
+	<classpathentry path="ejb/tests/episodes/b/src/test/java" output="ejb/tests/episodes/b/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/episodes/b/target/generated-sources/xjc" output="ejb/tests/episodes/b/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/episodes/b/src/test/resources" output="ejb/tests/episodes/b/target/test-classes" kind="src"/-->
+
+
+	<classpathentry path="dynamic/src/main/java" output="dynamic/target/classes" kind="src"/>
+	<classpathentry path="dynamic/src/test/java" output="dynamic/target/test-classes" kind="src"/>
+	<classpathentry path="dynamic/src/test/resources" output="dynamic/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/regrep/src/test/java" output="ejb/tests/regrep/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/regrep/target/generated-sources/xjc" output="ejb/tests/regrep/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/regrep/src/test/resources" output="ejb/tests/regrep/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/runtime/src/main/java" output="ejb/runtime/target/classes" kind="src"/>
+	<classpathentry path="ejb/runtime/src/test/java" output="ejb/runtime/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/runtime/src/test/resources" output="ejb/runtime/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/roundtrip/src/main/java" output="ejb/roundtrip/target/classes" kind="src"/>
+	<classpathentry path="ejb/roundtrip/src/main/resources" output="ejb/roundtrip/target/classes" kind="src"/>
+	<classpathentry path="ejb/roundtrip/src/test/java" output="ejb/roundtrip/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/roundtrip/src/test/resources" output="ejb/roundtrip/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/plugin/src/main/java" output="ejb/plugin/target/classes" kind="src"/>
+	<classpathentry path="ejb/plugin/src/main/resources" output="ejb/plugin/target/classes" kind="src"/>
+	<classpathentry path="ejb/plugin/src/test/java" output="ejb/plugin/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/plugin/src/test/resources" output="ejb/plugin/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/schemas/persistence/src/main/java" output="ejb/schemas/persistence/target/classes" kind="src"/>
+	<classpathentry path="ejb/schemas/persistence/target/generated-sources/xjc" output="ejb/schemas/persistence/target/classes" kind="src"/>
+	<classpathentry path="ejb/schemas/customizations/src/main/java" output="ejb/schemas/customizations/target/classes" kind="src"/>
+	<classpathentry path="ejb/schemas/customizations/target/generated-sources/xjc" output="ejb/schemas/customizations/target/classes" kind="src"/>
+	<classpathentry path="maven/plugin/src/main/java" output="maven/plugin/target/classes" kind="src"/>
+	<classpathentry path="maven/plugin/src/test/java" output="maven/plugin/target/test-classes" kind="src"/>
+	<classpathentry path="maven/plugin/src/test/resources" output="maven/plugin/target/test-classes" kind="src"/>
+	<classpathentry path="maven/testing/src/main/java" output="maven/testing/target/classes" kind="src"/>
+	<classpathentry path="maven/testing/src/test/java" output="maven/testing/target/test-classes" kind="src"/>
+	<classpathentry path="maven/testing/src/test/resources" output="maven/testing/target/test-classes" kind="src"/>
+
+
+
+	<!--classpathentry path="ejb/tests/star/src/test/java" output="ejb/tests/star/target/test-classes" kind="src"/-->
+	<classpathentry path="ejb/tests/star/target/generated-sources/xjc" output="ejb/tests/star/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/star/src/test/resources" output="ejb/tests/star/target/test-classes" kind="src"/>
+
+
+	<classpathentry path="ejb/tests/cu-one/src/test/java" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
+	<classpathentry path="ejb/tests/cu-one/target/generated-sources/xjc" output="ejb/tests/cu-one/target/classes" kind="src"/>
+	<classpathentry path="ejb/tests/cu-one/src/test/resources" output="ejb/tests/cu-one/target/test-classes" kind="src"/>
+
+
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
+	<classpathentry path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules" kind="con"/>
+	<classpathentry path="target/classes" kind="output"/>
+</classpath>
