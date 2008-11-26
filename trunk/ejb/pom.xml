@@ -25,10 +25,10 @@
 					<name>continuousIntegrationDeploy</name>
 				</property>
 			</activation>
-			<!--modules>
+			<modules>
 				<module>samples</module>
 				<module>templates</module>
-			</modules-->
+			</modules>
 		</profile>
 		<profile>
 			<id>hyperjaxb3-ejb-continuousIntegrationInstall</id>
