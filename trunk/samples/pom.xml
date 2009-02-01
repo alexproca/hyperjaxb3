@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-samples</artifactId>
-	<version>0.5.0</version>
+	<version>0.5.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 Samples</name>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1-SNAPSHOT</version>
 	</parent>
 	<modules>
 		<!--module>po-ws</module-->

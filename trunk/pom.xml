@@ -5,7 +5,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5.0</version>
+	<version>0.5.1-SNAPSHOT</version>
 	<name>Hyperjaxb3</name>
 	<url>http://hj3.dev.java.net</url>
 	<modules>
