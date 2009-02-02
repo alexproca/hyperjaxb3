@@ -5,7 +5,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5.1</version>
+	<version>0.5.2</version>
 	<name>Hyperjaxb3</name>
 	<url>http://hj3.dev.java.net</url>
 	<modules>
@@ -196,27 +196,27 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>runtime</artifactId>
-				<version>0.4.1.2</version>
+				<version>0.4.1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>testing</artifactId>
-				<version>0.4.1.2</version>
+				<version>0.4.1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>tools</artifactId>
-				<version>0.4.1.2</version>
+				<version>0.4.1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>basic</artifactId>
-				<version>0.4.1.2</version>
+				<version>0.4.1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>annotate</artifactId>
-				<version>0.4.1.2</version>
+				<version>0.4.1.4</version>
 			</dependency>
 			<!-- Hyperjaxb -->
 			<dependency>
