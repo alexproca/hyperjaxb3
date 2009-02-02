@@ -40,9 +40,6 @@
 				<configuration>
 					<!--result>mappingFiles</result-->
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.cuone.RoundtripTest</roundtripTestClassName>
-					<args>
-						<arg>-Xequals-equalsBuilderClass=de.packagename.common.IgnoreCollectionsEqualsBuilder</arg>
-					</args>
 				</configuration>
 			</plugin>
 		</plugins>
