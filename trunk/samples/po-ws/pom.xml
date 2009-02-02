@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.jvnet.hyperjaxb3</groupId>
         <artifactId>hyperjaxb3-samples</artifactId>
-        <version>0.5.1-SNAPSHOT</version>
+        <version>0.5.1</version>
     </parent>
     <dependencies>
         <dependency>
@@ -43,12 +43,12 @@
         <dependency>
             <groupId>org.jvnet.hyperjaxb3</groupId>
             <artifactId>hyperjaxb3-ejb-runtime</artifactId>
-            <version>0.5.1-SNAPSHOT</version>
+            <version>0.5.1</version>
         </dependency>
         <!--dependency>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
-		<version>0.5.1-SNAPSHOT</version>
+		<version>0.5.1</version>
 	</dependency-->
         
         <dependency>
@@ -152,7 +152,7 @@
                     <dependency>
                         <groupId>org.jvnet.hyperjaxb3</groupId>
                         <artifactId>hyperjaxb3-ejb-plugin</artifactId>
-                        <version>0.5.1-SNAPSHOT</version>
+                        <version>0.5.1</version>
                     </dependency>
                     <dependency>
                         <groupId>com.sun</groupId>

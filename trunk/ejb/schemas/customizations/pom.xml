@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb-schemas</artifactId>
-		<version>0.5.1-SNAPSHOT</version>
+		<version>0.5.1</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-schemas-persistence</artifactId>
-			<version>0.5.1-SNAPSHOT</version>
+			<version>0.5.1</version>
 		</dependency>
 	</dependencies>
 	<build>

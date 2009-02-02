@@ -5,7 +5,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-hibernate-sample</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5.1-SNAPSHOT</version>
+	<version>0.5.1</version>
 	<name>Hyperjaxb3 EJB Hibernate Sample Project</name>
 	<dependencies>
 		<!-- JAXB Dependencies -->	
