@@ -15,16 +15,15 @@ public class WrappingCollectionField extends AbstractWrapCollectionField {
 			CPropertyInfo wrappedProperty, CPropertyInfo wrappingProperty) {
 		super(context, wrappingProperty, wrappedProperty, wrappingProperty);
 	}
-	
-	
+
 	protected JFieldRef createField() {
 
-		final JFieldVar field = outline.implClass.field(JMod.PROTECTED,
+		final JFieldVar field = outline.implClass.field(JMod.PROTECTED
+				+ JMod.TRANSIENT,
 
 		propertyListType, property.getName(false));
 		field.annotate(XmlTransient.class);
 		return JExpr._this().ref(field);
 	}
-	
 
 }

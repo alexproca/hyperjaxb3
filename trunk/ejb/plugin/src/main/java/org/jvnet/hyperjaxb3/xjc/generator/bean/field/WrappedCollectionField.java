@@ -16,7 +16,8 @@ public class WrappedCollectionField extends AbstractWrapCollectionField {
 
 	protected JFieldRef createField() {
 
-		final JFieldVar field = outline.implClass.field(JMod.PROTECTED,
+		final JFieldVar field = outline.implClass.field(JMod.PROTECTED
+				+ JMod.TRANSIENT,
 
 		propertyListType, property.getName(false));
 		// field.annotate(XmlTransient.class);

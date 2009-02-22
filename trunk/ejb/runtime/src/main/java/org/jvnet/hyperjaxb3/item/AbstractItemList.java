@@ -1,14 +1,18 @@
 package org.jvnet.hyperjaxb3.item;
 
+import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
 public abstract class AbstractItemList<ListType, ItemType extends Item<ListType>>
-		extends AbstractList<ListType> implements ItemList<ListType, ItemType> {
+		extends AbstractList<ListType> implements ItemList<ListType, ItemType>, Serializable {
 
 	protected final List<ItemType> core;
+
+//	protected AbstractItemList() {
+//	}
 
 	public AbstractItemList(final List<ItemType> core) {
 		super();

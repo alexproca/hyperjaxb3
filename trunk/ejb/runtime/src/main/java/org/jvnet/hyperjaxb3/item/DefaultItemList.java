@@ -9,7 +9,7 @@ public class DefaultItemList<ListType, ItemType extends Item<ListType>> extends
 	private static final long serialVersionUID = 1L;
 
 	private final Class<? extends ItemType> itemClass;
-
+	
 	public DefaultItemList(List<ItemType> core,
 			final Class<? extends ItemType> itemClass) {
 		super(core);

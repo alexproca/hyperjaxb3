@@ -146,7 +146,10 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	//
 	@Override
 	public boolean run(Outline outline, Options options) throws Exception {
-
+		
+		
+		System.out.println("URL:>>>>>>>>" + CClassInfo.class.getResource("CClassInfo.class"));
+ 
 		final OutlineProcessor<?, EjbPlugin> outlineProcessor = getOutlineProcessor();
 
 		outlineProcessor.process(this, outline, options);
