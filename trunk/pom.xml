@@ -148,6 +148,11 @@
 						<target>1.5</target>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<version>0.6.3</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -185,11 +190,11 @@
 					<!--exclusion>
 						<groupId>com.sun.xml.bind</groupId>
 						<artifactId>jaxb-impl</artifactId>
-					</exclusion-->
+					</exclusion>
 					<exclusion>
 						<groupId>com.sun.xml.bind</groupId>
 						<artifactId>jaxb-xjc</artifactId>
-					</exclusion>
+					</exclusion-->
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -287,12 +292,12 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.6.0</version>
+				<version>0.6.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-testing</artifactId>
-				<version>0.6.0</version>
+				<version>0.6.3</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>

@@ -20,6 +20,10 @@
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>runtime</artifactId>
 		</dependency>
+		<!--dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+		</dependency-->
 	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
