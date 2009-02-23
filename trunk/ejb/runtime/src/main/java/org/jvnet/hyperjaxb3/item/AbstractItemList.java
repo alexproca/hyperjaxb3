@@ -9,10 +9,9 @@ import org.apache.commons.lang.Validate;
 public abstract class AbstractItemList<ListType, ItemType extends Item<ListType>>
 		extends AbstractList<ListType> implements ItemList<ListType, ItemType>, Serializable {
 
-	protected final List<ItemType> core;
+	private static final long serialVersionUID = -6512320214488719797L;
 
-//	protected AbstractItemList() {
-//	}
+	protected final List<ItemType> core;
 
 	public AbstractItemList(final List<ItemType> core) {
 		super();
