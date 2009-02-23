@@ -1,6 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.plugin;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,11 +21,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JClass;
 import com.sun.tools.xjc.BadCommandLineException;
+import com.sun.tools.xjc.ErrorReceiver;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.FieldRendererFactory;
@@ -33,6 +33,11 @@ import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.tools.xjc.reader.Ring;
+import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.util.CodeModelClassFactory;
+import com.sun.tools.xjc.util.ErrorReceiverFilter;
+import com.sun.xml.xsom.XSSchemaSet;
 
 /**
  * Hyperjaxb3 EJB plugin.
@@ -146,10 +151,23 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	//
 	@Override
 	public boolean run(Outline outline, Options options) throws Exception {
-		
-		
-		System.out.println("URL:>>>>>>>>" + CClassInfo.class.getResource("CClassInfo.class"));
- 
+		/*
+		 * final Ring ring = Ring.begin(); try {
+		 * 
+		 * final ErrorReceiverFilter ef = new
+		 * ErrorReceiverFilter(outline.getErrorReceiver());
+		 * 
+		 * Ring.add(XSSchemaSet.class,outline.getModel().schemaComponent);
+		 * Ring.add(outline.getModel()); Ring.add(outline.getCodeModel());
+		 * Ring.add(ErrorReceiver.class,ef);
+		 * Ring.add(CodeModelClassFactory.class,new CodeModelClassFactory(ef));
+		 * 
+		 * final Class<BGMBuilder> theClass = BGMBuilder.class; Constructor<?>
+		 * constructor = theClass.getDeclaredConstructors()[0];
+		 * constructor.setAccessible(true); constructor.newInstance(new Object[]
+		 * { "a", "b", true, new FieldRendererFactory() });
+		 */
+
 		final OutlineProcessor<?, EjbPlugin> outlineProcessor = getOutlineProcessor();
 
 		outlineProcessor.process(this, outline, options);
@@ -158,6 +176,9 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 		checkCustomizations(outline);
 		return true;
+		/*
+		 * } finally { Ring.end(ring); }
+		 */
 
 	}
 
@@ -337,6 +358,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	@Override
 	public void postProcessModel(Model model, ErrorHandler errorHandler) {
+
 		// super.postProcessModel(model, errorHandler);
 		// model.strategy = ImplStructureStrategy.BEAN_ONLY;
 		// getProcessModel().process(getProcessModel(), model);
