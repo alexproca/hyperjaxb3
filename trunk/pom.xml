@@ -31,27 +31,11 @@
 			<url>http://download.java.net/maven/1</url>
 			<layout>legacy</layout>
 		</repository>
-		<repository>
-			<id>jfrog-plugins</id>
-			<name>jfrog-plugins-dist</name>
-			<url>http://www.jfrog.org/artifactory/plugins-releases@repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>maven2-repository.dev.java.net</id>
 			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>jfrog-plugins</id>
-			<name>jfrog-plugins-dist</name>
-			<url>http://www.jfrog.org/artifactory/plugins-releases@repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
@@ -197,6 +181,16 @@
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>runtime</artifactId>
 				<version>0.4.1.4</version>
+				<exclusions>
+					<!--exclusion>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-impl</artifactId>
+					</exclusion-->
+					<exclusion>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-xjc</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
