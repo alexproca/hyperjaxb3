@@ -78,14 +78,27 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 		Customizations.markGenerated(itemClassInfo);
 
 		final CReferencePropertyInfo itemPropertyInfo = new CReferencePropertyInfo(
-				"Item", false, false, wrappedPropertyInfo.getSchemaComponent(),
+		// String name
+				"Item",
+				// boolean collection
+				false,
+				// boolean required
+				false,
+
+				// boolean isMixed (2.1.9+)
+//				false,
+				// XSComponent source
+				wrappedPropertyInfo.getSchemaComponent(),
+				// CCustomizations customizations
 
 				new CCustomizations(CustomizationUtils
 						.getCustomizations(wrappedPropertyInfo)),
+				// Locator locator
 				wrappedPropertyInfo.getLocator());
 
 		// For a mixed/skip use lax to allow strings
-		if (wrappedPropertyInfo.isMixed() && WildcardMode.SKIP.equals(wrappedPropertyInfo.getWildcard())) {
+		if (wrappedPropertyInfo.isMixed()
+				&& WildcardMode.SKIP.equals(wrappedPropertyInfo.getWildcard())) {
 			itemPropertyInfo.setWildcard(WildcardMode.LAX);
 		} else {
 			itemPropertyInfo.setWildcard(wrappedPropertyInfo.getWildcard());
@@ -99,24 +112,24 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 		final CPropertyInfo stringProperty;
 		if (wrappedPropertyInfo.isMixed()) {
 
-			stringProperty = new CAttributePropertyInfo("Text",
-					propertyInfo.getSchemaComponent(), new CCustomizations(),
-					propertyInfo.getLocator(), new QName("Text"),
+			stringProperty = new CAttributePropertyInfo("Text", propertyInfo
+					.getSchemaComponent(), new CCustomizations(), propertyInfo
+					.getLocator(), new QName("Text"),
 
-					CBuiltinLeafInfo.STRING, CBuiltinLeafInfo.STRING
-							.getTypeName(), false);
+			CBuiltinLeafInfo.STRING, CBuiltinLeafInfo.STRING.getTypeName(),
+					false);
 
-// stringProperty.realization = new FieldRenderer() {
-// public FieldOutline generate(ClassOutlineImpl outline,
-// CPropertyInfo propertyInfo) {
-// StringField fieldOutline = new StringField(outline,
-// propertyInfo, itemPropertyInfo);
-// fieldOutline.generateAccessors();
-// return fieldOutline;
-// }
-// };
-//			Customizations.markGenerated(stringProperty);
-			
+			// stringProperty.realization = new FieldRenderer() {
+			// public FieldOutline generate(ClassOutlineImpl outline,
+			// CPropertyInfo propertyInfo) {
+			// StringField fieldOutline = new StringField(outline,
+			// propertyInfo, itemPropertyInfo);
+			// fieldOutline.generateAccessors();
+			// return fieldOutline;
+			// }
+			// };
+			// Customizations.markGenerated(stringProperty);
+
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
 			Customizations.addCustomizationElement(stringProperty,
@@ -130,12 +143,9 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 
 		context.getProcessClassInfo().process(context, itemClassInfo);
 
-		itemPropertyInfo.realization = 
-			wrappedPropertyInfo.isMixed() ?
-					new MixedItemFieldRederer(
-							itemPropertyInfo.realization) :
-			new ItemFieldRederer(
-				itemPropertyInfo.realization);
+		itemPropertyInfo.realization = wrappedPropertyInfo.isMixed() ? new MixedItemFieldRederer(
+				itemPropertyInfo.realization)
+				: new ItemFieldRederer(itemPropertyInfo.realization);
 
 		final CElementPropertyInfo wrappingPropertyInfo =
 
@@ -178,11 +188,11 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 	}
 
 	private class MixedItemFieldRederer implements FieldRenderer {
-//		private final FieldRenderer core;
+		// private final FieldRenderer core;
 
 		public MixedItemFieldRederer(final FieldRenderer core) {
 			super();
-//			this.core = core;
+			// this.core = core;
 		}
 
 		public FieldOutline generate(ClassOutlineImpl classOutline,
@@ -190,7 +200,7 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 
 			final FieldOutline fieldOutline =
 
-//			core == null ?
+			// core == null ?
 
 			new SingleField(classOutline, propertyInfo) {
 				@Override
@@ -225,11 +235,11 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 	}
 
 	private class ItemFieldRederer implements FieldRenderer {
-//		private final FieldRenderer core;
+		// private final FieldRenderer core;
 
 		public ItemFieldRederer(final FieldRenderer core) {
 			super();
-//			this.core = core;
+			// this.core = core;
 		}
 
 		public FieldOutline generate(ClassOutlineImpl classOutline,
@@ -237,7 +247,7 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 
 			final FieldOutline fieldOutline =
 
-//			core == null ?
+			// core == null ?
 
 			new SingleField(classOutline, propertyInfo) {
 				@Override
@@ -271,69 +281,70 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 		}
 	}
 
-//	protected CPropertyInfo createObjectProperty(
-//			final CReferencePropertyInfo referencePropertyInfo) {
-//		final CPropertyInfo objectProperty;
-//		if (referencePropertyInfo.getWildcard() != null
-//				&& referencePropertyInfo.getWildcard().allowTypedObject) {
-//
-//			objectProperty = new CAttributePropertyInfo(referencePropertyInfo
-//					.getName(true)
-//					+ "Object", referencePropertyInfo.getSchemaComponent(),
-//					new CCustomizations(), referencePropertyInfo.getLocator(),
-//					new QName(referencePropertyInfo.getName(true) + "Object"),
-//					CBuiltinLeafInfo.STRING, CBuiltinLeafInfo.STRING
-//							.getTypeName(), false);
-//
-//			objectProperty.realization = new FieldRenderer() {
-//				public FieldOutline generate(ClassOutlineImpl context,
-//						CPropertyInfo prop) {
-//					final SingleWrappingReferenceObjectField fieldOutline = new SingleWrappingReferenceObjectField(
-//							context, prop, referencePropertyInfo);
-//					fieldOutline.generateAccessors();
-//					return fieldOutline;
-//				}
-//			};
-//			Customizations.addCustomizationElement(objectProperty, null, null);
-//			Customizations.markGenerated(objectProperty);
-//
-//		} else {
-//			objectProperty = null;
-//		}
-//		return objectProperty;
-//	}
+	// protected CPropertyInfo createObjectProperty(
+	// final CReferencePropertyInfo referencePropertyInfo) {
+	// final CPropertyInfo objectProperty;
+	// if (referencePropertyInfo.getWildcard() != null
+	// && referencePropertyInfo.getWildcard().allowTypedObject) {
+	//
+	// objectProperty = new CAttributePropertyInfo(referencePropertyInfo
+	// .getName(true)
+	// + "Object", referencePropertyInfo.getSchemaComponent(),
+	// new CCustomizations(), referencePropertyInfo.getLocator(),
+	// new QName(referencePropertyInfo.getName(true) + "Object"),
+	// CBuiltinLeafInfo.STRING, CBuiltinLeafInfo.STRING
+	// .getTypeName(), false);
+	//
+	// objectProperty.realization = new FieldRenderer() {
+	// public FieldOutline generate(ClassOutlineImpl context,
+	// CPropertyInfo prop) {
+	// final SingleWrappingReferenceObjectField fieldOutline = new
+	// SingleWrappingReferenceObjectField(
+	// context, prop, referencePropertyInfo);
+	// fieldOutline.generateAccessors();
+	// return fieldOutline;
+	// }
+	// };
+	// Customizations.addCustomizationElement(objectProperty, null, null);
+	// Customizations.markGenerated(objectProperty);
+	//
+	// } else {
+	// objectProperty = null;
+	// }
+	// return objectProperty;
+	// }
 
-//	protected CPropertyInfo createElementProperty(
-//			final CReferencePropertyInfo referencePropertyInfo) {
-//		final CAttributePropertyInfo elementProperty;
-//		if (referencePropertyInfo.getWildcard() != null
-//				&& referencePropertyInfo.getWildcard().allowDom) {
-//
-//			elementProperty = new CAttributePropertyInfo(referencePropertyInfo
-//					.getName(true)
-//					+ "Element", referencePropertyInfo.getSchemaComponent(),
-//					new CCustomizations(), referencePropertyInfo.getLocator(),
-//					new QName(referencePropertyInfo.getName(true) + "Element"),
-//
-//					TypeUseFactory.adapt(CBuiltinLeafInfo.STRING,
-//							ElementAsString.class, false),
-//					CBuiltinLeafInfo.STRING.getTypeName(), false);
-//
-//			elementProperty.realization = new FieldRenderer() {
-//				public FieldOutline generate(ClassOutlineImpl context,
-//						CPropertyInfo prop) {
-//					ElementField fieldOutline = new ElementField(context, prop,
-//							referencePropertyInfo);
-//					fieldOutline.generateAccessors();
-//					return fieldOutline;
-//				}
-//			};
-//			Customizations.addCustomizationElement(elementProperty, null, null);
-//			Customizations.markGenerated(elementProperty);
-//		} else {
-//			elementProperty = null;
-//		}
-//		return elementProperty;
-//	}
+	// protected CPropertyInfo createElementProperty(
+	// final CReferencePropertyInfo referencePropertyInfo) {
+	// final CAttributePropertyInfo elementProperty;
+	// if (referencePropertyInfo.getWildcard() != null
+	// && referencePropertyInfo.getWildcard().allowDom) {
+	//
+	// elementProperty = new CAttributePropertyInfo(referencePropertyInfo
+	// .getName(true)
+	// + "Element", referencePropertyInfo.getSchemaComponent(),
+	// new CCustomizations(), referencePropertyInfo.getLocator(),
+	// new QName(referencePropertyInfo.getName(true) + "Element"),
+	//
+	// TypeUseFactory.adapt(CBuiltinLeafInfo.STRING,
+	// ElementAsString.class, false),
+	// CBuiltinLeafInfo.STRING.getTypeName(), false);
+	//
+	// elementProperty.realization = new FieldRenderer() {
+	// public FieldOutline generate(ClassOutlineImpl context,
+	// CPropertyInfo prop) {
+	// ElementField fieldOutline = new ElementField(context, prop,
+	// referencePropertyInfo);
+	// fieldOutline.generateAccessors();
+	// return fieldOutline;
+	// }
+	// };
+	// Customizations.addCustomizationElement(elementProperty, null, null);
+	// Customizations.markGenerated(elementProperty);
+	// } else {
+	// elementProperty = null;
+	// }
+	// return elementProperty;
+	// }
 
 }
