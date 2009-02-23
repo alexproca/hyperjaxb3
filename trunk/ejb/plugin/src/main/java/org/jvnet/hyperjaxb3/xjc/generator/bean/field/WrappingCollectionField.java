@@ -22,7 +22,7 @@ public class WrappingCollectionField extends AbstractWrapCollectionField {
 				+ JMod.TRANSIENT,
 
 		propertyListType, property.getName(false));
-		field.annotate(XmlTransient.class);
+//		field.annotate(XmlTransient.class);
 		return JExpr._this().ref(field);
 	}
 
