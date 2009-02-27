@@ -187,11 +187,11 @@
 				<artifactId>runtime</artifactId>
 				<version>0.4.1.4</version>
 				<exclusions>
-					<!--exclusion>
+					<exclusion>
 						<groupId>com.sun.xml.bind</groupId>
 						<artifactId>jaxb-impl</artifactId>
 					</exclusion>
-					<exclusion>
+					<!--exclusion>
 						<groupId>com.sun.xml.bind</groupId>
 						<artifactId>jaxb-xjc</artifactId>
 					</exclusion-->
