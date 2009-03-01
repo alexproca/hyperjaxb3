@@ -28,10 +28,6 @@
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>tools</artifactId>
 		</dependency>
-		<!--dependency>
-			<groupId>org.jvnet.hyperjaxb3</groupId>
-			<artifactId>hyperjaxb3-hibernate-runtime</artifactId>
-		</dependency-->
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>

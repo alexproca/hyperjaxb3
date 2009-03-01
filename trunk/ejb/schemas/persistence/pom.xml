@@ -46,7 +46,6 @@
 						<plugin>
 							<groupId>org.jvnet.jaxb2_commons</groupId>
 							<artifactId>basic</artifactId>
-							<version>0.4.1.4</version>
 						</plugin>
 					</plugins>
 				</configuration>
