@@ -1,5 +1,5 @@
 setlocal
-set JAVA_HOME=C:\Programme\Java\jdk1.5.0_06\
+set JAVA_HOME=%JAVA5_HOME%
 call mvn -DperformRelease=true clean deploy
 endlocal
 

@@ -15,6 +15,9 @@
 package org.jvnet.hyperjaxb3.maven2;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;
@@ -31,8 +34,6 @@ import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoPhase;
 import org.jvnet.jaxb2.maven2.XJC2Mojo;
-
-import com.sun.tools.xjc.Options;
 
 @MojoGoal("generate")
 @MojoPhase("generate-sources")
@@ -146,63 +147,60 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	/**
 	 * Logs options defined directly as mojo parameters.
 	 */
-	protected void logUserSettings(StringBuffer sb) {
-		sb.append("\n\ttarget: " + target);
-		sb.append("\n\troundtripTest: " + roundtripTestClassName);
-		sb.append("\n\tresourceIncludes: "
-				+ recursiveToString(resourceIncludes));
-		sb.append("\n\tvariant: " + variant);
-		super.logUserSettings(sb);
+	protected void logConfiguration() throws MojoExecutionException {
+		super.logConfiguration();
+		getLog().info("target:" + target);
+		getLog().info("roundtripTestClassName:" + roundtripTestClassName);
+		getLog().info("resourceIncludes:" + resourceIncludes);
+		getLog().info("variant:" + variant);
+		getLog().info("persistenceUnitName:" + persistenceUnitName);
+		getLog().info("persistenceXml:" + persistenceXml);
+		getLog().info("generateHashCode:" + generateHashCode);
+		getLog().info("generateEquals:" + generateEquals);
+		getLog().info("generateTransientId:" + generateTransientId);
+		getLog().info("result:" + result);
+		
 	}
 
-	/**
-	 * Ensure the any default settings are met and throws exceptions when
-	 * settings are invalid and also stores the schemas and the bindings files
-	 * into member vars for calculating timestamps, later.
-	 * 
-	 * Exception will cause build to fail.
-	 * 
-	 * @throws MojoExecutionException
-	 */
-	protected void setupCmdLineArgs(Options xjcOpts)
-			throws MojoExecutionException {
+	protected String[] getArguments() throws MojoExecutionException {
+		final List<String> arguments = new LinkedList<String>(Arrays.asList(super.getArguments()));
 		if ("ejb".equals(variant)) {
-			getArgs().add("-Xhyperjaxb3-ejb");
+			arguments.add("-Xhyperjaxb3-ejb");
 
 			if (result != null) {
-				getArgs().add("-Xhyperjaxb3-ejb-result=" + result);
+				arguments.add("-Xhyperjaxb3-ejb-result=" + result);
 			}
 
 			if (roundtripTestClassName != null) {
-				getArgs().add(
+				arguments.add(
 						"-Xhyperjaxb3-ejb-roundtripTestClassName="
 								+ roundtripTestClassName);
 			}
 			if (persistenceUnitName != null) {
-				getArgs().add(
+				arguments.add(
 						"-Xhyperjaxb3-ejb-persistenceUnitName="
 								+ persistenceUnitName);
 			}
 			if (persistenceXml != null) {
-				getArgs().add(
+				arguments.add(
 						"-Xhyperjaxb3-ejb-persistenceXml="
 								+ persistenceXml.getAbsolutePath());
 			}
 
 			if (generateTransientId) {
-				getArgs().add("-Xhyperjaxb3-ejb-generateTransientId=true");
+				arguments.add("-Xhyperjaxb3-ejb-generateTransientId=true");
 			}
 
 		}
 
 		if (generateEquals) {
-			getArgs().add("-Xequals");
+			arguments.add("-Xequals");
 		}
 		if (generateHashCode) {
-			getArgs().add("-XhashCode");
+			arguments.add("-XhashCode");
 		}
 
-		super.setupCmdLineArgs(xjcOpts);
+		return arguments.toArray(new String[arguments.size()]);
 	}
 
 	/**
@@ -212,8 +210,8 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 * @param xjcOpts
 	 * @throws MojoExecutionException
 	 */
-	protected void updateMavenPaths() {
-		super.updateMavenPaths();
+	protected void setupMavenPaths() {
+		super.setupMavenPaths();
 
 		final Resource resource = new Resource();
 		resource.setDirectory(getGenerateDirectory().getPath());

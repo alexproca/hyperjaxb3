@@ -13,6 +13,16 @@
 	</parent>
 	<dependencies>
 		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>runtime</artifactId>
 		</dependency>

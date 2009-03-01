@@ -16,9 +16,17 @@
 			<artifactId>runtime</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>tools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb-xjc</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-schemas-persistence</artifactId>
-			<version>0.5.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -48,7 +56,6 @@
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>basic</artifactId>
-									<version>0.4.1.4</version>
 								</plugin>
 							</plugins>
 							<episodes>
