@@ -39,6 +39,8 @@
 			</activation>
 			<modules>
 				<module>tests</module>
+				<module>samples</module>
+				<module>templates</module>
 			</modules>
 		</profile>
 	</profiles>
