@@ -12,8 +12,8 @@
 		<!-- General -->
 		<!--module>hibernate</module-->
 		<module>ejb</module>
-		<module>samples</module>
-		<module>templates</module>
+		<!--module>samples</module>
+		<module>templates</module-->
 		<!--module>jdo</module-->
 		<module>maven</module>
 	</modules>
@@ -153,6 +153,29 @@
 					<artifactId>maven-jaxb2-plugin</artifactId>
 					<version>0.7.0-SNAPSHOT</version>
 				</plugin>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<dependencies>
+						<dependency>
+							<groupId>sun.jdk</groupId>
+							<artifactId>tools</artifactId>
+							<version>1.5.0</version>
+							<scope>system</scope>
+							<systemPath>${java.home}/../lib/tools.jar</systemPath>
+						</dependency>
+						<dependency>
+							<groupId>junit</groupId>
+							<artifactId>junit</artifactId>
+							<version>3.8.1</version>
+							<scope>runtime</scope>
+						</dependency>
+						<dependency>
+							<groupId>ant</groupId>
+							<artifactId>ant-optional</artifactId>
+							<version>1.5.3-1</version>
+						</dependency>
+					</dependencies>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -197,6 +220,11 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>annotate</artifactId>
+				<version>0.4.1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jvnet.jaxb2_commons</groupId>
+				<artifactId>jaxb2_commons-ant</artifactId>
 				<version>0.4.1.5</version>
 			</dependency>
 			<!-- Hyperjaxb -->
