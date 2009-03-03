@@ -15,6 +15,7 @@
 		<module>derby</module>
 		<module>episodes</module>
 		<module>issues</module>
+		<module>nml</module>
 		<module>one</module>
 		<module>po-customized</module>
 		<module>regrep</module>
@@ -62,55 +63,6 @@
 				<module>service</module>
 				<module>simple</module>
 				<module>transient-ids</module>
-				<!--module>verylong</module-->
-				<module>web</module>
-				<module>xacml</module>
-			</modules>
-			<build>
-				<plugins>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>hyperjaxb3-ejb-tests-continuousIntegrationInstall</id>
-			<activation>
-				<property>
-					<name>continuousIntegrationInstall</name>
-				</property>   
-			</activation>
-			<modules>
-				<module>addressbook</module>
-				<module>ak</module>
-				<module>bibtexml</module>
-				<!-- ** module>ccr</module-->
-				<!-- ** module>component</module-->
-				<!-- ** module>customizations</module-->
-				<!-- ** module>customType</module-->
-				<module>device</module>
-				<!-- ** module>dl</module-->
-				<module>dom</module>
-				<!-- ** module>dy</module-->
-				<module>ebxmlrr</module>
-				<!-- module>embeddable</module-->
-				<module>enum</module>
-				<!--module>idSymbolSpace</module-->
-				<module>ims-eportfolio</module>
-				<module>ims-lip</module>
-				<module>nml</module>
-				<module>nokis</module>
-				<module>ows</module>
-				<!--module>pesc</module-->
-				<module>po</module>
-				<module>po-tl-customized</module>
-				<module>punit</module>
-				<module>px</module>
-				<!--module>rim</module-->
-				<!--module>sbml</module-->
-				<module>sml</module>
-				<module>sepa</module>
-				<module>service</module>
-				<module>simple</module>
-				<module>uniprot</module>
 				<!--module>verylong</module-->
 				<module>web</module>
 				<module>xacml</module>
