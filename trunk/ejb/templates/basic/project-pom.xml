@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
-	<artifactId>hyperjaxb3-samples-po-initial-maven</artifactId>
+	<artifactId>hyperjaxb3-ejb-template-basic-maven</artifactId>
 	<version>0.5.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 Samples [po-initial:maven]</name>
@@ -59,7 +59,6 @@
 			<version>1.8.0.7</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 	<repositories>
 		<repository>
@@ -75,20 +74,11 @@
 			<id>maven2-repository.jboss.com</id>
 			<url>http://repository.jboss.com/maven2</url>
 		</repository>
-		<repository>
-			<id>jfrog-plugins</id>
-			<url>http://www.jfrog.org/artifactory/plugins-releases@repo</url>
-		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>maven2-repository.dev.java.net</id>
 			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>maven-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
@@ -97,6 +87,7 @@
 			<plugin>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
+				<version>0.5.3-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<goals>
