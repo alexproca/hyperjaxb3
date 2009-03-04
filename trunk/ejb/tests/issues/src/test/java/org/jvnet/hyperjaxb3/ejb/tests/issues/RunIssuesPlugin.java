@@ -8,5 +8,6 @@ public class RunIssuesPlugin extends RunEjbHyperjaxb3Mojo {
 	@Override
 	protected void configureHyperjaxb3Mojo(Hyperjaxb3Mojo mojo) {
 		super.configureHyperjaxb3Mojo(mojo);
+		mojo.setVerbose(true);
 	}
 }
