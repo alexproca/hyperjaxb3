@@ -132,7 +132,7 @@
 				<plugin>
 					<groupId>org.jvnet.jaxb2.maven2</groupId>
 					<artifactId>maven-jaxb2-plugin</artifactId>
-					<version>0.5</version>
+					<version>0.7.0-SNAPSHOT</version>
 					<!--dependencies>
 						<dependency>
 							<groupId>org.jvnet.hyperjaxb3</groupId>

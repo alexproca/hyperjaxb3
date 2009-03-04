@@ -95,7 +95,6 @@ public class DefaultProcessModel implements ProcessModel {
 		return includedClasses;
 	}*/
 	
-	@Override
 	public Collection<CClassInfo> process(EjbPlugin context, Model model,
 			Options options) throws Exception {
 		

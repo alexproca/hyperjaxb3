@@ -15,6 +15,8 @@
 package org.jvnet.hyperjaxb3.maven2;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,11 +35,13 @@ import org.apache.maven.plugin.logging.Log;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoPhase;
-import org.jvnet.jaxb2.maven2.XJC2Mojo;
+import org.jvnet.jaxb2.maven2.RawXJC2Mojo;
+
+import com.sun.tools.xjc.Options;
 
 @MojoGoal("generate")
 @MojoPhase("generate-sources")
-public class Hyperjaxb3Mojo extends XJC2Mojo {
+public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 
 	/**
 	 * Target directory for the generated mappings. If left empty, mappings are
@@ -149,6 +153,7 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 	 */
 	protected void logConfiguration() throws MojoExecutionException {
 		super.logConfiguration();
+
 		getLog().info("target:" + target);
 		getLog().info("roundtripTestClassName:" + roundtripTestClassName);
 		getLog().info("resourceIncludes:" + resourceIncludes);
@@ -159,11 +164,20 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 		getLog().info("generateEquals:" + generateEquals);
 		getLog().info("generateTransientId:" + generateTransientId);
 		getLog().info("result:" + result);
-		
+		try {
+			getLog().info(
+					"XJC loaded from:"
+							+ Options.class.getResource("Options.class")
+									.toURI().toURL().toExternalForm());
+		} catch (IOException ignored) {
+		} catch (URISyntaxException ignored) {
+		}
+
 	}
 
 	protected String[] getArguments() throws MojoExecutionException {
-		final List<String> arguments = new LinkedList<String>(Arrays.asList(super.getArguments()));
+		final List<String> arguments = new LinkedList<String>(Arrays
+				.asList(super.getArguments()));
 		if ("ejb".equals(variant)) {
 			arguments.add("-Xhyperjaxb3-ejb");
 
@@ -172,19 +186,16 @@ public class Hyperjaxb3Mojo extends XJC2Mojo {
 			}
 
 			if (roundtripTestClassName != null) {
-				arguments.add(
-						"-Xhyperjaxb3-ejb-roundtripTestClassName="
-								+ roundtripTestClassName);
+				arguments.add("-Xhyperjaxb3-ejb-roundtripTestClassName="
+						+ roundtripTestClassName);
 			}
 			if (persistenceUnitName != null) {
-				arguments.add(
-						"-Xhyperjaxb3-ejb-persistenceUnitName="
-								+ persistenceUnitName);
+				arguments.add("-Xhyperjaxb3-ejb-persistenceUnitName="
+						+ persistenceUnitName);
 			}
 			if (persistenceXml != null) {
-				arguments.add(
-						"-Xhyperjaxb3-ejb-persistenceXml="
-								+ persistenceXml.getAbsolutePath());
+				arguments.add("-Xhyperjaxb3-ejb-persistenceXml="
+						+ persistenceXml.getAbsolutePath());
 			}
 
 			if (generateTransientId) {
