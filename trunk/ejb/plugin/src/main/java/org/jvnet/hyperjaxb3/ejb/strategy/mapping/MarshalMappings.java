@@ -9,8 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
-import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.CodeModelUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
@@ -23,7 +23,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 public class MarshalMappings implements
-		OutlineProcessor<Collection<ClassOutline>, EjbPlugin> {
+		OutlineProcessor<EjbPlugin> {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
