@@ -12,9 +12,9 @@ import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.AttributesUtils;
 import org.jvnet.jaxb2_commons.plugin.annotate.Annotator;
-import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
@@ -28,8 +28,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
-public class AnnotateOutline implements
-		OutlineProcessor<Collection<ClassOutline>, EjbPlugin> {
+public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 
 	protected Log logger = LogFactory.getLog(getClass());
 

@@ -56,7 +56,7 @@ public class WrapCollectionElement implements CreatePropertyInfos {
 
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
 				classInfo, propertyName + "Item", null,
-				new QName(propertyName), null, null, new CCustomizations());
+				new QName(propertyName), null, propertyInfo.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);
 

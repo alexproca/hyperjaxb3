@@ -1,9 +1,13 @@
 package org.jvnet.hyperjaxb3.ejb.plugin;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -11,37 +15,38 @@ import javax.xml.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.processor.ModelAndOutlineProcessor;
 import org.jvnet.hyperjaxb3.ejb.test.RoundtripTest;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.UntypedListFieldRenderer;
 import org.jvnet.jaxb2_commons.plugin.spring.AbstractSpringConfigurablePlugin;
-import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
-import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JClass;
-import com.sun.codemodel.JPackage;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JMod;
 import com.sun.tools.xjc.BadCommandLineException;
-import com.sun.tools.xjc.ErrorReceiver;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.generator.bean.BeanGenerator;
+import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.FieldRendererFactory;
 import com.sun.tools.xjc.model.CClassInfo;
-import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
+import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.reader.Ring;
 import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
-import com.sun.tools.xjc.util.CodeModelClassFactory;
-import com.sun.tools.xjc.util.ErrorReceiverFilter;
-import com.sun.xml.xsom.XSComponent;
-import com.sun.xml.xsom.XSSchemaSet;
 
 /**
  * Hyperjaxb3 EJB plugin.
@@ -50,6 +55,19 @@ import com.sun.xml.xsom.XSSchemaSet;
 public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	protected Log logger = LogFactory.getLog(getClass());
+
+	private final Method generateFieldDecl;
+	{
+		try {
+			generateFieldDecl = BeanGenerator.class.getDeclaredMethod(
+					"generateFieldDecl", new Class[] { ClassOutlineImpl.class,
+							CPropertyInfo.class });
+			generateFieldDecl.setAccessible(true);
+		} catch (Exception ex) {
+			throw new ExceptionInInitializerError(ex);
+
+		}
+	}
 
 	// private final Method generateFieldDecl;
 	// {
@@ -139,7 +157,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		this.result = variant;
 	}
 
-	public String getOutlineProcessorBeanName() {
+	public String getModelAndOutlineProcessorBeanName() {
 		return getResult();
 	}
 
@@ -155,6 +173,39 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	//
 	@Override
 	public boolean run(Outline outline, Options options) throws Exception {
+
+		final Ring ring = Ring.begin();
+
+		try {
+			ring.add(this.bgmBuilder);
+
+			final ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor = getModelAndOutlineProcessor();
+
+			modelAndOutlineProcessor.process(this, outline.getModel(), options);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			throw ex;
+		}
+		finally {
+			Ring.end(ring);
+
+		}
+
+		for (final CClassInfo classInfo : getCreatedClasses()) {
+			final ClassOutline classOutline = outline.getClazz(classInfo);
+			if (Customizations.isGenerated(classInfo)) {
+				generateClassBody(outline, (ClassOutlineImpl) classOutline);
+			}
+
+			for (final CPropertyInfo propertyInfo : classInfo.getProperties()) {
+				if (outline.getField(propertyInfo) == null) {
+					generateFieldDecl(outline, (ClassOutlineImpl) classOutline,
+							propertyInfo);
+				}
+			}
+		}
+
 		/*
 		 * final Ring ring = Ring.begin(); try {
 		 * 
@@ -172,9 +223,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		 * { "a", "b", true, new FieldRendererFactory() });
 		 */
 
-		final OutlineProcessor<?, EjbPlugin> outlineProcessor = getOutlineProcessor();
-
-		outlineProcessor.process(this, outline, options);
+		modelAndOutlineProcessor.process(this, outline, options);
 
 		generateRoundtripTestClass(outline);
 
@@ -363,19 +412,22 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	@Override
 	public void postProcessModel(Model model, ErrorHandler errorHandler) {
 
-		// super.postProcessModel(model, errorHandler);
-		// model.strategy = ImplStructureStrategy.BEAN_ONLY;
-		// getProcessModel().process(getProcessModel(), model);
-		// getProcessModel().process(getProcessModel(), model);
-		System.out.println("Accessing BGMBuilder from Ring.");
-		System.out.println("BGMBuilder [" + Ring.get(BGMBuilder.class) + "].");
+		this.bgmBuilder = Ring.get(BGMBuilder.class);
 
-		System.out.println("Creating an instance of CClassInfo.");
-		final CClassInfo classInfo = new CClassInfo(model, model.codeModel
-				._package("test"), "Test", null, new QName("test"), new QName(
-				"test"), null, null);
-		System.out.println("CClassInfo [" + classInfo + "].");
-
+		// final ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor =
+		// getModelAndOutlineProcessor();
+		//
+		// try {
+		// modelAndOutlineProcessor.process(this, model, model.options);
+		// } catch (Exception ex) {
+		// try {
+		// ex.printStackTrace();
+		// errorHandler.fatalError(new SAXParseException(
+		// "Error postprocessing the model.", "", "", -1, -1, ex));
+		// } catch (SAXException ignored) {
+		// throw new RuntimeException(ignored);
+		// }
+		// }
 	}
 
 	@Override
@@ -403,23 +455,28 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	@Override
 	public void init(Options options) throws Exception {
 		super.init(options);
-		if (getOutlineProcessor() == null) {
+		if (getModelAndOutlineProcessor() == null) {
 			try {
 				final Object bean = getApplicationContext().getBean(
-						getOutlineProcessorBeanName());
-				if (!(bean instanceof OutlineProcessor)) {
+						getModelAndOutlineProcessorBeanName());
+				if (!(bean instanceof ModelAndOutlineProcessor)) {
 					throw new BadCommandLineException("Result bean ["
-							+ getOutlineProcessorBeanName() + "] of class ["
-							+ bean.getClass() + "] does not implement ["
-							+ OutlineProcessor.class.getName() + "] interface.");
+							+ getModelAndOutlineProcessorBeanName()
+							+ "] of class [" + bean.getClass()
+							+ "] does not implement ["
+							+ ModelAndOutlineProcessor.class.getName()
+							+ "] interface.");
 				} else {
-					setOutlineProcessor((OutlineProcessor<?, EjbPlugin>) bean);
+					@SuppressWarnings("unchecked")
+					final ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor = (ModelAndOutlineProcessor<EjbPlugin>) bean;
+					setModelAndOutlineProcessor(modelAndOutlineProcessor);
 				}
 
 			} catch (BeansException bex) {
 				throw new BadCommandLineException(
 						"Could not load variant bean ["
-								+ getOutlineProcessorBeanName() + "].", bex);
+								+ getModelAndOutlineProcessorBeanName() + "].",
+						bex);
 			}
 		}
 
@@ -428,15 +485,15 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		}
 	}
 
-	private OutlineProcessor<?, EjbPlugin> outlineProcessor;
+	private ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor;
 
-	public OutlineProcessor<?, EjbPlugin> getOutlineProcessor() {
-		return outlineProcessor;
+	public ModelAndOutlineProcessor<EjbPlugin> getModelAndOutlineProcessor() {
+		return modelAndOutlineProcessor;
 	}
 
-	public void setOutlineProcessor(
-			OutlineProcessor<?, EjbPlugin> outlineProcessor) {
-		this.outlineProcessor = outlineProcessor;
+	public void setModelAndOutlineProcessor(
+			ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor) {
+		this.modelAndOutlineProcessor = modelAndOutlineProcessor;
 	}
 
 	// private ProcessModel processModel;
@@ -463,4 +520,124 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		return super.isCustomizationTagName(namespace, localPart)
 				|| Customizations.NAMESPACES.contains(namespace);
 	}
+
+	private Collection<ClassOutline> includedClasses;
+
+	public Collection<ClassOutline> getIncludedClasses() {
+		return includedClasses;
+	}
+
+	public void setIncludedClasses(Collection<ClassOutline> includedClasses) {
+		this.includedClasses = includedClasses;
+	}
+
+	private Collection<CClassInfo> createdClasses = new LinkedList<CClassInfo>();
+
+	public Collection<CClassInfo> getCreatedClasses() {
+		return createdClasses;
+	}
+
+	private Map<CPropertyInfo, CClassInfo> createdProperties = new HashMap<CPropertyInfo, CClassInfo>();
+
+	public Map<CPropertyInfo, CClassInfo> getCreatedProperties() {
+		return createdProperties;
+	}
+
+	private void generateClassBody(Outline outline, ClassOutlineImpl cc) {
+
+		final JCodeModel codeModel = outline.getCodeModel();
+		final Model model = outline.getModel();
+		CClassInfo target = cc.target;
+
+		// if serialization support is turned on, generate
+		// [RESULT]
+		// class ... implements Serializable {
+		// private static final long serialVersionUID = <id>;
+		// ....
+		// }
+		if (model.serializable) {
+			cc.implClass._implements(Serializable.class);
+			if (model.serialVersionUID != null) {
+				cc.implClass.field(JMod.PRIVATE | JMod.STATIC | JMod.FINAL,
+						codeModel.LONG, "serialVersionUID", JExpr
+								.lit(model.serialVersionUID));
+			}
+		}
+
+		// used to simplify the generated annotations
+		// String mostUsedNamespaceURI =
+		// cc._package().getMostUsedNamespaceURI();
+
+		// [RESULT]
+		// @XmlType(name="foo", targetNamespace="bar://baz")
+		// XmlTypeWriter xtw = cc.implClass.annotate2(XmlTypeWriter.class);
+		// writeTypeName(cc.target.getTypeName(), xtw, mostUsedNamespaceURI);
+
+		// if(model.options.target.isLaterThan(SpecVersion.V2_1)) {
+		// // @XmlSeeAlso
+		// Iterator<CClassInfo> subclasses = cc.target.listSubclasses();
+		// if(subclasses.hasNext()) {
+		// XmlSeeAlsoWriter saw =
+		// cc.implClass.annotate2(XmlSeeAlsoWriter.class);
+		// while (subclasses.hasNext()) {
+		// CClassInfo s = subclasses.next();
+		// saw.value(outline.getClazz(s).implRef);
+		// }
+		// }
+		// }
+
+		// if(target.isElement()) {
+		// String namespaceURI = target.getElementName().getNamespaceURI();
+		// String localPart = target.getElementName().getLocalPart();
+		//
+		// // [RESULT]
+		// // @XmlRootElement(name="foo", targetNamespace="bar://baz")
+		// XmlRootElementWriter xrew =
+		// cc.implClass.annotate2(XmlRootElementWriter.class);
+		// xrew.name(localPart);
+		// if(!namespaceURI.equals(mostUsedNamespaceURI)) // only generate if
+		// necessary
+		// xrew.namespace(namespaceURI);
+		// }
+
+		// if(target.isOrdered()) {
+		// for(CPropertyInfo p : target.getProperties() ) {
+		// if( ! (p instanceof CAttributePropertyInfo )) {
+		// xtw.propOrder(p.getName(false));
+		// }
+		// }
+		// } else {
+		// // produce empty array
+		// xtw.getAnnotationUse().paramArray("propOrder");
+		// }
+
+		for (CPropertyInfo prop : target.getProperties()) {
+			generateFieldDecl(outline, cc, prop);
+		}
+
+		assert !target.declaresAttributeWildcard();
+		// if( target.declaresAttributeWildcard() ) {
+		// generateAttributeWildcard(cc);
+		// }
+
+		// generate some class level javadoc
+		// cc.ref.javadoc().append(target.javadoc);
+
+		// cc._package().objectFactoryGenerator().populate(cc);
+	}
+
+	private FieldOutline generateFieldDecl(Outline outline,
+			ClassOutlineImpl cc, CPropertyInfo prop) {
+
+		try {
+			return (FieldOutline) generateFieldDecl.invoke(outline,
+					new Object[] { cc, prop });
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException(ex);
+		}
+	}
+
+	private BGMBuilder bgmBuilder;
+
 }

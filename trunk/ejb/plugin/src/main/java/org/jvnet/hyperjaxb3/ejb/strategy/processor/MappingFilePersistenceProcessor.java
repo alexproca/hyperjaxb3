@@ -9,8 +9,8 @@ import java.util.Collections;
 import javax.xml.bind.JAXBException;
 
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
-import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -24,10 +24,10 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 public class MappingFilePersistenceProcessor implements
-		OutlineProcessor<Void, EjbPlugin> {
+		OutlineProcessor<EjbPlugin> {
 
-	public Void process(EjbPlugin plugin, Outline outline, Options options)
-			throws Exception {
+	public Collection<ClassOutline> process(EjbPlugin plugin, Outline outline,
+			Options options) throws Exception {
 
 		Collection<ClassOutline> includedClasses = getOutlineProcessor()
 				.process(plugin, outline, options);
@@ -55,15 +55,14 @@ public class MappingFilePersistenceProcessor implements
 		return null;
 	}
 
-	private OutlineProcessor<Collection<ClassOutline>, EjbPlugin> outlineProcessor;
+	private OutlineProcessor<EjbPlugin> outlineProcessor;
 
-	public OutlineProcessor<Collection<ClassOutline>, EjbPlugin> getOutlineProcessor() {
+	public OutlineProcessor<EjbPlugin> getOutlineProcessor() {
 		return outlineProcessor;
 	}
 
 	@Required
-	public void setOutlineProcessor(
-			OutlineProcessor<Collection<ClassOutline>, EjbPlugin> outlineProcessor) {
+	public void setOutlineProcessor(OutlineProcessor<EjbPlugin> outlineProcessor) {
 		this.outlineProcessor = outlineProcessor;
 	}
 

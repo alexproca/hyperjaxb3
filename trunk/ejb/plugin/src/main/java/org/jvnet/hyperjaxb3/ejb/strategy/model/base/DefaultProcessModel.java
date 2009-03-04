@@ -51,7 +51,7 @@ public class DefaultProcessModel implements ProcessModel {
 
 		}
 	}
-
+/*
 	public Collection<CClassInfo> process(EjbPlugin context, Outline outline,
 			Options options) {
 
@@ -92,6 +92,35 @@ public class DefaultProcessModel implements ProcessModel {
 			}
 		}
 
+		return includedClasses;
+	}*/
+	
+	@Override
+	public Collection<CClassInfo> process(EjbPlugin context, Model model,
+			Options options) throws Exception {
+		
+		CustomizationUtils.findCustomization(model,
+				Customizations.PERSISTENCE_ELEMENT_NAME);
+
+		logger.debug("Processing model [...].");
+
+		final CClassInfo[] classInfos = model.beans().values().toArray(
+				new CClassInfo[0]);
+		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
+
+		for (final CClassInfo classInfo : classInfos) {
+			if (!getIgnoring().isClassInfoIgnored(classInfo)) {
+				final Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
+						.process(this, classInfo);
+				if (targetClassInfos != null) {
+					for (final CClassInfo targetClassInfo : targetClassInfos) {
+						includedClasses.add(targetClassInfo);
+//						model.beans().put(targetClassInfo.getClazz(), targetClassInfo);
+						context.getCreatedClasses().add(targetClassInfo);
+					}
+				}
+			}
+		}
 		return includedClasses;
 	}
 

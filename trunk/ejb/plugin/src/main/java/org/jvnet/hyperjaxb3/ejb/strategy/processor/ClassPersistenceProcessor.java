@@ -9,8 +9,8 @@ import java.util.Collections;
 import javax.xml.bind.JAXBException;
 
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
+import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
-import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -23,11 +23,10 @@ import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
-public class ClassPersistenceProcessor implements
-		OutlineProcessor<Void, EjbPlugin> {
+public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 
-	public Void process(EjbPlugin plugin, Outline outline, Options options)
-			throws Exception {
+	public Collection<ClassOutline> process(EjbPlugin plugin, Outline outline,
+			Options options) throws Exception {
 
 		Collection<ClassOutline> includedClasses = getOutlineProcessor()
 				.process(plugin, outline, options);
@@ -51,22 +50,21 @@ public class ClassPersistenceProcessor implements
 		// TODO HACK!!! REMOVE ME!!!
 		new File(plugin.getTargetDir(), "META-INF").mkdir();
 
-		// TODO Auto-generated method stub
-		return null;
+		return includedClasses;
 	}
 
-	private OutlineProcessor<Collection<ClassOutline>, EjbPlugin> outlineProcessor;
-
-	public OutlineProcessor<Collection<ClassOutline>, EjbPlugin> getOutlineProcessor() {
-		return outlineProcessor;
-	}
-
-	@Required
-	public void setOutlineProcessor(
-			OutlineProcessor<Collection<ClassOutline>, EjbPlugin> outlineProcessor) {
-		this.outlineProcessor = outlineProcessor;
-	}
-
+	// private OutlineProcessor<EjbPlugin> outlineProcessor;
+	//
+	// public OutlineProcessor<EjbPlugin> getOutlineProcessor() {
+	// return outlineProcessor;
+	// }
+	//
+	// @Required
+	// public void setOutlineProcessor(
+	// OutlineProcessor<EjbPlugin> outlineProcessor) {
+	// this.outlineProcessor = outlineProcessor;
+	// }
+	//
 	protected Persistence createPersistence(EjbPlugin plugin, Outline outline,
 			Options options, final Collection<ClassOutline> includedClasses)
 			throws JAXBException {
@@ -130,4 +128,14 @@ public class ClassPersistenceProcessor implements
 		return persistence;
 	}
 
+	private OutlineProcessor<EjbPlugin> outlineProcessor;
+
+	public OutlineProcessor<EjbPlugin> getOutlineProcessor() {
+		return outlineProcessor;
+	}
+
+	@Required
+	public void setOutlineProcessor(OutlineProcessor<EjbPlugin> outlineProcessor) {
+		this.outlineProcessor = outlineProcessor;
+	}
 }

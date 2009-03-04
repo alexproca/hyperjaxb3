@@ -1,16 +1,10 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model;
 
-import java.util.Collection;
-
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
-import org.jvnet.jaxb2_commons.strategy.OutlineProcessor;
 
-import com.sun.tools.xjc.model.CClassInfo;
-
-public interface ProcessModel extends
-		OutlineProcessor<Collection<CClassInfo>, EjbPlugin> {
+public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 
 	public ProcessClassInfo getProcessClassInfo();
 
