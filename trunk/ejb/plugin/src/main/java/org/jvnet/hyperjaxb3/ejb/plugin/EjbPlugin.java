@@ -21,14 +21,17 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.Locator;
 
 import com.sun.codemodel.JClass;
+import com.sun.codemodel.JPackage;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.ErrorReceiver;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.FieldRendererFactory;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
@@ -37,6 +40,7 @@ import com.sun.tools.xjc.reader.Ring;
 import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
 import com.sun.tools.xjc.util.CodeModelClassFactory;
 import com.sun.tools.xjc.util.ErrorReceiverFilter;
+import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.XSSchemaSet;
 
 /**
@@ -363,6 +367,14 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		// model.strategy = ImplStructureStrategy.BEAN_ONLY;
 		// getProcessModel().process(getProcessModel(), model);
 		// getProcessModel().process(getProcessModel(), model);
+		System.out.println("Accessing BGMBuilder from Ring.");
+		System.out.println("BGMBuilder [" + Ring.get(BGMBuilder.class) + "].");
+
+		System.out.println("Creating an instance of CClassInfo.");
+		final CClassInfo classInfo = new CClassInfo(model, model.codeModel
+				._package("test"), "Test", null, new QName("test"), new QName(
+				"test"), null, null);
+		System.out.println("CClassInfo [" + classInfo + "].");
 
 	}
 

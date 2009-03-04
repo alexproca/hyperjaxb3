@@ -86,7 +86,7 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 				false,
 
 				// boolean isMixed (2.1.9+)
-//				false,
+				false,
 				// XSComponent source
 				wrappedPropertyInfo.getSchemaComponent(),
 				// CCustomizations customizations
@@ -94,7 +94,13 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 				new CCustomizations(CustomizationUtils
 						.getCustomizations(wrappedPropertyInfo)),
 				// Locator locator
-				wrappedPropertyInfo.getLocator());
+				wrappedPropertyInfo.getLocator(),
+				// boolean dummy
+				false,
+				//boolean content
+				false,
+				// boolean isMixedExtended
+				false);
 
 		// For a mixed/skip use lax to allow strings
 		if (wrappedPropertyInfo.isMixed()

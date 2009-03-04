@@ -21,7 +21,7 @@
 			<artifactId>jaxb2_commons-ant</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb-xjc</artifactId>
 		</dependency>
 		<!-- Hibernate Dependencies -->
