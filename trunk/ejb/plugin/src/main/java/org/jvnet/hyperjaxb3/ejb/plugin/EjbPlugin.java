@@ -132,9 +132,13 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	@Override
 	protected String[] getDefaultConfigLocations() {
-		return new String[] { "classpath*:"
-				+ getClass().getPackage().getName().replace('.', '/')
-				+ "/applicationContext.xml" };
+		return new String[] {
+				"classpath*:"
+						+ getClass().getPackage().getName().replace('.', '/')
+						+ "/applicationContext.xml",
+				"classpath*:"
+						+ getClass().getPackage().getName().replace('.', '/')
+						+ "/custom/applicationContext.xml" };
 	}
 
 	private boolean generateTransientId = false;
@@ -182,12 +186,10 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 			final ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor = getModelAndOutlineProcessor();
 
 			modelAndOutlineProcessor.process(this, outline.getModel(), options);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw ex;
-		}
-		finally {
+		} finally {
 			Ring.end(ring);
 
 		}
