@@ -33,6 +33,15 @@
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<configuration>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.po.RoundtripTest</roundtripTestClassName>
+					<!-- Does not work at the moment
+					<plugins>
+						<plugin>
+							<groupId>org.jvnet.hyperjaxb3</groupId>
+							<artifactId>hyperjaxb3-ejb-tests-custom-naming-extension</artifactId>
+							<version>0.5.3-SNAPSHOT</version>
+						</plugin>
+					</plugins>
+					-->
 				</configuration>
 				<dependencies>
 					<dependency>
