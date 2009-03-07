@@ -440,8 +440,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	@Override
 	public void onActivated(Options options) throws BadCommandLineException {
 
-		Thread.currentThread().setContextClassLoader(
-				getClass().getClassLoader());
+//		Thread.currentThread().setContextClassLoader(
+//				getClass().getClassLoader());
 
 		super.onActivated(options);
 
