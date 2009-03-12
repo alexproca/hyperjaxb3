@@ -101,6 +101,8 @@ public class Customizations {
 
 	public static final QName BASIC_ELEMENT_NAME = hj("basic");
 
+	public static final QName EMBEDDED_ELEMENT_NAME = hj("embedded");
+
 	public static QName GENERATED_ELEMENT_NAME = new QName(
 			"http://jaxb2-commons.dev.java.net/basic", "generated");
 	
@@ -110,6 +112,8 @@ public class Customizations {
 	public static final QName ENTITY_ELEMENT_NAME = hj("entity");
 
 	public static final QName MAPPED_SUPERCLASS_ELEMENT_NAME = hj("mapped-superclass");
+
+	public static final QName EMBEDDABLE_ELEMENT_NAME = hj("embeddable");
 
 	public static void markAsAcknowledged(
 			final CPluginCustomization customization) {

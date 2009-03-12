@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.persistence.util;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
+import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
 import com.sun.java.xml.ns.persistence.orm.Id;
@@ -16,6 +17,20 @@ public class AttributesUtils {
 
 	private AttributesUtils() {
 
+	}
+
+	public static Object getAttribute(Object attributes, String name) {
+		if (attributes == null || name == null) {
+			return null;
+		} else if (attributes instanceof Attributes) {
+			return getAttribute((Attributes) attributes, name);
+		} else if (attributes instanceof EmbeddableAttributes) {
+			return getAttribute((EmbeddableAttributes) attributes, name);
+		} else {
+			throw new IllegalArgumentException(
+					"Illegal attributes object class [" + attributes.getClass()
+							+ "].");
+		}
 	}
 
 	public static Object getAttribute(Attributes attributes, String name) {
@@ -79,4 +94,24 @@ public class AttributesUtils {
 			return null;
 		}
 	}
+
+	public static Object getAttribute(EmbeddableAttributes attributes,
+			String name) {
+		if (attributes == null || name == null) {
+			return null;
+		} else {
+			for (final Basic attribute : attributes.getBasic()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			for (final Transient attribute : attributes.getTransient()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			return null;
+		}
+	}
+
 }

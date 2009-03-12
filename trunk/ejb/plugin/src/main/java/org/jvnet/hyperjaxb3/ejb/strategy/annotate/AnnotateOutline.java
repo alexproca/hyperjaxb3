@@ -21,6 +21,8 @@ import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.java.xml.ns.persistence.orm.Attributes;
+import com.sun.java.xml.ns.persistence.orm.Embeddable;
+import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.tools.xjc.Options;
@@ -58,17 +60,17 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 		logger.debug("Processing class outline ["
 				+ OutlineUtils.getClassName(classOutline) + "].");
 
-		final Object entityOrMappedSuperclass = context.getMapping()
-				.getEntityOrMappedSuperclassMapping().process(
+		final Object entityOrMappedSuperclassOrEmbeddable = context.getMapping()
+				.getEntityOrMappedSuperclassOrEmbeddableMapping().process(
 						context.getMapping(), classOutline, options);
 
-		final Attributes attributes;
+		final Object attributes;
 		final Collection<XAnnotation> annotations;
-		if (entityOrMappedSuperclass instanceof Entity)
+		if (entityOrMappedSuperclassOrEmbeddable instanceof Entity)
 
 		{
 
-			final Entity entity = (Entity) entityOrMappedSuperclass;
+			final Entity entity = (Entity) entityOrMappedSuperclassOrEmbeddable;
 
 			attributes = entity.getAttributes() == null ? new Attributes()
 					: entity.getAttributes();
@@ -77,8 +79,8 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 					.createEntityAnnotations(entity);
 		}
 
-		else if (entityOrMappedSuperclass instanceof MappedSuperclass) {
-			final MappedSuperclass entity = (MappedSuperclass) entityOrMappedSuperclass;
+		else if (entityOrMappedSuperclassOrEmbeddable instanceof MappedSuperclass) {
+			final MappedSuperclass entity = (MappedSuperclass) entityOrMappedSuperclassOrEmbeddable;
 
 			attributes = entity.getAttributes() == null ? new Attributes()
 					: entity.getAttributes();
@@ -86,10 +88,21 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 			annotations = context.getCreateXAnnotations()
 					.createMappedSuperclassAnnotations(entity);
 
-		} else {
+		} 
+		else if (entityOrMappedSuperclassOrEmbeddable instanceof Embeddable) {
+			final Embeddable embeddable = (Embeddable) entityOrMappedSuperclassOrEmbeddable;
+
+			attributes = embeddable.getAttributes() == null ? new EmbeddableAttributes()
+					: embeddable.getAttributes();
+
+			annotations = context.getCreateXAnnotations()
+					.createEmbeddableAnnotations(embeddable);
+
+		}
+		else {
 			throw new AssertionError(
 					"Either entity or mapped superclass expected, but an instance of ["
-							+ entityOrMappedSuperclass.getClass()
+							+ entityOrMappedSuperclassOrEmbeddable.getClass()
 							+ "] received.");
 		}
 
@@ -133,7 +146,7 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 	}
 
 	public FieldOutline process(AnnotateOutline context,
-			FieldOutline fieldOutline, Options options, Attributes attributes) {
+			FieldOutline fieldOutline, Options options, Object attributes) {
 		final String name = OutlineUtils.getPropertyName(fieldOutline);
 		logger.debug("Processing field [" + name + "].");
 
@@ -159,7 +172,6 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 			logger.error("No annotations for the field ["
 					+ OutlineUtils.getFieldName(fieldOutline) + "]:\n"
 					+ ArrayUtils.toString(xannotations));
-			"a".toCharArray();
 
 		} else {
 

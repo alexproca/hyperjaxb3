@@ -108,6 +108,13 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getName(fieldName);
 	}
 
+	public String getEmbedded$Column$Name(FieldOutline parent,
+			FieldOutline child) {
+		final String parentFieldName = parent.getPropertyInfo().getName(true);
+		final String childFieldName = child.getPropertyInfo().getName(true);
+		return getName(parentFieldName + "_" + childFieldName);
+	}
+
 	public String getJoinTable$Name(FieldOutline fieldOutline) {
 		final String targetEntityTableName = getTargetEntityTable$Name(fieldOutline);
 		final String entityTableName = getEntityTable$Name(fieldOutline

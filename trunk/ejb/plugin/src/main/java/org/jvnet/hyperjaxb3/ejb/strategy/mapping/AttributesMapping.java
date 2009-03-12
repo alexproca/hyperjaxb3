@@ -128,7 +128,14 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 						logger.trace("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex field.");
-						return context.getToOneMapping();
+						if (isFieldOutlineEmbedded(fieldOutline)) {
+							logger.trace("Field outline  ["
+									+ propertyInfo.getName(true)
+									+ "] is an embedded complex field.");
+							return context.getEmbeddedMapping();
+						} else {
+							return context.getToOneMapping();
+						}
 					}
 				} else {
 					logger.warn("Field outline  [" + propertyInfo.getName(true)
@@ -218,4 +225,29 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 
 		return type instanceof CClass;
 	}
+
+	public boolean isFieldOutlineEmbedded(FieldOutline fieldOutline) {
+
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		assert types.size() == 1;
+
+		final CTypeInfo type = types.iterator().next();
+
+		return (type instanceof CClass
+				&& CustomizationUtils.containsCustomization(fieldOutline,
+						Customizations.EMBEDDED_ELEMENT_NAME))
+				//
+				||
+				//
+				(type instanceof CClassInfo
+				&& CustomizationUtils.containsCustomization(
+						((CClassInfo) type),
+						Customizations.EMBEDDABLE_ELEMENT_NAME))
+
+		;
+	}
+
 }

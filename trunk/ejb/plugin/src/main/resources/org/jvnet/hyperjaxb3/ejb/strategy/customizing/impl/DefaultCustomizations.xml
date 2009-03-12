@@ -4,6 +4,8 @@
 	</hj:default-entity>
 	<hj:default-mapped-superclass class="##default">
 	</hj:default-mapped-superclass>
+	<hj:default-embeddable class="##default">
+	</hj:default-embeddable>
 	<hj:default-id>
 		<orm:column/>
 	</hj:default-id>
@@ -47,4 +49,6 @@
 			<orm:cascade-all/>
 		</orm:cascade>
 	</hj:default-many-to-many>
+	<hj:default-embedded>
+	</hj:default-embedded>
 </hj:persistence>

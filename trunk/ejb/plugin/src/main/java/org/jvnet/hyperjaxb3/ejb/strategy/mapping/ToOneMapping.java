@@ -1,5 +1,6 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
+import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.tools.xjc.Options;
@@ -17,6 +18,9 @@ public class ToOneMapping implements FieldOutlineMapping<Object> {
 					options);
 		} else if (toOne instanceof OneToOne) {
 			return context.getOneToOneMapping().process(context, fieldOutline,
+					options);
+		} else if (toOne instanceof Embedded) {
+			return context.getEmbeddedMapping().process(context, fieldOutline,
 					options);
 		} else {
 			throw new AssertionError(

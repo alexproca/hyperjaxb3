@@ -15,6 +15,7 @@ import org.jvnet.jaxb2_commons.util.CodeModelUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.codemodel.fmt.JTextFile;
+import com.sun.java.xml.ns.persistence.orm.Embeddable;
 import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.EntityMappings;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
@@ -22,8 +23,7 @@ import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
-public class MarshalMappings implements
-		OutlineProcessor<EjbPlugin> {
+public class MarshalMappings implements OutlineProcessor<EjbPlugin> {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
@@ -63,21 +63,27 @@ public class MarshalMappings implements
 		final EntityMappings entityMappings = new EntityMappings();
 		entityMappings.setVersion("1.0");
 
-		final Object draftEntityOrSuperclass = context.getMapping()
-				.getEntityOrMappedSuperclassMapping().process(
-						context.getMapping(), classOutline, options);
-		if (draftEntityOrSuperclass instanceof Entity) {
-			final Entity draftEntity = (Entity) draftEntityOrSuperclass;
+		final Object draftEntityOrMappedSuperclassOrEmbeddable = context
+				.getMapping().getEntityOrMappedSuperclassOrEmbeddableMapping()
+				.process(context.getMapping(), classOutline, options);
+		if (draftEntityOrMappedSuperclassOrEmbeddable instanceof Entity) {
+			final Entity draftEntity = (Entity) draftEntityOrMappedSuperclassOrEmbeddable;
 
 			final Entity entity = new Entity();
 			entity.mergeFrom(draftEntity, entity);
 			entityMappings.getEntity().add(entity);
-		} else if (draftEntityOrSuperclass instanceof MappedSuperclass) {
-			final MappedSuperclass draftMappedSuperclass = (MappedSuperclass) draftEntityOrSuperclass;
+		} else if (draftEntityOrMappedSuperclassOrEmbeddable instanceof MappedSuperclass) {
+			final MappedSuperclass draftMappedSuperclass = (MappedSuperclass) draftEntityOrMappedSuperclassOrEmbeddable;
 
 			final MappedSuperclass entity = new MappedSuperclass();
 			entity.mergeFrom(draftMappedSuperclass, entity);
 			entityMappings.getMappedSuperclass().add(entity);
+		} else if (draftEntityOrMappedSuperclassOrEmbeddable instanceof Embeddable) {
+			final Embeddable draftEmbeddable = (Embeddable) draftEntityOrMappedSuperclassOrEmbeddable;
+
+			final Embeddable entity = new Embeddable();
+			entity.mergeFrom(draftEmbeddable, entity);
+			entityMappings.getEmbeddable().add(entity);
 		} else {
 			throw new AssertionError(
 					"Either one-to-many or many-to-many mappings are expected.");

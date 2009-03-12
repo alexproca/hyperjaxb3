@@ -2,6 +2,8 @@ package org.jvnet.hyperjaxb3.ejb.strategy.customizing.impl;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
@@ -214,6 +216,14 @@ public class DefaultCustomizing implements Customizing {
 			cOneToMany.mergeFrom(cOneToMany, defaultOneToMany);
 		}
 	}
+	
+	private void merge(final Embedded cEmbedded,
+			final Embedded defaultEmbedded) {
+		if (cEmbedded.isMerge()) {
+			cEmbedded.mergeFrom(cEmbedded, defaultEmbedded);
+		}
+	}
+	
 
 	public Persistence getModelCustomization(CPropertyInfo property) {
 		final CClassInfo classInfo = (CClassInfo) property.parent();
@@ -389,6 +399,9 @@ public class DefaultCustomizing implements Customizing {
 		} else if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
 			return getOneToOne(property);
+		}if (CustomizationUtils.containsCustomization(property,
+				Customizations.EMBEDDED_ELEMENT_NAME)) {
+			return getEmbedded(property);
 		} else {
 			final ToOne defaultToOne = (ToOne) persistence.getDefaultToOne()
 					.copyTo(new ToOne());
@@ -420,6 +433,20 @@ public class DefaultCustomizing implements Customizing {
 				merge(cManyToOne, defaultManyToOne);
 
 				return cManyToOne;
+			}else if (defaultToOne.getEmbedded() != null) {
+				final Embedded cEmbedded = defaultToOne.getEmbedded();
+
+				final Embedded defaultEmbedded = persistence
+						.getDefaultEmbedded();
+
+				if (defaultEmbedded == null) {
+					throw new AssertionError(
+							"Default embedded element is not provided.");
+				}
+
+				merge(cEmbedded, defaultEmbedded);
+
+				return cEmbedded;
 			} else {
 				throw new AssertionError(
 						"Either one-to-one or many-to-one elements must be provided in the default-to-one element.");
@@ -507,11 +534,11 @@ public class DefaultCustomizing implements Customizing {
 		return cMappedSuperclass;
 	}
 
-	public Object getEntityOrMappedSuperclass(ClassOutline classOutline) {
-		return getEntityOrMappedSuperclass(classOutline.target);
+	public Object getEntityOrMappedSuperclassOrEmbeddable(ClassOutline classOutline) {
+		return getEntityOrMappedSuperclassOrEmbeddable(classOutline.target);
 	}
 
-	public Object getEntityOrMappedSuperclass(CClassInfo classInfo) {
+	public Object getEntityOrMappedSuperclassOrEmbeddable(CClassInfo classInfo) {
 
 //		final Persistence persistence = getModelCustomization(classInfo);
 		if (CustomizationUtils.containsCustomization(classInfo,
@@ -520,10 +547,67 @@ public class DefaultCustomizing implements Customizing {
 		} else if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
 			return getMappedSuperclass(classInfo);
+		} else if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.EMBEDDABLE_ELEMENT_NAME)) {
+			return getEmbeddable(classInfo);
 		} else {
 			// Default is entity
 			return getEntity(classInfo);
 		}
+	}
+	
+	public Embeddable getEmbeddable(CClassInfo classInfo) {
+		final Persistence persistence = getModelCustomization(classInfo);
+		if (persistence.getDefaultEmbeddable() == null) {
+			// TODO
+			throw new AssertionError("Default embeddable element is not provided.");
+		}
+		final Embeddable defaultEmbeddable = (Embeddable) persistence.getDefaultEmbeddable()
+				.copyTo(new Embeddable());
+
+		final Embeddable cEmbeddable;
+
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.EMBEDDABLE_ELEMENT_NAME)) {
+			cEmbeddable = Customizations.<Embeddable> findCustomization(classInfo,
+					Customizations.EMBEDDABLE_ELEMENT_NAME);
+			if (cEmbeddable.isMerge()) {
+				cEmbeddable.mergeFrom(cEmbeddable, defaultEmbeddable);
+			}
+		} else {
+			return defaultEmbeddable;
+		}
+		return cEmbeddable;
+	}
+	
+	public Embeddable getEmbeddable(ClassOutline classOutline) {
+		return getEmbeddable(classOutline.target);
+	}
+	
+	public Embedded getEmbedded(CPropertyInfo property) {
+		final Persistence persistence = getModelCustomization(property);
+		if (persistence.getDefaultEmbedded() == null) {
+			throw new AssertionError("Default embedded element is not provided.");
+		}
+		final Embedded defaultEmbedded = (Embedded) persistence.getDefaultEmbedded()
+				.copyTo(new Embedded());
+		final Embedded embedded;
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.EMBEDDED_ELEMENT_NAME)) {
+			embedded = Customizations.<Embedded> findCustomization(property,
+					Customizations.EMBEDDED_ELEMENT_NAME);
+
+			if (embedded.isMerge()) {
+				embedded.mergeFrom(embedded, defaultEmbedded);
+			}
+		} else {
+			embedded = defaultEmbedded;
+		}
+		return embedded;
+	}
+	
+	public Embedded getEmbedded(FieldOutline property) {
+		return getEmbedded(property.getPropertyInfo());
 	}
 
 }

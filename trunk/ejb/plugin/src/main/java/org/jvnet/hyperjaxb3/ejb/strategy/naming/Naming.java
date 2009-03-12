@@ -19,4 +19,6 @@ public interface Naming {
 
 	public String getJoinTable$InverseJoinColumn$Name(FieldOutline fieldOutline);
 
+	public String getEmbedded$Column$Name(FieldOutline parent, FieldOutline child);
+
 }

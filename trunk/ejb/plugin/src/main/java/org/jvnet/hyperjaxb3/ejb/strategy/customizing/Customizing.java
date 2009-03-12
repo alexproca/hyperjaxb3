@@ -1,16 +1,21 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.customizing;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.MappedSuperclass;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 
-import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
+//import com.sun.java.xml.ns.persistence.orm.Embeddable;
+//import com.sun.java.xml.ns.persistence.orm.Embedded;
+//import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -21,7 +26,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
  */
 public interface Customizing {
 
-	public Object getEntityOrMappedSuperclass(ClassOutline classOutline);
+	public Object getEntityOrMappedSuperclassOrEmbeddable(ClassOutline classOutline);
 
 	public GeneratedId getGeneratedId(CClassInfo classInfo);
 
@@ -71,9 +76,15 @@ public interface Customizing {
 
 	public ManyToMany getManyToMany(FieldOutline property);
 
+	public Embedded getEmbedded(CPropertyInfo property);
+
+	public Embedded getEmbedded(FieldOutline property);
+
 	// New generation
 
 	public Entity getEntity(ClassOutline classOutline);
+
+	public Embeddable getEmbeddable(ClassOutline classOutline);
 
 	public MappedSuperclass getMappedSuperclass(ClassOutline classOutline);
 }

@@ -106,13 +106,18 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		if (classInfo.getRefBaseClass() != null) {
 			return false;
 		} else if (classInfo.getBaseClass() != null) {
-			return !CustomizationUtils.containsCustomization(classInfo,
+			return !(CustomizationUtils.containsCustomization(classInfo,
 					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
+					||
+					CustomizationUtils.containsCustomization(classInfo,
+							Customizations.EMBEDDABLE_ELEMENT_NAME))
 					&& !isSelfOrAncestorRootClass(context, classInfo
 							.getBaseClass());
 		} else {
-			return !CustomizationUtils.containsCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+			return !(CustomizationUtils.containsCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME) ||
+					CustomizationUtils.containsCustomization(classInfo,
+							Customizations.EMBEDDABLE_ELEMENT_NAME));
 		}
 	}
 

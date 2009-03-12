@@ -16,6 +16,7 @@
 		<xsd:sequence>
 			<xsd:element name="default-entity" type="hj:entity"/>
 			<xsd:element name="default-mapped-superclass" type="hj:mapped-superclass"/>
+			<xsd:element name="default-embeddable" type="hj:embeddable"/>
 			<xsd:element name="default-id" type="hj:id"/>
 			<xsd:element name="default-generated-id" type="hj:generated-id"/>
 			<xsd:element name="default-version" type="hj:version"/>
@@ -26,6 +27,7 @@
 			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
 			<xsd:element name="default-one-to-one" type="hj:one-to-one"/>
 			<xsd:element name="default-many-to-many" type="hj:many-to-many"/>
+			<xsd:element name="default-embedded" type="hj:embedded"/>
 		</xsd:sequence>
 		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
@@ -45,7 +47,6 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-
 
 
 	<xsd:element name="mapped-superclass" type="hj:mapped-superclass"/>
@@ -160,6 +161,7 @@
 		<xsd:choice>
 			<xsd:element name="many-to-one" type="hj:many-to-one"/>
 			<xsd:element name="one-to-one" type="hj:one-to-one"/>
+			<xsd:element name="embedded" type="hj:embedded"/>
 		</xsd:choice>
 	</xsd:complexType>
 
@@ -169,6 +171,18 @@
 			<xsd:element name="many-to-many" type="hj:many-to-many"/>
 		</xsd:choice>
 	</xsd:complexType>
+
+	<!--- ... -->
+	<xsd:element name="embedded" type="hj:embedded"/>
+	<!--- ... -->
+	<xsd:complexType name="embedded">
+		<xsd:complexContent>
+			<xsd:extension base="orm:embedded">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 
 
 </xsd:schema>

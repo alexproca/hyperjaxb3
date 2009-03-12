@@ -507,5 +507,32 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:element name="issue86X1" type="test:issue86X1Type"/>
+
+	<xsd:complexType name="issue86X1Type">
+		<xsd:sequence>
+			<xsd:element name="a" type="xsd:string"/>
+			<xsd:element name="y" type="test:issue86Y1Type">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:embedded/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="issue86Y1Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:embeddable/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="a" type="xsd:string"/>
+			<xsd:element name="b" type="xsd:long"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
 
 </xsd:schema>
