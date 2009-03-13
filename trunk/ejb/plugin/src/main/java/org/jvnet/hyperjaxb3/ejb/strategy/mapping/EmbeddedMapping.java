@@ -107,13 +107,14 @@ public class EmbeddedMapping extends PropertyMapping implements
 			final AttributeOverride attributeOverride = attributeOverrides
 					.get(OutlineUtils.getPropertyName(childFieldOutline));
 
-			final Column column = attributeOverride.getColumn();
-			if (column.getName() == null || "##default".equals(column.getName())) {
-				column.setName(context.getNaming().getEmbedded$Column$Name(
-						fieldOutline, childFieldOutline));
+			if (attributeOverride != null) {
+				final Column column = attributeOverride.getColumn();
+				if (column.getName() == null
+						|| "##default".equals(column.getName())) {
+					column.setName(context.getNaming().getEmbedded$Column$Name(
+							fieldOutline, childFieldOutline));
+				}
 			}
-
 		}
-
 	}
 }
