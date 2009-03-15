@@ -29,7 +29,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		if (primaryKeyJoinColumn.getName() == null
 				|| "##default".equals(primaryKeyJoinColumn.getName())) {
 			primaryKeyJoinColumn.setName(context.getNaming()
-					.getJoinColumn$Name(fieldOutline));
+					.getJoinColumn$Name(context, fieldOutline));
 		}
 	}
 
@@ -49,7 +49,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 			FieldOutline fieldOutline, JoinColumn joinColumn) {
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
-			joinColumn.setName(context.getNaming().getJoinColumn$Name(
+			joinColumn.setName(context.getNaming().getJoinColumn$Name(context,
 					fieldOutline));
 		}
 	}
@@ -65,7 +65,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 			FieldOutline fieldOutline, JoinTable joinTable) {
 		if (joinTable.getName() == null
 				|| "##default".equals(joinTable.getName())) {
-			joinTable.setName(context.getNaming().getJoinTable$Name(
+			joinTable.setName(context.getNaming().getJoinTable$Name(context,
 					fieldOutline));
 		}
 	}
@@ -119,7 +119,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
 			joinColumn.setName(context.getNaming()
-					.getJoinTable$JoinColumn$Name(fieldOutline));
+					.getJoinTable$JoinColumn$Name(context, fieldOutline));
 		}
 	}
 
@@ -127,8 +127,10 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 			Mapping context, FieldOutline fieldOutline, JoinColumn joinColumn) {
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
-			joinColumn.setName(context.getNaming()
-					.getJoinTable$InverseJoinColumn$Name(fieldOutline));
+			joinColumn
+					.setName(context.getNaming()
+							.getJoinTable$InverseJoinColumn$Name(context,
+									fieldOutline));
 		}
 	}
 

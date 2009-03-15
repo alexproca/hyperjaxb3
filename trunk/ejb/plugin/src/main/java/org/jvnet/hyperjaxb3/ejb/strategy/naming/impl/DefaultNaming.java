@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
@@ -101,36 +103,44 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 	}
 
-	public String getColumn$Name(FieldOutline fieldOutline) {
+	public String getColumn$Name(Mapping context, FieldOutline fieldOutline) {
 
 		final String fieldName = fieldOutline.getPropertyInfo().getName(true);
 
 		return getName(fieldName);
 	}
 
-	public String getEmbedded$Column$Name(FieldOutline parent,
+	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent,
 			FieldOutline child) {
-		final String parentFieldName = parent.getPropertyInfo().getName(true);
-		final String childFieldName = child.getPropertyInfo().getName(true);
-		return getName(parentFieldName + "_" + childFieldName);
+
+		final String prefix;
+
+		final Embedded embedded = context.getCustomizing().getEmbedded(parent);
+		if (embedded != null && embedded.getColumnNamePrefix() != null) {
+			prefix = embedded.getColumnNamePrefix();
+		} else {
+			prefix = parent.getPropertyInfo().getName(true) + "_";
+		}
+		final String suffix = child.getPropertyInfo().getName(true);
+		return getName(prefix + suffix);
 	}
 
-	public String getJoinTable$Name(FieldOutline fieldOutline) {
+	public String getJoinTable$Name(Mapping context, FieldOutline fieldOutline) {
 		final String targetEntityTableName = getTargetEntityTable$Name(fieldOutline);
-		final String entityTableName = getEntityTable$Name(fieldOutline
-				.parent());
-		final String fieldColumnName = getColumn$Name(fieldOutline);
+		final String entityTableName = getEntityTable$Name(context,
+				fieldOutline.parent());
+		final String fieldColumnName = getColumn$Name(context, fieldOutline);
 		return getName(entityTableName + "_" + fieldColumnName + "_"
 				+ targetEntityTableName);
 	}
 
-	public String getEntityTable$Name(FieldOutline fieldOutline) {
+	public String getEntityTable$Name(Mapping context, FieldOutline fieldOutline) {
 		// final String name = fieldOutline.parent().target.getSqueezedName();
 		// return getName(name);
-		return getEntityTable$Name(fieldOutline.parent());
+		return getEntityTable$Name(context, fieldOutline.parent());
 	}
 
-	public String getEntityTable$Name(ClassOutline classOutline) {
+	public String getEntityTable$Name(Mapping context, ClassOutline classOutline) {
 		return getEntityTableName(classOutline.target);
 	}
 
@@ -195,23 +205,25 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getEntityTableName(childClassInfo);
 	}
 
-	public String getJoinColumn$Name(FieldOutline fieldOutline) {
+	public String getJoinColumn$Name(Mapping context, FieldOutline fieldOutline) {
 
-		final String entityTableName = getEntityTable$Name(fieldOutline
-				.parent());
-		final String fieldColumnName = getColumn$Name(fieldOutline);
+		final String entityTableName = getEntityTable$Name(context,
+				fieldOutline.parent());
+		final String fieldColumnName = getColumn$Name(context, fieldOutline);
 
 		return getName(fieldColumnName + "_" + entityTableName + "_ID");
 	}
 
-	public String getJoinTable$JoinColumn$Name(FieldOutline fieldOutline) {
-		final String entityTableName = getEntityTable$Name(fieldOutline
-				.parent());
+	public String getJoinTable$JoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		final String entityTableName = getEntityTable$Name(context,
+				fieldOutline.parent());
 
 		return getName("PARENT_" + entityTableName + "_ID");
 	}
 
-	public String getJoinTable$InverseJoinColumn$Name(FieldOutline fieldOutline) {
+	public String getJoinTable$InverseJoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline) {
 		return getName(
 
 		"CHILD_" + getTargetEntityTable$Name(fieldOutline)

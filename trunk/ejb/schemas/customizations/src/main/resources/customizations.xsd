@@ -179,6 +179,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="orm:embedded">
 			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			    <xsd:attribute name="columnNamePrefix" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

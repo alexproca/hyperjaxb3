@@ -106,9 +106,8 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createTable(Mapping context, ClassOutline classOutline,
 			final Table table) {
 		if (table.getName() == null || "##default".equals(table.getName())) {
-			table
-					.setName(context.getNaming().getEntityTable$Name(
-							classOutline));
+			table.setName(context.getNaming().getEntityTable$Name(context,
+					classOutline));
 		}
 	}
 

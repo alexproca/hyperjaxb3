@@ -112,7 +112,7 @@ public class EmbeddedMapping extends PropertyMapping implements
 				if (column.getName() == null
 						|| "##default".equals(column.getName())) {
 					column.setName(context.getNaming().getEmbedded$Column$Name(
-							fieldOutline, childFieldOutline));
+							context, fieldOutline, childFieldOutline));
 				}
 			}
 		}
