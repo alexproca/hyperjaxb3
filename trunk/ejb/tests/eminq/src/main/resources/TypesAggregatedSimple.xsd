@@ -29,16 +29,60 @@
 	<!--aggregating Root-->
 	<xs:complexType name="PlanwertGruppe">
 		<xs:all>
-			<xs:element name="produktKategoriePlanwertGruppe" type="ProduktKategoriePlanwertGruppe" />
-			<xs:element name="standardPlanwertGruppe" type="StandardPlanwertGruppe" />
+			<xs:element name="produktKategoriePlanwertGruppe" type="ProduktKategoriePlanwertGruppe">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded columnNamePrefix="PKPG_">
+							<orm:attribute-override name="zielgruppe">
+								<orm:column name="ZG"/>
+							</orm:attribute-override>
+						</hj:embedded>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="standardPlanwertGruppe" type="StandardPlanwertGruppe">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded columnNamePrefix="SPG_"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 			<xs:element name="artikelArtPlanwertGruppe" minOccurs="0"
-				type="ArtikelArtPlanwertGruppe" />
+				type="ArtikelArtPlanwertGruppe">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded columnNamePrefix="AAPG_"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 			<xs:element name="preislagenPlanwertGruppe" minOccurs="0"
-				type="PreislagenPlanwertGruppe" />
+				type="PreislagenPlanwertGruppe">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded columnNamePrefix="PPG_"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 			<xs:element name="themenPlanwertGruppe" minOccurs="0"
-				type="ThemenPlanwertGruppe" />
+				type="ThemenPlanwertGruppe">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded columnNamePrefix="TPG_"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 			<xs:element name="aktionenPlanwertGruppe" minOccurs="0"
-				type="AktionenPlanwertGruppe" />
+				type="AktionenPlanwertGruppe">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded columnNamePrefix="APG_"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:all>
 		<xs:attribute name="id" use="required" type="xs:long">
 			<xs:annotation>
