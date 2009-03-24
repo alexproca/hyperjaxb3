@@ -19,7 +19,7 @@
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
-				<plugin>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<inherited>true</inherited>
 				<executions>
@@ -76,7 +76,7 @@
 										<include name="**/*.*"/>
 									</fileset>
 								</copy>
-								<copy todir="${basedir}/target/test-maven-assembly/${pom.artifactId}-${pom.version}/src/main/samples">
+								<copy todir="${basedir}/target/test-maven-assembly/${pom.artifactId}-${pom.version}/src/test/samples">
 									<fileset dir="src/it/samples">
 										<include name="**/*.*"/>
 									</fileset>
@@ -104,7 +104,7 @@
 										<include name="**/*.*"/>
 									</fileset>
 								</copy>
-								<copy todir="${basedir}/target/test-ant-assembly/${pom.artifactId}-${pom.version}/src/main/samples">
+								<copy todir="${basedir}/target/test-ant-assembly/${pom.artifactId}-${pom.version}/src/test/samples">
 									<fileset dir="src/it/samples">
 										<include name="**/*.*"/>
 									</fileset>

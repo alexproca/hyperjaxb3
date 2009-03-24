@@ -64,6 +64,4 @@
      <xs:enumeration value="other" />
   </xs:restriction>
 </xs:simpleType>
-
-
 </xs:schema> 

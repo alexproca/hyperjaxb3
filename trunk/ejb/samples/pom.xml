@@ -22,7 +22,7 @@
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
-				<plugin>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<inherited>true</inherited>
 				<executions>

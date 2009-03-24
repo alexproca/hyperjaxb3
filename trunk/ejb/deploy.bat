@@ -1,1 +1,1 @@
-mvn -DcontinuousIntegrationDeploy clean install
+mvn -P samples,templates clean install

@@ -12,7 +12,7 @@
 	<name>Hyperjaxb3 EJB Tests</name>
 	<modules>
 		<module>any</module>
-		<module>derby</module>
+		<!-- ** module>derby</module-->
 		<module>episodes</module>
 		<module>issues</module>
 		<module>nml</module>
@@ -24,7 +24,7 @@
 	</modules>
 	<profiles>
 		<profile>
-			<id>full</id>
+			<id>fullTests</id>
 			<activation>
 				<property>
 					<name>fullTests</name>
@@ -132,7 +132,7 @@
 				<plugin>
 					<groupId>org.jvnet.jaxb2.maven2</groupId>
 					<artifactId>maven-jaxb2-plugin</artifactId>
-					<version>0.7.0-SNAPSHOT</version>
+					<version>0.7.0</version>
 					<!--dependencies>
 						<dependency>
 							<groupId>org.jvnet.hyperjaxb3</groupId>
