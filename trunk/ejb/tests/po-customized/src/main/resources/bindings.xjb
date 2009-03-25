@@ -35,7 +35,9 @@
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:element[@name='USPrice']">
 			<hj:basic>
-				<orm:column name="Price"/>
+				<orm:column
+					name="Price"
+					column-definition="DECIMAL"/>
 			</hj:basic>
 		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:complexType//xs:element[@name='productName']">
