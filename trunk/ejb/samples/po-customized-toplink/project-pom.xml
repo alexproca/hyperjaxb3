@@ -82,10 +82,6 @@
 			<id>maven2-repository.jboss.com</id>
 			<url>http://repository.jboss.com/maven2</url>
 		</repository>
-		<repository>
-			<id>jfrog-plugins</id>
-			<url>http://www.jfrog.org/artifactory/plugins-releases@repo</url>
-		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
