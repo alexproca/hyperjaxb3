@@ -23,6 +23,7 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -177,7 +178,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	//
 	@Override
 	public boolean run(Outline outline, Options options) throws Exception {
-
+		
 		final Ring ring = Ring.begin();
 
 		try {
@@ -440,8 +441,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	@Override
 	public void onActivated(Options options) throws BadCommandLineException {
 
-//		Thread.currentThread().setContextClassLoader(
-//				getClass().getClassLoader());
+		Thread.currentThread().setContextClassLoader(
+				getClass().getClassLoader());
 
 		super.onActivated(options);
 
