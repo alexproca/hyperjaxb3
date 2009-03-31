@@ -16,10 +16,7 @@
 	attributeFormDefault="unqualified">
 
 	<xs:annotation>
-		<xs:appinfo>
-			<jaxb:globalBindings>
-				<!--xjc:simple/-->
-			</jaxb:globalBindings>
+		<!--xs:appinfo>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.cuone"/>
 			</jaxb:schemaBindings>
@@ -31,7 +28,7 @@
 					<orm:join-table/>
 				</hj:default-one-to-many>
 			</hj:persistence>
-		</xs:appinfo>
+		</xs:appinfo-->
 	</xs:annotation>
 
 	<!-- ... -->
