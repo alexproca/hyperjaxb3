@@ -40,6 +40,8 @@
 			<artifactId>hyperjaxb3-ejb-schemas-persistence</artifactId>
 		</dependency>
 	</dependencies>
+	<reporting>
+	</reporting>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
@@ -79,6 +81,39 @@
 					</execution>
 				</executions>
 			</plugin>
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+
+        <executions>
+  
+          <execution>
+            <id>site</id>
+            <phase>site</phase>
+            <configuration>
+              <tasks>
+                <echo>Running the XSDDoc task</echo>
+                <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" />
+                <mkdir dir="${basedir}/target/site/xsddoc" />
+                <xsddoc dir="${basedir}/src/main/resources"
+			out="${basedir}/target/site/xsddoc"
+			doctitle="Hyperjaxb3 Customization schema"
+			verbose="false" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>xsddoc</groupId>
+            <artifactId>maven-xsddoc-plugin</artifactId>
+            <version>1.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
 		</plugins>
 	</build>
 </project>
