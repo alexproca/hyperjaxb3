@@ -58,7 +58,7 @@ public class RunPoPlugin extends AbstractMojoTestCase {
 		final Hyperjaxb3Mojo generator = (Hyperjaxb3Mojo) lookupMojo(
 				"org.jvnet.hyperjaxb3",
 				"maven-hyperjaxb3-plugin",
-				"0.5.3",
+				"0.5.4-SNAPSHOT",
 				"generate", null);
 		generator.setProject(mavenProject);
 		generator.setLocalRepository(localRepository);
