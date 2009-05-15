@@ -17,6 +17,7 @@
 		<xs:sequence>
 			<xs:element name="b" type="bType" minOccurs="0"/>
 			<xs:element name="b1" type="bType" minOccurs="0"/>
+			<xs:element name="e" type="eType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="bType">
@@ -28,6 +29,23 @@
 		<xs:sequence>
 			<xs:element name="c" type="xs:string" minOccurs="0"/>
 			<xs:element name="d" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="eType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="f" type="xs:string" minOccurs="0"/>
+			<xs:element name="g" type="aType" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:ignored/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
