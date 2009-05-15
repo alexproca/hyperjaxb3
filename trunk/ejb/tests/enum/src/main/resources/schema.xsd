@@ -5,12 +5,15 @@
 
   jaxb:version="2.1"
   xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+  xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
   elementFormDefault="qualified"
-  attributeFormDefault="unqualified">
+  attributeFormDefault="unqualified"
+  jaxb:extensionBindingPrefixes="hj orm">
 
   <xsd:annotation>
     <xsd:appinfo>
-      <!-- jaxb:globalBindings typesafeEnumBase="xsd:NCName"/-->
+      <jaxb:globalBindings typesafeEnumBase="xsd:string"/>
     </xsd:appinfo>
   </xsd:annotation> 
 
@@ -20,6 +23,13 @@
 		<xsd:sequence>
 			<xsd:element name="sex" type="test:SexType"/>
 			<xsd:element name="sexes" type="test:SexType" maxOccurs="unbounded"/>
+			<xsd:element name="proportion" type="test:ProportionsType">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic><orm:enumerated>ORDINAL</orm:enumerated></hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -29,5 +39,32 @@
 			<xsd:enumeration value="Female"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+
+	<xsd:simpleType name="ProportionsType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<jaxb:typesafeEnumClass/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1:1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:typesafeEnumMember name="ONE_ONE"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+
+			<xsd:enumeration value="2:2">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:typesafeEnumMember name="TWO_TWO"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+
+		</xsd:restriction>
+	</xsd:simpleType>
+
 
 </xsd:schema>
