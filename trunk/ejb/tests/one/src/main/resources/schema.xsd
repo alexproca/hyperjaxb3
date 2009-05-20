@@ -678,7 +678,7 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<hj:version>
-							<hj:column name="C_I_D_VERSION"/>
+							<orm:column name="C_I_D_VERSION"/>
 						</hj:version>
 					</xs:appinfo>
 				</xs:annotation>
