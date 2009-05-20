@@ -31,7 +31,9 @@ import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
@@ -178,7 +180,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	//
 	@Override
 	public boolean run(Outline outline, Options options) throws Exception {
-		
+
 		final Ring ring = Ring.begin();
 
 		try {
@@ -222,8 +224,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		 * 
 		 * final Class<BGMBuilder> theClass = BGMBuilder.class; Constructor<?>
 		 * constructor = theClass.getDeclaredConstructors()[0];
-		 * constructor.setAccessible(true); constructor.newInstance(new Object[]
-		 * { "a", "b", true, new FieldRendererFactory() });
+		 * constructor.setAccessible(true); constructor.newInstance(new Object[] {
+		 * "a", "b", true, new FieldRendererFactory() });
 		 */
 
 		modelAndOutlineProcessor.process(this, outline, options);
@@ -240,8 +242,19 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	private void generateRoundtripTestClass(Outline outline) {
 		if (getRoundtripTestClassName() != null) {
-			GeneratorContextUtils.generateContextPathAwareClass(outline,
-					getRoundtripTestClassName(), RoundtripTest.class);
+			final JDefinedClass roundtripTestClass = GeneratorContextUtils
+					.generateContextPathAwareClass(outline,
+							getRoundtripTestClassName(), RoundtripTest.class);
+
+			final String persistenceUnitName = getPersistenceUnitName();
+			if (persistenceUnitName != null) {
+				JMethod getPersistenceUnitName = roundtripTestClass.method(
+						JMod.PUBLIC, outline.getCodeModel().ref(String.class),
+						"getPersistenceUnitName");
+				getPersistenceUnitName.body()._return(
+						JExpr.lit(persistenceUnitName));
+
+			}
 		}
 	}
 
@@ -253,118 +266,6 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 			}
 		}
 	}
-
-	// public void processOutline(Outline outline, Options options)
-	// throws IOException, JAXBException {
-	// final OutlineProcessor<?, EjbPlugin> outlineProcessor =
-	// getOutlineProcessor();
-	//		
-	// outlineProcessor.process(this, outline, options);
-	//
-	// final Collection<ClassOutline> includedClasses = outlineProcessor
-	// .process(outlineProcessor, outline, options);
-	//
-	// final Persistence persistence = createPersistence(outline,
-	// includedClasses);
-	//
-	// /*
-	// * final File metaInf = new File(options.targetDir, "META-INF");
-	// *
-	// * metaInf.mkdirs();
-	// *
-	// * final File persistenceXml = new File(metaInf, "persistence.xml");
-	// *
-	// * Writer writer = null;
-	// *
-	// * try { writer = new FileWriter(persistenceXml);
-	// * PersistenceUtils.createMarshaller().marshal(persistence, writer); }
-	// * finally { if (writer != null) try { writer.close(); } catch
-	// * (IOException ignored) { } }
-	// */
-	//
-	// final JCodeModel codeModel = outline.getCodeModel();
-	//
-	// final JPackage defaultPackage = codeModel._package("");
-	//
-	// final JTextFile persistenceXmlFile = new JTextFile(
-	// "META-INF/persistence.xml");
-	//
-	// defaultPackage.addResourceFile(persistenceXmlFile);
-	//
-	// final Writer writer = new StringWriter();
-	// PersistenceUtils.createMarshaller().marshal(persistence, writer);
-	// persistenceXmlFile.setContents(writer.toString());
-	//
-	// generateRoundtripTestClass(outline);
-	//
-	// // TODO HACK!!! REMOVE ME!!!
-	// new File(getTargetDir(), "META-INF").mkdir();
-
-	// }
-
-	// protected Persistence createPersistence(Outline outline,
-	// final Collection<ClassOutline> includedClasses)
-	// throws JAXBException {
-	// final String generatedPersistenceUnitName = getPersistenceUnitName() !=
-	// null ? getPersistenceUnitName()
-	// : OutlineUtils.getContextPath(outline);
-	//
-	// final Persistence persistence;
-	// final PersistenceUnit persistenceUnit;
-	//
-	// final File persistenceXml = getPersistenceXml();
-	//
-	// if (persistenceXml != null) {
-	// try {
-	//
-	// persistence = (Persistence) PersistenceUtils.CONTEXT
-	// .createUnmarshaller().unmarshal(persistenceXml);
-	//
-	// PersistenceUnit foundPersistenceUnit = null;
-	//
-	// for (final PersistenceUnit unit : persistence
-	// .getPersistenceUnit()) {
-	// if (getPersistenceUnitName() != null
-	// && getPersistenceUnitName().equals(unit.getName())) {
-	// foundPersistenceUnit = unit;
-	// } else if ("##generated".equals(unit.getName())) {
-	// foundPersistenceUnit = unit;
-	// foundPersistenceUnit
-	// .setName(generatedPersistenceUnitName);
-	// }
-	// }
-	// if (foundPersistenceUnit != null) {
-	// persistenceUnit = foundPersistenceUnit;
-	// } else {
-	// persistenceUnit = new PersistenceUnit();
-	// persistence.getPersistenceUnit().add(persistenceUnit);
-	// persistenceUnit.setName(generatedPersistenceUnitName);
-	// }
-	//
-	// } catch (Exception ex) {
-	// throw new JAXBException("Persistence XML file ["
-	// + persistenceXml + "] could not be parsed.", ex);
-	// }
-	//
-	// } else {
-	// persistence = new Persistence();
-	// persistence.setVersion("1.0");
-	// persistenceUnit = new PersistenceUnit();
-	// persistence.getPersistenceUnit().add(persistenceUnit);
-	// persistenceUnit.setName(generatedPersistenceUnitName);
-	// }
-	//
-	// for (final ClassOutline classOutline : includedClasses) {
-	// persistenceUnit.getClazz().add(
-	// OutlineUtils.getClassName(classOutline));
-	// }
-	// return persistence;
-	// }
-
-	// public void processModel(Outline outline, Options options) throws
-	// Exception {
-	// getProcessModel().process(getProcessModel(), outline, options);
-	// }
 
 	private void checkCustomizations(CClassInfo classInfo,
 			CPropertyInfo customizable) {
