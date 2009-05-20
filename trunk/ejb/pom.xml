@@ -10,6 +10,7 @@
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3</artifactId>
 		<version>0.5.4-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modules>
 		<module>schemas</module>
