@@ -238,4 +238,37 @@
 		</xs:all>
 	</xs:complexType-->
 
+	<xs:element name="seven" type="test:seven"/>
+
+	<xs:complexType name="seven">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:ignored/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="eight" type="test:eight"/>
+
+	<xs:complexType name="eight">
+		<xs:sequence>
+			<xs:element name="value" type="test:seven" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="nine" type="test:nine"/>
+
+	<xs:complexType name="nine">
+		<xs:complexContent>
+			<xs:extension base="test:seven">
+				<xs:sequence>
+					<xs:element name="addition" type="test:eight" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 </xs:schema>
