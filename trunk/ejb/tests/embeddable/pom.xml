@@ -31,7 +31,8 @@
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<configuration>
-					<roundtripTestClassName>org.jvnet.hyperjaxb3.tests.embeddable.tests.RoundtripTest</roundtripTestClassName>
+					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.embeddable.tests.RoundtripTest</roundtripTestClassName>
+					<persistenceUnitName>foo</persistenceUnitName>
 				</configuration>
 			</plugin>
 		</plugins>

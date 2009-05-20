@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
-<xs:schema
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
-	jaxb:extensionBindingPrefixes="hj" jaxb:version="2.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+	jaxb:extensionBindingPrefixes="hj orm" jaxb:version="2.0">
 	<xs:annotation>
 		<xs:appinfo>
 			<jaxb:schemaBindings>
@@ -48,4 +46,47 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:element name="employees">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="employee" type="EmployeeType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="EmployeeType">
+		<xs:sequence>
+			<xs:element name="employeeId" type="xs:string" nillable="false"/>
+			<xs:element name="firstName" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="lastName" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="addressId" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="primaryPhone" nillable="true" minOccurs="0" type="PrimaryPhoneType">
+				<xs:annotation>
+					<xs:appinfo>
+						
+						<hj:embedded>
+							<orm:attribute-override name="phoneNumber">
+								<orm:column name="phone_no"/>
+							</orm:attribute-override>
+							<orm:attribute-override name="phoneType">
+								<orm:column name="phone_type_id"/>
+							</orm:attribute-override>
+						</hj:embedded>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PrimaryPhoneType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="phoneNumber" type="xs:string" nillable="false"/>
+			<xs:element name="phoneType" type="xs:string" nillable="false"/>
+		</xs:sequence>
+	</xs:complexType>
+	
 </xs:schema>
