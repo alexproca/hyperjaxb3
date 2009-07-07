@@ -802,4 +802,15 @@
 		</xs:simpleContent>
 	</xs:complexType>
 
+	<xs:complexType name="test001Type">
+		<xs:sequence>
+			<xs:element name="integers" maxOccurs="unbounded">
+				<xs:simpleType>
+					<xs:list itemType="xs:integer"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
 </xs:schema>
