@@ -23,11 +23,8 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
