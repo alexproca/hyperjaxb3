@@ -10,6 +10,10 @@ public class HElementWrapper {
 
 	private final boolean required;
 
+	public HElementWrapper(QName name) {
+		this(name, false, false);
+	}
+
 	public HElementWrapper(QName name, boolean nillable, boolean required) {
 		super();
 		this.name = name;
