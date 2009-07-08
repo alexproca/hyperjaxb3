@@ -8,17 +8,14 @@ public class HAttribute {
 
 	private final boolean required;
 
-	private final HClass type;
-
-	public HAttribute(QName name, HClass type) {
-		this(name, false, type);
+	public HAttribute(QName name) {
+		this(name, false);
 	}
 
-	public HAttribute(QName name, boolean required, HClass type) {
+	public HAttribute(QName name, boolean required) {
 		super();
 		this.name = name;
 		this.required = required;
-		this.type = type;
 	}
 
 	public QName getName() {
@@ -27,9 +24,5 @@ public class HAttribute {
 
 	public boolean isRequired() {
 		return required;
-	}
-
-	public HClass getType() {
-		return type;
 	}
 }
