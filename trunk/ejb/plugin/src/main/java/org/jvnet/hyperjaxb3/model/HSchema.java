@@ -1,8 +1,11 @@
 package org.jvnet.hyperjaxb3.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlNsForm;
+
+import org.apache.commons.lang.Validate;
 
 public class HSchema {
 
@@ -19,7 +22,9 @@ public class HSchema {
 	public HSchema(List<HNs> xmlns, String namespace, String location,
 			XmlNsForm elementFormDefault, XmlNsForm attributeFormDefault) {
 		super();
-		this.xmlns = xmlns;
+		Validate.notNull(elementFormDefault);
+		Validate.notNull(attributeFormDefault);
+		this.xmlns = xmlns == null ? Collections.<HNs> emptyList() : xmlns;
 		this.namespace = namespace;
 		this.location = location;
 		this.elementFormDefault = elementFormDefault;
