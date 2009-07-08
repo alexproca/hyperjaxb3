@@ -1,18 +1,19 @@
+
 package org.jvnet.hyperjaxb3.model;
 
 import org.apache.commons.lang.Validate;
 
 public class HEnum {
 
-	private final MSimpleTypeClass type;
+	private final LType type;
 
-	public HEnum(MSimpleTypeClass type) {
+	public HEnum(LType type) {
 		super();
 		Validate.notNull(type);
 		this.type = type;
 	}
 
-	public MSimpleTypeClass getType() {
+	public LType getType() {
 		return type;
 	}
 }
