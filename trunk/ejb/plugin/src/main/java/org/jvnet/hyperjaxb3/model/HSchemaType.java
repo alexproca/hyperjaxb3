@@ -1,3 +1,4 @@
+
 package org.jvnet.hyperjaxb3.model;
 
 import javax.xml.namespace.QName;
@@ -8,9 +9,9 @@ public class HSchemaType {
 
 	private final QName name;
 
-	private final HClass type;
+	private final LType type;
 
-	public HSchemaType(QName name, HClass type) {
+	public HSchemaType(QName name, LType type) {
 		super();
 		Validate.notNull(name);
 		Validate.notNull(type);
@@ -22,7 +23,7 @@ public class HSchemaType {
 		return name;
 	}
 
-	public HClass getType() {
+	public LType getType() {
 		return type;
 	}
 
