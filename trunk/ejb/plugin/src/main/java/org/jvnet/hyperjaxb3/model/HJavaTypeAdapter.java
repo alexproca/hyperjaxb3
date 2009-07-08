@@ -1,3 +1,4 @@
+
 package org.jvnet.hyperjaxb3.model;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -8,9 +9,9 @@ public class HJavaTypeAdapter {
 
 	private final Class<? extends XmlAdapter> adapter;
 
-	private final HClass type;
+	private final LType type;
 
-	public HJavaTypeAdapter(Class<? extends XmlAdapter> adapter, HClass type) {
+	public HJavaTypeAdapter(Class<? extends XmlAdapter> adapter, LType type) {
 		super();
 		Validate.notNull(adapter);
 		Validate.notNull(type);
@@ -22,7 +23,7 @@ public class HJavaTypeAdapter {
 		return adapter;
 	}
 
-	public HClass getType() {
+	public LType getType() {
 		return type;
 	}
 }
