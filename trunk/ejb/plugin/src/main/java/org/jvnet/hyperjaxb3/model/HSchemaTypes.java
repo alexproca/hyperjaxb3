@@ -1,3 +1,4 @@
+
 package org.jvnet.hyperjaxb3.model;
 
 import java.util.List;

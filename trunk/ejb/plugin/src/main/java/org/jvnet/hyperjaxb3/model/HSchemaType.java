@@ -14,7 +14,6 @@ public class HSchemaType {
 	public HSchemaType(QName name, LType type) {
 		super();
 		Validate.notNull(name);
-		Validate.notNull(type);
 		this.name = name;
 		this.type = type;
 	}
