@@ -1,3 +1,4 @@
+
 package org.jvnet.hyperjaxb3.model;
 
 import javax.xml.namespace.QName;
@@ -12,16 +13,16 @@ public class HElement {
 
 	private final boolean required;
 
-	private final HClass type;
+	private final LType type;
 
 	private final String defaultValue;
 
-	public HElement(QName name, HClass type, String defaultValue) {
+	public HElement(QName name, LType type, String defaultValue) {
 		this(name, false, false, type, defaultValue);
 	}
 
 	public HElement(QName name, boolean nillable, boolean required,
-			HClass type, String defaultValue) {
+			LType type, String defaultValue) {
 		super();
 		Validate.notNull(name);
 		Validate.notNull(type);
@@ -44,7 +45,7 @@ public class HElement {
 		return required;
 	}
 
-	public HClass getType() {
+	public LType getType() {
 		return type;
 	}
 
