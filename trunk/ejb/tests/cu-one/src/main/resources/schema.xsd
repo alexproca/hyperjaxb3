@@ -101,7 +101,7 @@
 			<xs:element name="many-to-one-join-column" type="test:three" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
-						<hj:many-to-one>
+						<hj:many-to-one merge="false">
 							<orm:join-column name="M2OJC_THREE_ID"/>
 						</hj:many-to-one>
 					</xs:appinfo>
@@ -165,6 +165,13 @@
 		<xs:annotation>
 			<xs:appinfo>
 				<hj:generated-id name="ThreeId" attributeName="test:tid" transient="false"/>
+				<hj:entity>
+					<orm:table>
+						<orm:unique-constraint>
+							<orm:column-name>VALUE_</orm:column-name>
+						</orm:unique-constraint>
+					</orm:table>
+				</hj:entity>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
