@@ -40,6 +40,10 @@
 	<bean name="wrapSingleBuiltinNonReference"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapSingleBuiltinNonReference">
 	</bean>
+
+	<bean name="wrapSingleEnumNonReference"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapSingleEnumNonReference">
+	</bean>
 	
 	<bean name="wrapSingleHeteroElement"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapSingleHeteroElement">
@@ -106,14 +110,17 @@
 		<property name="getTypes" ref="getTypes"/>
 		
 		<property name="wrapSingleBuiltinAttribute" ref="wrapSingleBuiltinNonReference"/>
+		<property name="wrapSingleEnumAttribute" ref="wrapSingleEnumNonReference"/>
 		<property name="wrapCollectionBuiltinAttribute" ref="wrapCollectionAttribute"/>
 		<property name="wrapCollectionEnumAttribute" ref="wrapCollectionAttribute"/>
 
 		<property name="wrapSingleBuiltinValue" ref="wrapSingleBuiltinNonReference"/>
+		<property name="wrapSingleEnumValue" ref="wrapSingleEnumNonReference"/>
 		<property name="wrapCollectionBuiltinValue" ref="wrapCollectionValue"/>
 		<property name="wrapCollectionEnumValue" ref="wrapCollectionValue"/>
 
 		<property name="wrapSingleBuiltinElement" ref="wrapSingleBuiltinNonReference"/>
+		<property name="wrapSingleEnumElement" ref="wrapSingleEnumNonReference"/>
 		<property name="wrapSingleHeteroElement" ref="wrapSingleHeteroElement"/>
 		<property name="wrapCollectionBuiltinElement" ref="wrapCollectionElement"/>
 		<property name="wrapCollectionEnumElement" ref="wrapCollectionElement"/>
