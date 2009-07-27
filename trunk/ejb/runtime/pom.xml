@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>runtime</artifactId>
+			<artifactId>jaxb2-basics-runtime</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>com.sun.xml.bind</groupId>
