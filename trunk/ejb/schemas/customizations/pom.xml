@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>runtime</artifactId>
+			<artifactId>jaxb2-basics-runtime</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>com.sun.xml.bind</groupId>
@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>tools</artifactId>
+			<artifactId>jaxb2-basics-tools</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
@@ -38,6 +38,11 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-schemas-persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<reporting>
@@ -68,7 +73,7 @@
 							<plugins>
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
-									<artifactId>basic</artifactId>
+									<artifactId>jaxb2-basics</artifactId>
 								</plugin>
 							</plugins>
 							<episodes>
