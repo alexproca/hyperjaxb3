@@ -14,7 +14,6 @@ import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.AttributesUtils;
-import org.jvnet.jaxb2_commons.plugin.annotate.Annotator;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
@@ -60,9 +59,9 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 		logger.debug("Processing class outline ["
 				+ OutlineUtils.getClassName(classOutline) + "].");
 
-		final Object entityOrMappedSuperclassOrEmbeddable = context.getMapping()
-				.getEntityOrMappedSuperclassOrEmbeddableMapping().process(
-						context.getMapping(), classOutline, options);
+		final Object entityOrMappedSuperclassOrEmbeddable = context
+				.getMapping().getEntityOrMappedSuperclassOrEmbeddableMapping()
+				.process(context.getMapping(), classOutline, options);
 
 		final Object attributes;
 		final Collection<XAnnotation> annotations;
@@ -88,8 +87,7 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 			annotations = context.getCreateXAnnotations()
 					.createMappedSuperclassAnnotations(entity);
 
-		} 
-		else if (entityOrMappedSuperclassOrEmbeddable instanceof Embeddable) {
+		} else if (entityOrMappedSuperclassOrEmbeddable instanceof Embeddable) {
 			final Embeddable embeddable = (Embeddable) entityOrMappedSuperclassOrEmbeddable;
 
 			attributes = embeddable.getAttributes() == null ? new EmbeddableAttributes()
@@ -98,8 +96,7 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 			annotations = context.getCreateXAnnotations()
 					.createEmbeddableAnnotations(embeddable);
 
-		}
-		else {
+		} else {
 			throw new AssertionError(
 					"Either entity or mapped superclass expected, but an instance of ["
 							+ entityOrMappedSuperclassOrEmbeddable.getClass()
