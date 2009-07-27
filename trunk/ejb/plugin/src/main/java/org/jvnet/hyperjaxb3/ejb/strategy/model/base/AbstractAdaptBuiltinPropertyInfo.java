@@ -52,7 +52,7 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 		return propertyKind;
 	}
 
-	private TypeUse propertyType;
+	private final TypeUse propertyType;
 
 	@Override
 	public TypeUse getPropertyType(ProcessModel context,
