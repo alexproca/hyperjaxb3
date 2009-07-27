@@ -18,6 +18,8 @@ public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 
 	public CreatePropertyInfos getWrapSingleBuiltinValue();
 
+	public CreatePropertyInfos getWrapSingleEnumValue();
+
 	public CreatePropertyInfos getWrapCollectionBuiltinValue();
 
 	public CreatePropertyInfos getWrapCollectionEnumValue();
@@ -26,6 +28,8 @@ public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 
 	public CreatePropertyInfos getWrapSingleBuiltinAttribute();
 
+	public CreatePropertyInfos getWrapSingleEnumAttribute();
+
 	public CreatePropertyInfos getWrapCollectionBuiltinAttribute();
 
 	public CreatePropertyInfos getWrapCollectionEnumAttribute();
@@ -33,6 +37,8 @@ public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 	// Element
 
 	public CreatePropertyInfos getWrapSingleBuiltinElement();
+
+	public CreatePropertyInfos getWrapSingleEnumElement();
 
 	public CreatePropertyInfos getWrapSingleHeteroElement();
 
