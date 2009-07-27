@@ -8,7 +8,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
 import org.jvnet.hyperjaxb3.xsd.util.XMLSchemaConstrants;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeAnalyzer;
-import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
+import org.jvnet.hyperjaxb3.xsom.TypeUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 
 import com.sun.codemodel.JCodeModel;
@@ -131,10 +131,7 @@ public class PropertyMapping {
 			final XSComponent schemaComponent = fieldOutline.getPropertyInfo()
 					.getSchemaComponent();
 			if (schemaComponent != null) {
-
-				final SimpleTypeVisitor visitor = new SimpleTypeVisitor();
-				schemaComponent.visit(visitor);
-				typeNames = visitor.getTypeNames();
+				typeNames = TypeUtils.getTypeNames(schemaComponent);
 			} else {
 				typeNames = Collections.emptyList();
 			}
