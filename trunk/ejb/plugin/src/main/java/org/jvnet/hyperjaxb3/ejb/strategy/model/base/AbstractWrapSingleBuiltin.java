@@ -26,7 +26,10 @@ public abstract class AbstractWrapSingleBuiltin implements CreatePropertyInfos {
 
 		final CBuiltinLeafInfo originalTypeUse = getTypeUse(context,
 				propertyInfo);
-		if (originalTypeUse == CBuiltinLeafInfo.DATA_HANDLER) {
+		if (propertyInfo.getAdapter() != null) {
+			logger.debug("Adapter property info is not wrapped");
+			return Collections.emptyList();
+		} else if (originalTypeUse == CBuiltinLeafInfo.DATA_HANDLER) {
 			// TODO #42
 			logger
 					.error("Data handler is currently not supported. See issue #42.");
