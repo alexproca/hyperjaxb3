@@ -17,6 +17,20 @@
     </xsd:appinfo>
   </xsd:annotation> 
 
+	<xsd:annotation>
+		<xsd:appinfo>
+			<hj:persistence>
+				<hj:default-single-property type="test:issue143BType">
+					<hj:basic>
+						<orm:column scale="2" precision="1"/>
+						<hj:enumerated-value/>
+					</hj:basic>
+				</hj:default-single-property>
+			</hj:persistence>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+
   <xsd:element name="root" type="test:RootType"/>
 
 	<xsd:complexType name="RootType">
@@ -59,6 +73,76 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<jaxb:typesafeEnumMember name="TWO_TWO"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="issue143" type="test:issue143Type"/>
+
+	<xsd:complexType name="issue143Type">
+		<xsd:sequence>
+			<xsd:element name="issue143A" type="test:issue143AType" minOccurs="0"/>
+			<xsd:element name="issue143B" type="test:issue143BType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="issue143CType">
+		<xsd:simpleContent>
+			<xsd:extension base="test:issue143BType">
+				<xsd:attribute name="issue143B" type="test:issue143BType" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+
+	<xsd:simpleType name="issue143AType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<jaxb:typesafeEnumClass/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1/2">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:typesafeEnumMember name="ONE_HALF"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+
+			<xsd:enumeration value="1/3">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:typesafeEnumMember name="ONE_THIRD"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="issue143BType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<jaxb:typesafeEnumClass/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:double">
+			<xsd:enumeration value="0.5">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:typesafeEnumMember name="ONE_HALF"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+
+			<xsd:enumeration value="0.25">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:typesafeEnumMember name="ONE_FOURTH"/>
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:enumeration>
