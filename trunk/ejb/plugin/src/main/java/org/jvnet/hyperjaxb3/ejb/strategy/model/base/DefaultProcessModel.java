@@ -286,6 +286,18 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinAttribute) {
 		this.wrapSingleBuiltinAttribute = wrapSingleBuiltinAttribute;
 	}
+	
+	private CreatePropertyInfos wrapSingleEnumAttribute;
+
+	public CreatePropertyInfos getWrapSingleEnumAttribute() {
+		return wrapSingleEnumAttribute;
+	}
+
+	@Required
+	public void setWrapSingleEnumAttribute(
+			CreatePropertyInfos wrapSingleEnumAttribute) {
+		this.wrapSingleEnumAttribute = wrapSingleEnumAttribute;
+	}
 
 	private CreatePropertyInfos wrapCollectionBuiltinAttribute;
 
@@ -322,6 +334,18 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinValue) {
 		this.wrapSingleBuiltinValue = wrapSingleBuiltinValue;
 	}
+	
+	private CreatePropertyInfos wrapSingleEnumValue;
+
+	public CreatePropertyInfos getWrapSingleEnumValue() {
+		return wrapSingleEnumValue;
+	}
+
+	@Required
+	public void setWrapSingleEnumValue(
+			CreatePropertyInfos wrapSingleEnumValue) {
+		this.wrapSingleEnumValue = wrapSingleEnumValue;
+	}
 
 	private CreatePropertyInfos wrapCollectionBuiltinValue;
 
@@ -357,6 +381,18 @@ public class DefaultProcessModel implements ProcessModel {
 	public void setWrapSingleBuiltinElement(
 			CreatePropertyInfos wrapSingleBuiltinElement) {
 		this.wrapSingleBuiltinElement = wrapSingleBuiltinElement;
+	}
+	
+	private CreatePropertyInfos wrapSingleEnumElement;
+
+	public CreatePropertyInfos getWrapSingleEnumElement() {
+		return wrapSingleEnumElement;
+	}
+
+	@Required
+	public void setWrapSingleEnumElement(
+			CreatePropertyInfos wrapSingleEnumElement) {
+		this.wrapSingleEnumElement = wrapSingleEnumElement;
 	}
 
 	private CreatePropertyInfos wrapSingleHeteroElement;
