@@ -10,38 +10,25 @@ import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldRef;
-import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.MethodWriter;
-import com.sun.tools.xjc.model.CAdapter;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldAccessor;
 
-public abstract class WrappingField extends AbstractField {
+public abstract class AbstractWrappingField extends AbstractField {
 
 	protected final CPropertyInfo core;
-
 	protected JMethod getter;
-
 	protected JMethod setter;
+	protected final JFieldRef coreField;
 
-	protected final JClass xmlAdapterClass;
-
-	private final JFieldRef coreField;
-
-	public WrappingField(ClassOutlineImpl context, CPropertyInfo prop,
+	public AbstractWrappingField(ClassOutlineImpl context, CPropertyInfo prop,
 			CPropertyInfo core) {
-		this(context, prop, core, prop.getAdapter());
-	}
-
-	public WrappingField(ClassOutlineImpl context, CPropertyInfo prop,
-			CPropertyInfo core, CAdapter adapter) {
 		super(context, prop);
 		this.core = core;
 		if (!Customizations.isGenerated(prop)) {
@@ -50,8 +37,6 @@ public abstract class WrappingField extends AbstractField {
 			this.coreField = null;
 
 		}
-		this.xmlAdapterClass = adapter == null ? null : adapter
-				.getAdapterClass(context.parent());
 
 		assert !exposedType.isPrimitive() && !implType.isPrimitive();
 	}
@@ -144,7 +129,15 @@ public abstract class WrappingField extends AbstractField {
 		return exposedType;
 	}
 
-	private class Accessor extends AbstractField.Accessor {
+	public JClass getScope(CClassInfo scope) {
+		if (scope == null) {
+			return codeModel.ref(GlobalScope.class);
+		} else {
+			return scope.toType(outline.parent(), Aspect.EXPOSED);
+		}
+	}
+
+	class Accessor extends AbstractField.Accessor {
 
 		// private final FieldAccessor core;
 
@@ -173,11 +166,4 @@ public abstract class WrappingField extends AbstractField {
 		}
 	}
 
-	public JClass getScope(CClassInfo scope) {
-		if (scope == null) {
-			return codeModel.ref(GlobalScope.class);
-		} else {
-			return scope.toType(outline.parent(), Aspect.EXPOSED);
-		}
-	}
 }

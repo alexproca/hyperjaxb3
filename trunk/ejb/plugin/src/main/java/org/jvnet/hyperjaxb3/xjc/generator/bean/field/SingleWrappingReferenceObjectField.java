@@ -12,7 +12,7 @@ import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 
-public class SingleWrappingReferenceObjectField extends WrappingField {
+public class SingleWrappingReferenceObjectField extends AbstractWrappingField {
 
 	public SingleWrappingReferenceObjectField(ClassOutlineImpl context,
 			CPropertyInfo prop, CReferencePropertyInfo core) {

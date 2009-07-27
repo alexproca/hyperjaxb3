@@ -21,7 +21,7 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.TypeUseFactory;
 import com.sun.tools.xjc.outline.Aspect;
 
-public class SingleWrappingReferenceField extends WrappingField {
+public class SingleWrappingReferenceField extends AdaptingWrappingField {
 
 	public SingleWrappingReferenceField(ClassOutlineImpl context,
 			CPropertyInfo prop, CReferencePropertyInfo core) {

@@ -18,7 +18,7 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 
-public class SingleMarshallingReferenceField extends WrappingField {
+public class SingleMarshallingReferenceField extends AbstractWrappingField {
 
 	public SingleMarshallingReferenceField(ClassOutlineImpl context,
 			CPropertyInfo prop, CPropertyInfo core) {

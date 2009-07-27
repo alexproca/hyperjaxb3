@@ -7,7 +7,7 @@ import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class SingleWrappingField extends WrappingField {
+public class SingleWrappingField extends AdaptingWrappingField {
 
 	public SingleWrappingField(ClassOutlineImpl context, CPropertyInfo prop,
 			CPropertyInfo core) {

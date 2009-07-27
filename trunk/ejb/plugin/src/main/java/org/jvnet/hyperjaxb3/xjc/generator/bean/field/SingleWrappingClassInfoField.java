@@ -9,7 +9,7 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 
-public class SingleWrappingClassInfoField extends WrappingField {
+public class SingleWrappingClassInfoField extends AbstractWrappingField {
 
 	private final CClassInfo classInfo;
 

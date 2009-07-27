@@ -12,7 +12,7 @@ import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 
-public class SingleMarshallingField extends WrappingField {
+public class SingleMarshallingField extends AbstractWrappingField {
 
 	public SingleMarshallingField(ClassOutlineImpl context, CPropertyInfo prop,
 			CPropertyInfo core) {

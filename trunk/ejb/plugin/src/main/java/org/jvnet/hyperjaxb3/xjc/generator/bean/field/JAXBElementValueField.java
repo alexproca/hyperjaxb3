@@ -13,7 +13,7 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 
-public class JAXBElementValueField extends WrappingField {
+public class JAXBElementValueField extends AbstractWrappingField {
 
 	private final CPropertyInfo nameProperty;
 
