@@ -177,7 +177,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 		public Collection<CPropertyInfo> onSingleEnumAttribute(
 				CAttributePropertyInfo attributePropertyInfo) {
-			return Collections.emptyList();
+			return context.getWrapSingleEnumAttribute().process(context,
+					attributePropertyInfo);
 		}
 
 		public Collection<CPropertyInfo> onSingleOtherAttribute(
@@ -220,7 +221,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 		public Collection<CPropertyInfo> onSingleEnumValue(
 				CValuePropertyInfo valuePropertyInfo) {
-			return Collections.emptyList();
+			return context.getWrapSingleEnumValue().process(context,
+					valuePropertyInfo);
 		}
 
 		public Collection<CPropertyInfo> onSingleOtherValue(
@@ -263,7 +265,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 		public Collection<CPropertyInfo> onSingleEnumElement(
 				CElementPropertyInfo elementPropertyInfo) {
-			return Collections.emptyList();
+			return context.getWrapSingleEnumElement().process(context,
+					elementPropertyInfo);
 		}
 
 		public Collection<CPropertyInfo> onSingleArrayElement(
