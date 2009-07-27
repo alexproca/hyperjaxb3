@@ -24,6 +24,7 @@ import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsG
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsGYearMonth;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsTime;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
+import org.jvnet.hyperjaxb3.xsom.TypeUtils;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -42,9 +43,8 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 		final XSComponent schemaComponent = propertyInfo.getSchemaComponent();
 
 		if (schemaComponent != null) {
-			final SimpleTypeVisitor simpleTypeVisitor = new SimpleTypeVisitor();
-			schemaComponent.visit(simpleTypeVisitor);
-			final List<QName> typeNames = simpleTypeVisitor.getTypeNames();
+			final List<QName> typeNames = TypeUtils
+					.getTypeNames(schemaComponent);
 
 			for (QName typeName : typeNames) {
 				final PropertyType propertyType = new PropertyType(type,
@@ -118,8 +118,7 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 		adapters.put(new PropertyType(CBuiltinLeafInfo.ID),
 				new CExternalLeafInfo(String.class, new QName(
-						WellKnownNamespace.XML_SCHEMA, "ID"),
-						null));
+						WellKnownNamespace.XML_SCHEMA, "ID"), null));
 
 		adapters.put(new PropertyType(CBuiltinLeafInfo.NORMALIZED_STRING),
 				new CExternalLeafInfo(String.class, new QName(
@@ -149,6 +148,11 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 		new CExternalLeafInfo(Date.class, "dateTime",
 				XMLGregorianCalendarAsDateTime.class));
+		
+		adapters.put(new PropertyType(CBuiltinLeafInfo.CALENDAR, new QName(
+				WellKnownNamespace.XML_SCHEMA, "anySimpleType")),
+
+				CBuiltinLeafInfo.CALENDAR);
 
 		adapters.put(new PropertyType(CBuiltinLeafInfo.CALENDAR, new QName(
 				WellKnownNamespace.XML_SCHEMA, "date")), new CExternalLeafInfo(
