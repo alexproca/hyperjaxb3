@@ -533,6 +533,48 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:complexType name="issueHJIII14Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:named-query name="issueHJIII14NamedQuery">
+					<orm:query>SELECT
+x
+FROM
+org.jvnet.hyperjaxb3.ejb.tests.issues.IssueHJIII14Type						
+x
+</orm:query>
+					</orm:named-query>
+				</hj:entity>
+			</xsd:appinfo> 
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="issue142" type="test:issue142Type"/>
+
+
+	<xsd:complexType name="issue142Type">
+		<xsd:sequence>
+			<xsd:element name="base64Binary" type="xsd:base64Binary" minOccurs="0"/>
+			<xsd:element name="hexBinary" type="xsd:hexBinary" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="issue116Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<hj:generated-id transient="true"/>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:attribute name="value" use="optional" type="xsd:string"/>
+		<xsd:attribute name="text" use="optional" type="xsd:string"/>
+	</xsd:complexType>
+
 
 
 </xsd:schema>
