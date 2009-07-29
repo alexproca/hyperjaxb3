@@ -18,15 +18,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>annotate</artifactId>
+			<artifactId>jaxb2-basics-annotate</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>basic</artifactId>
+			<artifactId>jaxb2-basics</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>tools</artifactId>
+			<artifactId>jaxb2-basics-tools</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>

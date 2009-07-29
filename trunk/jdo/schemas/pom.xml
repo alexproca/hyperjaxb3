@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>tools</artifactId>
+			<artifactId>jaxb2-basics-tools</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

@@ -23,5 +23,8 @@
 	<!--jxb:bindings node=".//xs:element[@name='DataContent']">
 		<hj:column length="2000"/>
 	</jxb:bindings-->
+	<hj:persistence>
+		<hj:default-generated-id name="Hjid" transient="true"/>
+	</hj:persistence>
   </jxb:bindings>
 </jxb:bindings>
