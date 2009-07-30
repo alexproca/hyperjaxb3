@@ -18,7 +18,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2_commons-ant</artifactId>
+			<artifactId>jaxb2-basics-ant</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>

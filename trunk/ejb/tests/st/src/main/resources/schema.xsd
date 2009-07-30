@@ -22,6 +22,11 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="largeMaxLength">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 
 	<xsd:simpleType name="minLength">
 		<xsd:restriction base="xsd:string">
@@ -66,6 +71,7 @@
 	<xsd:complexType name="root123456789012345678901234567890Type">
 		<xsd:sequence>
 			<xsd:element name="largeMinLength" minOccurs="0" type="test:largeMinLength"/>
+			<xsd:element name="largeMaxLength" minOccurs="0" type="test:largeMaxLength"/>
 			<xsd:element name="minLength" minOccurs="0" type="test:minLength"/>
 			<xsd:element name="maxLength" minOccurs="0" type="test:maxLength"/>
 			<xsd:element name="length" minOccurs="0" type="test:length"/>

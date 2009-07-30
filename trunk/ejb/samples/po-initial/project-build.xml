@@ -103,7 +103,7 @@
 					<include name="rngom-*.jar"/>
 					<include name="xsom-*.jar"/>
 
-					<include name="jaxb2_commons-ant-*.jar"/>
+					<include name="jaxb2-basics-ant-*.jar"/>
 
 				</fileset>
 			</classpath>
