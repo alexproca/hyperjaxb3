@@ -22,7 +22,8 @@ public class UnmarshalPersistenceTest extends TestCase {
 		return Customizations.getContext();
 	}
 
-	protected Persistence unmarshal(String resourceName) throws IOException {
+	protected Persistence unmarshal(String resourceName) throws IOException,
+			JAXBException {
 		Validate.notNull(resourceName);
 		final InputStream is;
 		if (resourceName.startsWith("/")) {
@@ -37,8 +38,6 @@ public class UnmarshalPersistenceTest extends TestCase {
 			final JAXBElement<Persistence> persistenceElement = (JAXBElement<Persistence>) getContext()
 					.createUnmarshaller().unmarshal(is);
 			return persistenceElement.getValue();
-		} catch (JAXBException jaxbex) {
-			throw new IOException(jaxbex);
 		} finally {
 			IOUtils.closeQuietly(is);
 		}

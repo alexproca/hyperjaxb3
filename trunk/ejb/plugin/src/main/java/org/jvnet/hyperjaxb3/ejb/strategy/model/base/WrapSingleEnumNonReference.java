@@ -11,7 +11,6 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 
 public class WrapSingleEnumNonReference implements CreatePropertyInfos {
 
-	@Override
 	public Collection<CPropertyInfo> process(ProcessModel context,
 			CPropertyInfo propertyInfo) {
 

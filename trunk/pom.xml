@@ -444,7 +444,7 @@
 			<dependency>
 				<groupId>org.jvnet.annox</groupId>
 				<artifactId>annox</artifactId>
-				<version>0.4.3-SNAPSHOT</version>
+				<version>0.4.3</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
