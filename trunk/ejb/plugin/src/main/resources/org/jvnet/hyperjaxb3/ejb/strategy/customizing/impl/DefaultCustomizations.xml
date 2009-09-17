@@ -13,6 +13,8 @@
 		<orm:column/>
 		<orm:generated-value strategy="AUTO"/>
 	</hj:default-generated-id>
+    <hj:default-embedded-id>
+    </hj:default-embedded-id>
 	<hj:default-version>
 		<orm:column/>
 	</hj:default-version>
@@ -51,7 +53,6 @@
 	</hj:default-many-to-many>
 	<hj:default-embedded>
 	</hj:default-embedded>
-	
 	<!--
 	    3.2 Primitive datatypes
         3.2.1 string
