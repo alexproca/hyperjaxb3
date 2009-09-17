@@ -10,6 +10,7 @@ import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.Embeddable;
 import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
+import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
 import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.Id;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
@@ -96,6 +97,16 @@ public class Mapping {
 
 	public void setIdMapping(FieldOutlineMapping<Id> idMapping) {
 		this.idMapping = idMapping;
+	}
+
+	private FieldOutlineMapping<EmbeddedId> embeddedIdMapping = new EmbeddedIdMapping();
+
+	public FieldOutlineMapping<EmbeddedId> getEmbeddedIdMapping() {
+		return embeddedIdMapping;
+	}
+
+	public void setEmbeddedIdMapping(FieldOutlineMapping<EmbeddedId> embeddedIdMapping) {
+		this.embeddedIdMapping = embeddedIdMapping;
 	}
 
 	private FieldOutlineMapping<Basic> basicMapping = new BasicMapping();
