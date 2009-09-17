@@ -12,6 +12,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.EmbeddedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
@@ -143,6 +144,30 @@ public class DefaultCustomizing implements Customizing {
 
 	public Id getId(FieldOutline property) {
 		return getId(property.getPropertyInfo());
+	}
+
+	public EmbeddedId getEmbeddedId(CPropertyInfo property) {
+		final Persistence persistence = getModelCustomization(property);
+		if (persistence.getDefaultEmbeddedId() == null) {
+			throw new AssertionError("Default embedded id element is not provided.");
+		}
+		final EmbeddedId defaultId = (EmbeddedId) persistence.getDefaultEmbeddedId().copyTo(new EmbeddedId());
+		final EmbeddedId id;
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.EMBEDDED_ID_ELEMENT_NAME)) {
+			id = Customizations.<EmbeddedId> findCustomization(property,
+					Customizations.EMBEDDED_ID_ELEMENT_NAME);
+			if (id.isMerge()) {
+				id.mergeFrom(id, defaultId);
+			}
+		} else {
+			id = defaultId;
+		}
+		return id;
+	}
+
+	public EmbeddedId getEmbeddedId(FieldOutline property) {
+		return getEmbeddedId(property.getPropertyInfo());
 	}
 
 	public Version getVersion(CPropertyInfo property) {
