@@ -45,7 +45,7 @@
 				<!-- ** module>dy</module-->
 				<module>ebxmlrr</module>
 				<module>edxl</module>
-				<!-- module>embeddable</module-->
+				<module>embeddable</module>
 				<module>enum</module>
 				<!--module>idSymbolSpace</module-->
 				<module>ims-eportfolio</module>
