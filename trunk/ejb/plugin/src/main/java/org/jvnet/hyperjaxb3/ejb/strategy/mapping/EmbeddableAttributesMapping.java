@@ -60,6 +60,14 @@ public class EmbeddableAttributesMapping implements
 					+ "This field will be made transient.");
 
 			return context.getTransientMapping();
+		} else if (isFieldOutlineEmbeddedId(fieldOutline)) {
+			final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+			logger.warn("Field outline  [" + propertyInfo.getName(true)
+					+ "] is marked as [embedded-id] field. "
+					+ "This is not supported in embeddable classes. "
+					+ "This field will be made transient.");
+
+			return context.getTransientMapping();
 		} else if (isFieldOutlineVersion(fieldOutline)) {
 			final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 			logger.warn("Field outline  [" + propertyInfo.getName(true)
@@ -87,28 +95,31 @@ public class EmbeddableAttributesMapping implements
 					} else
 
 					if (isFieldOutlineComplex(fieldOutline)) {
-						logger.warn("Field outline  [" + propertyInfo.getName(true)
-								+ "] is a complex field. "
-								+ "This is not supported in embeddable classes. "
-								+ "This field will be made transient.");
-						
+						logger
+								.warn("Field outline  ["
+										+ propertyInfo.getName(true)
+										+ "] is a complex field. "
+										+ "This is not supported in embeddable classes. "
+										+ "This field will be made transient.");
+
 						return context.getTransientMapping();
-					}else
-					{
-						logger.warn("Field outline  [" + propertyInfo.getName(true)
-								+ "] is not a basic field. "
-								+ "This is not supported in embeddable classes. "
-								+ "This field will be made transient.");
-						
+					} else {
+						logger
+								.warn("Field outline  ["
+										+ propertyInfo.getName(true)
+										+ "] is not a basic field. "
+										+ "This is not supported in embeddable classes. "
+										+ "This field will be made transient.");
+
 						return context.getTransientMapping();
-						
+
 					}
 				} else {
 					logger.warn("Field outline  [" + propertyInfo.getName(true)
 							+ "] is a heterogeneous field. "
 							+ "This is not supported in embeddable classes. "
 							+ "This field will be made transient.");
-					
+
 					return context.getTransientMapping();
 				}
 			} else {
@@ -171,4 +182,10 @@ public class EmbeddableAttributesMapping implements
 
 		return type instanceof CClass;
 	}
+
+	public boolean isFieldOutlineEmbeddedId(FieldOutline fieldOutline) {
+		return CustomizationUtils.containsCustomization(fieldOutline,
+				Customizations.EMBEDDED_ID_ELEMENT_NAME);
+	}
+
 }
