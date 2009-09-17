@@ -19,6 +19,7 @@
 			<xsd:element name="default-embeddable" type="hj:embeddable"/>
 			<xsd:element name="default-id" type="hj:id"/>
 			<xsd:element name="default-generated-id" type="hj:generated-id"/>
+			<xsd:element name="default-embedded-id" type="hj:embedded-id"/>
 			<xsd:element name="default-version" type="hj:version"/>
 			<xsd:element name="default-basic" type="hj:basic"/>
 			<xsd:element name="default-to-one" type="hj:to-one"/>
@@ -71,6 +72,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!-- ... -->
 	<xsd:element name="generated-id" type="hj:generated-id"/>
 	<xsd:complexType name="generated-id">
 		<xsd:complexContent>
@@ -83,6 +85,15 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!-- ... -->
+	<xsd:element name="embedded-id" type="hj:embedded-id"/>
+	<xsd:complexType name="embedded-id">
+		<xsd:complexContent>
+			<xsd:extension base="orm:embedded-id">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 
 	<!-- ... -->
 	<xsd:element name="version" type="hj:version"/>
@@ -203,7 +214,5 @@
 		</xsd:choice>
 		<xsd:attribute name="type" type="xsd:QName" use="required"/>
 	</xsd:complexType>
-
-
 
 </xsd:schema>
