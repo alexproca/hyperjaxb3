@@ -4,6 +4,9 @@
 	jaxb:extensionBindingPrefixes="hj orm" jaxb:version="2.0">
 	<xs:annotation>
 		<xs:appinfo>
+			<jaxb:globalBindings>
+				<jaxb:serializable/>
+			</jaxb:globalBindings>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.embeddable"/>
 			</jaxb:schemaBindings>
@@ -46,7 +49,6 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
 	<xs:element name="employees">
 		<xs:complexType>
 			<xs:sequence>
@@ -86,6 +88,30 @@
 		<xs:sequence>
 			<xs:element name="phoneNumber" type="xs:string" nillable="false"/>
 			<xs:element name="phoneType" type="xs:string" nillable="false"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="entityWithEmbeddedId" type="entityWithEmbeddedIdType"/>
+	<xs:complexType name="entityWithEmbeddedIdType">
+		<xs:sequence>
+			<xs:element name="id" type="embeddableIdType">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:embedded-id/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="embeddableIdType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id1" type="xs:long" minOccurs="0"/>
+			<xs:element name="id2" type="xs:long" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	
