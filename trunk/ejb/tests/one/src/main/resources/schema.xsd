@@ -6,7 +6,7 @@
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
 
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
-	jaxb:extensionBindingPrefixes="xjc hj"
+	jaxb:extensionBindingPrefixes="xjc hj orm"
 	jaxb:version="2.0">
 	<xs:annotation>
 		<xs:appinfo>
