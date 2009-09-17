@@ -128,7 +128,12 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 						logger.trace("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex field.");
-						if (isFieldOutlineEmbedded(fieldOutline)) {
+						if (isFieldOutlineEmbeddedId(fieldOutline)) {
+							logger.trace("Field outline  ["
+									+ propertyInfo.getName(true)
+									+ "] is an embedded-id complex field.");
+							return context.getEmbeddedIdMapping();
+						} else if (isFieldOutlineEmbedded(fieldOutline)) {
 							logger.trace("Field outline  ["
 									+ propertyInfo.getName(true)
 									+ "] is an embedded complex field.");
@@ -236,18 +241,32 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 
 		final CTypeInfo type = types.iterator().next();
 
-		return (type instanceof CClass
-				&& CustomizationUtils.containsCustomization(fieldOutline,
+		return (type instanceof CClass && CustomizationUtils
+				.containsCustomization(fieldOutline,
 						Customizations.EMBEDDED_ELEMENT_NAME))
 				//
 				||
 				//
-				(type instanceof CClassInfo
-				&& CustomizationUtils.containsCustomization(
-						((CClassInfo) type),
-						Customizations.EMBEDDABLE_ELEMENT_NAME))
+				(type instanceof CClassInfo && CustomizationUtils
+						.containsCustomization(((CClassInfo) type),
+								Customizations.EMBEDDABLE_ELEMENT_NAME))
 
 		;
+	}
+
+	public boolean isFieldOutlineEmbeddedId(FieldOutline fieldOutline) {
+
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		assert types.size() == 1;
+
+		final CTypeInfo type = types.iterator().next();
+
+		return (type instanceof CClass && CustomizationUtils
+				.containsCustomization(fieldOutline,
+						Customizations.EMBEDDED_ID_ELEMENT_NAME));
 	}
 
 }
