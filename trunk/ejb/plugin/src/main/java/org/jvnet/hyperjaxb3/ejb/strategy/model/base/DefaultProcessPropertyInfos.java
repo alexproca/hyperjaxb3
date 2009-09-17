@@ -143,7 +143,9 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 		for (CPropertyInfo propertyInfo : classInfo.getProperties()) {
 			if (CustomizationUtils.containsCustomization(propertyInfo,
-					Customizations.ID_ELEMENT_NAME)) {
+					Customizations.ID_ELEMENT_NAME) ||
+				CustomizationUtils.containsCustomization(propertyInfo,
+					Customizations.EMBEDDED_ID_ELEMENT_NAME)) {
 				ids.add(propertyInfo);
 			}
 		}
