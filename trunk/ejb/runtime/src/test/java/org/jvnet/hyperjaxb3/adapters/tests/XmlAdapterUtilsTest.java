@@ -1,8 +1,11 @@
 package org.jvnet.hyperjaxb3.adapters.tests;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -72,87 +75,57 @@ public class XmlAdapterUtilsTest extends TestCase {
 				.getTimeInMillis(beta), XMLGregorianCalendarUtils
 				.getTimeInMillis(omega));
 	}
-	
-	public void testXMLGregorianCalendarXmlAdapterInNegativeTimeZone() throws Exception {
-		
-		TimeZone.setDefault(TimeZone.getTimeZone("GMT-2"));
-
-		final XMLGregorianCalendar alpha = DatatypeFactory.newInstance()
-				.newXMLGregorianCalendar("2005-01-01T11:00:00.012+04:00");
-
-		final XMLGregorianCalendar omega = DatatypeFactory.newInstance()
-				.newXMLGregorianCalendar("2005-01-01T09:00:00.012+02:00");
-
-		final XMLGregorianCalendar beta = XmlAdapterUtils.marshall(
-				XMLGregorianCalendarAsDateTime.class,
-				XmlAdapterUtils.unmarshall(
-						XMLGregorianCalendarAsDateTime.class, alpha));
-		// Assert.assertEquals("Conversion failed.", alpha.normalize(),
-		// omega.normalize());
-		// Assert.assertEquals("Conversion failed.", alpha.normalize(),
-		// beta.normalize());
-		// Assert.assertEquals("Conversion failed.", beta.normalize(),
-		// omega.normalize());
-		Assert.assertEquals("Conversion failed.", XMLGregorianCalendarUtils
-				.getTimeInMillis(alpha), XMLGregorianCalendarUtils
-				.getTimeInMillis(beta));
-		Assert.assertEquals("Conversion failed.", XMLGregorianCalendarUtils
-				.getTimeInMillis(alpha), XMLGregorianCalendarUtils
-				.getTimeInMillis(omega));
-		Assert.assertEquals("Conversion failed.", XMLGregorianCalendarUtils
-				.getTimeInMillis(beta), XMLGregorianCalendarUtils
-				.getTimeInMillis(omega));
-	}
 
 	public void testXMLGregorianCalendarAsDate() throws Exception {
 
 		final java.sql.Date alpha = java.sql.Date.valueOf("2005-01-01");
 
+		System.out.println("1)" + alpha.getTime());
+
 		final XMLGregorianCalendar beta = XmlAdapterUtils.marshall(
 				XMLGregorianCalendarAsDate.class, alpha);
 
+		System.out.println("2)" + beta.toGregorianCalendar().getTimeInMillis());
+
 		final java.util.Date gamma = XmlAdapterUtils.unmarshall(
 				XMLGregorianCalendarAsDate.class, beta);
+		System.out.println("3)" + gamma.getTime());
 		final XMLGregorianCalendar delta = XmlAdapterUtils.marshall(
 				XMLGregorianCalendarAsDate.class, gamma);
+		System.out.println("4)"
+				+ delta.toGregorianCalendar().getTime().getTime());
 		Assert.assertEquals("Conversion failed.", beta, delta);
 	}
 
 	public void testXMLGregorianCalendarAsDateInNegativeTimezone()
 			throws Exception {
 
+		TimeZone _default = TimeZone.getDefault();
+
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT-2"));
 
 		final java.sql.Date alpha = java.sql.Date.valueOf("2005-01-01");
 
+		System.out.println("1)" + alpha.getTime());
+
 		final XMLGregorianCalendar beta = XmlAdapterUtils.marshall(
 				XMLGregorianCalendarAsDate.class, alpha);
 
+		System.out.println("2)" + beta.toGregorianCalendar().getTimeInMillis());
+
 		final java.util.Date gamma = XmlAdapterUtils.unmarshall(
 				XMLGregorianCalendarAsDate.class, beta);
+		System.out.println("3)" + gamma.getTime());
 		final XMLGregorianCalendar delta = XmlAdapterUtils.marshall(
 				XMLGregorianCalendarAsDate.class, gamma);
+		System.out.println("4)"
+				+ delta.toGregorianCalendar().getTime().getTime());
 		Assert.assertEquals("Conversion failed.", beta, delta);
+
+		TimeZone.setDefault(_default);
 	}
 
 	public void testXMLGregorianCalendarAsTime() throws Exception {
-
-		final java.sql.Time alpha = java.sql.Time.valueOf("10:12:14");
-
-		final XMLGregorianCalendar beta = XmlAdapterUtils.marshall(
-				XMLGregorianCalendarAsTime.class, alpha);
-
-		final java.util.Date gamma = XmlAdapterUtils.unmarshall(
-				XMLGregorianCalendarAsTime.class, beta);
-		final XMLGregorianCalendar delta = XmlAdapterUtils.marshall(
-				XMLGregorianCalendarAsTime.class, gamma);
-		Assert.assertEquals("Conversion failed.", beta, delta);
-	}
-
-	public void testXMLGregorianCalendarAsTimeInNegativeTimeZone()
-			throws Exception {
-
-		TimeZone.setDefault(TimeZone.getTimeZone("GMT-2"));
 
 		final java.sql.Time alpha = java.sql.Time.valueOf("10:12:14");
 
@@ -188,4 +161,39 @@ public class XmlAdapterUtilsTest extends TestCase {
 		Assert.assertEquals("Conversion failed.", beta, delta);
 		Assert.assertEquals("Conversion failed.", gamma, epsilon);
 	}
+
+	public void testXMLGregorianCalendarAsDateTimeXmlAdapter() throws Exception {
+
+		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2005-01-01T09:00:00.012+02:00");
+		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2008-01-02T10:18:30+01:00");
+		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2008-01-02T10:19:30Z");
+		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2008-01-02T10:20:30");
+	}
+
+	private void checkXMLGregorianCalendarAsDateTimeXmlAdapter(final String text)
+			throws DatatypeConfigurationException {
+
+		final XMLGregorianCalendar alpha = DatatypeFactory.newInstance()
+				.newXMLGregorianCalendar(text);
+		System.out
+				.println("1]" + alpha.toGregorianCalendar().getTimeInMillis());
+		final Date beta = XmlAdapterUtils.unmarshall(
+				XMLGregorianCalendarAsDateTime.class, alpha);
+		System.out.println("2]" + beta.getTime());
+		final XMLGregorianCalendar gamma = XmlAdapterUtils.marshall(
+				XMLGregorianCalendarAsDateTime.class, beta);
+		System.out
+				.println("3]" + gamma.toGregorianCalendar().getTimeInMillis());
+		final Date delta = XmlAdapterUtils.unmarshall(
+				XMLGregorianCalendarAsDateTime.class, gamma);
+		System.out.println("4]" + delta.getTime());
+		final XMLGregorianCalendar epsilon = XmlAdapterUtils.marshall(
+				XMLGregorianCalendarAsDateTime.class, delta);
+		System.out.println("5]"
+				+ epsilon.toGregorianCalendar().getTimeInMillis());
+		// Assert.assertEquals("Conversion failed.", alpha, gamma);
+		Assert.assertEquals("Conversion failed.", beta, delta);
+		Assert.assertEquals("Conversion failed.", gamma, epsilon);
+	}
+
 }
