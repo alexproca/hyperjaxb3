@@ -40,25 +40,6 @@
 			<version>2.0.1-04</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!--dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
-			<version>3.2.6.ga</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.3.2.GA</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-commons-annotations</artifactId>
-			<version>3.1.0.CR1</version>
-			<scope>test</scope>
-		</dependency-->
 		<!-- Database -->
 		<dependency>
 			<groupId>hsqldb</groupId>
