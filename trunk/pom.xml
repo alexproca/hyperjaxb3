@@ -216,36 +216,6 @@
 			<!-- Hyperjaxb -->
 			<dependency>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
-				<artifactId>hyperjaxb3-hibernate-mapping</artifactId>
-				<version>${pom.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.hyperjaxb3</groupId>
-				<artifactId>hyperjaxb3-hibernate-configuration</artifactId>
-				<version>${pom.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.hyperjaxb3</groupId>
-				<artifactId>hyperjaxb3-hibernate-customizations</artifactId>
-				<version>${pom.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.hyperjaxb3</groupId>
-				<artifactId>hyperjaxb3-hibernate-roundtrip</artifactId>
-				<version>${pom.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.hyperjaxb3</groupId>
-				<artifactId>hyperjaxb3-hibernate-runtime</artifactId>
-				<version>${pom.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.hyperjaxb3</groupId>
-				<artifactId>hyperjaxb3-hibernate-plugin</artifactId>
-				<version>${pom.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<version>${pom.version}</version>
 			</dependency>
