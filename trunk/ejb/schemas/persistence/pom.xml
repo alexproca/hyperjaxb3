@@ -50,6 +50,7 @@
 					<args>
 						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-Xinheritance</arg>
 						<arg>-Xcopyable</arg>
 						<arg>-Xmergeable</arg>
 					</args>
