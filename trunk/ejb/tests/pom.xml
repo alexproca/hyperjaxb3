@@ -48,6 +48,7 @@
 				<module>embeddable</module>
 				<module>enum</module>
 				<!--module>idSymbolSpace</module-->
+				<module>ids</module>
 				<module>ims-eportfolio</module>
 				<module>ims-lip</module>
 				<module>nml</module>

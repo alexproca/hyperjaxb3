@@ -108,6 +108,7 @@
 				-Xhyperjaxb3-ejb-roundtripTestClassName=RoundtripTest
 				-Xequals
 				-XhashCode
+				-Xinheritance
 				-XtoString"/>
 			<binding dir="${basedir}/src/main/resources">
 			 	<include name="**/*.xjb"/>

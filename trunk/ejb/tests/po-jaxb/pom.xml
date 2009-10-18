@@ -48,6 +48,7 @@
 					<args>
 						<arg>-Xhyperjaxb3-ejb</arg>
 						<arg>-Xequals</arg>
+						<arg>-Xinheritance</arg>
 						<arg>-XhashCode</arg>
 						<arg>-XtoString</arg>
 					</args>

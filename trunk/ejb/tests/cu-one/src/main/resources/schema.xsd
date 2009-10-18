@@ -103,6 +103,9 @@
 					<xs:appinfo>
 						<hj:many-to-one merge="false">
 							<orm:join-column name="M2OJC_THREE_ID"/>
+							<orm:cascade>
+								<orm:cascade-all/>
+							</orm:cascade>
 						</hj:many-to-one>
 					</xs:appinfo>
 				</xs:annotation>

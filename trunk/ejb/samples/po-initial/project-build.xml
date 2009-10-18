@@ -112,6 +112,7 @@
 				-Xhyperjaxb3-ejb
 				-Xhyperjaxb3-ejb-roundtripTestClassName=RoundtripTest
 				-Xequals
+				-Xinheritance
 				-XhashCode
 				-XtoString"/>
 			<binding dir="${basedir}/src/main/resources">

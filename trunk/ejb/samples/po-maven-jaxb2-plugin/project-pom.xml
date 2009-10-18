@@ -105,6 +105,7 @@
 					<args>
 						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-Xinheritance</arg>
 						<arg>-Xhyperjaxb3-ejb</arg>
 						<arg>-Xhyperjaxb3-ejb-roundtripTestClassName=RoundtripTest</arg>
 					</args>
