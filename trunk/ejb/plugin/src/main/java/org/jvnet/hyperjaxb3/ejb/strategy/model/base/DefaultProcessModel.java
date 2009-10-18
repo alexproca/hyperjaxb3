@@ -13,6 +13,7 @@ import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ClassInfoProcessor;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.GetTypes;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMod;
+import com.sun.java.xml.ns.persistence.orm.IdClass;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.generator.bean.BeanGenerator;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
@@ -51,53 +53,44 @@ public class DefaultProcessModel implements ProcessModel {
 
 		}
 	}
-/*
-	public Collection<CClassInfo> process(EjbPlugin context, Outline outline,
-			Options options) {
 
-		final Model model = outline.getModel();
+	/*
+	 * public Collection<CClassInfo> process(EjbPlugin context, Outline outline,
+	 * Options options) {
+	 * 
+	 * final Model model = outline.getModel();
+	 * 
+	 * CustomizationUtils.findCustomization(model,
+	 * Customizations.PERSISTENCE_ELEMENT_NAME);
+	 * 
+	 * logger.debug("Processing model [...].");
+	 * 
+	 * final CClassInfo[] classInfos = model.beans().values().toArray( new
+	 * CClassInfo[0]); final Collection<CClassInfo> includedClasses = new
+	 * HashSet<CClassInfo>();
+	 * 
+	 * for (final CClassInfo classInfo : classInfos) { if
+	 * (!getIgnoring().isClassInfoIgnored(classInfo)) { final
+	 * Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
+	 * .process(this, classInfo); if (targetClassInfos != null) { for (final
+	 * CClassInfo targetClassInfo : targetClassInfos) {
+	 * includedClasses.add(targetClassInfo); } } } }
+	 * 
+	 * for (final CClassInfo classInfo : includedClasses) { final ClassOutline
+	 * classOutline = outline.getClazz(classInfo); if
+	 * (Customizations.isGenerated(classInfo)) { generateClassBody(outline,
+	 * (ClassOutlineImpl) classOutline); }
+	 * 
+	 * for (final CPropertyInfo propertyInfo : classInfo.getProperties()) { if
+	 * (outline.getField(propertyInfo) == null) { generateFieldDecl(outline,
+	 * (ClassOutlineImpl) classOutline, propertyInfo); } } }
+	 * 
+	 * return includedClasses; }
+	 */
 
-		CustomizationUtils.findCustomization(model,
-				Customizations.PERSISTENCE_ELEMENT_NAME);
-
-		logger.debug("Processing model [...].");
-
-		final CClassInfo[] classInfos = model.beans().values().toArray(
-				new CClassInfo[0]);
-		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
-
-		for (final CClassInfo classInfo : classInfos) {
-			if (!getIgnoring().isClassInfoIgnored(classInfo)) {
-				final Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
-						.process(this, classInfo);
-				if (targetClassInfos != null) {
-					for (final CClassInfo targetClassInfo : targetClassInfos) {
-						includedClasses.add(targetClassInfo);
-					}
-				}
-			}
-		}
-
-		for (final CClassInfo classInfo : includedClasses) {
-			final ClassOutline classOutline = outline.getClazz(classInfo);
-			if (Customizations.isGenerated(classInfo)) {
-				generateClassBody(outline, (ClassOutlineImpl) classOutline);
-			}
-
-			for (final CPropertyInfo propertyInfo : classInfo.getProperties()) {
-				if (outline.getField(propertyInfo) == null) {
-					generateFieldDecl(outline, (ClassOutlineImpl) classOutline,
-							propertyInfo);
-				}
-			}
-		}
-
-		return includedClasses;
-	}*/
-	
 	public Collection<CClassInfo> process(EjbPlugin context, Model model,
 			Options options) throws Exception {
-		
+
 		CustomizationUtils.findCustomization(model,
 				Customizations.PERSISTENCE_ELEMENT_NAME);
 
@@ -114,7 +107,8 @@ public class DefaultProcessModel implements ProcessModel {
 				if (targetClassInfos != null) {
 					for (final CClassInfo targetClassInfo : targetClassInfos) {
 						includedClasses.add(targetClassInfo);
-//						model.beans().put(targetClassInfo.getClazz(), targetClassInfo);
+						// model.beans().put(targetClassInfo.getClazz(),
+						// targetClassInfo);
 						context.getCreatedClasses().add(targetClassInfo);
 					}
 				}
@@ -241,6 +235,16 @@ public class DefaultProcessModel implements ProcessModel {
 		this.processPropertyInfos = processPropertyInfos;
 	}
 
+	private ProcessClassInfo createIdClass;
+
+	public ProcessClassInfo getCreateIdClass() {
+		return createIdClass;
+	}
+
+	public void setCreateIdClass(ProcessClassInfo createIdClass) {
+		this.createIdClass = createIdClass;
+	}
+
 	private CreateDefaultIdPropertyInfos createDefaultIdPropertyInfos;
 
 	public CreateDefaultIdPropertyInfos getCreateDefaultIdPropertyInfos() {
@@ -251,6 +255,17 @@ public class DefaultProcessModel implements ProcessModel {
 	public void setCreateDefaultIdPropertyInfos(
 			CreateDefaultIdPropertyInfos createDefaultIdPropertyInfos) {
 		this.createDefaultIdPropertyInfos = createDefaultIdPropertyInfos;
+	}
+
+	private ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getIdPropertyInfos;
+
+	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getGetIdPropertyInfos() {
+		return getIdPropertyInfos;
+	}
+
+	public void setGetIdPropertyInfos(
+			ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getIdPropertyInfos) {
+		this.getIdPropertyInfos = getIdPropertyInfos;
 	}
 
 	private CreatePropertyInfos wrapComplexHeteroCollection;
@@ -286,7 +301,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinAttribute) {
 		this.wrapSingleBuiltinAttribute = wrapSingleBuiltinAttribute;
 	}
-	
+
 	private CreatePropertyInfos wrapSingleEnumAttribute;
 
 	public CreatePropertyInfos getWrapSingleEnumAttribute() {
@@ -334,7 +349,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinValue) {
 		this.wrapSingleBuiltinValue = wrapSingleBuiltinValue;
 	}
-	
+
 	private CreatePropertyInfos wrapSingleEnumValue;
 
 	public CreatePropertyInfos getWrapSingleEnumValue() {
@@ -342,8 +357,7 @@ public class DefaultProcessModel implements ProcessModel {
 	}
 
 	@Required
-	public void setWrapSingleEnumValue(
-			CreatePropertyInfos wrapSingleEnumValue) {
+	public void setWrapSingleEnumValue(CreatePropertyInfos wrapSingleEnumValue) {
 		this.wrapSingleEnumValue = wrapSingleEnumValue;
 	}
 
@@ -382,7 +396,7 @@ public class DefaultProcessModel implements ProcessModel {
 			CreatePropertyInfos wrapSingleBuiltinElement) {
 		this.wrapSingleBuiltinElement = wrapSingleBuiltinElement;
 	}
-	
+
 	private CreatePropertyInfos wrapSingleEnumElement;
 
 	public CreatePropertyInfos getWrapSingleEnumElement() {

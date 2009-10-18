@@ -74,28 +74,6 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 		Customizations.markGenerated(propertyInfo);
 
-		// final CPropertyInfo propertyInfo = new CElementPropertyInfo(
-		// propertyName,
-		// CollectionMode.NOT_REPEATED,
-		// ID.NONE,
-		// null,
-		//				
-		// null, new CCustomizations(), null, attributeName,
-		// propertyTypeInfo, false);
-		/*
-		 * final CElementPropertyInfo propertyInfo = new CElementPropertyInfo(
-		 * propertyName, propertyTypeInfo.isCollection() ?
-		 * CollectionMode.REPEATED_VALUE : CollectionMode.NOT_REPEATED,
-		 * propertyTypeInfo.idUse(), propertyTypeInfo .getExpectedMimeType(),
-		 * null, new CCustomizations(), null, true);
-		 * 
-		 * 
-		 * final CTypeRef typeRef = new
-		 * CTypeRef((CBuiltinLeafInfo)propertyTypeInfo, attributeName, false,
-		 * null);
-		 * 
-		 * propertyInfo.getTypes().add(typeRef);
-		 */
 		return propertyInfo;
 	}
 

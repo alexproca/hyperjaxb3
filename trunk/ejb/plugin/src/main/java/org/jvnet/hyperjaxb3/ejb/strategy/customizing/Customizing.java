@@ -24,7 +24,10 @@ import com.sun.tools.xjc.outline.FieldOutline;
  */
 public interface Customizing {
 
-	public Object getEntityOrMappedSuperclassOrEmbeddable(ClassOutline classOutline);
+	public Object getEntityOrMappedSuperclassOrEmbeddable(
+			ClassOutline classOutline);
+
+	public Object getEntityOrMappedSuperclassOrEmbeddable(CClassInfo classInfo);
 
 	public GeneratedId getGeneratedId(CClassInfo classInfo);
 

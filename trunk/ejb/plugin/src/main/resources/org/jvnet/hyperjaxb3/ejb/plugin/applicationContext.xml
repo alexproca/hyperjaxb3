@@ -106,7 +106,9 @@
 	<bean name="processModel" class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.DefaultProcessModel">
 		<property name="processClassInfo" ref="processClassInfo"/>
 		<property name="processPropertyInfos" ref="processPropertyInfos"/>
+		<property name="createIdClass" ref="createIdClass"/>
 		<property name="createDefaultIdPropertyInfos" ref="createDefaultIdPropertyInfos"/>
+		<property name="getIdPropertyInfos" ref="getIdPropertyInfos"/>
 		<property name="getTypes" ref="getTypes"/>
 		
 		<property name="wrapSingleBuiltinAttribute" ref="wrapSingleBuiltinNonReference"/>
@@ -153,10 +155,17 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.DefaultProcessPropertyInfos">
 	</bean>
 	
+	<bean name="createIdClass"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.CreateIdClass">
+	</bean>
+
 	<bean name="createDefaultIdPropertyInfos"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.DefaultCreateDefaultIdPropertyInfos">
 	</bean>
 	
+	<bean name="getIdPropertyInfos"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.GetIdPropertyInfos">
+	</bean>
 	
 	
 	

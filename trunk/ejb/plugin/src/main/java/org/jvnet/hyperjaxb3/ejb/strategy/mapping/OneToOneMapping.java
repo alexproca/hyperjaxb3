@@ -19,7 +19,6 @@ public class OneToOneMapping extends AssociationMapping<OneToOne> {
 
 		final OneToOne oneToOne = context.getCustomizing().getOneToOne(
 				fieldOutline);
-
 		createOneToOne$Name(context, fieldOutline, oneToOne);
 		createOneToOne$TargetEntity(context, fieldOutline, oneToOne);
 		createOneToOne$JoinTableOrJoinColumnOrPrimaryKeyJoinColumn(context,

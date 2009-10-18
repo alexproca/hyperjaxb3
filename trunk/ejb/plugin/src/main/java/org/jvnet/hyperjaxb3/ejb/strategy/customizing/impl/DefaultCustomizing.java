@@ -1,7 +1,9 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.customizing.impl;
 
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -32,6 +34,8 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CCustomizable;
+import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -41,6 +45,58 @@ import com.sun.xml.xsom.XSComponent;
 public class DefaultCustomizing implements Customizing {
 
 	private final static Log logger = LogFactory.getLog(Customizations.class);
+
+	private final Map<CPluginCustomization, Object> customizationsMap = new IdentityHashMap<CPluginCustomization, Object>();
+
+	@SuppressWarnings("unchecked")
+	public <T> T findCustomization(Model model, QName name) {
+		final CPluginCustomization customization = CustomizationUtils
+				.findCustomization(model, name);
+		return (T) unmarshalCustomization(customization);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T findCustomization(CClassInfo classInfo, QName name) {
+		final CPluginCustomization customization = CustomizationUtils
+				.findCustomization(classInfo, name);
+		return (T) unmarshalCustomization(customization);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
+		final CPluginCustomization customization = CustomizationUtils
+				.findCustomization(propertyInfo, name);
+		return (T) unmarshalCustomization(customization);
+	}
+
+	public void addCustomization(CCustomizable customizable, QName name,
+			Object customization) {
+		final CPluginCustomization pluginCustomization = CustomizationUtils
+				.addCustomization(customizable, Customizations.getContext(),
+						name, customization);
+		this.customizationsMap.put(pluginCustomization, customization);
+
+	}
+
+	private Object unmarshalCustomization(
+			final CPluginCustomization customization) throws AssertionError {
+		if (customization == null) {
+			return null;
+		} else {
+			final Object value = this.customizationsMap.get(customization);
+
+			if (value != null)
+
+			{
+				return value;
+			} else {
+				final Object newValue = CustomizationUtils.unmarshall(
+						Customizations.getContext(), customization);
+				this.customizationsMap.put(customization, newValue);
+				return newValue;
+			}
+		}
+	}
 
 	private Persistence defaultCustomizations;
 
@@ -54,9 +110,8 @@ public class DefaultCustomizing implements Customizing {
 	}
 
 	public Persistence getModelCustomization(Model model) {
-		final Persistence cPersistence = Customizations
-				.<Persistence> findCustomization(model,
-						Customizations.PERSISTENCE_ELEMENT_NAME);
+		final Persistence cPersistence = findCustomization(model,
+				Customizations.PERSISTENCE_ELEMENT_NAME);
 		if (cPersistence == null) {
 			return getDefaultCustomizations();
 		}
@@ -109,7 +164,7 @@ public class DefaultCustomizing implements Customizing {
 		final GeneratedId id;
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.GENERATED_ID_ELEMENT_NAME)) {
-			id = Customizations.<GeneratedId> findCustomization(classInfo,
+			id = findCustomization(classInfo,
 					Customizations.GENERATED_ID_ELEMENT_NAME);
 
 			if (id.isMerge()) {
@@ -130,8 +185,7 @@ public class DefaultCustomizing implements Customizing {
 		final Id id;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ID_ELEMENT_NAME)) {
-			id = Customizations.<Id> findCustomization(property,
-					Customizations.ID_ELEMENT_NAME);
+			id = findCustomization(property, Customizations.ID_ELEMENT_NAME);
 
 			if (id.isMerge()) {
 				id.mergeFrom(id, defaultId);
@@ -149,13 +203,15 @@ public class DefaultCustomizing implements Customizing {
 	public EmbeddedId getEmbeddedId(CPropertyInfo property) {
 		final Persistence persistence = getModelCustomization(property);
 		if (persistence.getDefaultEmbeddedId() == null) {
-			throw new AssertionError("Default embedded id element is not provided.");
+			throw new AssertionError(
+					"Default embedded id element is not provided.");
 		}
-		final EmbeddedId defaultId = (EmbeddedId) persistence.getDefaultEmbeddedId().copyTo(new EmbeddedId());
+		final EmbeddedId defaultId = (EmbeddedId) persistence
+				.getDefaultEmbeddedId().copyTo(new EmbeddedId());
 		final EmbeddedId id;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.EMBEDDED_ID_ELEMENT_NAME)) {
-			id = Customizations.<EmbeddedId> findCustomization(property,
+			id = findCustomization(property,
 					Customizations.EMBEDDED_ID_ELEMENT_NAME);
 			if (id.isMerge()) {
 				id.mergeFrom(id, defaultId);
@@ -180,7 +236,7 @@ public class DefaultCustomizing implements Customizing {
 		final Version version;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.VERSION_ELEMENT_NAME)) {
-			version = Customizations.<Version> findCustomization(property,
+			version = findCustomization(property,
 					Customizations.VERSION_ELEMENT_NAME);
 
 			if (version.isMerge()) {
@@ -260,7 +316,7 @@ public class DefaultCustomizing implements Customizing {
 		final Basic basic;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.BASIC_ELEMENT_NAME)) {
-			basic = Customizations.<Basic> findCustomization(property,
+			basic = findCustomization(property,
 					Customizations.BASIC_ELEMENT_NAME);
 
 			if (basic.isMerge()) {
@@ -288,7 +344,7 @@ public class DefaultCustomizing implements Customizing {
 				.getDefaultOneToMany().copyTo(new OneToMany());
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_MANY_ELEMENT_NAME)) {
-			coneToMany = Customizations.<OneToMany> findCustomization(property,
+			coneToMany = findCustomization(property,
 					Customizations.ONE_TO_MANY_ELEMENT_NAME);
 
 			merge(coneToMany, defaultOneToMany);
@@ -345,7 +401,7 @@ public class DefaultCustomizing implements Customizing {
 
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.MANY_TO_ONE_ELEMENT_NAME)) {
-			cmanyToOne = Customizations.<ManyToOne> findCustomization(property,
+			cmanyToOne = findCustomization(property,
 					Customizations.MANY_TO_ONE_ELEMENT_NAME);
 			merge(cmanyToOne, defaultManyToOne);
 		} else {
@@ -385,7 +441,7 @@ public class DefaultCustomizing implements Customizing {
 
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
-			cOneToOne = Customizations.<OneToOne> findCustomization(property,
+			cOneToOne = findCustomization(property,
 					Customizations.ONE_TO_ONE_ELEMENT_NAME);
 			merge(cOneToOne, defaultOneToOne);
 		} else {
@@ -424,8 +480,8 @@ public class DefaultCustomizing implements Customizing {
 
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.MANY_TO_MANY_ELEMENT_NAME)) {
-			cManyToMany = Customizations.<ManyToMany> findCustomization(
-					property, Customizations.MANY_TO_MANY_ELEMENT_NAME);
+			cManyToMany = findCustomization(property,
+					Customizations.MANY_TO_MANY_ELEMENT_NAME);
 			merge(cManyToMany, defaultManyToMany);
 		} else {
 			return defaultManyToMany;
@@ -462,12 +518,14 @@ public class DefaultCustomizing implements Customizing {
 
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.ENTITY_ELEMENT_NAME)) {
-			cEntity = Customizations.<Entity> findCustomization(classInfo,
+			cEntity = findCustomization(classInfo,
 					Customizations.ENTITY_ELEMENT_NAME);
 			if (cEntity.isMerge()) {
 				cEntity.mergeFrom(cEntity, defaultEntity);
 			}
 		} else {
+			addCustomization(classInfo, Customizations.ENTITY_ELEMENT_NAME,
+					defaultEntity);
 			return defaultEntity;
 		}
 		return cEntity;
@@ -613,9 +671,8 @@ public class DefaultCustomizing implements Customizing {
 
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
-			cMappedSuperclass = Customizations
-					.<MappedSuperclass> findCustomization(classInfo,
-							Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+			cMappedSuperclass = findCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
 			if (cMappedSuperclass.isMerge()) {
 				cMappedSuperclass.mergeFrom(cMappedSuperclass,
 						defaultMappedSuperclass);
@@ -663,8 +720,8 @@ public class DefaultCustomizing implements Customizing {
 
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.EMBEDDABLE_ELEMENT_NAME)) {
-			cEmbeddable = Customizations.<Embeddable> findCustomization(
-					classInfo, Customizations.EMBEDDABLE_ELEMENT_NAME);
+			cEmbeddable = findCustomization(classInfo,
+					Customizations.EMBEDDABLE_ELEMENT_NAME);
 			if (cEmbeddable.isMerge()) {
 				cEmbeddable.mergeFrom(cEmbeddable, defaultEmbeddable);
 			}
@@ -689,7 +746,7 @@ public class DefaultCustomizing implements Customizing {
 		final Embedded embedded;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.EMBEDDED_ELEMENT_NAME)) {
-			embedded = Customizations.<Embedded> findCustomization(property,
+			embedded = findCustomization(property,
 					Customizations.EMBEDDED_ELEMENT_NAME);
 
 			if (embedded.isMerge()) {

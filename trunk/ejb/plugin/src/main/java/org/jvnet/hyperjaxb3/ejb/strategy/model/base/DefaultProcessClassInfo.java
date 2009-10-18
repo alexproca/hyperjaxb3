@@ -29,6 +29,8 @@ public class DefaultProcessClassInfo implements ProcessClassInfo {
 			}
 			classes.add((CClassInfo) newProperty.parent());
 		}
+		
+		classes.addAll(context.getCreateIdClass().process(context, classInfo));
 
 		return classes;
 	}

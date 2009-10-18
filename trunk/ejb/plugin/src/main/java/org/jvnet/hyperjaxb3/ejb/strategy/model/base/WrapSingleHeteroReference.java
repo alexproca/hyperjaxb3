@@ -101,8 +101,10 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 			};
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
-			Customizations.addCustomizationElement(objectProperty,
-					Customizations.BASIC_ELEMENT_NAME, basic);
+
+			CustomizationUtils.addCustomization(objectProperty, Customizations
+					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
+
 			Customizations.markGenerated(objectProperty);
 
 		} else {
@@ -140,8 +142,9 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
-			Customizations.addCustomizationElement(elementProperty,
-					Customizations.BASIC_ELEMENT_NAME, basic);
+
+			CustomizationUtils.addCustomization(elementProperty, Customizations
+					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
 
 			Customizations.markGenerated(elementProperty);
 		} else {

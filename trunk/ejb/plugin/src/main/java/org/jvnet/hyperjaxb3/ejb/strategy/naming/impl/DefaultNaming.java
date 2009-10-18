@@ -205,30 +205,36 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getEntityTableName(childClassInfo);
 	}
 
-	public String getJoinColumn$Name(Mapping context, FieldOutline fieldOutline) {
+	public String getJoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
 
 		final String entityTableName = getEntityTable$Name(context,
 				fieldOutline.parent());
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
+		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
 
-		return getName(fieldColumnName + "_" + entityTableName + "_ID");
+		return getName(fieldColumnName + "_" + entityTableName + "_"
+				+ idFieldColumnName);
 	}
 
 	public String getJoinTable$JoinColumn$Name(Mapping context,
-			FieldOutline fieldOutline) {
+			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
 		final String entityTableName = getEntityTable$Name(context,
 				fieldOutline.parent());
+		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
 
-		return getName("PARENT_" + entityTableName + "_ID");
+		return getName("PARENT_" + entityTableName + "_" + idFieldColumnName);
 	}
 
 	public String getJoinTable$InverseJoinColumn$Name(Mapping context,
-			FieldOutline fieldOutline) {
+			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
+		
+		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
 		return getName(
 
 		"CHILD_" + getTargetEntityTable$Name(fieldOutline)
 
-		+ "_ID");
+		+ "_" + idFieldColumnName);
 	}
 
 }

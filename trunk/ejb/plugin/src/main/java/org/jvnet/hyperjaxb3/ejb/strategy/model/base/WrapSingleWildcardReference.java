@@ -10,6 +10,7 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.xjc.model.CExternalLeafInfo;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.ElementAsString;
+import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.java.xml.ns.persistence.orm.Lob;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
@@ -38,10 +39,11 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 		if (wildcard.equals(WildcardMode.SKIP)) {
 			createPropertyInfos = new AdaptBuiltinNonReference(
 
-			new CExternalLeafInfo(String.class, "string",
-					ElementAsString.class));
+					new CExternalLeafInfo(String.class, "string",
+							ElementAsString.class));
 		} else {
-			createPropertyInfos = new AdaptWildcardNonReference(CBuiltinLeafInfo.STRING);
+			createPropertyInfos = new AdaptWildcardNonReference(
+					CBuiltinLeafInfo.STRING);
 		}
 
 		if (createPropertyInfos == null) {
@@ -50,13 +52,14 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 
 		final Collection<CPropertyInfo> newPropertyInfos = createPropertyInfos
 				.process(context, propertyInfo);
-		
-		for (CPropertyInfo newPropertyInfo : newPropertyInfos)
-		{
+
+		for (CPropertyInfo newPropertyInfo : newPropertyInfos) {
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
-			Customizations.addCustomizationElement(newPropertyInfo,
-					Customizations.BASIC_ELEMENT_NAME, basic);
+
+			CustomizationUtils.addCustomization(newPropertyInfo, Customizations
+					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
+
 			Customizations.markGenerated(newPropertyInfo);
 		}
 		Customizations.markIgnored(propertyInfo);

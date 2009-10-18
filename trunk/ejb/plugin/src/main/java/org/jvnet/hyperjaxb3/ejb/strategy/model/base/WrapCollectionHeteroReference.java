@@ -138,8 +138,9 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
-			Customizations.addCustomizationElement(stringProperty,
+			CustomizationUtils.addCustomization(stringProperty, Customizations.getContext(), 
 					Customizations.BASIC_ELEMENT_NAME, basic);
+			
 			Customizations.markGenerated(stringProperty);
 
 			itemClassInfo.addProperty(stringProperty);

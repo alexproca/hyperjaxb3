@@ -1,8 +1,12 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model;
 
+import java.util.Collection;
+
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+
+import com.sun.tools.xjc.model.CPropertyInfo;
 
 public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 
@@ -11,6 +15,10 @@ public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 	public ProcessPropertyInfos getProcessPropertyInfos();
 
 	public CreateDefaultIdPropertyInfos getCreateDefaultIdPropertyInfos();
+
+	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getGetIdPropertyInfos();
+
+	public ProcessClassInfo getCreateIdClass();
 
 	public GetTypes getGetTypes();
 

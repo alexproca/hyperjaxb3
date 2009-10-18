@@ -221,8 +221,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 		 * 
 		 * final Class<BGMBuilder> theClass = BGMBuilder.class; Constructor<?>
 		 * constructor = theClass.getDeclaredConstructors()[0];
-		 * constructor.setAccessible(true); constructor.newInstance(new Object[] {
-		 * "a", "b", true, new FieldRendererFactory() });
+		 * constructor.setAccessible(true); constructor.newInstance(new Object[]
+		 * { "a", "b", true, new FieldRendererFactory() });
 		 */
 
 		modelAndOutlineProcessor.process(this, outline, options);
@@ -314,6 +314,19 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	public void postProcessModel(Model model, ErrorHandler errorHandler) {
 
 		this.bgmBuilder = Ring.get(BGMBuilder.class);
+
+		final boolean serializable = model.serializable;
+
+		if (!serializable) {
+			logger
+					.warn("According to the Java Persistence API specification, section 2.1, "
+							+ "entities must implement the serializable interface:\n"
+							+ "\"If an entity instance is to be passed by value as a detached object\n"
+							+ "(e.g., through a remote interface), the entity class must implement\n "
+							+ "the Serializable interface.\"\n"
+							+ "Your JAXB model is not customized as serializable, please use the "
+							+ "<jaxb:serializable/> global bindings customization element to make your model serializable.");
+		}
 
 		// final ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor =
 		// getModelAndOutlineProcessor();

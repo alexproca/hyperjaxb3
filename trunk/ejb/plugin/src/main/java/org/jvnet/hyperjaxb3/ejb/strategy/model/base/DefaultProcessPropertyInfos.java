@@ -33,8 +33,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		final Collection<CPropertyInfo> newPropertyInfos = new LinkedList<CPropertyInfo>();
 		// In case this is a root entity, create default id properties
 		if (isRootClass(context, classInfo)) {
-			final Collection<CPropertyInfo> idPropertyInfos = getIdPropertyInfos(
-					context, classInfo);
+			final Collection<CPropertyInfo> idPropertyInfos = context
+					.getGetIdPropertyInfos().process(context, classInfo);
 
 			// If no id properties found, create default.
 			if (idPropertyInfos.isEmpty()) {
@@ -107,16 +107,15 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 			return false;
 		} else if (classInfo.getBaseClass() != null) {
 			return !(CustomizationUtils.containsCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
-					||
-					CustomizationUtils.containsCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME) || CustomizationUtils
+					.containsCustomization(classInfo,
 							Customizations.EMBEDDABLE_ELEMENT_NAME))
 					&& !isSelfOrAncestorRootClass(context, classInfo
 							.getBaseClass());
 		} else {
 			return !(CustomizationUtils.containsCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME) ||
-					CustomizationUtils.containsCustomization(classInfo,
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME) || CustomizationUtils
+					.containsCustomization(classInfo,
 							Customizations.EMBEDDABLE_ELEMENT_NAME));
 		}
 	}
@@ -134,22 +133,6 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
 		}
 
-	}
-
-	public Collection<CPropertyInfo> getIdPropertyInfos(ProcessModel context,
-			CClassInfo classInfo) {
-
-		final Collection<CPropertyInfo> ids = new LinkedList<CPropertyInfo>();
-
-		for (CPropertyInfo propertyInfo : classInfo.getProperties()) {
-			if (CustomizationUtils.containsCustomization(propertyInfo,
-					Customizations.ID_ELEMENT_NAME) ||
-				CustomizationUtils.containsCustomization(propertyInfo,
-					Customizations.EMBEDDED_ID_ELEMENT_NAME)) {
-				ids.add(propertyInfo);
-			}
-		}
-		return ids;
 	}
 
 	public Collection<CPropertyInfo> createDefaultIdPropertyInfos(

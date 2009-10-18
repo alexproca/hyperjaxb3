@@ -15,12 +15,16 @@ public interface Naming {
 
 	public String getJoinTable$Name(Mapping context, FieldOutline fieldOutline);
 
-	public String getJoinColumn$Name(Mapping context, FieldOutline fieldOutline);
+	public String getJoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline, FieldOutline idFieldOutline);
 
-	public String getJoinTable$JoinColumn$Name(Mapping context, FieldOutline fieldOutline);
+	public String getJoinTable$JoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline, FieldOutline idFieldOutline);
 
-	public String getJoinTable$InverseJoinColumn$Name(Mapping context, FieldOutline fieldOutline);
+	public String getJoinTable$InverseJoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline, FieldOutline idFieldOutline);
 
-	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent, FieldOutline child);
+	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent,
+			FieldOutline child);
 
 }

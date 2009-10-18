@@ -9,12 +9,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
 
-import org.apache.commons.lang.exception.NestableRuntimeException;
 import org.jvnet.jaxb2_commons.util.ContextUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.w3c.dom.Document;
@@ -26,7 +23,6 @@ import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.Model;
 
 public class Customizations {
 
@@ -197,78 +193,6 @@ public class Customizations {
 		return customizationsObjectFactory;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T findCustomization(Model model, QName name) {
-		final CPluginCustomization customization = CustomizationUtils
-				.findCustomization(model, name);
-
-		return (T) unmarshall(customization);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T findCustomization(CClassInfo classInfo, QName name) {
-		final CPluginCustomization customization = CustomizationUtils
-				.findCustomization(classInfo, name);
-
-		return (T) unmarshall(customization);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
-		final CPluginCustomization customization = CustomizationUtils
-				.findCustomization(propertyInfo, name);
-
-		return (T) unmarshall(customization);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T getCustomization(CClassInfo classInfo, QName name) {
-		final CPluginCustomization customization = CustomizationUtils
-				.findCustomization(classInfo, name);
-		return (T) unmarshall(customization);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T getCustomization(CPropertyInfo propertyInfo, QName name) {
-		final CPluginCustomization customization = CustomizationUtils
-				.findCustomization(propertyInfo, name);
-		return (T) unmarshall(customization);
-	}
-
-	public static Object unmarshall(final CPluginCustomization customization)
-			throws AssertionError {
-		if (customization == null) {
-			return null;
-		} else
-
-		{
-			final Unmarshaller unmarshaller;
-			try {
-				unmarshaller = getContext().createUnmarshaller();
-			} catch (JAXBException ex) {
-				final AssertionError error = new AssertionError(
-						"Unmarshaller could not be created.");
-				error.initCause(ex);
-				throw error;
-			}
-
-			try {
-				final Object result = unmarshaller.unmarshal(new DOMSource(
-						customization.element));
-				final JAXBIntrospector introspector = getContext()
-						.createJAXBIntrospector();
-				if (introspector.isElement(result)) {
-					return JAXBIntrospector.getValue(result);
-				} else {
-					return result;
-				}
-			} catch (JAXBException ex) {
-				throw new IllegalArgumentException(
-						"Could not unmarshal the customization.", ex);
-			}
-
-		}
-	}
 
 	public static CPluginCustomization createCustomization$Ignored() {
 
@@ -304,28 +228,4 @@ public class Customizations {
 				GENERATED_ELEMENT_NAME);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void addCustomizationElement(CCustomizable customizable,
-			QName name, Object customization) {
-		try {
-			final JAXBElement element = new JAXBElement(name, customization
-					.getClass(), customization);
-			final DOMResult result = new DOMResult();
-			getContext().createMarshaller().marshal(element, result);
-			final Node node = result.getNode();
-			final Element elementNode;
-			if (node.getNodeType() == Node.DOCUMENT_NODE) {
-				elementNode = ((Document) node).getDocumentElement();
-			} else if (node.getNodeType() == Node.ELEMENT_NODE) {
-				elementNode = (Element) node;
-			} else {
-				throw new JAXBException(
-						"Error marshalling object into an element.");
-			}
-			customizable.getCustomizations().add(
-					CustomizationUtils.createCustomization(elementNode));
-		} catch (JAXBException ex) {
-			throw new NestableRuntimeException(ex);
-		}
-	}
 }

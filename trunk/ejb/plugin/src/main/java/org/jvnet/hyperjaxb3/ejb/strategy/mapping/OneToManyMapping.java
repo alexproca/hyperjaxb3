@@ -19,7 +19,6 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 
 		final OneToMany oneToMany = context.getCustomizing().getOneToMany(
 				fieldOutline);
-
 		createOneToMany$Name(context, fieldOutline, oneToMany);
 		createOneToMany$TargetEntity(context, fieldOutline, oneToMany);
 		createOneToMany$JoinTableOrJoinColumn(context, fieldOutline, oneToMany);
@@ -58,8 +57,8 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 		} else if (oneToMany.getJoinTable() != null) {
 			createJoinTable(context, fieldOutline, oneToMany.getJoinTable());
 		} else {
-			final JoinColumn joinColumn = new JoinColumn();
-			oneToMany.getJoinColumn().add(joinColumn);
+//			final JoinColumn joinColumn = new JoinColumn();
+//			oneToMany.getJoinColumn().add(joinColumn);
 			createJoinColumns(context, fieldOutline, oneToMany.getJoinColumn());
 		}
 
