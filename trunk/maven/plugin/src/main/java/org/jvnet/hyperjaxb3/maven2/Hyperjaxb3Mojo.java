@@ -210,6 +210,7 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 		if (generateHashCode) {
 			arguments.add("-XhashCode");
 		}
+		arguments.add("-Xinheritance");
 
 		return arguments.toArray(new String[arguments.size()]);
 	}
