@@ -13,4 +13,8 @@
         <class>org.jvnet.hyperjaxb3.ejb.test.tests.B</class>
         <class>org.jvnet.hyperjaxb3.ejb.test.tests.C</class>
     </persistence-unit>
+    <persistence-unit name="org.jvnet.hyperjaxb3.ejb.cascadedids.tests">
+        <class>org.jvnet.hyperjaxb3.ejb.cascadedids.tests.Company</class>
+        <class>org.jvnet.hyperjaxb3.ejb.cascadedids.tests.Department</class>
+    </persistence-unit>
 </persistence>
