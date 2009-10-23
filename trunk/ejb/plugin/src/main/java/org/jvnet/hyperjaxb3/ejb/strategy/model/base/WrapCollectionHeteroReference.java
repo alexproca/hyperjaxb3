@@ -32,6 +32,7 @@ import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -40,6 +41,9 @@ import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.reader.Ring;
+import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.LocalScoping;
 import com.sun.xml.bind.v2.model.core.ID;
 import com.sun.xml.bind.v2.model.core.WildcardMode;
 
@@ -71,9 +75,14 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 
 		final CClassInfo classInfo = (CClassInfo) wrappedPropertyInfo.parent();
 
+		final CClassInfoParent parent = Ring.get(BGMBuilder.class)
+				.getGlobalBinding().getFlattenClasses() == LocalScoping.NESTED ? classInfo
+				: classInfo.parent();
+
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
-				classInfo, propertyName + "Item", null,
-				new QName(propertyName), null, propertyInfo.getSchemaComponent(), new CCustomizations());
+				parent, classInfo.shortName + propertyName + "Item", null,
+				new QName(propertyName), null, propertyInfo
+						.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);
 
@@ -97,7 +106,7 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 				wrappedPropertyInfo.getLocator(),
 				// boolean dummy
 				false,
-				//boolean content
+				// boolean content
 				false,
 				// boolean isMixedExtended
 				false);
@@ -138,9 +147,9 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
-			CustomizationUtils.addCustomization(stringProperty, Customizations.getContext(), 
-					Customizations.BASIC_ELEMENT_NAME, basic);
-			
+			CustomizationUtils.addCustomization(stringProperty, Customizations
+					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
+
 			Customizations.markGenerated(stringProperty);
 
 			itemClassInfo.addProperty(stringProperty);

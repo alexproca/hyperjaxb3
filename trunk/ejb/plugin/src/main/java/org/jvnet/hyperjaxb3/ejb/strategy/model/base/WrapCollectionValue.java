@@ -27,6 +27,7 @@ import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.SingleField;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -35,6 +36,9 @@ import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.reader.Ring;
+import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.LocalScoping;
 import com.sun.xml.bind.v2.model.core.ID;
 
 public class WrapCollectionValue implements CreatePropertyInfos {
@@ -54,9 +58,11 @@ public class WrapCollectionValue implements CreatePropertyInfos {
 
 		logger.debug("Property [" + propertyName
 				+ "] is a simple homogeneous collection property.");
+		
+		final CClassInfoParent parent = Ring.get(BGMBuilder.class).getGlobalBinding().getFlattenClasses() == LocalScoping.NESTED ? classInfo : classInfo.parent();
 
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
-				classInfo, propertyName + "Item", null,
+				parent, classInfo.shortName + propertyName + "Item", null,
 				new QName(propertyName), null, propertyInfo.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);

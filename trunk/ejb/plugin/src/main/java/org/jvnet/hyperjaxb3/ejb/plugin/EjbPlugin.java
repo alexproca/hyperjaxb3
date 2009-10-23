@@ -47,6 +47,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.reader.Ring;
 import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.LocalScoping;
 
 /**
  * Hyperjaxb3 EJB plugin.
@@ -139,16 +140,6 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 				"classpath*:"
 						+ getClass().getPackage().getName().replace('.', '/')
 						+ "/custom/applicationContext.xml" };
-	}
-
-	private boolean generateTransientId = false;
-
-	public boolean isGenerateTransientId() {
-		return generateTransientId;
-	}
-
-	public void setGenerateTransientId(boolean generateTransientId) {
-		this.generateTransientId = generateTransientId;
 	}
 
 	private String result = "annotations";
@@ -314,6 +305,17 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	public void postProcessModel(Model model, ErrorHandler errorHandler) {
 
 		this.bgmBuilder = Ring.get(BGMBuilder.class);
+
+		if (LocalScoping.NESTED.equals(bgmBuilder.getGlobalBinding()
+				.getFlattenClasses())) {
+			logger
+					.warn("According to the Java Persistence API specification, section 2.1, "
+							+ "entities must be top-level classes:\n"
+							+ "\"The entity class must be a top-level class.\"\n"
+							+ "Your JAXB model is not customized as with top-level local scoping, "
+							+ "please use the <jaxb:globalBinding localScoping=\"toplevel\"/> "
+							+ "global bindings customization.");
+		}
 
 		final boolean serializable = model.serializable;
 

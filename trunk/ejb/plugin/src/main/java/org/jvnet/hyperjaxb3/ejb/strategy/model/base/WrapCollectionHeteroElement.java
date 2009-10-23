@@ -26,12 +26,16 @@ import com.sun.codemodel.JMod;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.reader.Ring;
+import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.LocalScoping;
 import com.sun.xml.bind.v2.model.core.ID;
 
 public class WrapCollectionHeteroElement implements CreatePropertyInfos {
@@ -52,17 +56,21 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 
 		final CClassInfo classInfo = (CClassInfo) wrappedPropertyInfo.parent();
 
+		final CClassInfoParent parent = Ring.get(BGMBuilder.class)
+				.getGlobalBinding().getFlattenClasses() == LocalScoping.NESTED ? classInfo
+				: classInfo.parent();
+
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
-				classInfo, propertyName + "Item", null,
-				new QName(propertyName), null, propertyInfo.getSchemaComponent(), new CCustomizations());
+				parent, classInfo.shortName + propertyName + "Item", null,
+				new QName(propertyName), null, propertyInfo
+						.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);
 
-
 		final CElementPropertyInfo itemPropertyInfo = new CElementPropertyInfo(
-				"Item", CollectionMode.NOT_REPEATED, wrappedPropertyInfo
-						.id(), wrappedPropertyInfo.getExpectedMimeType(),
-				wrappedPropertyInfo.getSchemaComponent(), new CCustomizations(
+				"Item", CollectionMode.NOT_REPEATED, wrappedPropertyInfo.id(),
+				wrappedPropertyInfo.getExpectedMimeType(), wrappedPropertyInfo
+						.getSchemaComponent(), new CCustomizations(
 						CustomizationUtils
 								.getCustomizations(wrappedPropertyInfo)),
 				wrappedPropertyInfo.getLocator(), wrappedPropertyInfo
@@ -74,8 +82,7 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 
 		context.getProcessClassInfo().process(context, itemClassInfo);
 
-		itemPropertyInfo.realization = new ItemFieldRenderer(
-				propertyInfo);
+		itemPropertyInfo.realization = new ItemFieldRenderer(propertyInfo);
 
 		final CElementPropertyInfo wrappingPropertyInfo =
 
@@ -116,38 +123,38 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 	}
 
 	private class ItemFieldRenderer implements FieldRenderer {
-		
-//		private final CPropertyInfo core;
+
+		// private final CPropertyInfo core;
 
 		public ItemFieldRenderer(final CPropertyInfo core) {
 			super();
-//			this.core = core;
+			// this.core = core;
 		}
 
 		public FieldOutline generate(ClassOutlineImpl classOutline,
 				CPropertyInfo propertyInfo) {
-			
-//			final FieldOutline coreFieldOutline = classOutline.parent().getField(core);
 
-			final FieldOutline fieldOutline =
-			new SingleField(classOutline, propertyInfo) {
-				
-//				@Override
-//				protected JType getType(CPropertyInfo prop, Aspect aspect) {
-//					return coreFieldOutline.getRawType().boxify();
-//				}
-				
-//				@Override
-//				protected JType getType(CPropertyInfo prop, Aspect aspect) {
-//					return super.getType(prop, aspect);
-//				}
+			// final FieldOutline coreFieldOutline =
+			// classOutline.parent().getField(core);
+
+			final FieldOutline fieldOutline = new SingleField(classOutline,
+					propertyInfo) {
+
+				// @Override
+				// protected JType getType(CPropertyInfo prop, Aspect aspect) {
+				// return coreFieldOutline.getRawType().boxify();
+				// }
+
+				// @Override
+				// protected JType getType(CPropertyInfo prop, Aspect aspect) {
+				// return super.getType(prop, aspect);
+				// }
 
 				@Override
 				protected String getGetterMethod() {
 					return "get" + prop.getName(true);
 				}
-			} ;
-			
+			};
 
 			final JClass itemClass = classOutline.implClass.owner().ref(
 					Item.class).narrow(fieldOutline.getRawType().boxify());

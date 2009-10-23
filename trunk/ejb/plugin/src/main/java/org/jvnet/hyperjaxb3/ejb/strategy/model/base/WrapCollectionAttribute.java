@@ -28,6 +28,7 @@ import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.SingleField;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -35,6 +36,9 @@ import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.reader.Ring;
+import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.LocalScoping;
 import com.sun.xml.bind.v2.model.core.ID;
 import com.sun.xml.xsom.XSComponent;
 
@@ -56,24 +60,29 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 		logger.debug("Property [" + propertyName
 				+ "] is a simple homogeneous collection property.");
 
+		final CClassInfoParent parent = Ring.get(BGMBuilder.class)
+				.getGlobalBinding().getFlattenClasses() == LocalScoping.NESTED ? classInfo
+				: classInfo.parent();
+
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
-				classInfo, propertyName + "Item", null,
-				new QName(propertyName), null, propertyInfo.getSchemaComponent(), new CCustomizations());
+				parent, classInfo.shortName + propertyName + "Item", null,
+				new QName(propertyName), null, propertyInfo
+						.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);
 
 		final XSComponent wrappedSchemaComponent = wrappedPropertyInfo
-								.getSchemaComponent();
-		
+				.getSchemaComponent();
+
 		// 
-		
+
 		final CElementPropertyInfo itemPropertyInfo = new CElementPropertyInfo(
 				"Item", CollectionMode.NOT_REPEATED, ID.NONE,
-				wrappedPropertyInfo.getExpectedMimeType(), wrappedSchemaComponent, new CCustomizations(
-						CustomizationUtils
-								.getCustomizations(wrappedPropertyInfo)),
+				wrappedPropertyInfo.getExpectedMimeType(),
+				wrappedSchemaComponent, new CCustomizations(CustomizationUtils
+						.getCustomizations(wrappedPropertyInfo)),
 				wrappedPropertyInfo.getLocator(), false);
-		
+
 		final CTypeRef typeRef = new CTypeRef(wrappedPropertyInfo.getTarget(),
 				new QName(propertyName), wrappedPropertyInfo.getSchemaType(),
 				false, null);
@@ -133,14 +142,13 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 						.getExpectedMimeType(), null, new CCustomizations(),
 				null, false);
 
-//		for (final CTypeRef typeRef : wrappedPropertyInfo.getTypes()) {
+		// for (final CTypeRef typeRef : wrappedPropertyInfo.getTypes()) {
 
-			wrappingPropertyInfo.getTypes().add(
-					new CTypeRef(itemClassInfo, new QName(typeRef.getTagName()
-							.getNamespaceURI(), typeRef.getTagName()
-							.getLocalPart()
-							+ "Items"), null, false, null));
-//		}
+		wrappingPropertyInfo.getTypes().add(
+				new CTypeRef(itemClassInfo, new QName(typeRef.getTagName()
+						.getNamespaceURI(), typeRef.getTagName().getLocalPart()
+						+ "Items"), null, false, null));
+		// }
 
 		wrappingPropertyInfo.realization = new FieldRenderer() {
 			public FieldOutline generate(ClassOutlineImpl outline,
