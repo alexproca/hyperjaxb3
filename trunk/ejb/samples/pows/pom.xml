@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-sample-pows</artifactId>
-	<version>0.5.4-SNAPSHOT</version>
+	<version>0.5.4</version>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 EJB Sample [pows]</name>
 	<modules>
@@ -63,12 +63,12 @@
 			<dependency>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>hyperjaxb3-ejb-runtime</artifactId>
-				<version>0.5.4-SNAPSHOT</version>
+				<version>0.5.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
-				<version>0.5.4-SNAPSHOT</version>
+				<version>0.5.4</version>
 			</dependency>
 			<!-- Hibernate -->
 			<dependency>
