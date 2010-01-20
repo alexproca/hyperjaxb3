@@ -15,7 +15,6 @@ public class XMLGregorianCalendarAsDate extends
 
 	@Override
 	public void createCalendar(Date date, XMLGregorianCalendar calendar) {
-		System.out.println(date.getTime());
 		calendar.setYear(date.getYear() + 1900);
 		calendar.setMonth(date.getMonth() + 1);
 		calendar.setDay(date.getDate());
