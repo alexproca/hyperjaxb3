@@ -1,8 +1,10 @@
 package org.jvnet.hyperjaxb3.adapters.tests;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -86,6 +88,7 @@ public class XmlAdapterUtilsTest extends TestCase {
 				XMLGregorianCalendarAsDate.class, alpha);
 
 		System.out.println("2)" + beta.toGregorianCalendar().getTimeInMillis());
+		System.out.println("2>" + beta);
 
 		final java.util.Date gamma = XmlAdapterUtils.unmarshall(
 				XMLGregorianCalendarAsDate.class, beta);
@@ -94,6 +97,7 @@ public class XmlAdapterUtilsTest extends TestCase {
 				XMLGregorianCalendarAsDate.class, gamma);
 		System.out.println("4)"
 				+ delta.toGregorianCalendar().getTime().getTime());
+		System.out.println("4>" + delta);
 		Assert.assertEquals("Conversion failed.", beta, delta);
 	}
 
@@ -164,6 +168,7 @@ public class XmlAdapterUtilsTest extends TestCase {
 
 	public void testXMLGregorianCalendarAsDateTimeXmlAdapter() throws Exception {
 
+		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2005-01-01T00:00:00.000+00:00");
 		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2005-01-01T09:00:00.012+02:00");
 		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2008-01-02T10:18:30+01:00");
 		checkXMLGregorianCalendarAsDateTimeXmlAdapter("2008-01-02T10:19:30Z");
