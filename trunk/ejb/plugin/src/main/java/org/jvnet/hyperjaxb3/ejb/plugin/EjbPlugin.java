@@ -88,7 +88,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	}
 
 	public String getUsage() {
-		return "  -Xhyperjaxb3-ejb: Hyperjaxb2 EJB plugin";
+		return "  -Xhyperjaxb3-ejb: Hyperjaxb3 EJB plugin";
 	}
 
 	private String roundtripTestClassName;
