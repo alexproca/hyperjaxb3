@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://java.sun.com/xml/ns/persistence/orm" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="org.jvnet.hyperjaxb3.samples.pows.bindings">
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.UpdateRequestType</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.Items</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.UpdateResponseType</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.QueryRequestType</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.Items$Item</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.USAddress</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.PurchaseOrderType</class>
+        <class>org.jvnet.hyperjaxb3.samples.pows.bindings.QueryResponseType</class>
+    </persistence-unit>
+</persistence>

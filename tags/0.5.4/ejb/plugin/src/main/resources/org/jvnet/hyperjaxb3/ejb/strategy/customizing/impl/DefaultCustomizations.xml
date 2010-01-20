@@ -1,0 +1,141 @@
+<hj:persistence xmlns="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
+	<hj:default-entity class="##default">
+	</hj:default-entity>
+	<hj:default-mapped-superclass class="##default">
+	</hj:default-mapped-superclass>
+	<hj:default-embeddable class="##default">
+	</hj:default-embeddable>
+	<hj:default-id>
+		<orm:column/>
+	</hj:default-id>
+	<hj:default-generated-id name="Hjid" javaType="java.lang.Long" schemaType="xsd:long">
+		<orm:column/>
+		<orm:generated-value strategy="AUTO"/>
+	</hj:default-generated-id>
+    <hj:default-embedded-id>
+    </hj:default-embedded-id>
+	<hj:default-version>
+		<orm:column/>
+	</hj:default-version>
+	<hj:default-basic>
+		<orm:column/>
+	</hj:default-basic>
+	<hj:default-to-one>
+		<hj:many-to-one/>
+	</hj:default-to-one>
+	<hj:default-to-many>
+		<hj:one-to-many/>
+	</hj:default-to-many>
+	<hj:default-many-to-one>
+		<orm:join-column/>
+		<orm:cascade>
+			<orm:cascade-all/>
+		</orm:cascade>
+	</hj:default-many-to-one>
+	<hj:default-one-to-many>
+		<orm:join-column/>
+		<orm:cascade>
+			<orm:cascade-all/>
+		</orm:cascade>
+	</hj:default-one-to-many>
+	<hj:default-one-to-one>
+		<orm:join-column/>
+		<orm:cascade>
+			<orm:cascade-all/>
+		</orm:cascade>
+	</hj:default-one-to-one>
+	<hj:default-many-to-many>
+		<orm:join-table/>
+		<orm:cascade>
+			<orm:cascade-all/>
+		</orm:cascade>
+	</hj:default-many-to-many>
+	<hj:default-embedded>
+	</hj:default-embedded>
+	<!--
+	    3.2 Primitive datatypes
+        3.2.1 string
+        3.2.2 boolean
+        3.2.3 decimal
+        3.2.4 float
+        3.2.5 double
+        3.2.6 duration
+        3.2.7 dateTime
+        3.2.8 time
+        3.2.9 date
+        3.2.10 gYearMonth
+        3.2.11 gYear
+        3.2.12 gMonthDay
+        3.2.13 gDay
+        3.2.14 gMonth
+        3.2.15 hexBinary
+        3.2.16 base64Binary
+        3.2.17 anyURI
+        3.2.18 QName
+        3.2.19 NOTATION
+        
+		3.3 Derived datatypes
+        3.3.1 normalizedString
+        3.3.2 token
+        3.3.3 language
+        3.3.4 NMTOKEN
+        3.3.5 NMTOKENS
+        3.3.6 Name
+        3.3.7 NCName
+        3.3.8 ID
+        3.3.9 IDREF
+        3.3.10 IDREFS
+        3.3.11 ENTITY
+        3.3.12 ENTITIES
+        3.3.13 integer
+        3.3.14 nonPositiveInteger
+        3.3.15 negativeInteger
+        3.3.16 long
+        3.3.17 int
+        3.3.18 short
+        3.3.19 byte
+        3.3.20 nonNegativeInteger
+        3.3.21 unsignedLong
+        3.3.22 unsignedInt
+        3.3.23 unsignedShort
+        3.3.24 unsignedByte
+        3.3.25 positiveInteger        
+    -->
+	<hj:default-single-property type="xsd:string">
+		<hj:basic>
+			<orm:column length="255"/>
+		</hj:basic>
+	</hj:default-single-property>
+	
+	<hj:default-single-property type="xsd:decimal">
+		<hj:basic>
+			<orm:column scale="10" precision="20"/>
+		</hj:basic>
+	</hj:default-single-property>	
+	
+	<hj:default-single-property type="xsd:float">
+		<hj:basic>
+			<orm:column scale="10" precision="20"/>
+		</hj:basic>
+	</hj:default-single-property>
+
+	<hj:default-single-property type="xsd:double">
+		<hj:basic>
+			<orm:column scale="10" precision="20"/>
+		</hj:basic>
+	</hj:default-single-property>
+
+	<hj:default-single-property type="xsd:hexBinary">
+		<hj:basic>
+			<orm:lob/>
+		</hj:basic>
+	</hj:default-single-property>
+	
+	<hj:default-single-property type="xsd:base64Binary">
+		<hj:basic>
+			<orm:lob/>
+		</hj:basic>
+	</hj:default-single-property>	
+	
+</hj:persistence>

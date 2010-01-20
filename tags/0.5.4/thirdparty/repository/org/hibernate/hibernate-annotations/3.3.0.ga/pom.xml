@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-annotations</artifactId>
+	<packaging>jar</packaging>
+	<name>Hibernate Annotations</name>
+	<description>EJB3-style annotations for Hibernate</description>
+	<version>3.3.0.ga</version>
+	<url>http://annotations.hibernate.org</url>
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>scm:svn:http://anonsvn.jboss.org/repos/hibernate/annotations/trunk</url>
+	</scm>
+<!-- From lib/README.txt
+
+Hibernate Annotations dependencies
+==================================
+
+
+Core
+====
+hibernate-commons-annotations.jar: required
+hibernate3.jar: required
+hibernate core dependencies: required (see Hibernate Core for more information)
+ejb3-persistence.jar: required
+hibernate-validator.jar: optional
+hibernate-search.jar: optional
+
+Test
+====
+(no additinal dependency)
+-->
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.0.0.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.4.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>3.0.0.ga</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<version>3.0.0.cr1</version>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>
