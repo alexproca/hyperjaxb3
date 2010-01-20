@@ -77,6 +77,8 @@ public class Customizations {
 
 	public static final QName IGNORED_ELEMENT_NAME = hj("ignored");
 
+	public static final QName GENERATED_CLASS_ELEMENT_NAME = hj("generated-class");
+
 	public static final QName GENERATED_ID_ELEMENT_NAME = hj("generated-id");
 
 	public static final QName EMBEDDED_ID_ELEMENT_NAME = hj("embedded-id");

@@ -89,6 +89,18 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="one-to-many-basic" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:generated-class className="O2MBasic">
+							<hj:entity>
+								<orm:table name="O2M_BASIC_CUSTOM"/>
+							</hj:entity>
+						</hj:generated-class>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
 		</xs:sequence>
 		<xs:attribute name="value" type="xs:string" use="optional"/>
 	</xs:complexType>

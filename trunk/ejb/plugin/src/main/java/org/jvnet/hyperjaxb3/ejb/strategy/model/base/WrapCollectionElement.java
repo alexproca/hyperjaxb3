@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedClass;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.item.Item;
@@ -17,12 +18,14 @@ import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappedCollectionField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappingCollectionField;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
+import org.w3c.dom.Element;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
+import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.generator.bean.field.FieldRenderer;
 import com.sun.tools.xjc.generator.bean.field.SingleField;
@@ -30,6 +33,7 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
+import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
@@ -62,10 +66,30 @@ public class WrapCollectionElement implements CreatePropertyInfos {
 				.getGlobalBinding().getFlattenClasses() == LocalScoping.NESTED ? classInfo
 				: classInfo.parent();
 
+		final GeneratedClass generatedClass = context.getCustomizing()
+				.getGeneratedClass(propertyInfo);
+
+		final String className = (generatedClass == null || generatedClass
+				.getClassName() == null) ? (classInfo.shortName + propertyName + "Item")
+				: generatedClass.getClassName();
+
+		final CCustomizations customizations;
+		if (generatedClass != null && !generatedClass.getAny().isEmpty()) {
+			final Collection<CPluginCustomization> cPluginCustomizations = new ArrayList<CPluginCustomization>(
+					generatedClass.getAny().size());
+			for (Element element : generatedClass.getAny()) {
+				cPluginCustomizations.add(CustomizationUtils
+						.createCustomization(element));
+			}
+			customizations = new CCustomizations(cPluginCustomizations);
+
+		} else {
+			customizations = new CCustomizations();
+		}
+
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
-				parent, classInfo.shortName + propertyName + "Item", null,
-				new QName(propertyName), null, propertyInfo
-						.getSchemaComponent(), new CCustomizations());
+				parent, className, null, new QName(propertyName), null,
+				propertyInfo.getSchemaComponent(), customizations);
 
 		Customizations.markGenerated(itemClassInfo);
 

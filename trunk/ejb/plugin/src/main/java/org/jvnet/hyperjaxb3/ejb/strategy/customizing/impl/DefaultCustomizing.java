@@ -16,6 +16,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.EmbeddedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedClass;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
@@ -174,6 +175,18 @@ public class DefaultCustomizing implements Customizing {
 			id = defaultId;
 		}
 		return id;
+	}
+
+	public GeneratedClass getGeneratedClass(CPropertyInfo propertyInfo) {
+		final GeneratedClass generatedClass;
+		if (CustomizationUtils.containsCustomization(propertyInfo,
+				Customizations.GENERATED_CLASS_ELEMENT_NAME)) {
+			generatedClass = findCustomization(propertyInfo,
+					Customizations.GENERATED_CLASS_ELEMENT_NAME);
+		} else {
+			generatedClass = null;
+		}
+		return generatedClass;
 	}
 
 	public Id getId(CPropertyInfo property) {

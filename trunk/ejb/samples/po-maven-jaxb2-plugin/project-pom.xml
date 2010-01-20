@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-samples-po-maven-jaxb2-plugin</artifactId>
-	<version>0.5.4</version>
+	<version>0.5.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 Samples [po-maven-jaxb2-plugin]</name>
 	<dependencies>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-runtime</artifactId>
-			<version>0.5.4</version>
+			<version>0.5.5-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
-			<version>0.5.4</version>
+			<version>0.5.5-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Hibernate Dependencies -->
@@ -99,7 +99,7 @@
 						<plugin>
 							<groupId>org.jvnet.hyperjaxb3</groupId>
 							<artifactId>hyperjaxb3-ejb-plugin</artifactId>
-							<version>0.5.4</version>
+							<version>0.5.5-SNAPSHOT</version>
 						</plugin>
 					</plugins>
 					<args>

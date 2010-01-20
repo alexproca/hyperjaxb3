@@ -5,6 +5,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.EmbeddedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedClass;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
@@ -31,6 +32,8 @@ public interface Customizing {
 
 	public GeneratedId getGeneratedId(CClassInfo classInfo);
 
+	public GeneratedClass getGeneratedClass(CPropertyInfo propertyInfo);
+	
 	public Id getId(CPropertyInfo property);
 
 	public Id getId(FieldOutline property);

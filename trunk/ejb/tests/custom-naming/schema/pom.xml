@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb-tests-custom-naming</artifactId>
-		<version>0.5.4</version>
+		<version>0.5.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>hyperjaxb3-ejb-tests-custom-naming-schema</artifactId>
 	<packaging>jar</packaging>
@@ -44,7 +44,7 @@
 						<plugin>
 							<groupId>org.jvnet.hyperjaxb3</groupId>
 							<artifactId>hyperjaxb3-ejb-tests-custom-naming-extension</artifactId>
-							<version>0.5.4</version>
+							<version>0.5.5-SNAPSHOT</version>
 						</plugin>
 					</plugins>
 				</configuration>
@@ -52,7 +52,7 @@
 					<dependency>
 						<groupId>org.jvnet.hyperjaxb3</groupId>
 						<artifactId>hyperjaxb3-ejb-tests-custom-naming-extension</artifactId>
-						<version>0.5.4</version>
+						<version>0.5.5-SNAPSHOT</version>
 					</dependency>
 				</dependencies-->
 			</plugin>

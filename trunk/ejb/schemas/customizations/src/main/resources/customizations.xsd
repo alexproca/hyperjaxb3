@@ -51,6 +51,15 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:element name="generated-class" type="hj:generated-class"/>
+	<xsd:complexType name="generated-class">
+		<xsd:sequence>
+				<xsd:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="className" type="xsd:string"/>
+	</xsd:complexType>
+
+
 
 	<xsd:element name="mapped-superclass" type="hj:mapped-superclass"/>
 
