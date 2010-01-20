@@ -2,15 +2,10 @@ package org.jvnet.hyperjaxb3.xml.bind.annotation.adapters;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.jvnet.hyperjaxb3.xml.datatype.util.XMLGregorianCalendarUtils;
 
 public abstract class AbstractXMLGregorianCalendarAdapter extends
 		XmlAdapter<XMLGregorianCalendar, Date> {
@@ -80,12 +75,4 @@ public abstract class AbstractXMLGregorianCalendarAdapter extends
 		}
 	}
 
-	public void setTimezone(Calendar source, XMLGregorianCalendar target) {
-		if (source.getTimeZone() != null) {
-			int rawOffset = source.getTimeZone().getRawOffset();
-			if (rawOffset != 0) {
-				target.setTimezone(Math.round(rawOffset / (60 * 1000)));
-			}
-		}
-	}
 }
