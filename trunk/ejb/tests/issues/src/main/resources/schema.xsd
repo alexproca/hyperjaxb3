@@ -575,6 +575,40 @@ x
 		<xsd:attribute name="text" use="optional" type="xsd:string"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="issueHJIII25Type">
+		<xsd:attribute name="booleanAttribute" type="xsd:boolean"/>
+		<xsd:attribute name="defaultedBooleanAttribute" type="xsd:boolean" default="false"/>
+	</xsd:complexType>
 
+	<xsd:element name="issueHJIII26" type="test:issueHJIII26Type"/>
+
+	<xsd:complexType name="issueHJIII26Type">
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:generated-property propertyName="Ot">
+						<hj:one-to-many>
+							<orm:join-column />
+							<orm:cascade>
+								<orm:cascade-persist/>
+								<orm:cascade-refresh/>
+								<orm:cascade-merge/>
+							</orm:cascade>
+						</hj:one-to-many>
+					</hj:generated-property>
+				</xsd:appinfo>
+			</xsd:annotation>
+			<xsd:element name="one" type="test:issueHJIII26OneType"/>
+			<xsd:element name="two" type="test:issueHJIII26TwoType"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="issueHJIII26OneType">
+		<xsd:attribute name="one" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="issueHJIII26TwoType">
+		<xsd:attribute name="two" type="xsd:boolean"/>
+	</xsd:complexType>
 
 </xsd:schema>
