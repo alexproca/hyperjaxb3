@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedProperty;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.item.Item;
@@ -18,6 +19,7 @@ import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappedCollectionField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappingCollectionField;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
+import org.w3c.dom.Element;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpr;
@@ -29,6 +31,7 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
+import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
@@ -84,13 +87,35 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 
 		itemPropertyInfo.realization = new ItemFieldRenderer(propertyInfo);
 
+		final GeneratedProperty generatedProperty = context.getCustomizing()
+				.getGeneratedProperty(propertyInfo);
+
+		final String wrappingPropertyName = (generatedProperty == null || generatedProperty
+				.getPropertyName() == null) ? (propertyName + "Items")
+				: generatedProperty.getPropertyName();
+
+		final CCustomizations wrappingPropertyCustomizations;
+		if (generatedProperty != null && !generatedProperty.getAny().isEmpty()) {
+			final Collection<CPluginCustomization> cPluginCustomizations = new ArrayList<CPluginCustomization>(
+					generatedProperty.getAny().size());
+			for (Element element : generatedProperty.getAny()) {
+				cPluginCustomizations.add(CustomizationUtils
+						.createCustomization(element));
+			}
+			wrappingPropertyCustomizations = new CCustomizations(
+					cPluginCustomizations);
+
+		} else {
+			wrappingPropertyCustomizations = new CCustomizations();
+		}
+
 		final CElementPropertyInfo wrappingPropertyInfo =
 
 		new CElementPropertyInfo(
 
-		propertyName + "Items", CollectionMode.REPEATED_ELEMENT, ID.NONE,
+		wrappingPropertyName, CollectionMode.REPEATED_ELEMENT, ID.NONE,
 				wrappedPropertyInfo.getExpectedMimeType(), null,
-				new CCustomizations(), null, false);
+				wrappingPropertyCustomizations, null, false);
 
 		wrappingPropertyInfo.getTypes().add(
 				new CTypeRef(itemClassInfo, new QName(propertyName + "Items"),
