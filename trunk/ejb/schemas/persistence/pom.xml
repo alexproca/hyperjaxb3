@@ -34,7 +34,7 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.7.0</version>
+				<version>0.7.2</version>
 				<executions>
 					<execution>
 						<goals>
