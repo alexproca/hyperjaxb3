@@ -51,15 +51,6 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:element name="generated-class" type="hj:generated-class"/>
-	<xsd:complexType name="generated-class">
-		<xsd:sequence>
-				<xsd:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-		</xsd:sequence>
-		<xsd:attribute name="className" type="xsd:string"/>
-	</xsd:complexType>
-
-
 
 	<xsd:element name="mapped-superclass" type="hj:mapped-superclass"/>
 
@@ -223,5 +214,22 @@
 		</xsd:choice>
 		<xsd:attribute name="type" type="xsd:QName" use="required"/>
 	</xsd:complexType>
+
+	<!-- ... -->
+	<xsd:element name="generated-class" type="hj:generated-class"/>
+	<xsd:complexType name="generated-class">
+		<xsd:sequence>
+				<xsd:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="className" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:element name="generated-property" type="hj:generated-property"/>
+	<xsd:complexType name="generated-property">
+		<xsd:sequence>
+				<xsd:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="propertyName" type="xsd:string"/>
+	</xsd:complexType>
+
 
 </xsd:schema>
