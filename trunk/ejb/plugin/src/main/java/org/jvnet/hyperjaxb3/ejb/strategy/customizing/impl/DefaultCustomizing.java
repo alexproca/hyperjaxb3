@@ -324,26 +324,25 @@ public class DefaultCustomizing implements Customizing {
 			}
 		}
 
-		if (defaultBasic.getColumn() == null) {
-			defaultBasic.setColumn(new Column());
+		if (defaultBasic.getColumn() != null) {
+
+			final Integer length = createColumn$Length(property);
+
+			if (length != null) {
+				defaultBasic.getColumn().setLength(length);
+			}
+
+			final Integer precision = createColumn$Precision(property);
+			if (precision != null) {
+				defaultBasic.getColumn().setPrecision(precision);
+			}
+
+			final Integer scale = createColumn$Scale(property);
+			if (scale != null && scale.intValue() != 0) {
+				defaultBasic.getColumn().setScale(scale);
+			}
+
 		}
-
-		Integer length = createColumn$Length(property);
-
-		if (length != null) {
-			defaultBasic.getColumn().setLength(length);
-		}
-
-		Integer precision = createColumn$Precision(property);
-		if (precision != null) {
-			defaultBasic.getColumn().setPrecision(precision);
-		}
-
-		Integer scale = createColumn$Scale(property);
-		if (scale != null && scale.intValue() != 0) {
-			defaultBasic.getColumn().setScale(scale);
-		}
-
 		return defaultBasic;
 	}
 
