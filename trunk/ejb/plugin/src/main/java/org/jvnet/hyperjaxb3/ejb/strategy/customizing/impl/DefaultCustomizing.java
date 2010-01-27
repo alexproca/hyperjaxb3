@@ -31,10 +31,12 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
+import org.jvnet.hyperjaxb3.xsom.SimpleTypeAnalyzer;
 import org.jvnet.hyperjaxb3.xsom.TypeUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CPluginCustomization;
@@ -189,7 +191,7 @@ public class DefaultCustomizing implements Customizing {
 		}
 		return generatedClass;
 	}
-	
+
 	public GeneratedProperty getGeneratedProperty(CPropertyInfo propertyInfo) {
 		final GeneratedProperty generatedProperty;
 		if (CustomizationUtils.containsCustomization(propertyInfo,
@@ -201,7 +203,6 @@ public class DefaultCustomizing implements Customizing {
 		}
 		return generatedProperty;
 	}
-	
 
 	public Id getId(CPropertyInfo property) {
 		final Persistence persistence = getModelCustomization(property);
@@ -322,6 +323,27 @@ public class DefaultCustomizing implements Customizing {
 				}
 			}
 		}
+
+		if (defaultBasic.getColumn() == null) {
+			defaultBasic.setColumn(new Column());
+		}
+
+		Integer length = createColumn$Length(property);
+
+		if (length != null) {
+			defaultBasic.getColumn().setLength(length);
+		}
+
+		Integer precision = createColumn$Precision(property);
+		if (precision != null) {
+			defaultBasic.getColumn().setPrecision(precision);
+		}
+
+		Integer scale = createColumn$Scale(property);
+		if (scale != null && scale.intValue() != 0) {
+			defaultBasic.getColumn().setScale(scale);
+		}
+
 		return defaultBasic;
 	}
 
@@ -345,7 +367,6 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.BASIC_ELEMENT_NAME)) {
 			basic = findCustomization(property,
 					Customizations.BASIC_ELEMENT_NAME);
-
 			if (basic.isMerge()) {
 				basic.mergeFrom(basic, defaultBasic);
 			}
@@ -353,6 +374,60 @@ public class DefaultCustomizing implements Customizing {
 			basic = defaultBasic;
 		}
 		return basic;
+	}
+
+	public Integer createColumn$Scale(CPropertyInfo property) {
+		final Integer scale;
+		final Long fractionDigits = SimpleTypeAnalyzer
+				.getFractionDigits(property.getSchemaComponent());
+		if (fractionDigits != null) {
+			scale = fractionDigits.intValue();
+		} else {
+			scale = null;
+		}
+		return scale;
+	}
+
+	public Integer createColumn$Precision(CPropertyInfo property) {
+		final Integer precision;
+		final Long totalDigits = SimpleTypeAnalyzer.getTotalDigits(property
+				.getSchemaComponent());
+		if (totalDigits != null) {
+			precision = totalDigits.intValue();
+		} else {
+			precision = null;
+		}
+		return precision;
+	}
+
+	public Integer createColumn$Length(CPropertyInfo property) {
+		final Integer finalLength;
+		final Long length = SimpleTypeAnalyzer.getLength(property
+				.getSchemaComponent());
+
+		if (length != null) {
+			finalLength = length.intValue();
+		} else {
+			final Long maxLength = SimpleTypeAnalyzer.getMaxLength(property
+					.getSchemaComponent());
+			if (maxLength != null) {
+				finalLength = maxLength.intValue();
+			} else {
+				final Long minLength = SimpleTypeAnalyzer.getMinLength(property
+						.getSchemaComponent());
+				if (minLength != null) {
+					int intMinLength = minLength.intValue();
+					if (intMinLength > 127) {
+						finalLength = intMinLength * 2;
+					} else {
+						finalLength = null;
+					}
+				} else {
+					finalLength = null;
+				}
+			}
+		}
+		return finalLength;
 	}
 
 	public Basic getBasic(FieldOutline fieldOutline) {
