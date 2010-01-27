@@ -610,5 +610,16 @@ x
 	<xsd:complexType name="issueHJIII26TwoType">
 		<xsd:attribute name="two" type="xsd:boolean"/>
 	</xsd:complexType>
+	
+	<xsd:simpleType name="issueHJIII28SimpleType">
+ 		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1024"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="issueHJIII28ComplexType">
+ 		<xsd:attribute name="issueHJIII28" type="test:issueHJIII28SimpleType" use="required"/>
+	</xsd:complexType> 
 
 </xsd:schema>
