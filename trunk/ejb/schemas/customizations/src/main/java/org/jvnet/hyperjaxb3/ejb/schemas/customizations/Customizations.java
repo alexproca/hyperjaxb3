@@ -5,9 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
@@ -76,6 +74,8 @@ public class Customizations {
 	public static final QName ITEM_ELEMENT_NAME = hj("item");
 
 	public static final QName IGNORED_ELEMENT_NAME = hj("ignored");
+
+	public static final QName IGNORED_PACKAGE_ELEMENT_NAME = hj("ignored-package");
 
 	public static final QName GENERATED_CLASS_ELEMENT_NAME = hj("generated-class");
 
