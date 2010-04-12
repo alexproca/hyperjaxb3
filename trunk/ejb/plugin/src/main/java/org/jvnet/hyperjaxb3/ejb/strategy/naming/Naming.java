@@ -4,8 +4,11 @@ import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 public interface Naming {
+	
+	public String getPersistenceUnitName(Outline outline);
 
 	public String getEntityTable$Name(Mapping context, ClassOutline classOutline);
 

@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.naming.impl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -13,6 +14,8 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
+import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,8 +28,20 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
+import com.sun.tools.xjc.outline.PackageOutline;
 
 public class DefaultNaming implements Naming, InitializingBean {
+
+	private Ignoring ignoring;
+
+	public Ignoring getIgnoring() {
+		return ignoring;
+	}
+
+	public void setIgnoring(Ignoring ignoring) {
+		this.ignoring = ignoring;
+	}
 
 	protected Log logger = LogFactory.getLog(Naming.class);
 
@@ -228,7 +243,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 	public String getJoinTable$InverseJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
-		
+
 		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
 		return getName(
 
@@ -237,4 +252,25 @@ public class DefaultNaming implements Naming, InitializingBean {
 		+ "_" + idFieldColumnName);
 	}
 
+	@Override
+	public String getPersistenceUnitName(Outline outline) {
+		final StringBuffer sb = new StringBuffer();
+		boolean first = true;
+
+		for (final Iterator<? extends PackageOutline> packageOutlines = outline
+				.getAllPackageContexts().iterator(); packageOutlines.hasNext();) {
+			final PackageOutline packageOutline = packageOutlines.next();
+			if (!getIgnoring().isPackageOutlineIgnored(outline, packageOutline)) {
+				if (!first) {
+					sb.append(':');
+				} else {
+					first = false;
+				}
+				final String packageName = packageOutline._package().name();
+				sb.append(packageName);
+			}
+
+		}
+		return sb.toString();
+	}
 }

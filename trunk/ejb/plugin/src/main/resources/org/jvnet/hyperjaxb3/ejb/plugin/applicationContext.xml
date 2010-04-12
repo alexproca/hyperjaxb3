@@ -10,6 +10,7 @@
 	
 	<bean name="naming" class="org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.DefaultNaming">
 		<property name="reservedNames" ref="reservedNames"/>
+		<property name="ignoring" ref="ignoring"/>
 	</bean>
 
 	<bean name="customizing"
@@ -280,6 +281,7 @@
 	<bean name="annotationsProcessor"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.ClassPersistenceProcessor">
 		<property name="outlineProcessor" ref="annotateOutline"/>
+		<property name="naming" ref="naming"/>
 	</bean>
 	
 	
@@ -293,6 +295,7 @@
 	<bean name="mappingFilesProcessor"
 	class="org.jvnet.hyperjaxb3.ejb.strategy.processor.MappingFilePersistenceProcessor">
 		<property name="outlineProcessor" ref="marshalMappings"/>
+		<property name="naming" ref="naming"/>
 	</bean>
 	
 	<!-- Variants -->

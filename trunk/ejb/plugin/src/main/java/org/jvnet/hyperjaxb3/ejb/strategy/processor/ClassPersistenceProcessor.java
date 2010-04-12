@@ -9,6 +9,7 @@ import java.util.Collections;
 import javax.xml.bind.JAXBException;
 
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
@@ -24,6 +25,16 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
+
+	private Naming naming;
+
+	public Naming getNaming() {
+		return naming;
+	}
+
+	public void setNaming(Naming naming) {
+		this.naming = naming;
+	}
 
 	public Collection<ClassOutline> process(EjbPlugin plugin, Outline outline,
 			Options options) throws Exception {
@@ -71,7 +82,8 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 
 		final String persistenceUnitName = plugin.getPersistenceUnitName();
 		final String generatedPersistenceUnitName = persistenceUnitName != null ? persistenceUnitName
-				: OutlineUtils.getContextPath(outline);
+				: getNaming().getPersistenceUnitName(outline);
+		// plugin.get
 
 		final Persistence persistence;
 		final PersistenceUnit persistenceUnit;

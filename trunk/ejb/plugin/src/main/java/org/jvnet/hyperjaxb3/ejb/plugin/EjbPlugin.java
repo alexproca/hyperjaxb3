@@ -15,6 +15,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.processor.ModelAndOutlineProcessor;
 import org.jvnet.hyperjaxb3.ejb.test.RoundtripTest;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.UntypedListFieldRenderer;
@@ -234,15 +235,13 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 					.generateContextPathAwareClass(outline,
 							getRoundtripTestClassName(), RoundtripTest.class);
 
-			final String persistenceUnitName = getPersistenceUnitName();
-			if (persistenceUnitName != null) {
-				JMethod getPersistenceUnitName = roundtripTestClass.method(
-						JMod.PUBLIC, outline.getCodeModel().ref(String.class),
-						"getPersistenceUnitName");
-				getPersistenceUnitName.body()._return(
-						JExpr.lit(persistenceUnitName));
-
-			}
+			final String persistenceUnitName = getPersistenceUnitName() != null ? getPersistenceUnitName()
+					: getNaming().getPersistenceUnitName(outline);
+			JMethod getPersistenceUnitName = roundtripTestClass.method(
+					JMod.PUBLIC, outline.getCodeModel().ref(String.class),
+					"getPersistenceUnitName");
+			getPersistenceUnitName.body()._return(
+					JExpr.lit(persistenceUnitName));
 		}
 	}
 
@@ -396,6 +395,9 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 			}
 		}
 
+		setNaming((Naming) getApplicationContext().getBean("naming",
+				Naming.class));
+
 		if (getTargetDir() == null) {
 			setTargetDir(options.targetDir);
 		}
@@ -410,6 +412,16 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	public void setModelAndOutlineProcessor(
 			ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor) {
 		this.modelAndOutlineProcessor = modelAndOutlineProcessor;
+	}
+
+	private Naming naming;
+
+	public Naming getNaming() {
+		return naming;
+	}
+
+	public void setNaming(Naming naming) {
+		this.naming = naming;
 	}
 
 	// private ProcessModel processModel;
