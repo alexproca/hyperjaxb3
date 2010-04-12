@@ -368,8 +368,9 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	}
 
 	@Override
-	public void init(Options options) throws Exception {
-		super.init(options);
+	protected void beforeRun(Outline outline, Options options) throws Exception {
+		super.beforeRun(outline, options);
+
 		if (getModelAndOutlineProcessor() == null) {
 			try {
 				final Object bean = getApplicationContext().getBean(
@@ -395,8 +396,10 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 			}
 		}
 
-		setNaming((Naming) getApplicationContext().getBean("naming",
-				Naming.class));
+		if (getNaming() == null) {
+			setNaming((Naming) getApplicationContext().getBean("naming",
+					Naming.class));
+		}
 
 		if (getTargetDir() == null) {
 			setTargetDir(options.targetDir);

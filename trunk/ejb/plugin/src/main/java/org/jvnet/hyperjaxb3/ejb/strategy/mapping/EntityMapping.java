@@ -4,7 +4,6 @@ import javax.persistence.InheritanceType;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Entity;
@@ -39,14 +38,16 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createEntity$Name(Mapping context, ClassOutline classOutline,
 			final Entity entity) {
 		if (entity.getName() == null || "##default".equals(entity.getName())) {
-			entity.setName(OutlineUtils.getClassName(classOutline));
+			entity.setName(context.getNaming().getEntityName(
+					classOutline.parent(), classOutline.target));
 		}
 	}
 
 	public void createEntity$Class(Mapping context, ClassOutline classOutline,
 			final Entity entity) {
 		if (entity.getClazz() == null || "##default".equals(entity.getClazz())) {
-			entity.setClazz(OutlineUtils.getClassName(classOutline));
+			entity.setClazz(context.getNaming().getEntityClass(
+					classOutline.parent(), classOutline.target));
 		}
 	}
 

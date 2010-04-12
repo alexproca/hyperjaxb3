@@ -7,6 +7,7 @@ import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.nav.NType;
@@ -44,9 +45,12 @@ public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
 
 		assert type instanceof NType;
 
-		final NType childClassInfo = (NType) type;
+		assert type instanceof CClass;
 
-		manyToOne.setTargetEntity(childClassInfo.fullName());
+		final CClass childClassInfo = (CClass) type;
+
+		manyToOne.setTargetEntity(context.getNaming().getEntityClass(
+				fieldOutline.parent().parent(), childClassInfo.getType()));
 
 	}
 

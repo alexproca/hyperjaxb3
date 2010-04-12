@@ -2,11 +2,16 @@ package org.jvnet.hyperjaxb3.ejb.strategy.naming;
 
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 
+import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 public interface Naming {
+	
+	public String getEntityClass(Outline outline, NType type);
+	
+	public String getEntityName(Outline outline, NType type);
 	
 	public String getPersistenceUnitName(Outline outline);
 

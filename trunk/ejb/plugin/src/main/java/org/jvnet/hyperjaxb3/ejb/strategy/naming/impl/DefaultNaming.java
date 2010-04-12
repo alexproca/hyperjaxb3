@@ -14,18 +14,22 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
-import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
+import org.jvnet.jaxb2_commons.util.CodeModelUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.sun.codemodel.JClass;
+import com.sun.codemodel.JType;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassRef;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.nav.NType;
+import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
@@ -272,5 +276,21 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		}
 		return sb.toString();
+	}
+	
+	@Override
+	public String getEntityName(Outline outline, NType type) {
+		final JType theType = type.toType(outline, Aspect.EXPOSED);
+		assert theType instanceof JClass;
+		final JClass theClass = (JClass) theType;
+		return CodeModelUtils.getLocalClassName(theClass);
+	}
+	
+	@Override
+	public String getEntityClass(Outline outline, NType type) {
+		final JType theType = type.toType(outline, Aspect.EXPOSED);
+		assert theType instanceof JClass;
+		final JClass theClass = (JClass) theType;
+		return CodeModelUtils.getPackagedClassName(theClass);
 	}
 }

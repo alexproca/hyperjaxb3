@@ -7,6 +7,7 @@ import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.nav.NType;
@@ -42,11 +43,12 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 
 		final CTypeInfo type = types.iterator().next();
 
-		assert type instanceof NType;
+		assert type instanceof CClass;
 
-		final NType childClassInfo = (NType) type;
+		final CClass childClassInfo = (CClass) type;
 
-		manyToMany.setTargetEntity(childClassInfo.fullName());
+		manyToMany.setTargetEntity(context.getNaming().getEntityClass(
+				fieldOutline.parent().parent(), childClassInfo.getType()));
 
 	}
 

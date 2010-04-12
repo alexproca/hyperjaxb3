@@ -186,32 +186,32 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-runtime</artifactId>
-				<version>0.5.2</version>
+				<version>0.5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-testing</artifactId>
-				<version>0.5.2</version>
+				<version>0.5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-tools</artifactId>
-				<version>0.5.2</version>
+				<version>0.5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics</artifactId>
-				<version>0.5.2</version>
+				<version>0.5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-annotate</artifactId>
-				<version>0.5.2</version>
+				<version>0.5.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-ant</artifactId>
-				<version>0.5.2</version>
+				<version>0.5.3-SNAPSHOT</version>
 			</dependency>
 			<!-- Hyperjaxb -->
 			<dependency>

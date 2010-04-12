@@ -7,9 +7,9 @@ import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class OneToOneMapping extends AssociationMapping<OneToOne> {
@@ -42,11 +42,12 @@ public class OneToOneMapping extends AssociationMapping<OneToOne> {
 
 		final CTypeInfo type = types.iterator().next();
 
-		assert type instanceof NType;
+		assert type instanceof CClass;
 
-		final NType childClassInfo = (NType) type;
+		final CClass childClassInfo = (CClass) type;
 
-		oneToOne.setTargetEntity(childClassInfo.fullName());
+		oneToOne.setTargetEntity(context.getNaming().getEntityClass(
+				fieldOutline.parent().parent(), childClassInfo.getType()));
 
 	}
 
