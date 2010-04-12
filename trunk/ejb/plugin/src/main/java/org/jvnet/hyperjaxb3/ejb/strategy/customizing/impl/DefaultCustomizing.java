@@ -1,5 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.customizing.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +38,6 @@ import org.jvnet.hyperjaxb3.xsom.TypeUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CPluginCustomization;
@@ -57,6 +58,12 @@ public class DefaultCustomizing implements Customizing {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(model, name);
 		return (T) unmarshalCustomization(customization);
+	}
+
+	public <T> Collection<T> findCustomizations(Model model, QName name) {
+		final List<CPluginCustomization> customizations = CustomizationUtils
+				.findCustomizations(model, name);
+		return unmarshalCustomizations(customizations);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -82,19 +89,35 @@ public class DefaultCustomizing implements Customizing {
 
 	}
 
-	private Object unmarshalCustomization(
+	private <T> Collection<T> unmarshalCustomizations(
+			final Collection<CPluginCustomization> customizations)
+			throws AssertionError {
+
+		final List<T> unmarshalledCustomizations = new ArrayList<T>(
+				customizations.size());
+		for (CPluginCustomization customization : customizations) {
+			unmarshalledCustomizations.add(this
+					.<T> unmarshalCustomization(customization));
+		}
+		return unmarshalledCustomizations;
+
+	}
+
+	private <T> T unmarshalCustomization(
 			final CPluginCustomization customization) throws AssertionError {
 		if (customization == null) {
 			return null;
 		} else {
-			final Object value = this.customizationsMap.get(customization);
+			@SuppressWarnings("unchecked")
+			final T value = (T) this.customizationsMap.get(customization);
 
 			if (value != null)
 
 			{
-				return value;
+				return (T) value;
 			} else {
-				final Object newValue = CustomizationUtils.unmarshall(
+				@SuppressWarnings("unchecked")
+				final T newValue = (T) CustomizationUtils.unmarshall(
 						Customizations.getContext(), customization);
 				this.customizationsMap.put(customization, newValue);
 				return newValue;

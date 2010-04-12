@@ -1,5 +1,9 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.customizing;
 
+import java.util.Collection;
+
+import javax.xml.namespace.QName;
+
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
@@ -18,6 +22,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
@@ -25,6 +30,14 @@ import com.sun.tools.xjc.outline.FieldOutline;
  * Customizations interface.
  */
 public interface Customizing {
+
+	public <T> T findCustomization(Model model, QName name);
+
+	public <T> Collection<T> findCustomizations(Model model, QName name);
+
+	public <T> T findCustomization(CClassInfo classInfo, QName name);
+
+	public <T> T findCustomization(CPropertyInfo propertyInfo, QName name);
 
 	public Object getEntityOrMappedSuperclassOrEmbeddable(
 			ClassOutline classOutline);
@@ -34,9 +47,9 @@ public interface Customizing {
 	public GeneratedId getGeneratedId(CClassInfo classInfo);
 
 	public GeneratedClass getGeneratedClass(CPropertyInfo propertyInfo);
-	
+
 	public GeneratedProperty getGeneratedProperty(CPropertyInfo propertyInfo);
-	
+
 	public Id getId(CPropertyInfo property);
 
 	public Id getId(FieldOutline property);

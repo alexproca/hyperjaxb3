@@ -423,7 +423,7 @@ public class DefaultProcessModel implements ProcessModel {
 		this.adaptBuiltinTypeUse = adaptBuiltinTypeUse;
 	}
 
-	private Ignoring ignoring = new DefaultIgnoring();
+	private Ignoring ignoring;// = new DefaultIgnoring();
 
 	public Ignoring getIgnoring() {
 		return ignoring;

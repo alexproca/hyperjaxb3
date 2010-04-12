@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.IgnoredPackage;
+import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
@@ -13,22 +15,43 @@ import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.model.CClassInfoParent.Package;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.outline.PackageOutline;
 
 public class DefaultIgnoring implements Ignoring {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-	public boolean isPackageOutlineIgnored(PackageOutline packageOutline) {
+	private Customizing customizing;
+
+	public Customizing getCustomizing() {
+		return customizing;
+	}
+
+	public void setCustomizing(Customizing customizing) {
+		this.customizing = customizing;
+	}
+
+	public boolean isPackageOutlineIgnored(Outline outline,
+			PackageOutline packageOutline) {
+		for (IgnoredPackage ignoredPackage : getCustomizing()
+				.<IgnoredPackage> findCustomizations(outline.getModel(),
+						Customizations.IGNORED_PACKAGE_ELEMENT_NAME)) {
+			if (packageOutline._package().name().equals(
+					ignoredPackage.getName())) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	public boolean isClassOutlineIgnored(ClassOutline classOutline) {
-
-		if (isPackageOutlineIgnored(classOutline._package())) {
+		if (isPackageOutlineIgnored(classOutline.parent(), classOutline
+				._package())) {
 			logger.debug("Class outline is ignored since package is ignored.");
 			markAsAcknowledged(classOutline);
 			return true;
@@ -99,13 +122,20 @@ public class DefaultIgnoring implements Ignoring {
 		}
 	}
 
-	public boolean isPackageInfoIgnored(Package packageInfo) {
+	public boolean isPackageInfoIgnored(Model model, Package packageInfo) {
+		for (IgnoredPackage ignoredPackage : getCustomizing()
+				.<IgnoredPackage> findCustomizations(model,
+						Customizations.IGNORED_PACKAGE_ELEMENT_NAME)) {
+			if (packageInfo.pkg.name().equals(ignoredPackage.getName())) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	public boolean isClassInfoIgnored(CClassInfo classInfo) {
 
-		if (isPackageInfoIgnored(getPackageInfo(classInfo))) {
+		if (isPackageInfoIgnored(classInfo.model, getPackageInfo(classInfo))) {
 			logger.debug("Class info is ignored since package is ignored.");
 			markAsAcknowledged(classInfo);
 			return true;

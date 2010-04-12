@@ -4,7 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	
-	<bean name="ignoring" class="org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring"/>
+	<bean name="ignoring" class="org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring">
+			<property name="customizing" ref="customizing"/>
+	</bean>
 	
 	<bean name="naming" class="org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.DefaultNaming">
 		<property name="reservedNames" ref="reservedNames"/>
@@ -141,6 +143,7 @@
 
 		<property name="adaptBuiltinTypeUse" ref="adaptBuiltinTypeUse"/>
 		<property name="customizing" ref="customizing"/>
+		<property name="ignoring" ref="ignoring"/>
 	</bean>
 	
 	<bean name="getTypes"
