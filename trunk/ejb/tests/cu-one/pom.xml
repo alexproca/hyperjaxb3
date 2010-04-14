@@ -38,7 +38,7 @@
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<configuration>
-					<result>mappingFiles</result>
+					<!--result>mappingFiles</result-->
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.cuone.RoundtripTest</roundtripTestClassName>
 				</configuration>
 			</plugin>
