@@ -10,7 +10,6 @@ import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.Persistence;
@@ -101,7 +100,7 @@ public class MappingFilePersistenceProcessor implements
 						foundPersistenceUnit = unit;
 					} else if ("##generated".equals(unit.getName())) {
 						foundPersistenceUnit = unit;
-						foundPersistenceUnit.setName(persistenceUnitName);
+//						foundPersistenceUnit.setName(persistenceUnitName);
 					}
 				}
 				if (foundPersistenceUnit != null) {
@@ -109,7 +108,7 @@ public class MappingFilePersistenceProcessor implements
 				} else {
 					targetPersistenceUnit = new PersistenceUnit();
 					persistence.getPersistenceUnit().add(targetPersistenceUnit);
-					targetPersistenceUnit.setName(persistenceUnitName);
+//					targetPersistenceUnit.setName(persistenceUnitName);
 				}
 
 			} catch (Exception ex) {
@@ -122,10 +121,10 @@ public class MappingFilePersistenceProcessor implements
 			persistence.setVersion("1.0");
 			targetPersistenceUnit = new PersistenceUnit();
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
-			targetPersistenceUnit.setName(persistenceUnitName);
 		}
 
 		persistenceUnit.copyTo(targetPersistenceUnit);
+		targetPersistenceUnit.setName(persistenceUnitName);
 		Collections.sort(targetPersistenceUnit.getMappingFile());
 		Collections.sort(targetPersistenceUnit.getClazz());
 		return persistence;
