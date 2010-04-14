@@ -256,7 +256,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 		+ "_" + idFieldColumnName);
 	}
 
-	@Override
 	public String getPersistenceUnitName(Outline outline) {
 		final StringBuffer sb = new StringBuffer();
 		boolean first = true;
@@ -278,7 +277,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return sb.toString();
 	}
 	
-	@Override
 	public String getEntityName(Outline outline, NType type) {
 		final JType theType = type.toType(outline, Aspect.EXPOSED);
 		assert theType instanceof JClass;
@@ -286,7 +284,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return CodeModelUtils.getLocalClassName(theClass);
 	}
 	
-	@Override
 	public String getEntityClass(Outline outline, NType type) {
 		final JType theType = type.toType(outline, Aspect.EXPOSED);
 		assert theType instanceof JClass;

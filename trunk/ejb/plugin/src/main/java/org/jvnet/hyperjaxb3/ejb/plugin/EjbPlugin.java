@@ -1,8 +1,10 @@
 package org.jvnet.hyperjaxb3.ejb.plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -70,6 +72,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 		}
 	}
+
+	private List<URL> episodeURLs = new LinkedList<URL>();
 
 	// private final Method generateFieldDecl;
 	// {
@@ -155,6 +159,35 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 	public String getModelAndOutlineProcessorBeanName() {
 		return getResult();
+	}
+	
+	private String[] mergePersistenceUnits = new String[0];
+	
+	public String[] getMergePersistenceUnits() {
+		return mergePersistenceUnits;
+	}
+	
+	public void setMergePersistenceUnits(String[] mergePersistenceUnits) {
+		this.mergePersistenceUnits = mergePersistenceUnits;
+	}
+
+	@Override
+	public int parseArgument(Options opt, String[] args, int start)
+			throws BadCommandLineException, IOException {
+		// TODO Auto-generated method stub
+		final int result = super.parseArgument(opt, args, start);
+
+		
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].length() != 0) {
+				if (args[i].charAt(0) != '-') {
+					if (args[i].endsWith(".jar")) {
+						episodeURLs.add(new File(args[i]).toURI().toURL());
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	// @Override

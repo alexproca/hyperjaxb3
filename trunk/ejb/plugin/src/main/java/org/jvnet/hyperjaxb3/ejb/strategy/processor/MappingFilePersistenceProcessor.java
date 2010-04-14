@@ -1,8 +1,6 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.processor;
 
 import java.io.File;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -15,9 +13,6 @@ import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JPackage;
-import com.sun.codemodel.fmt.JTextFile;
 import com.sun.java.xml.ns.persistence.Persistence;
 import com.sun.java.xml.ns.persistence.Persistence.PersistenceUnit;
 import com.sun.tools.xjc.Options;
@@ -26,6 +21,17 @@ import com.sun.tools.xjc.outline.Outline;
 
 public class MappingFilePersistenceProcessor implements
 		OutlineProcessor<EjbPlugin> {
+
+	private PersistenceMarshaller persistenceMarshaller = new PersistenceMarshaller();
+
+	public PersistenceMarshaller getPersistenceMarshaller() {
+		return persistenceMarshaller;
+	}
+
+	public void setPersistenceMarshaller(
+			PersistenceMarshaller persistenceMarshaller) {
+		this.persistenceMarshaller = persistenceMarshaller;
+	}
 
 	private Naming naming;
 
@@ -43,27 +49,21 @@ public class MappingFilePersistenceProcessor implements
 		Collection<ClassOutline> includedClasses = getOutlineProcessor()
 				.process(plugin, outline, options);
 
-		final Persistence persistence = createPersistence(plugin, outline,
-				options, includedClasses);
+		final String pun = plugin.getPersistenceUnitName();
+		final String persistenceUnitName = pun != null ? pun : getNaming()
+				.getPersistenceUnitName(outline);
 
-		final JCodeModel codeModel = outline.getCodeModel();
+		final PersistenceUnit persistenceUnit = getPersistenceUnitFactory()
+				.createPersistenceUnit(includedClasses);
 
-		final JPackage defaultPackage = codeModel._package("");
+		final Persistence persistence = createPersistence(plugin,
+				persistenceUnit, persistenceUnitName);
 
-		final JTextFile persistenceXmlFile = new JTextFile(
-				"META-INF/persistence.xml");
-
-		defaultPackage.addResourceFile(persistenceXmlFile);
-
-		final Writer writer = new StringWriter();
-		PersistenceUtils.createMarshaller().marshal(persistence, writer);
-		persistenceXmlFile.setContents(writer.toString());
-
-		// TODO HACK!!! REMOVE ME!!!
-		new File(plugin.getTargetDir(), "META-INF").mkdir();
+		getPersistenceMarshaller().marshallPersistence(plugin.getTargetDir(),
+				outline.getCodeModel(), persistence);
 
 		// TODO Auto-generated method stub
-		return null;
+		return includedClasses;
 	}
 
 	private OutlineProcessor<EjbPlugin> outlineProcessor;
@@ -77,16 +77,12 @@ public class MappingFilePersistenceProcessor implements
 		this.outlineProcessor = outlineProcessor;
 	}
 
-	protected Persistence createPersistence(EjbPlugin plugin, Outline outline,
-			Options options, final Collection<ClassOutline> includedClasses)
+	protected Persistence createPersistence(EjbPlugin plugin,
+			final PersistenceUnit persistenceUnit, String persistenceUnitName)
 			throws JAXBException {
 
-		final String persistenceUnitName = plugin.getPersistenceUnitName();
-		final String generatedPersistenceUnitName = persistenceUnitName != null ? persistenceUnitName
-				: getNaming().getPersistenceUnitName(outline);
-
 		final Persistence persistence;
-		final PersistenceUnit persistenceUnit;
+		final PersistenceUnit targetPersistenceUnit;
 
 		final File persistenceXml = plugin.getPersistenceXml();
 
@@ -105,16 +101,15 @@ public class MappingFilePersistenceProcessor implements
 						foundPersistenceUnit = unit;
 					} else if ("##generated".equals(unit.getName())) {
 						foundPersistenceUnit = unit;
-						foundPersistenceUnit
-								.setName(generatedPersistenceUnitName);
+						foundPersistenceUnit.setName(persistenceUnitName);
 					}
 				}
 				if (foundPersistenceUnit != null) {
-					persistenceUnit = foundPersistenceUnit;
+					targetPersistenceUnit = foundPersistenceUnit;
 				} else {
-					persistenceUnit = new PersistenceUnit();
-					persistence.getPersistenceUnit().add(persistenceUnit);
-					persistenceUnit.setName(generatedPersistenceUnitName);
+					targetPersistenceUnit = new PersistenceUnit();
+					persistence.getPersistenceUnit().add(targetPersistenceUnit);
+					targetPersistenceUnit.setName(persistenceUnitName);
 				}
 
 			} catch (Exception ex) {
@@ -125,18 +120,26 @@ public class MappingFilePersistenceProcessor implements
 		} else {
 			persistence = new Persistence();
 			persistence.setVersion("1.0");
-			persistenceUnit = new PersistenceUnit();
-			persistence.getPersistenceUnit().add(persistenceUnit);
-			persistenceUnit.setName(generatedPersistenceUnitName);
+			targetPersistenceUnit = new PersistenceUnit();
+			persistence.getPersistenceUnit().add(targetPersistenceUnit);
+			targetPersistenceUnit.setName(persistenceUnitName);
 		}
 
-		for (final ClassOutline classOutline : includedClasses) {
-			final String className = OutlineUtils.getClassName(classOutline);
-			persistenceUnit.getMappingFile().add(
-					className.replace('.', '/') + ".orm.xml");
-		}
-		Collections.sort(persistenceUnit.getMappingFile());
+		persistenceUnit.copyTo(targetPersistenceUnit);
+		Collections.sort(targetPersistenceUnit.getMappingFile());
+		Collections.sort(targetPersistenceUnit.getClazz());
 		return persistence;
+	}
+
+	private PersistenceUnitFactory persistenceUnitFactory = new MappingFilePersistenceUnitFactory();
+
+	public PersistenceUnitFactory getPersistenceUnitFactory() {
+		return persistenceUnitFactory;
+	}
+
+	public void setPersistenceUnitFactory(
+			PersistenceUnitFactory persistenceUnitFactory) {
+		this.persistenceUnitFactory = persistenceUnitFactory;
 	}
 
 }

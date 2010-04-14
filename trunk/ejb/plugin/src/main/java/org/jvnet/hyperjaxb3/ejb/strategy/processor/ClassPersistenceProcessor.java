@@ -1,8 +1,6 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.processor;
 
 import java.io.File;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -15,9 +13,6 @@ import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JPackage;
-import com.sun.codemodel.fmt.JTextFile;
 import com.sun.java.xml.ns.persistence.Persistence;
 import com.sun.java.xml.ns.persistence.Persistence.PersistenceUnit;
 import com.sun.tools.xjc.Options;
@@ -36,30 +31,35 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 		this.naming = naming;
 	}
 
+	private PersistenceMarshaller persistenceMarshaller = new PersistenceMarshaller();
+
+	public PersistenceMarshaller getPersistenceMarshaller() {
+		return persistenceMarshaller;
+	}
+
+	public void setPersistenceMarshaller(
+			PersistenceMarshaller persistenceMarshaller) {
+		this.persistenceMarshaller = persistenceMarshaller;
+	}
+
 	public Collection<ClassOutline> process(EjbPlugin plugin, Outline outline,
 			Options options) throws Exception {
 
 		Collection<ClassOutline> includedClasses = getOutlineProcessor()
 				.process(plugin, outline, options);
 
-		final Persistence persistence = createPersistence(plugin, outline,
-				options, includedClasses);
+		final String pun = plugin.getPersistenceUnitName();
+		final String persistenceUnitName = pun != null ? pun : getNaming()
+				.getPersistenceUnitName(outline);
 
-		final JCodeModel codeModel = outline.getCodeModel();
+		final PersistenceUnit persistenceUnit = getPersistenceUnitFactory()
+				.createPersistenceUnit(includedClasses);
 
-		final JPackage defaultPackage = codeModel._package("");
+		final Persistence persistence = createPersistence(plugin,
+				persistenceUnit, persistenceUnitName);
 
-		final JTextFile persistenceXmlFile = new JTextFile(
-				"META-INF/persistence.xml");
-
-		defaultPackage.addResourceFile(persistenceXmlFile);
-
-		final Writer writer = new StringWriter();
-		PersistenceUtils.createMarshaller().marshal(persistence, writer);
-		persistenceXmlFile.setContents(writer.toString());
-
-		// TODO HACK!!! REMOVE ME!!!
-		new File(plugin.getTargetDir(), "META-INF").mkdir();
+		getPersistenceMarshaller().marshallPersistence(plugin.getTargetDir(),
+				outline.getCodeModel(), persistence);
 
 		return includedClasses;
 	}
@@ -76,17 +76,14 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 	// this.outlineProcessor = outlineProcessor;
 	// }
 	//
-	protected Persistence createPersistence(EjbPlugin plugin, Outline outline,
-			Options options, final Collection<ClassOutline> includedClasses)
+	protected Persistence createPersistence(EjbPlugin plugin,
+			PersistenceUnit persistenceUnit, String persistenceUnitName)
 			throws JAXBException {
 
-		final String persistenceUnitName = plugin.getPersistenceUnitName();
-		final String generatedPersistenceUnitName = persistenceUnitName != null ? persistenceUnitName
-				: getNaming().getPersistenceUnitName(outline);
 		// plugin.get
 
 		final Persistence persistence;
-		final PersistenceUnit persistenceUnit;
+		final PersistenceUnit targetPersistenceUnit;
 
 		final File persistenceXml = plugin.getPersistenceXml();
 
@@ -105,16 +102,15 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 						foundPersistenceUnit = unit;
 					} else if ("##generated".equals(unit.getName())) {
 						foundPersistenceUnit = unit;
-						foundPersistenceUnit
-								.setName(generatedPersistenceUnitName);
+						foundPersistenceUnit.setName(persistenceUnitName);
 					}
 				}
 				if (foundPersistenceUnit != null) {
-					persistenceUnit = foundPersistenceUnit;
+					targetPersistenceUnit = foundPersistenceUnit;
 				} else {
-					persistenceUnit = new PersistenceUnit();
-					persistence.getPersistenceUnit().add(persistenceUnit);
-					persistenceUnit.setName(generatedPersistenceUnitName);
+					targetPersistenceUnit = new PersistenceUnit();
+					persistence.getPersistenceUnit().add(targetPersistenceUnit);
+					targetPersistenceUnit.setName(persistenceUnitName);
 				}
 
 			} catch (Exception ex) {
@@ -125,18 +121,15 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 		} else {
 			persistence = new Persistence();
 			persistence.setVersion("1.0");
-			persistenceUnit = new PersistenceUnit();
-			persistence.getPersistenceUnit().add(persistenceUnit);
-			persistenceUnit.setName(generatedPersistenceUnitName);
+			targetPersistenceUnit = new PersistenceUnit();
+			persistence.getPersistenceUnit().add(targetPersistenceUnit);
+			targetPersistenceUnit.setName(persistenceUnitName);
 		}
 
-		// final S
+		persistenceUnit.copyTo(targetPersistenceUnit);
 
-		for (final ClassOutline classOutline : includedClasses) {
-			persistenceUnit.getClazz().add(
-					OutlineUtils.getClassName(classOutline));
-		}
-		Collections.sort(persistenceUnit.getClazz());
+		Collections.sort(targetPersistenceUnit.getClazz());
+		Collections.sort(targetPersistenceUnit.getClazz());
 		return persistence;
 	}
 
@@ -149,5 +142,16 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 	@Required
 	public void setOutlineProcessor(OutlineProcessor<EjbPlugin> outlineProcessor) {
 		this.outlineProcessor = outlineProcessor;
+	}
+
+	private PersistenceUnitFactory persistenceUnitFactory = new ClassPersistenceUnitFactory();
+
+	public PersistenceUnitFactory getPersistenceUnitFactory() {
+		return persistenceUnitFactory;
+	}
+
+	public void setPersistenceUnitFactory(
+			PersistenceUnitFactory persistenceUnitFactory) {
+		this.persistenceUnitFactory = persistenceUnitFactory;
 	}
 }
