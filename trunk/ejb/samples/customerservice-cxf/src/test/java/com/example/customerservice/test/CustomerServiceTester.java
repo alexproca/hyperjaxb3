@@ -23,9 +23,9 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import com.example.customerservice.Customer;
-import com.example.customerservice.CustomerService;
-import com.example.customerservice.NoSuchCustomerException;
+import com.example.customerservice.model.Customer;
+import com.example.customerservice.service.CustomerService;
+import com.example.customerservice.service.NoSuchCustomerException;
 
 public final class CustomerServiceTester {
     

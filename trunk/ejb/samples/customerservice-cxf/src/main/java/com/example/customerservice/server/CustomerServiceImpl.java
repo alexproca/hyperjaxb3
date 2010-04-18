@@ -1,80 +1,59 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 package com.example.customerservice.server;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.xml.ws.WebServiceContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
-import com.example.customerservice.Customer;
-import com.example.customerservice.CustomerService;
-import com.example.customerservice.CustomerType;
-import com.example.customerservice.NoSuchCustomer;
-import com.example.customerservice.NoSuchCustomerException;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public class CustomerServiceImpl implements CustomerService {
-    
-    /**
-     * The WebServiceContext can be used to retrieve special attributes like the 
-     * user principal. Normally it is not needed
-     */
-    @Resource
-    WebServiceContext wsContext;
+import com.example.customerservice.model.Customer;
+import com.example.customerservice.service.CustomerService;
+import com.example.customerservice.service.NoSuchCustomer;
+import com.example.customerservice.service.NoSuchCustomerException;
 
-    public List<Customer> getCustomersByName(String name) throws NoSuchCustomerException {
-        if ("None".equals(name)) {
-            NoSuchCustomer noSuchCustomer = new NoSuchCustomer();
-            noSuchCustomer.setCustomerName(name);
-            throw new NoSuchCustomerException("Did not find any matching customer for name=" + name,
-                                              noSuchCustomer);
-        }
+@Transactional
+public class CustomerServiceImpl extends JpaDaoSupport implements
+		CustomerService {
 
-        List<Customer> customers = new ArrayList<Customer>();
-        for (int c = 0; c < 2; c++) {
-            Customer cust = new Customer();
-            cust.setName(name);
-            cust.getAddress().add("Pine Street 200");
-            Date bDate = new GregorianCalendar(2009, 01, 01).getTime();
-            cust.setBirthDate(bDate);
-            cust.setNumOrders(1);
-            cust.setRevenue(10000);
-            cust.setTest(new BigDecimal(1.5));
-            cust.setType(CustomerType.BUSINESS);
-            customers.add(cust);
-        }
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Customer> getCustomersByName(final String name)
+			throws NoSuchCustomerException {
+		@SuppressWarnings("unchecked")
+		final List<Customer> customers = getJpaTemplate().executeFind(
+				new JpaCallback<List<Customer>>() {
 
-        return customers;
-    }
+					@Override
+					public List<Customer> doInJpa(EntityManager em)
+							throws PersistenceException {
 
-    public void updateCustomer(Customer customer) {
-        System.out.println("update request was received");
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            // Nothing to do here
-        }
-        System.out.println("Customer was updated");
-    }
+						final Query query = em
+								.createQuery("SELECT c FROM Customer c WHERE c.name = :name ORDER BY c.name DESC");
+
+						query.setParameter("name", name);
+						final List resultList = query.getResultList();
+						return resultList;
+					}
+				});
+
+		if (customers.isEmpty()) {
+			NoSuchCustomer noSuchCustomer = new NoSuchCustomer();
+			noSuchCustomer.setCustomerName(name);
+			throw new NoSuchCustomerException(
+					"Did not find any matching customer for name=" + name,
+					noSuchCustomer);
+
+		}
+		return customers;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void updateCustomer(Customer customer) {
+		getJpaTemplate().merge(customer);
+	}
 
 }

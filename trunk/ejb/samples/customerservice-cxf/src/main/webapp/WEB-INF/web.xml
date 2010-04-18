@@ -5,6 +5,15 @@
 
     <display-name>CXF Example Webservice</display-name>
 
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>org.jvnet.hyperjaxb3.ejb.samples.customerservicecxf.webAppRoot</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+	</listener>
+
     <servlet>
         <servlet-name>org.apache.cxf.transport.servlet.CXFServlet</servlet-name>
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>

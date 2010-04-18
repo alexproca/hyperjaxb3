@@ -18,24 +18,43 @@
  */
 package com.example.customerservice.client;
 
-
+import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.example.customerservice.test.CustomerServiceTester;
+import com.example.customerservice.model.Customer;
+import com.example.customerservice.service.CustomerService;
+import com.example.customerservice.service.NoSuchCustomerException;
 
 public final class CustomerServiceSpringClient {
 
-    private CustomerServiceSpringClient() {
-    }
+	private CustomerServiceSpringClient() {
+	}
 
-    public static void main(String args[]) throws Exception {
-        // Initialize the spring context and fetch our test client
-        ClassPathXmlApplicationContext context 
-            = new ClassPathXmlApplicationContext("classpath:com/example/customerservice/client/applicationContext.xml");
-        CustomerServiceTester client = (CustomerServiceTester)context.getBean("tester");
-        
-        client.testCustomerService();
-        System.exit(0);
-    }
+	public static void main(String args[]) throws Exception {
+		// Initialize the spring context and fetch our test client
+		final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"classpath:com/example/customerservice/client/applicationContext.xml");
+
+		CustomerService bean = context.getBean(CustomerService.class);
+
+		for (String arg : args)
+
+		{
+			try {
+				List<Customer> customersByName = bean.getCustomersByName(arg);
+
+				for (Customer customer : customersByName) {
+					System.out.println("Found customer with id ["
+							+ customer.getCustomerId() + "].");
+				}
+			} catch (NoSuchCustomerException nscex) {
+				System.err.println("Could not find any customers named [" + arg
+						+ "].");
+
+			}
+		}
+
+		System.exit(0);
+	}
 }
