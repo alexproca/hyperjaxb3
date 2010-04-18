@@ -58,8 +58,8 @@ public class MappingFilePersistenceProcessor implements
 		final Persistence persistence = createPersistence(plugin,
 				persistenceUnit, persistenceUnitName);
 
-		getPersistenceMarshaller().marshallPersistence(plugin.getTargetDir(),
-				outline.getCodeModel(), persistence);
+		getPersistenceMarshaller().marshallPersistence(outline.getCodeModel(),
+				persistence);
 
 		// TODO Auto-generated method stub
 		return includedClasses;
@@ -100,7 +100,7 @@ public class MappingFilePersistenceProcessor implements
 						foundPersistenceUnit = unit;
 					} else if ("##generated".equals(unit.getName())) {
 						foundPersistenceUnit = unit;
-//						foundPersistenceUnit.setName(persistenceUnitName);
+						// foundPersistenceUnit.setName(persistenceUnitName);
 					}
 				}
 				if (foundPersistenceUnit != null) {
@@ -108,7 +108,7 @@ public class MappingFilePersistenceProcessor implements
 				} else {
 					targetPersistenceUnit = new PersistenceUnit();
 					persistence.getPersistenceUnit().add(targetPersistenceUnit);
-//					targetPersistenceUnit.setName(persistenceUnitName);
+					// targetPersistenceUnit.setName(persistenceUnitName);
 				}
 
 			} catch (Exception ex) {
