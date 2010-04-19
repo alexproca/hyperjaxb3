@@ -17,9 +17,15 @@
 			<xs:element name="getCustomersByName" type="tns:getCustomersByName" />
 			<xs:element name="getCustomersByNameResponse" type="tns:getCustomersByNameResponse" />
 			<xs:element name="updateCustomer" type="tns:updateCustomer" />
+			<xs:element name="deleteCustomerById" type="tns:deleteCustomerById" />
 			<xs:complexType name="updateCustomer">
 				<xs:sequence>
 					<xs:element minOccurs="0" name="customer" type="cns:customer" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="deleteCustomerById">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="customerId" type="xs:int" />
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="getCustomersByName">
@@ -52,6 +58,10 @@
 		<wsdl:part name="parameters" element="tns:updateCustomer">
 		</wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="deleteCustomerById">
+		<wsdl:part name="parameters" element="tns:deleteCustomerById">
+		</wsdl:part>
+	</wsdl:message>	
 	<wsdl:message name="NoSuchCustomerException">
 		<wsdl:part name="NoSuchCustomerException" element="tns:NoSuchCustomer">
 		</wsdl:part>
@@ -59,6 +69,10 @@
 	<wsdl:portType name="CustomerService">
 		<wsdl:operation name="updateCustomer">
 			<wsdl:input name="updateCustomer" message="tns:updateCustomer">
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="deleteCustomerById">
+			<wsdl:input name="deleteCustomerById" message="tns:deleteCustomerById">
 			</wsdl:input>
 		</wsdl:operation>
 		<wsdl:operation name="getCustomersByName">

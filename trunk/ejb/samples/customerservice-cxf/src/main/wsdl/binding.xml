@@ -13,6 +13,5 @@
                       parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDate"
                       printMethod="org.apache.cxf.tools.common.DataTypeAdapter.printDate"/>
       </jaxb:globalBindings>
-      <hj:ignored-package name="com.example.customerservice.service"/>
   </jaxws:bindings>
 </jaxws:bindings>

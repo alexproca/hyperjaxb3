@@ -119,6 +119,9 @@
 					<include>META-INF/persistence.xml</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>target/generated-resources/hbm2ddl</directory>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -164,20 +167,36 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!--
-				plugin> <groupId>org.codehaus.mojo</groupId>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>hibernate3-maven-plugin</artifactId>
-				<version>2.2</version> <executions> <execution>
-				<phase>process-classes</phase> <goals> <goal>hbm2ddl</goal> </goals>
-				</execution> </executions> <configuration> <components> <component>
-				<name>hbm2ddl</name>
-				<implementation>jpaconfiguration</implementation> </component>
-				</components> <componentProperties>
-				<persistenceunit>com.example.customerservice.model</persistenceunit>
-				<outputfilename>schema.ddl</outputfilename> <drop>false</drop>
-				<create>true</create> <export>false</export> <format>true</format>
-				</componentProperties> </configuration> </plugin
-			-->
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+							<outputDirectory>target/generated-resources/hbm2ddl/org/jvnet/hyperjaxb3/ejb/samples/customerservicecxf</outputDirectory>
+						</component>
+					</components>
+					<componentProperties>
+						<persistenceunit>com.example.customerservice.model</persistenceunit>
+						<outputfilename>schema.ddl</outputfilename>
+						<drop>false</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+			</plugin>
 
 
 

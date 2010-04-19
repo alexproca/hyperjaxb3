@@ -1,17 +1,15 @@
 package com.example.customerservice.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.apache.cxf.tools.common.DataTypeAdapter;
 import org.hisrc.hifaces20.testing.webappenvironment.WebAppEnvironment;
 import org.hisrc.hifaces20.testing.webappenvironment.annotations.PropertiesWebAppEnvironmentConfig;
 import org.hisrc.hifaces20.testing.webappenvironment.testing.spring.WebAppEnvironmentTestExecutionListener;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +48,14 @@ public class CustomerServiceTest {
 	}
 
 	@Test
-	public void checkCustomerServiceProvided() throws NoSuchCustomerException {
+	public void checkCustomerServiceProvided() throws NoSuchCustomerException, InterruptedException {
 
-//		try {
-//			getCustomerService().getCustomersByName("Scott Tiger");
-//			fail();
-//		} catch (NoSuchCustomerException nscex) {
-//			Assert.assertTrue(true);
-//		}
+		// try {
+		// getCustomerService().getCustomersByName("Scott Tiger");
+		// fail();
+		// } catch (NoSuchCustomerException nscex) {
+		// Assert.assertTrue(true);
+		// }
 
 		final Customer originalCustomer = new Customer();
 
@@ -82,6 +80,18 @@ public class CustomerServiceTest {
 		final Customer retrievedCustomer = customers.get(0);
 
 		assertEquals(originalCustomer, retrievedCustomer);
+
+		getCustomerService().deleteCustomerById(
+				retrievedCustomer.getCustomerId());
+		
+		Thread.sleep(500);
+
+		try {
+			final List<Customer> retrievedCustomers = getCustomerService().getCustomersByName("Scott Tiger");
+			Assert.fail();
+		} catch (NoSuchCustomerException nscex) {
+			Assert.assertTrue(true);
+		}
 
 	}
 }
