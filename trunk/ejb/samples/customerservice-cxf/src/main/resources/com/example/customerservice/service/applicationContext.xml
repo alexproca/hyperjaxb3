@@ -35,11 +35,11 @@
 		<property name="entityManagerFactory" ref="javax.persistence.EntityManagerFactory" />
 	</bean>
 
-	<jdbc:initialize-database data-source="javax.sql.DataSource"
+	<!-- jdbc:initialize-database data-source="javax.sql.DataSource"
 		ignore-failures="ALL">
 		<jdbc:script
 			location="classpath:org/jvnet/hyperjaxb3/ejb/samples/customerservicecxf/schema.ddl" />
-	</jdbc:initialize-database>
+	</jdbc:initialize-database-->
 
 	<bean name="javax.sql.DataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -55,6 +55,12 @@
 		<property name="dataSource" ref="javax.sql.DataSource" />
 		<property name="persistenceUnitName" value="com.example.customerservice.model" />
 		<property name="persistenceProviderClass" value="org.hibernate.ejb.HibernatePersistence" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+			</props>
+		</property>
 	</bean>
 
 	<tx:annotation-driven
