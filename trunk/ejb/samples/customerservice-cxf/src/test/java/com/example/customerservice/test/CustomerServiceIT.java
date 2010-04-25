@@ -1,9 +1,9 @@
 package com.example.customerservice.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.tools.common.DataTypeAdapter;
@@ -13,10 +13,6 @@ import org.hisrc.hifaces20.testing.webappenvironment.testing.junit4.WebAppEnviro
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.MethodRule;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.support.GenericXmlContextLoader;
 
 import com.example.customerservice.model.Customer;
 import com.example.customerservice.model.CustomerType;
@@ -43,7 +39,7 @@ public class CustomerServiceIT {
 
 		final Customer originalCustomer = new Customer();
 
-		originalCustomer.setCustomerId(1);
+		// originalCustomer.setCustomerId(1);
 		originalCustomer.setName("Scott Tiger");
 		originalCustomer.getAddress().add("Hauptstr. 6");
 		originalCustomer.getAddress().add("76133 Karlsruhe");
@@ -54,16 +50,17 @@ public class CustomerServiceIT {
 		originalCustomer.setBirthDate(DataTypeAdapter.parseDate("1970-01-01"));
 		originalCustomer.setType(CustomerType.BUSINESS);
 
-		customerService.updateCustomer(originalCustomer);
+		final Integer customerId = customerService
+				.updateCustomer(originalCustomer);
 
-		final List<Customer> customers = customerService
-				.getCustomersByName("Scott Tiger");
+		assertNotNull(customerId);
 
-		assertEquals(1, customers.size());
+		final Customer retrievedCustomer = customerService
+				.getCustomerById(customerId);
 
-		final Customer retrievedCustomer = customers.get(0);
-
-		assertEquals(originalCustomer, retrievedCustomer);
+		assertEquals(originalCustomer.getName(), retrievedCustomer.getName());
+		assertEquals(originalCustomer.getAddress(), retrievedCustomer
+				.getAddress());
 
 		customerService.deleteCustomerById(retrievedCustomer.getCustomerId());
 

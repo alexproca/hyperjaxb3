@@ -18,7 +18,6 @@ public class CustomerServiceImpl extends JpaDaoSupport implements
 			throws NoSuchCustomerException {
 
 		final Customer customer = getCustomerById(customerId);
-
 		getJpaTemplate().remove(customer);
 	}
 

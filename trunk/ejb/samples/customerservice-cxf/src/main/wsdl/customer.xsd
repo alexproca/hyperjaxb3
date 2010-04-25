@@ -6,7 +6,7 @@
 	targetNamespace="http://customerservice.example.com/model">
 	<xs:complexType name="customer">
 		<xs:sequence>
-			<xs:element name="customerId" type="xs:int" />
+			<xs:element name="customerId" type="xs:int" minOccurs="0"/>
 			<xs:element minOccurs="0" name="name" type="xs:string" />
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="address"
 				nillable="true" type="xs:string" />
