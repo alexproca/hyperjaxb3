@@ -119,9 +119,6 @@
 					<include>META-INF/persistence.xml</include>
 				</includes>
 			</resource>
-			<resource>
-				<directory>target/generated-resources/hbm2ddl</directory>
-			</resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -167,41 +164,11 @@
 				</dependencies>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>hibernate3-maven-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>hbm2ddl</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<components>
-						<component>
-							<name>hbm2ddl</name>
-							<implementation>jpaconfiguration</implementation>
-							<outputDirectory>target/generated-resources/hbm2ddl/org/jvnet/hyperjaxb3/ejb/samples/customerservicecxf</outputDirectory>
-						</component>
-					</components>
-					<componentProperties>
-						<persistenceunit>com.example.customerservice.model</persistenceunit>
-						<outputfilename>schema.ddl</outputfilename>
-						<drop>false</drop>
-						<create>true</create>
-						<export>false</export>
-						<format>true</format>
-					</componentProperties>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>integration-test-selenium</id>
+						<id>integration-test</id>
 						<phase>integration-test</phase>
 						<goals>
 							<goal>integration-test</goal>
@@ -209,25 +176,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
-
-			<!--
-				plugin> <groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-java2ws-plugin</artifactId> <version>2.2.6</version>
-				<dependencies> <dependency> <groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-rt-frontend-jaxws</artifactId>
-				<version>2.2.6</version> </dependency> <dependency>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-rt-frontend-simple</artifactId>
-				<version>2.2.6</version> </dependency> </dependencies> <executions>
-				<execution> <id>process-classes</id> <phase>process-classes</phase>
-				<configuration>
-				<className>com.unitedcoders.demo.PersonService</className>
-				<genWsdl>true</genWsdl> <verbose>true</verbose> </configuration>
-				<goals> <goal>java2ws</goal> </goals> </execution> </executions>
-				</plugin
-			-->
 		</plugins>
 	</build>
 </project>

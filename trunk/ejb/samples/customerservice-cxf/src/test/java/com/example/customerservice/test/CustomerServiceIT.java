@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.tools.common.DataTypeAdapter;
 import org.hisrc.hifaces20.testing.webappenvironment.WebAppEnvironment;
 import org.hisrc.hifaces20.testing.webappenvironment.annotations.PropertiesWebAppEnvironmentConfig;
@@ -32,13 +33,13 @@ public class CustomerServiceIT {
 	@Test
 	public void checkCustomerService() throws Exception {
 
-		System.setProperty("baseUrl", webAppEnvironment.getBaseUrl());
+		final JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
+		jaxWsProxyFactoryBean.setServiceClass(CustomerService.class);
+		jaxWsProxyFactoryBean.setAddress(webAppEnvironment.getBaseUrl()
+				+ "/CustomerServicePort");
 
-		ConfigurableApplicationContext applicationContext = new GenericXmlContextLoader()
-				.loadContext("classpath:com/example/customerservice/client/applicationContext.xml");
-
-		final CustomerService customerService = BeanFactoryUtils.beanOfType(
-				applicationContext, CustomerService.class);
+		final CustomerService customerService = (CustomerService) jaxWsProxyFactoryBean
+				.create();
 
 		final Customer originalCustomer = new Customer();
 

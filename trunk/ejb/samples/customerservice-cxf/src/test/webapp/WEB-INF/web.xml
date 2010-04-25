@@ -20,7 +20,7 @@
         <init-param>
 	        <param-name>config-location</param-name>
     	    <param-value>
-    	    	classpath:com/example/customerservice/service/test/applicationContext.xml
+    	    	classpath:com/example/customerservice/server/test/applicationContext.xml
     	    </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

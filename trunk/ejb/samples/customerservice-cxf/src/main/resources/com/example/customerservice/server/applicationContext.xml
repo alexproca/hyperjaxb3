@@ -16,7 +16,7 @@
 		class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />
 
 	<jaxws:endpoint
-		name="com.example.customerservice.service.CustomerServiceServer"
+		name="com.example.customerservice.server.CustomerServiceServer"
 		xmlns:customer="http://customerservice.example.com/service"
 		address="/CustomerServicePort"
 		serviceName="customer:CustomerServiceService"
