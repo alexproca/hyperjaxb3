@@ -1,12 +1,5 @@
 package com.example.customerservice.server;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,62 +14,37 @@ public class CustomerServiceImpl extends JpaDaoSupport implements
 		CustomerService {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void deleteCustomerById(final Integer customerId) {
+	public void deleteCustomerById(final Integer customerId)
+			throws NoSuchCustomerException {
 
-		@SuppressWarnings("unchecked")
-		final List<Customer> customers = getJpaTemplate().executeFind(
-				new JpaCallback<List<Customer>>() {
+		final Customer customer = getCustomerById(customerId);
 
-					@Override
-					public List<Customer> doInJpa(EntityManager em)
-							throws PersistenceException {
-						final Query query = em
-								.createQuery("SELECT c FROM Customer c WHERE c.customerId = :id");
-						query.setParameter("id", customerId);
-						return (List<Customer>) query.getResultList();
-					}
-				});
-
-		for (Customer customer : customers) {
-			getJpaTemplate().remove(customer);
-		}
-
+		getJpaTemplate().remove(customer);
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Customer> getCustomersByName(final String name)
+	public Customer getCustomerById(final Integer customerId)
 			throws NoSuchCustomerException {
-		@SuppressWarnings("unchecked")
-		final List<Customer> customers = getJpaTemplate().executeFind(
-				new JpaCallback<List<Customer>>() {
 
-					@Override
-					public List<Customer> doInJpa(EntityManager em)
-							throws PersistenceException {
+		final Customer customer = getJpaTemplate().find(Customer.class,
+				customerId);
 
-						final Query query = em
-								.createQuery("SELECT c FROM Customer c WHERE c.name = :name ORDER BY c.name DESC");
-
-						query.setParameter("name", name);
-						final List resultList = query.getResultList();
-						return resultList;
-					}
-				});
-
-		if (customers.isEmpty()) {
+		if (customer == null) {
 			NoSuchCustomer noSuchCustomer = new NoSuchCustomer();
-			noSuchCustomer.setCustomerName(name);
+			noSuchCustomer.setCustomerId(customerId);
 			throw new NoSuchCustomerException(
-					"Did not find any matching customer for name=" + name,
-					noSuchCustomer);
+					"Did not find any matching customer for id [" + customerId
+							+ "].", noSuchCustomer);
 
+		} else {
+			return customer;
 		}
-		return customers;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void updateCustomer(Customer customer) {
-		getJpaTemplate().merge(customer);
+	public Integer updateCustomer(Customer customer) {
+		final Customer mergedCustomer = getJpaTemplate().merge(customer);
+		return mergedCustomer.getCustomerId();
 	}
 
 }
