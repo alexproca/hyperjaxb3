@@ -25,6 +25,14 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>target/generated-resources/hbm2ddl</directory>
+			</resource>
+		</resources>
 		<defaultGoal>test</defaultGoal>
 		<plugins>
 			<plugin>
@@ -33,6 +41,59 @@
 				<configuration>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.issues.tests.RoundtripTest</roundtripTestClassName>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+							<outputDirectory>target/generated-resources/hbm2ddl/org/jvnet/hyperjaxb3/ejb/tests/issues</outputDirectory>
+						</component>
+					</components>
+					<componentProperties>
+						<persistenceunit>org.jvnet.hyperjaxb3.ejb.tests.issues</persistenceunit>
+						<propertyfile>src/test/resources/persistence.properties</propertyfile>
+						<outputfilename>schema.ddl</outputfilename>
+						<drop>false</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.2</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<resources>          
+								<resource>
+									<directory>target/generated-resources/hbm2ddl</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>              
+						</configuration> 
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
