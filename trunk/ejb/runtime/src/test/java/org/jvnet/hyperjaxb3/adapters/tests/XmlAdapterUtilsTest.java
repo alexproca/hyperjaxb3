@@ -1,10 +1,7 @@
 package org.jvnet.hyperjaxb3.adapters.tests;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -180,25 +177,74 @@ public class XmlAdapterUtilsTest extends TestCase {
 
 		final XMLGregorianCalendar alpha = DatatypeFactory.newInstance()
 				.newXMLGregorianCalendar(text);
-		System.out
-				.println("1]" + alpha.toGregorianCalendar().getTimeInMillis());
+		System.out.println("T]" + alpha.getTimezone());
+		long a = alpha.toGregorianCalendar().getTimeInMillis();
+		System.out.println("1]" + a);
 		final Date beta = XmlAdapterUtils.unmarshall(
 				XMLGregorianCalendarAsDateTime.class, alpha);
-		System.out.println("2]" + beta.getTime());
+		long b = beta.getTime();
+		System.out.println("2]" + b);
 		final XMLGregorianCalendar gamma = XmlAdapterUtils.marshall(
 				XMLGregorianCalendarAsDateTime.class, beta);
-		System.out
-				.println("3]" + gamma.toGregorianCalendar().getTimeInMillis());
+		long c = gamma.toGregorianCalendar().getTimeInMillis();
+		System.out.println("3]" + c);
 		final Date delta = XmlAdapterUtils.unmarshall(
 				XMLGregorianCalendarAsDateTime.class, gamma);
-		System.out.println("4]" + delta.getTime());
+		long d = delta.getTime();
+		System.out.println("4]" + d);
 		final XMLGregorianCalendar epsilon = XmlAdapterUtils.marshall(
 				XMLGregorianCalendarAsDateTime.class, delta);
-		System.out.println("5]"
-				+ epsilon.toGregorianCalendar().getTimeInMillis());
+		long e = epsilon.toGregorianCalendar().getTimeInMillis();
+		System.out.println("5]" + e);
 		// Assert.assertEquals("Conversion failed.", alpha, gamma);
 		Assert.assertEquals("Conversion failed.", beta, delta);
 		Assert.assertEquals("Conversion failed.", gamma, epsilon);
+		Assert.assertEquals("Conversion failed.", a, b);
+		Assert.assertEquals("Conversion failed.", b, c);
+		Assert.assertEquals("Conversion failed.", c, d);
+		Assert.assertEquals("Conversion failed.", d, e);
 	}
 
+//	public void testXMLGregorianCalendarAsDateXmlAdapter() throws Exception {
+//
+//		checkXMLGregorianCalendarAsDateXmlAdapter("2008-01-02");
+//		checkXMLGregorianCalendarAsDateXmlAdapter("2008-01-02Z");
+//		checkXMLGregorianCalendarAsDateXmlAdapter("2005-01-01+00:00");
+//		checkXMLGregorianCalendarAsDateXmlAdapter("2005-01-01+02:00");
+//		checkXMLGregorianCalendarAsDateXmlAdapter("2008-01-02+01:00");
+//	}
+//
+//	private void checkXMLGregorianCalendarAsDateXmlAdapter(final String text)
+//			throws DatatypeConfigurationException {
+//
+//		final XMLGregorianCalendar alpha = DatatypeFactory.newInstance()
+//				.newXMLGregorianCalendar(text);
+//		System.out.println("T>" + alpha.getTimezone());
+//
+//		long a = alpha.toGregorianCalendar().getTimeInMillis();
+//		System.out.println("1>" + a);
+//		final Date beta = XmlAdapterUtils.unmarshall(
+//				XMLGregorianCalendarAsDate.class, alpha);
+//		long b = beta.getTime();
+//		System.out.println("2>" + b);
+//		final XMLGregorianCalendar gamma = XmlAdapterUtils.marshall(
+//				XMLGregorianCalendarAsDate.class, beta);
+//		long c = gamma.toGregorianCalendar().getTimeInMillis();
+//		System.out.println("3>" + c);
+//		final Date delta = XmlAdapterUtils.unmarshall(
+//				XMLGregorianCalendarAsDate.class, gamma);
+//		long d = delta.getTime();
+//		System.out.println("4>" + d);
+//		final XMLGregorianCalendar epsilon = XmlAdapterUtils.marshall(
+//				XMLGregorianCalendarAsDate.class, delta);
+//		long e = epsilon.toGregorianCalendar().getTimeInMillis();
+//		System.out.println("5>" + e);
+//		// Assert.assertEquals("Conversion failed.", alpha, gamma);
+//		// Assert.assertEquals("Conversion failed.", beta, delta);
+//		// Assert.assertEquals("Conversion failed.", gamma, epsilon);
+//		Assert.assertEquals("Conversion failed.", a, b);
+//		Assert.assertEquals("Conversion failed.", b, c);
+//		Assert.assertEquals("Conversion failed.", c, d);
+//		Assert.assertEquals("Conversion failed.", d, e);
+//	}
 }
