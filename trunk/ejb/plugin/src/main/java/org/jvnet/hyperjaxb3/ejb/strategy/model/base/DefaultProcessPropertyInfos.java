@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
@@ -15,6 +19,7 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
@@ -77,46 +82,22 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		return propertyInfo.accept(classifyingVisitor);
 	}
 
-	// public boolean isNonRootClass(ProcessModel context, CClassInfo classInfo)
-	// {
-	// // // TODO #72 Check parent classes for ignored
-	// // return classInfo.getBaseClass() == null
-	// // // CustomizationUtils.containsCustomization(classInfo, name)
-	// //
-	// // && classInfo.getRefBaseClass() == null;
-	// //
-	// // return ! (classInfo.getBaseClass() != null ||
-	// // classInfo.getRefBaseClass() != null)
-	// //
-	// if (CustomizationUtils.containsCustomization(classInfo,
-	// Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME))
-	// {
-	// return true;
-	// }
-	// if (classInfo.getRefBaseClass() != null) {
-	// return true;
-	// } else if (classInfo.getBaseClass() != null) {
-	// return isNonRootClass(context, classInfo);
-	// } else {
-	// return false;
-	// }
-	// }
-
 	public boolean isRootClass(ProcessModel context, CClassInfo classInfo) {
+		final boolean notMappedSuperclassAndNotEmbeddable = !CustomizationUtils
+				.containsCustomization(classInfo,
+						Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
+				&& !CustomizationUtils.containsCustomization(classInfo,
+						Customizations.EMBEDDABLE_ELEMENT_NAME);
 		if (classInfo.getRefBaseClass() != null) {
-			return false;
+			return notMappedSuperclassAndNotEmbeddable
+					&& !isSelfOrAncestorRootClass(context, classInfo
+							.getRefBaseClass());
 		} else if (classInfo.getBaseClass() != null) {
-			return !(CustomizationUtils.containsCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME) || CustomizationUtils
-					.containsCustomization(classInfo,
-							Customizations.EMBEDDABLE_ELEMENT_NAME))
+			return notMappedSuperclassAndNotEmbeddable
 					&& !isSelfOrAncestorRootClass(context, classInfo
 							.getBaseClass());
 		} else {
-			return !(CustomizationUtils.containsCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME) || CustomizationUtils
-					.containsCustomization(classInfo,
-							Customizations.EMBEDDABLE_ELEMENT_NAME));
+			return notMappedSuperclassAndNotEmbeddable;
 		}
 	}
 
@@ -125,14 +106,58 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		if (isRootClass(context, classInfo)) {
 			return true;
 		} else if (classInfo.getRefBaseClass() != null) {
-			return false;
+			return isSelfOrAncestorRootClass(context, classInfo
+					.getRefBaseClass());
 		} else if (classInfo.getBaseClass() != null) {
 			return isSelfOrAncestorRootClass(context, classInfo.getBaseClass());
 		} else {
 			return !CustomizationUtils.containsCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
+					&& !CustomizationUtils.containsCustomization(classInfo,
+							Customizations.EMBEDDABLE_ELEMENT_NAME);
 		}
 
+	}
+
+	public boolean isSelfOrAncestorRootClass(ProcessModel context,
+			CClassRef classRef) {
+
+		final String className = classRef.fullName();
+
+		try {
+			final Class<?> referencedClass = Class.forName(className);
+			return isSelfOrAncestorRootClass(referencedClass);
+
+		} catch (ClassNotFoundException cnfex) {
+			logger
+					.warn("Referenced class ["
+							+ className
+							+ "] could not be found, this may lead to incorrect generation of the identifier fields.");
+			return true;
+		}
+	}
+
+	public boolean isRootClass(Class<?> theClass) {
+		final boolean notMappedSuperclassAndNotEmbeddable = theClass
+				.getAnnotation(MappedSuperclass.class) == null
+				&& theClass.getAnnotation(Embeddable.class) == null;
+		if (theClass.getSuperclass() != null) {
+			return notMappedSuperclassAndNotEmbeddable
+					&& !isSelfOrAncestorRootClass(theClass.getSuperclass());
+		} else {
+			return notMappedSuperclassAndNotEmbeddable;
+		}
+	}
+
+	public boolean isSelfOrAncestorRootClass(Class<?> theClass) {
+		if (isRootClass(theClass)) {
+			return true;
+		} else if (theClass.getSuperclass() != null) {
+			return isSelfOrAncestorRootClass(theClass.getSuperclass());
+		} else {
+			return theClass.getAnnotation(MappedSuperclass.class) == null
+					&& theClass.getAnnotation(Embeddable.class) == null;
+		}
 	}
 
 	public Collection<CPropertyInfo> createDefaultIdPropertyInfos(

@@ -30,4 +30,18 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:complexType name="issueHJIII24Mammal">
+		<xsd:complexContent>
+		    <xsd:extension base="a:issueHJIII24Animal">
+		    </xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="issueHJIII24Dog">
+		<xsd:complexContent>
+		    <xsd:extension base="b:issueHJIII24Mammal">
+		    </xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 </xsd:schema>
