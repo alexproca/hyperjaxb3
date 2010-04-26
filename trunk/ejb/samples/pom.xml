@@ -18,6 +18,7 @@
 		<module>po-customized-toplink</module>
 		<module>uniprot</module>
 		<module>po-maven-jaxb2-plugin</module>
+		<module>customerservice-cxf</module>
 	</modules>
 	<build>
 		<defaultGoal>install</defaultGoal>
