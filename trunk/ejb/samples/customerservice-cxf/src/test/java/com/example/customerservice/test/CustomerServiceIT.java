@@ -23,7 +23,7 @@ public class CustomerServiceIT {
 	@Rule
 	public MethodRule webAppEnvironmentRule = WebAppEnvironmentRule.INSTANCE;
 
-	@PropertiesWebAppEnvironmentConfig
+	@PropertiesWebAppEnvironmentConfig("src/test/resources/test-web.properties")
 	public WebAppEnvironment webAppEnvironment;
 
 	@Test
