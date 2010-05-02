@@ -5,7 +5,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-tutorials-po</artifactId>
 	<packaging>pom</packaging>
-	<name>Hyperjaxb3 EJB Tutorials [po]</name>
+	<name>Hyperjaxb3 EJB Tutorial [po]</name>
 	<version>0.5.5-SNAPSHOT</version>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
@@ -16,5 +16,6 @@
 	<modules>
 		<module>step-one</module>
 		<module>step-two</module>
+		<module>step-three</module>
 	</modules>
 </project>

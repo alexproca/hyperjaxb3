@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>2.1.10</version>
+			<version>2.1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
@@ -90,7 +90,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<debug>false</debug>
 					<extension>true</extension>
+					<variant>ejb</variant>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tutorials.po.steptwo.RoundtripTest</roundtripTestClassName>
 				</configuration>
 			</plugin>

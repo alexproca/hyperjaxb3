@@ -7,12 +7,12 @@
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 EJB Tutorials</name>
 	<version>0.5.5-SNAPSHOT</version>
-	<parent>
+	<!--parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb</artifactId>
 		<version>0.5.5-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
-	</parent>
+	</parent-->
 	<modules>
 		<module>po</module>
 	</modules>

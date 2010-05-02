@@ -3,44 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
-	<artifactId>hyperjaxb3-ejb-tutorials-po-step-one</artifactId>
+	<artifactId>hyperjaxb3-ejb-tutorials-po-step-three</artifactId>
 	<version>0.5.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Hyperjaxb3 EJB Tutorial [po:step-one]</name>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-runtime</artifactId>
-				<version>0.5.3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-testing</artifactId>
-				<version>0.5.3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-tools</artifactId>
-				<version>0.5.3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics</artifactId>
-				<version>0.5.3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-annotate</artifactId>
-				<version>0.5.3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-ant</artifactId>
-				<version>0.5.3-SNAPSHOT</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<name>Hyperjaxb3 EJB Tutorial [po:step-three]</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -60,11 +26,19 @@
 			<version>3.8.1</version>
 		</dependency>
 
-		<!-- Hibernate Dependencies -->
+		<!-- Roundtrip -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.4.0.GA</version>
+			<groupId>org.jvnet.hyperjaxb3</groupId>
+			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
+			<version>0.5.5-SNAPSHOT</version>
+		</dependency>
+
+		<!-- TopLink Dependencies -->
+
+		<dependency>
+			<groupId>toplink.essentials</groupId>
+			<artifactId>toplink-essentials</artifactId>
+			<version>2.0.1-04</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -117,6 +91,7 @@
 				</executions>
 				<configuration>
 					<extension>true</extension>
+					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tutorials.po.stepthree.RoundtripTest</roundtripTestClassName>
 				</configuration>
 			</plugin>
 			<plugin>
