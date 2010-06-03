@@ -55,7 +55,6 @@ public abstract class PrimitiveItem<T, V> implements Equals, HashCode, Item<V> {
 		return equals(null, null, object, strategy);
 	}
 
-	@Override
 	public int hashCode(ObjectLocator locator, HashCodeStrategy hashCodeStrategy) {
 
 		final T theValue;
