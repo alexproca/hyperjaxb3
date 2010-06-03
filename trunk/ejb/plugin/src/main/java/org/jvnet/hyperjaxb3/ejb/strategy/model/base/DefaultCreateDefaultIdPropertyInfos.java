@@ -116,8 +116,8 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 
 	public CPluginCustomization createIdCustomization(ProcessModel context,
 			GeneratedId generatedId) {
-		final Id draftId = new Id();
-		final Id id = (Id) draftId.mergeFrom(generatedId, draftId);
+		final Id id = new Id();
+		id.mergeFrom(generatedId, id);
 		final JAXBElement<Id> idElement = Customizations
 				.getCustomizationsObjectFactory().createId(id);
 

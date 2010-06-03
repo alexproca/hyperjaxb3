@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
-
 public abstract class AbstractItemList<ListType, ItemType extends Item<ListType>>
 		extends AbstractList<ListType> implements ItemList<ListType, ItemType>, Serializable {
 
@@ -15,7 +13,9 @@ public abstract class AbstractItemList<ListType, ItemType extends Item<ListType>
 
 	public AbstractItemList(final List<ItemType> core) {
 		super();
-		Validate.notNull(core, "Core list must be null.");
+		if (core == null) {
+			throw new IllegalArgumentException("Core list must be null.");
+		}
 		this.core = core;
 	}
 

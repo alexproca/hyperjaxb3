@@ -117,7 +117,7 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 				final JMethod isGetter = FieldAccessorUtils
 						.getter(fieldOutline);
 
-				if (isGetter.name().startsWith("is")) {
+				if (isGetter != null && isGetter.name().startsWith("is")) {
 					final JMethod getter = classOutline.implClass.method(
 							JMod.PUBLIC, isGetter.type(),
 

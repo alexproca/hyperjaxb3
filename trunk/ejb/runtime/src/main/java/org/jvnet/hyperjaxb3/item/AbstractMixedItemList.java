@@ -3,16 +3,17 @@ package org.jvnet.hyperjaxb3.item;
 import java.util.AbstractList;
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
-
 public abstract class AbstractMixedItemList<EffectiveListType, ListType extends EffectiveListType, ItemType extends MixedItem<ListType>>
-		extends AbstractList<EffectiveListType> implements MixedItemList<EffectiveListType, ListType, ItemType> {
+		extends AbstractList<EffectiveListType> implements
+		MixedItemList<EffectiveListType, ListType, ItemType> {
 
 	protected final List<ItemType> core;
 
 	public AbstractMixedItemList(final List<ItemType> core) {
 		super();
-		Validate.notNull(core, "Core list must be null.");
+		if (core == null) {
+			throw new IllegalArgumentException("Core list must be null.");
+		}
 		this.core = core;
 	}
 
@@ -20,12 +21,9 @@ public abstract class AbstractMixedItemList<EffectiveListType, ListType extends 
 	@SuppressWarnings("unchecked")
 	public EffectiveListType get(int index) {
 		final ItemType item = core.get(index);
-		if (item.getText() != null)
-		{
+		if (item.getText() != null) {
 			return (EffectiveListType) item.getText();
-		}
-		else
-		{
+		} else {
 			return item.getItem();
 		}
 	}
@@ -36,20 +34,14 @@ public abstract class AbstractMixedItemList<EffectiveListType, ListType extends 
 
 		final ItemType oldItem = core.get(index);
 		final EffectiveListType oldValue;
-		if (oldItem.getText() != null)
-		{
+		if (oldItem.getText() != null) {
 			oldValue = (EffectiveListType) oldItem.getText();
-		}
-		else
-		{
+		} else {
 			oldValue = oldItem.getItem();
 		}
-		if (element instanceof String)
-		{
+		if (element instanceof String) {
 			oldItem.setText((String) element);
-		}
-		else
-		{
+		} else {
 			oldItem.setItem((ListType) element);
 		}
 		return oldValue;
@@ -59,12 +51,9 @@ public abstract class AbstractMixedItemList<EffectiveListType, ListType extends 
 	@Override
 	public void add(int index, EffectiveListType element) {
 		final ItemType item;
-		if (element instanceof String)
-		{
+		if (element instanceof String) {
 			item = create((String) element);
-		}
-		else
-		{
+		} else {
 			item = create((ListType) element);
 		}
 		core.add(index, item);

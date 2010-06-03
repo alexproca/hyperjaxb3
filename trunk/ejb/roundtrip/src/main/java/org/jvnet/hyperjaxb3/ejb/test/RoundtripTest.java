@@ -7,10 +7,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.jvnet.hyperjaxb3.ejb.util.EntityUtils;
-import org.jvnet.hyperjaxb3.lang.builder.ExtendedJAXBEqualsBuilder;
-import org.jvnet.jaxb2_commons.util.ContextUtils;
+import org.jvnet.jaxb2_commons.lang.ContextUtils;
+import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
 
@@ -109,31 +109,29 @@ public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
 	}
 
 	protected void checkObjects(final Object object, final Object loadedObject) {
-		final EqualsBuilder equalsBuilder = new org.jvnet.hyperjaxb3.lang.builder.ExtendedJAXBEqualsBuilder() {
+		final EqualsStrategy strategy = new org.jvnet.hyperjaxb3.lang.builder.ExtendedJAXBEqualsStrategy() {
 
 			@Override
-			public EqualsBuilder append(Object lhs, Object rhs) {
-				final EqualsBuilder result = super.append(lhs, rhs);
-				if (!(new ExtendedJAXBEqualsBuilder().append(lhs, rhs)
-						.isEquals())) {
+			public boolean equals(ObjectLocator leftLocator,
+					ObjectLocator rightLocator, Object lhs, Object rhs) {
+				if (!super.equals(leftLocator, rightLocator, lhs, rhs)) {
 					logger.debug("Objects are not equal.");
-					new ExtendedJAXBEqualsBuilder().append(lhs, rhs);
+					super.equals(leftLocator, rightLocator, lhs, rhs);
 					logger.debug("Left: "
 							+ (lhs == null ? "null" : lhs.toString()));
 					logger.debug("Right: "
 							+ (rhs == null ? "null" : rhs.toString()));
+					return false;
+				} else
+
+				{
+					return true;
 				}
-				return result;
 			}
-			// @Override
-			// protected void setEquals(boolean equals) {
-			// if (!equals) {
-			// logger.debug("Objects are not equal.");
-			// }
-			// super.setEquals(equals);
-			// }
+
 		};
-		equalsBuilder.append(object, loadedObject);
-		assertTrue("Objects must be equal.", equalsBuilder.isEquals());
+		;
+		assertTrue("Objects must be equal.", strategy.equals(null, null,
+				object, loadedObject));
 	}
 }

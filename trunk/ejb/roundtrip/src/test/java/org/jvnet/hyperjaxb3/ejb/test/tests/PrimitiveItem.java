@@ -3,13 +3,15 @@ package org.jvnet.hyperjaxb3.ejb.test.tests;
 import javax.persistence.Basic;
 import javax.persistence.MappedSuperclass;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jvnet.hyperjaxb3.item.Item;
 import org.jvnet.jaxb2_commons.lang.Equals;
+import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.HashCode;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBEqualsBuilder;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBHashCodeBuilder;
+import org.jvnet.jaxb2_commons.lang.HashCodeStrategy;
+import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
+import org.jvnet.jaxb2_commons.lang.JAXBHashCodeStrategy;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 @MappedSuperclass
 public abstract class PrimitiveItem<T, V> implements Equals, HashCode, Item<V> {
@@ -25,54 +27,45 @@ public abstract class PrimitiveItem<T, V> implements Equals, HashCode, Item<V> {
 		this.value = value;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void equals(Object object, EqualsBuilder equalsBuilder) {
-		if (object == null) {
-			equalsBuilder.appendSuper(false);
-			return;
-		}
-		if (!getClass().isAssignableFrom(object.getClass())) {
-			equalsBuilder.appendSuper(false);
-			return;
-		}
-		if (this == object) {
-			return;
-		}
-		final PrimitiveItem<T, V> rhs = (PrimitiveItem<T, V>) object;
-		{
-			T lhsValue;
-			lhsValue = this.getValue();
-			T rhsValue;
-			rhsValue = rhs.getValue();
-			equalsBuilder.append(lhsValue, rhsValue);
-		}
-	}
-
-	public boolean equals(Object object) {
-		if (object == null) {
-			return false;
-		}
-		if (!getClass().isAssignableFrom(object.getClass())) {
+	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator,
+			Object object, EqualsStrategy strategy) {
+		if (!(object instanceof PrimitiveItem)) {
 			return false;
 		}
 		if (this == object) {
 			return true;
 		}
-		final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-		equals(object, equalsBuilder);
-		return equalsBuilder.isEquals();
+		final PrimitiveItem that = ((PrimitiveItem) object);
+		{
+			Object lhsValue;
+			lhsValue = this.getValue();
+			Object rhsValue;
+			rhsValue = that.getValue();
+			if (!strategy.equals(LocatorUtils.field(thisLocator, "value",
+					lhsValue), LocatorUtils.field(thatLocator, "value",
+					rhsValue), lhsValue, rhsValue)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	public void hashCode(HashCodeBuilder hashCodeBuilder) {
+	public boolean equals(Object object) {
+		final EqualsStrategy strategy = JAXBEqualsStrategy.INSTANCE;
+		return equals(null, null, object, strategy);
+	}
+
+	@Override
+	public int hashCode(ObjectLocator locator, HashCodeStrategy hashCodeStrategy) {
+
 		final T theValue;
 		theValue = this.getValue();
-		hashCodeBuilder.append(theValue);
+		return hashCodeStrategy.hashCode(LocatorUtils.field(locator, "value",
+				theValue), 0, theValue);
 	}
 
 	public int hashCode() {
-		final HashCodeBuilder hashCodeBuilder = new JAXBHashCodeBuilder();
-		hashCode(hashCodeBuilder);
-		return hashCodeBuilder.toHashCode();
+		return hashCode(null, JAXBHashCodeStrategy.INSTANCE);
 	}
 
 }

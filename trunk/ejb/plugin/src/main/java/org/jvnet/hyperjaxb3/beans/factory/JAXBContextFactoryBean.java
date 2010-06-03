@@ -56,7 +56,7 @@ public class JAXBContextFactoryBean extends AbstractFactoryBean {
 	}
 
 	@Override
-	public Class getObjectType() {
+	public Class<?> getObjectType() {
 		return JAXBContext.class;
 	}
 

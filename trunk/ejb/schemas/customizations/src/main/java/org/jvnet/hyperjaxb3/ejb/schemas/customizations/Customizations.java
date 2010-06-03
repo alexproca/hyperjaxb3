@@ -10,7 +10,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 
-import org.jvnet.jaxb2_commons.util.ContextUtils;
+import org.jvnet.jaxb2_commons.lang.ContextUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -3,14 +3,11 @@ package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessClassInfo;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.jaxb2_commons.util.ClassUtils;
-import org.jvnet.jaxb2_commons.util.CodeModelUtils;
-import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.xml.sax.Locator;
 
 import com.sun.java.xml.ns.persistence.orm.Entity;

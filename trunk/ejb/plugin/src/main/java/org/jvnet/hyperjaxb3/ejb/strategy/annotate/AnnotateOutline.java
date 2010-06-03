@@ -147,6 +147,7 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 		final String name = OutlineUtils.getPropertyName(fieldOutline);
 		logger.debug("Processing field [" + name + "].");
 
+		// Ok
 		final JMethod issetter = FieldAccessorUtils.issetter(fieldOutline);
 		if (issetter != null) {
 			logger.debug("Annotating [" + issetter.name()

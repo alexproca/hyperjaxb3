@@ -25,7 +25,7 @@ import org.jvnet.hyperjaxb3.xml.datatype.util.XMLGregorianCalendarUtils;
 public class XmlAdapterUtilsTest extends TestCase {
 
 	public void testQNameXmlAdapter() throws Exception {
-
+		
 		final String alpha = "{urn:test}test";
 		final QName omega = new QName("urn:test", "test");
 

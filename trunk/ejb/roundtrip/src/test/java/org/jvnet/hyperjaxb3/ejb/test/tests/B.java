@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jvnet.jaxb2_commons.lang.Equals;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBEqualsBuilder;
+import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
+import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "B", propOrder = { "id", "version", "c" })
@@ -56,22 +57,22 @@ public class B implements Equals {
 
 	@Override
 	public boolean equals(Object obj) {
-		final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-		equals(obj, equalsBuilder);
-		return equalsBuilder.isEquals();
+		return equals(null, null, obj, JAXBEqualsStrategy.INSTANCE);
 	}
 
-	public void equals(Object object, EqualsBuilder equalsBuilder) {
+	@Override
+	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator,
+			Object object, EqualsStrategy strategy) {
+
 		if (!(object instanceof B)) {
-			equalsBuilder.appendSuper(false);
-			return;
+			return false;
 		}
 		if (this == object) {
-			return;
+			return true;
 		}
 		final B that = (B) object;
-		equalsBuilder.append(this.getId(), that.getId());
-		equalsBuilder.append(this.getC(), that.getC());
+		return strategy.equals(null, null, this.getId(), that.getId())
+				&& strategy.equals(null, null, this.getC(), that.getC());
 	}
 
 	@Override

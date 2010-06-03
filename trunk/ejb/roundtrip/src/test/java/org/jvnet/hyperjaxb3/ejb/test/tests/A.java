@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jvnet.hyperjaxb3.item.Item;
 import org.jvnet.hyperjaxb3.item.ItemUtils;
@@ -41,7 +40,9 @@ import org.jvnet.hyperjaxb3.xml.bind.JAXBElementUtils;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDateTime;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XmlAdapterUtils;
 import org.jvnet.jaxb2_commons.lang.Equals;
-import org.jvnet.jaxb2_commons.lang.builder.JAXBEqualsBuilder;
+import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
+import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "A", propOrder = { "id", "b", "b1", "b2", "d", "e",
@@ -243,30 +244,32 @@ public class A implements Equals {
 
 	@Override
 	public boolean equals(Object obj) {
-		final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-		equals(obj, equalsBuilder);
-		return equalsBuilder.isEquals();
+		return equals(null, null, obj, JAXBEqualsStrategy.INSTANCE);
 	}
 
-	public void equals(Object object, EqualsBuilder equalsBuilder) {
+	@Override
+	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator,
+			Object object, EqualsStrategy strategy) {
+
 		if (!(object instanceof A)) {
-			equalsBuilder.appendSuper(false);
-			return;
+			return false;
 		}
 		if (this == object) {
-			return;
+			return true;
 		}
 		final A that = (A) object;
-		equalsBuilder.append(this.getId(), that.getId());
-		equalsBuilder.append(this.getB(), that.getB());
-		equalsBuilder.append(this.getB1(), that.getB1());
-		equalsBuilder.append(this.getB2(), that.getB2());
-		equalsBuilder.append(this.getD(), that.getD());
-		equalsBuilder.append(this.getE(), that.getE());
-		equalsBuilder.append(this.getENillable(), that.getENillable());
-		equalsBuilder.append(this.getF(), that.getF());
-		equalsBuilder.append(this.getFNillable(), that.getFNillable());
-		equalsBuilder.append(this.getG(), that.getG());
+		return strategy.equals(null, null, this.getId(), that.getId())
+				&& strategy.equals(null, null, this.getB(), that.getB())
+				&& strategy.equals(null, null, this.getB1(), that.getB1())
+				&& strategy.equals(null, null, this.getB2(), that.getB2())
+				&& strategy.equals(null, null, this.getD(), that.getD())
+				&& strategy.equals(null, null, this.getE(), that.getE())
+				&& strategy.equals(null, null, this.getENillable(), that
+						.getENillable())
+				&& strategy.equals(null, null, this.getF(), that.getF())
+				&& strategy.equals(null, null, this.getFNillable(), that
+						.getFNillable())
+				&& strategy.equals(null, null, this.getG(), that.getG());
 	}
 
 	@Override
@@ -427,7 +430,7 @@ public class A implements Equals {
 	@XmlSeeAlso( { G1.class, G2.class })
 	@Entity
 	@Inheritance(strategy = InheritanceType.JOINED)
-	public static class G {
+	public static class G implements Equals {
 
 		@XmlAttribute
 		protected Long hjid;
@@ -455,21 +458,21 @@ public class A implements Equals {
 
 		@Override
 		public boolean equals(Object obj) {
-			final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-			equals(obj, equalsBuilder);
-			return equalsBuilder.isEquals();
+			return equals(null, null, obj, JAXBEqualsStrategy.INSTANCE);
 		}
 
-		public void equals(Object object, EqualsBuilder equalsBuilder) {
+		public boolean equals(ObjectLocator thisLocator,
+				ObjectLocator thatLocator, Object object,
+				EqualsStrategy strategy) {
+
 			if (!(object instanceof G)) {
-				equalsBuilder.appendSuper(false);
-				return;
+				return false;
 			}
 			if (this == object) {
-				return;
+				return true;
 			}
 			final G that = (G) object;
-			equalsBuilder.append(this.getH(), that.getH());
+			return strategy.equals(null, null, this.getH(), that.getH());
 		}
 
 	}
@@ -491,22 +494,22 @@ public class A implements Equals {
 
 		@Override
 		public boolean equals(Object obj) {
-			final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-			equals(obj, equalsBuilder);
-			return equalsBuilder.isEquals();
+			return equals(null, null, obj, JAXBEqualsStrategy.INSTANCE);
 		}
 
-		public void equals(Object object, EqualsBuilder equalsBuilder) {
+		public boolean equals(ObjectLocator thisLocator,
+				ObjectLocator thatLocator, Object object,
+				EqualsStrategy strategy) {
+
 			if (!(object instanceof G1)) {
-				equalsBuilder.appendSuper(false);
-				return;
+				return false;
 			}
 			if (this == object) {
-				return;
+				return true;
 			}
 			final G1 that = (G1) object;
-			equalsBuilder.append(this.getH(), that.getH());
-			equalsBuilder.append(this.getH1(), that.getH1());
+			return super.equals(null, null, object, strategy)
+					&& strategy.equals(null, null, this.getH1(), that.getH1());
 		}
 
 	}
@@ -528,29 +531,29 @@ public class A implements Equals {
 
 		@Override
 		public boolean equals(Object obj) {
-			final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-			equals(obj, equalsBuilder);
-			return equalsBuilder.isEquals();
+			return equals(null, null, obj, JAXBEqualsStrategy.INSTANCE);
 		}
 
-		public void equals(Object object, EqualsBuilder equalsBuilder) {
+		public boolean equals(ObjectLocator thisLocator,
+				ObjectLocator thatLocator, Object object,
+				EqualsStrategy strategy) {
+
 			if (!(object instanceof G2)) {
-				equalsBuilder.appendSuper(false);
-				return;
+				return false;
 			}
 			if (this == object) {
-				return;
+				return true;
 			}
 			final G2 that = (G2) object;
-			equalsBuilder.append(this.getH(), that.getH());
-			equalsBuilder.append(this.getH2(), that.getH2());
+			return super.equals(null, null, object, strategy)
+					&& strategy.equals(null, null, this.getH2(), that.getH2());
 		}
 	}
 
 	@XmlAccessorType(XmlAccessType.FIELD)
 	@XmlType(name = "GItem")
 	@Entity
-	public static class GItem implements Item<JAXBElement<? extends G>> {
+	public static class GItem implements Item<JAXBElement<? extends G>>, Equals {
 
 		@XmlAttribute
 		protected Long hjid;
@@ -610,21 +613,22 @@ public class A implements Equals {
 
 		@Override
 		public boolean equals(Object obj) {
-			final EqualsBuilder equalsBuilder = new JAXBEqualsBuilder();
-			equals(obj, equalsBuilder);
-			return equalsBuilder.isEquals();
+			return equals(null, null, obj, JAXBEqualsStrategy.INSTANCE);
 		}
 
-		public void equals(Object object, EqualsBuilder equalsBuilder) {
+		
+		public boolean equals(ObjectLocator thisLocator,
+				ObjectLocator thatLocator, Object object,
+				EqualsStrategy strategy) {
+
 			if (!(object instanceof GItem)) {
-				equalsBuilder.appendSuper(false);
-				return;
+				return false;
 			}
 			if (this == object) {
-				return;
+				return true;
 			}
 			final GItem that = (GItem) object;
-			equalsBuilder.append(this.getItemValue(), that.getItemValue());
+			return strategy.equals(null, null, this.getItemValue(), that.getItemValue());
 		}
 	}
 

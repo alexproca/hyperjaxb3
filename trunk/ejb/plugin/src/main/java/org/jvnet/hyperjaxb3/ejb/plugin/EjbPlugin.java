@@ -21,6 +21,7 @@ import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.processor.ModelAndOutlineProcessor;
 import org.jvnet.hyperjaxb3.ejb.test.RoundtripTest;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.UntypedListFieldRenderer;
+import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.plugin.spring.AbstractSpringConfigurablePlugin;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
