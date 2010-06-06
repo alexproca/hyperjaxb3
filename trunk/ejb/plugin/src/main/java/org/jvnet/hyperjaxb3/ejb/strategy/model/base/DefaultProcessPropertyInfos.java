@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.logging.Log;

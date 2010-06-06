@@ -19,14 +19,23 @@ public class GetIdPropertyInfos implements
 
 		final Collection<CPropertyInfo> ids = new LinkedList<CPropertyInfo>();
 
-		for (CPropertyInfo propertyInfo : classInfo.getProperties()) {
-			if ((CustomizationUtils.containsCustomization(propertyInfo,
-					Customizations.ID_ELEMENT_NAME) || CustomizationUtils
-					.containsCustomization(propertyInfo,
-							Customizations.EMBEDDED_ID_ELEMENT_NAME))
-					&& !CustomizationUtils.containsCustomization(propertyInfo,
-							Customizations.IGNORED_ELEMENT_NAME)) {
-				ids.add(propertyInfo);
+		if (classInfo.getBaseClass() != null) {
+			ids.addAll(process(context, classInfo.getBaseClass()));
+		}
+
+		if (!CustomizationUtils.containsCustomization(classInfo,
+				Customizations.IGNORED_ELEMENT_NAME)) {
+
+			for (CPropertyInfo propertyInfo : classInfo.getProperties()) {
+				if ((CustomizationUtils.containsCustomization(propertyInfo,
+						Customizations.ID_ELEMENT_NAME) || CustomizationUtils
+						.containsCustomization(propertyInfo,
+								Customizations.EMBEDDED_ID_ELEMENT_NAME))
+						&& !CustomizationUtils.containsCustomization(
+								propertyInfo,
+								Customizations.IGNORED_ELEMENT_NAME)) {
+					ids.add(propertyInfo);
+				}
 			}
 		}
 		return ids;

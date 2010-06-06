@@ -622,4 +622,34 @@ x
  		<xsd:attribute name="issueHJIII28" type="test:issueHJIII28SimpleType" use="required"/>
 	</xsd:complexType> 
 
+	<xsd:complexType name="issueHJIII41ParentType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:mapped-superclass/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:attribute name="id" type="xsd:long">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:property>
+						<jaxb:baseType>
+							<jaxb:javaType name="java.lang.Long"/>
+						</jaxb:baseType>
+					</jaxb:property>
+					<hj:id/>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType> 
+
+	<xsd:element name="issueHJIII41Child" type="test:issueHJIII41ChildType"/>
+
+	<xsd:complexType name="issueHJIII41ChildType">
+		<xsd:complexContent>
+			<xsd:extension base="test:issueHJIII41ParentType">
+				<xsd:attribute name="value" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType> 
+
 </xsd:schema>
