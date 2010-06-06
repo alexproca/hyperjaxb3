@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
+import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
@@ -10,7 +11,6 @@ import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
@@ -39,9 +39,9 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 
 		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
 
-		assert types.size() == 1;
+		final CTypeInfo type = CTypeInfoUtils.getCommonBaseTypeInfo(types);
 
-		final CTypeInfo type = types.iterator().next();
+		assert type != null;
 
 		assert type instanceof CClass;
 

@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -17,6 +18,7 @@ import org.jvnet.hyperjaxb3.item.Item;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.SingleField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappedCollectionField;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.WrappingCollectionField;
+import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 import org.w3c.dom.Element;
@@ -33,6 +35,7 @@ import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -51,6 +54,15 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 		assert propertyInfo instanceof CElementPropertyInfo;
 
 		final CElementPropertyInfo wrappedPropertyInfo = (CElementPropertyInfo) propertyInfo;
+
+		final CTypeInfo commonBaseTypeInfo = CTypeInfoUtils
+				.getCommonBaseTypeInfo(wrappedPropertyInfo.ref());
+
+		if (commonBaseTypeInfo != null) {
+			// We have a common base type here, no wrapping is required.
+			return Collections.<CPropertyInfo> emptyList();
+
+		}
 
 		final String propertyName = wrappedPropertyInfo.getName(true);
 

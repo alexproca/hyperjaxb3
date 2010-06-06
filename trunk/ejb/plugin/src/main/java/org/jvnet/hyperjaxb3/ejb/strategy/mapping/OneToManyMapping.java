@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
+import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
@@ -37,9 +38,9 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 
 		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
 
-		assert types.size() == 1;
+		final CTypeInfo type = CTypeInfoUtils.getCommonBaseTypeInfo(types);
 
-		final CTypeInfo type = types.iterator().next();
+		assert type != null;
 
 		assert type instanceof CClass;
 

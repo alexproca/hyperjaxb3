@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 
@@ -150,10 +151,7 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				logger.trace("Field outline [" + propertyInfo.getName(true)
 						+ "] is a collection field.");
 
-				final Collection<? extends CTypeInfo> types = propertyInfo
-						.ref();
-
-				if (types.size() == 1) {
+				if (isFieldOutlineSingletypedHomogeneous(fieldOutline)) {
 					logger.debug("Field outline  ["
 							+ propertyInfo.getName(true)
 							+ "] is a homogeneous collection field.");
@@ -162,6 +160,18 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 								.debug("Field outline  ["
 										+ propertyInfo.getName(true)
 										+ "] is a complex homogeneous collection field.");
+						return context.getToManyMapping();
+					}
+				} else if (isFieldOutlineMultitypedHomogeneous(fieldOutline)) {
+					logger
+							.debug("Field outline  ["
+									+ propertyInfo.getName(true)
+									+ "] is a multityped homogeneous collection field.");
+					if (isFieldOutlineComplex(fieldOutline)) {
+						logger
+								.debug("Field outline  ["
+										+ propertyInfo.getName(true)
+										+ "] is a complex multityped homogeneous collection field.");
 						return context.getToManyMapping();
 					}
 				} else {
@@ -218,15 +228,34 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 		}
 	}
 
-	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineSingletypedHomogeneous(
+			FieldOutline fieldOutline) {
 
+		final Collection<? extends CTypeInfo> types = fieldOutline
+				.getPropertyInfo().ref();
+
+		return types.size() == 1;
+
+	}
+
+	public boolean isFieldOutlineMultitypedHomogeneous(FieldOutline fieldOutline) {
+
+		return getCommonBaseTypeInfo(fieldOutline) != null;
+	}
+
+	public CTypeInfo getCommonBaseTypeInfo(FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
 		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
 
-		assert types.size() == 1;
+		return CTypeInfoUtils.getCommonBaseTypeInfo(types);
+	}
 
-		final CTypeInfo type = types.iterator().next();
+	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {
+
+		final CTypeInfo type = getCommonBaseTypeInfo(fieldOutline);
+
+		assert type != null;
 
 		return type instanceof CClass;
 	}
