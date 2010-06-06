@@ -57,6 +57,7 @@
 				<module>pesc</module>
 				<module>po</module>
 				<module>po-tl-customized</module>
+				<module>polyform</module>
 				<module>punit</module>
 				<module>px</module>
 				<!-- module>sbml</module -->
