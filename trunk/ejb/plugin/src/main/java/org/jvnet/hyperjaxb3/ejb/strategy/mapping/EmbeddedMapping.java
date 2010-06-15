@@ -98,7 +98,10 @@ public class EmbeddedMapping extends PropertyMapping implements
 			}
 
 			if (attributeOverride.getColumn() == null) {
-				attributeOverride.setColumn(new Column());
+				final Column column = new Column();
+				basic.getColumn().copyTo(column);
+				column.setName(null);
+				attributeOverride.setColumn(column);
 			}
 		}
 

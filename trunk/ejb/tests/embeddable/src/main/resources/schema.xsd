@@ -28,7 +28,13 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="c" type="xs:string" minOccurs="0"/>
+			<xs:element name="c" minOccurs="0">
+				<xs:simpleType>
+	 				<xs:restriction base="xs:string">
+						<xs:maxLength value="999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 			<xs:element name="d" type="xs:int" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -114,5 +120,35 @@
 			<xs:element name="id2" type="xs:long" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:element name="DOC" type="DocumentType"/>
+	<xs:complexType name="DocumentType">
+		<xs:sequence>
+			<xs:element name="ROUTING" minOccurs="0" type="RoutingType">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="Routing"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+ 
+	<xs:complexType name="RoutingType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SENDER" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="Sender"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>	
+		</xs:sequence>
+	</xs:complexType>   
 	
 </xs:schema>
