@@ -33,6 +33,9 @@
 				<configuration>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.embeddable.tests.RoundtripTest</roundtripTestClassName>
 					<persistenceUnitName>foo</persistenceUnitName>
+					<args>
+						<arg>-Xannotate</arg>
+					</args>
 				</configuration>
 			</plugin>
 		</plugins>
