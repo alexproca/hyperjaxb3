@@ -124,7 +124,8 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
 		}
 
-		persistenceUnit.copyTo(targetPersistenceUnit);
+		targetPersistenceUnit.mergeFrom(persistenceUnit, targetPersistenceUnit);
+//		persistenceUnit.copyTo(targetPersistenceUnit);
 		targetPersistenceUnit.setName(persistenceUnitName);
 
 		Collections.sort(targetPersistenceUnit.getClazz());

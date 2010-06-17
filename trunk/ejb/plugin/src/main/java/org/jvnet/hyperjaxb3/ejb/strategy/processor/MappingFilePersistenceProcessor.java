@@ -123,7 +123,7 @@ public class MappingFilePersistenceProcessor implements
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
 		}
 
-		persistenceUnit.copyTo(targetPersistenceUnit);
+		targetPersistenceUnit.mergeFrom(persistenceUnit, targetPersistenceUnit);
 		targetPersistenceUnit.setName(persistenceUnitName);
 		Collections.sort(targetPersistenceUnit.getMappingFile());
 		Collections.sort(targetPersistenceUnit.getClazz());
