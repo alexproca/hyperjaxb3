@@ -10,6 +10,7 @@ import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
+import org.jvnet.jaxb2_commons.lang.JAXBMergeCollectionsStrategy;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.Persistence;
@@ -124,7 +125,8 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
 		}
 
-		targetPersistenceUnit.mergeFrom(persistenceUnit, targetPersistenceUnit);
+//		targetPersistenceUnit.mergeFrom(persistenceUnit, targetPersistenceUnit);
+		targetPersistenceUnit.mergeFrom(null, null, persistenceUnit, targetPersistenceUnit, JAXBMergeCollectionsStrategy.INSTANCE);
 //		persistenceUnit.copyTo(targetPersistenceUnit);
 		targetPersistenceUnit.setName(persistenceUnitName);
 
