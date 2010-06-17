@@ -6,6 +6,6 @@
     <persistence-unit name="org.jvnet.hyperjaxb3.ejb.tests.po" transaction-type="RESOURCE_LOCAL">
 	<description>Purchase Order Persistence Unit</description>
 	<mapping-file>org/jvnet/hyperjaxb3/ejb/tests/po/orm.xml</mapping-file>
-	<!-- Add class -->
+        <!--class>org.jvnet.hyperjaxb3.ejb.tests.po.USAddress1111</class-->
     </persistence-unit>
 </persistence>
