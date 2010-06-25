@@ -37,7 +37,17 @@
 			<xsd:element name="VERSION" type="xsd:int">
 				<xsd:annotation><xsd:appinfo><hj:id /></xsd:appinfo></xsd:annotation>
 			</xsd:element>
+			<xsd:element name="child" type="IssueHJIII49ChildType" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
+
+	<xsd:complexType name="IssueHJIII49ChildType">
+		<xsd:sequence>
+			<xsd:element name="x" type="xsd:string"/>
+			<xsd:element name="y" type="xsd:string"/>
+			<xsd:element name="z" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
 
 </xsd:schema>

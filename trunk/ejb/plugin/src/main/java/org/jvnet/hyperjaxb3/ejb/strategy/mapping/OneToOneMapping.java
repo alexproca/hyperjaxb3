@@ -57,13 +57,21 @@ public class OneToOneMapping extends AssociationMapping<OneToOne> {
 			createPrimaryKeyJoinColumns(context, fieldOutline, oneToOne
 					.getPrimaryKeyJoinColumn());
 		} else if (!oneToOne.getJoinColumn().isEmpty()) {
-			createJoinColumns(context, fieldOutline, oneToOne.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
+					context, fieldOutline);
+
+			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToOne
+					.getJoinColumn());
 		} else if (oneToOne.getJoinTable() != null) {
 			createJoinTable(context, fieldOutline, oneToOne.getJoinTable());
 		} else {
 			final JoinColumn joinColumn = new JoinColumn();
 			oneToOne.getJoinColumn().add(joinColumn);
-			createJoinColumns(context, fieldOutline, oneToOne.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
+					context, fieldOutline);
+
+			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToOne
+					.getJoinColumn());
 		}
 
 	}

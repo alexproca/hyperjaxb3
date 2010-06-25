@@ -59,13 +59,19 @@ public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
 
 		if (manyToOne.getJoinColumn() != null
 				&& !manyToOne.getJoinColumn().isEmpty()) {
-			createJoinColumns(context, fieldOutline, manyToOne.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = getTargetIdFieldsOutline(
+					context, fieldOutline);
+			createJoinColumns(context, fieldOutline, idFieldsOutline, manyToOne
+					.getJoinColumn());
 		} else if (manyToOne.getJoinTable() != null) {
 			createJoinTable(context, fieldOutline, manyToOne.getJoinTable());
 		} else {
+			final Collection<FieldOutline> idFieldsOutline = getTargetIdFieldsOutline(
+					context, fieldOutline);
 			final JoinColumn joinColumn = new JoinColumn();
 			manyToOne.getJoinColumn().add(joinColumn);
-			createJoinColumns(context, fieldOutline, manyToOne.getJoinColumn());
+			createJoinColumns(context, fieldOutline, idFieldsOutline, manyToOne
+					.getJoinColumn());
 		}
 
 	}

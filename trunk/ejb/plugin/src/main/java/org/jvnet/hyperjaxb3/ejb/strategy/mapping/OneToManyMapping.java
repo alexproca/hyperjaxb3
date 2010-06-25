@@ -55,13 +55,19 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 			FieldOutline fieldOutline, OneToMany oneToMany) {
 
 		if (!oneToMany.getJoinColumn().isEmpty()) {
-			createJoinColumns(context, fieldOutline, oneToMany.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
+					context, fieldOutline);
+			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToMany
+					.getJoinColumn());
 		} else if (oneToMany.getJoinTable() != null) {
 			createJoinTable(context, fieldOutline, oneToMany.getJoinTable());
 		} else {
+			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
+					context, fieldOutline);
 			// final JoinColumn joinColumn = new JoinColumn();
 			// oneToMany.getJoinColumn().add(joinColumn);
-			createJoinColumns(context, fieldOutline, oneToMany.getJoinColumn());
+			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToMany
+					.getJoinColumn());
 		}
 
 	}

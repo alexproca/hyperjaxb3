@@ -8,22 +8,49 @@ import java.util.List;
 import java.util.Map;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.PrimaryKeyJoinColumn;
+import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 
-	private Collection<FieldOutline> getIdFieldsOutline(Mapping context,
-			FieldOutline fieldOutline) {
+	protected Collection<FieldOutline> getSourceIdFieldsOutline(
+			Mapping context, FieldOutline fieldOutline) {
 
 		final ClassOutline classOutline = fieldOutline.parent();
 
+		return getIdFieldsOutline(classOutline);
+	}
+
+	protected Collection<FieldOutline> getTargetIdFieldsOutline(
+			Mapping context, FieldOutline fieldOutline) {
+
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		final CTypeInfo type = CTypeInfoUtils.getCommonBaseTypeInfo(types);
+
+		assert type != null;
+
+		assert type instanceof CClassInfo;
+
+		final ClassOutline targetClassOutline = fieldOutline.parent().parent()
+				.getClazz((CClassInfo) type);
+
+		return getIdFieldsOutline(targetClassOutline);
+	}
+
+	private Collection<FieldOutline> getIdFieldsOutline(
+			final ClassOutline classOutline) {
 		final Collection<FieldOutline> idFieldOutlines = new ArrayList<FieldOutline>();
 		ClassOutline current = classOutline;
 
@@ -51,7 +78,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 			FieldOutline fieldOutline,
 
 			List<PrimaryKeyJoinColumn> primaryKeyJoinColumns) {
-		final Collection<FieldOutline> idFieldOutlines = getIdFieldsOutline(
+		final Collection<FieldOutline> idFieldOutlines = getSourceIdFieldsOutline(
 				context, fieldOutline);
 
 		final Iterator<PrimaryKeyJoinColumn> joinColumnIterator = new ArrayList<PrimaryKeyJoinColumn>(
@@ -88,9 +115,8 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 	}
 
 	public void createJoinColumns(Mapping context, FieldOutline fieldOutline,
+			Collection<FieldOutline> idFieldOutlines,
 			List<JoinColumn> joinColumns) {
-		final Collection<FieldOutline> idFieldOutlines = getIdFieldsOutline(
-				context, fieldOutline);
 
 		final Iterator<JoinColumn> joinColumnIterator = new ArrayList<JoinColumn>(
 				joinColumns).iterator();
@@ -124,13 +150,15 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 
 	public void createJoinTable(Mapping context, FieldOutline fieldOutline,
 			JoinTable joinTable) {
-		final Collection<FieldOutline> idFieldOutlines = getIdFieldsOutline(
+		final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
+				context, fieldOutline);
+		final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
 				context, fieldOutline);
 		createJoinTable$Name(context, fieldOutline, joinTable);
-		createJoinTable$JoinColumn(context, fieldOutline, idFieldOutlines,
-				joinTable);
+		createJoinTable$JoinColumn(context, fieldOutline,
+				sourceIdFieldOutlines, joinTable);
 		createJoinTable$InverseJoinColumn(context, fieldOutline,
-				idFieldOutlines, joinTable);
+				targetIdFieldOutlines, joinTable);
 	}
 
 	public void createJoinTable$Name(Mapping context,
@@ -191,8 +219,9 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 
 		createJoinTable$JoinColumn$Name(context, fieldOutline, idFieldOutline,
 				joinColumn);
-//		createJoinTable$JoinColumn$ReferencedColumnName(context, fieldOutline,
-//				idFieldOutline, joinColumn);
+		// createJoinTable$JoinColumn$ReferencedColumnName(context,
+		// fieldOutline,
+		// idFieldOutline, joinColumn);
 	}
 
 	public void createJoinTable$InverseJoinColumn(Mapping context,

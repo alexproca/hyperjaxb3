@@ -15,6 +15,7 @@ import com.sun.java.xml.ns.persistence.orm.IdClass;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -22,6 +23,9 @@ import com.sun.tools.xjc.model.CPropertyVisitor;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
+import com.sun.tools.xjc.reader.Ring;
+import com.sun.tools.xjc.reader.xmlschema.BGMBuilder;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.LocalScoping;
 import com.sun.xml.xsom.XSComponent;
 
 public class CreateIdClass implements ProcessClassInfo {
@@ -38,15 +42,17 @@ public class CreateIdClass implements ProcessClassInfo {
 
 			context.getGetIdPropertyInfos().process(context, classInfo);
 
+			final CClassInfoParent parent = Ring.get(BGMBuilder.class)
+					.getGlobalBinding().getFlattenClasses() == LocalScoping.NESTED ? classInfo
+					: classInfo.parent();
+
 			final CClassInfo idClassInfo = new CClassInfo(classInfo.model,
-					classInfo, classInfo.shortName + "Id", null, null, null,
+					parent, classInfo.shortName + "Id", null, null, null,
 
 					component, new CCustomizations());
 
-			if (!classInfo.model.serializable) {
-				org.jvnet.jaxb2_commons.plugin.inheritance.Customizations
-						._implements(idClassInfo, Serializable.class.getName());
-			}
+			org.jvnet.jaxb2_commons.plugin.inheritance.Customizations
+					._implements(idClassInfo, Serializable.class.getName());
 
 			Customizations.markIgnored(idClassInfo);
 			// Customizations.markGenerated(idClassInfo);
@@ -71,30 +77,32 @@ public class CreateIdClass implements ProcessClassInfo {
 
 								final CElementPropertyInfo elementPropertyInfo = new CElementPropertyInfo(
 
-												propertyInfo.getName(true),
-												propertyInfo.isCollection() ? CollectionMode.REPEATED_ELEMENT
-														: CollectionMode.NOT_REPEATED,
-												propertyInfo.id(), propertyInfo
-														.getExpectedMimeType(),
-												propertyInfo.getSchemaComponent(),
-												new CCustomizations(), (Locator) null,
-												false);
-								elementPropertyInfo.getTypes().addAll(propertyInfo.getTypes());
+										propertyInfo.getName(true),
+										propertyInfo.isCollection() ? CollectionMode.REPEATED_ELEMENT
+												: CollectionMode.NOT_REPEATED,
+										propertyInfo.id(), propertyInfo
+												.getExpectedMimeType(),
+										propertyInfo.getSchemaComponent(),
+										new CCustomizations(), (Locator) null,
+										false);
+								elementPropertyInfo.getTypes().addAll(
+										propertyInfo.getTypes());
 								return elementPropertyInfo;
 							}
 
 							public CPropertyInfo onReference(
 									CReferencePropertyInfo propertyInfo) {
-								final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo(propertyInfo
-												.getName(true), propertyInfo
-												.isCollection(), false, propertyInfo
-												.isMixed(), propertyInfo
+								final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo(
+										propertyInfo.getName(true),
+										propertyInfo.isCollection(), false,
+										propertyInfo.isMixed(), propertyInfo
 												.getSchemaComponent(),
-												new CCustomizations(), null,
-												propertyInfo.isDummy(), propertyInfo
-														.isContent(), propertyInfo
-														.isMixedExtendedCust());
-								referencePropertyInfo.getElements().addAll(referencePropertyInfo.getElements());
+										new CCustomizations(), null,
+										propertyInfo.isDummy(), propertyInfo
+												.isContent(), propertyInfo
+												.isMixedExtendedCust());
+								referencePropertyInfo.getElements().addAll(
+										referencePropertyInfo.getElements());
 								return referencePropertyInfo;
 							}
 
