@@ -69,29 +69,33 @@ public class CreateIdClass implements ProcessClassInfo {
 							public CPropertyInfo onElement(
 									CElementPropertyInfo propertyInfo) {
 
-								return new CElementPropertyInfo(
+								final CElementPropertyInfo elementPropertyInfo = new CElementPropertyInfo(
 
-										propertyInfo.getName(true),
-										propertyInfo.isCollection() ? CollectionMode.REPEATED_ELEMENT
-												: CollectionMode.NOT_REPEATED,
-										propertyInfo.id(), propertyInfo
-												.getExpectedMimeType(),
-										propertyInfo.getSchemaComponent(),
-										new CCustomizations(), (Locator) null,
-										false);
+												propertyInfo.getName(true),
+												propertyInfo.isCollection() ? CollectionMode.REPEATED_ELEMENT
+														: CollectionMode.NOT_REPEATED,
+												propertyInfo.id(), propertyInfo
+														.getExpectedMimeType(),
+												propertyInfo.getSchemaComponent(),
+												new CCustomizations(), (Locator) null,
+												false);
+								elementPropertyInfo.getTypes().addAll(propertyInfo.getTypes());
+								return elementPropertyInfo;
 							}
 
 							public CPropertyInfo onReference(
 									CReferencePropertyInfo propertyInfo) {
-								return new CReferencePropertyInfo(propertyInfo
-										.getName(true), propertyInfo
-										.isCollection(), false, propertyInfo
-										.isMixed(), propertyInfo
-										.getSchemaComponent(),
-										new CCustomizations(), null,
-										propertyInfo.isDummy(), propertyInfo
-												.isContent(), propertyInfo
-												.isMixedExtendedCust());
+								final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo(propertyInfo
+												.getName(true), propertyInfo
+												.isCollection(), false, propertyInfo
+												.isMixed(), propertyInfo
+												.getSchemaComponent(),
+												new CCustomizations(), null,
+												propertyInfo.isDummy(), propertyInfo
+														.isContent(), propertyInfo
+														.isMixedExtendedCust());
+								referencePropertyInfo.getElements().addAll(referencePropertyInfo.getElements());
+								return referencePropertyInfo;
 							}
 
 							public CPropertyInfo onValue(
