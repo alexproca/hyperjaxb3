@@ -26,4 +26,18 @@
 	</xsd:complexType>
 
 	<xsd:element name="parent" type="Parent"/>
+
+	<xsd:element name="issueHJIII49Element" type="IssueHJIII49Type"/>
+
+	<xsd:complexType name="IssueHJIII49Type">
+		<xsd:sequence>
+			<xsd:element name="GUID" type="xsd:normalizedString">
+				<xsd:annotation><xsd:appinfo><hj:id /></xsd:appinfo></xsd:annotation>
+			</xsd:element>
+			<xsd:element name="VERSION" type="xsd:int">
+				<xsd:annotation><xsd:appinfo><hj:id /></xsd:appinfo></xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
 </xsd:schema>
