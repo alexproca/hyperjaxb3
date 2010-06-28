@@ -201,7 +201,7 @@
 					<dependency>
 						<groupId>org.jvnet.jaxb2_commons</groupId>
 						<artifactId>jaxb2-basics</artifactId>
-						<version>0.5.3-SNAPSHOT</version>
+						<version>0.5.3.MR1</version>
 					</dependency>
 					<dependency>
 						<groupId>org.jvnet.hyperjaxb3</groupId>

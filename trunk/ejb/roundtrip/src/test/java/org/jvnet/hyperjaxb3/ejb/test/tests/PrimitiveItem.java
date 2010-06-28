@@ -41,8 +41,8 @@ public abstract class PrimitiveItem<T, V> implements Equals, HashCode, Item<V> {
 			lhsValue = this.getValue();
 			Object rhsValue;
 			rhsValue = that.getValue();
-			if (!strategy.equals(LocatorUtils.field(thisLocator, "value",
-					lhsValue), LocatorUtils.field(thatLocator, "value",
+			if (!strategy.equals(LocatorUtils.property(thisLocator, "value",
+					lhsValue), LocatorUtils.property(thatLocator, "value",
 					rhsValue), lhsValue, rhsValue)) {
 				return false;
 			}
@@ -59,7 +59,7 @@ public abstract class PrimitiveItem<T, V> implements Equals, HashCode, Item<V> {
 
 		final T theValue;
 		theValue = this.getValue();
-		return hashCodeStrategy.hashCode(LocatorUtils.field(locator, "value",
+		return hashCodeStrategy.hashCode(LocatorUtils.property(locator, "value",
 				theValue), 0, theValue);
 	}
 

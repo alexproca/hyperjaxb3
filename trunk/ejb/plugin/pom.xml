@@ -48,7 +48,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb-xjc</artifactId>
+			<artifactId>jaxb2-basics-jaxb-xjc</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<!--dependency>
