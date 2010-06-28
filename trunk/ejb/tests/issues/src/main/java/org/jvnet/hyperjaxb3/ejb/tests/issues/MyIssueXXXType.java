@@ -126,8 +126,8 @@ public class MyIssueXXXType implements Serializable, Equals, HashCode {
 			lhsValue = this.getValue();
 			String rhsValue;
 			rhsValue = that.getValue();
-			if (!strategy.equals(LocatorUtils.field(thisLocator,
-					"simpleSingle", lhsValue), LocatorUtils.field(thatLocator,
+			if (!strategy.equals(LocatorUtils.property(thisLocator,
+					"simpleSingle", lhsValue), LocatorUtils.property(thatLocator,
 					"simpleSingle", rhsValue), lhsValue, rhsValue)) {
 				return false;
 			}
@@ -149,7 +149,7 @@ public class MyIssueXXXType implements Serializable, Equals, HashCode {
 		{
 			String theValue;
 			theValue = this.getValue();
-			currentHashCode = strategy.hashCode(LocatorUtils.field(locator,
+			currentHashCode = strategy.hashCode(LocatorUtils.property(locator,
 					"value", theValue), currentHashCode, theValue);
 		}
 
