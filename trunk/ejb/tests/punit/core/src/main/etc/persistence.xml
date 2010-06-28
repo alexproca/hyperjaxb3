@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/persistence">
-    <persistence-unit name="org.jvnet.hyperjaxb3.ejb.tests.po" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="##generated" transaction-type="RESOURCE_LOCAL">
 	<description>Purchase Order Persistence Unit</description>
 	<mapping-file>org/jvnet/hyperjaxb3/ejb/tests/po/orm.xml</mapping-file>
         <!--class>org.jvnet.hyperjaxb3.ejb.tests.po.USAddress1111</class-->
