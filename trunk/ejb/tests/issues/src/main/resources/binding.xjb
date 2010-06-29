@@ -1,8 +1,9 @@
 <jaxb:bindings version="1.0" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
-	jaxb:extensionBindingPrefixes="xjc"
+	jaxb:extensionBindingPrefixes="xjc orm"
 	xmlns:test="urn:test">
 	
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
@@ -18,6 +19,13 @@
 		<jaxb:bindings
 			node="xsd:complexType[@name='issue121Type']//xsd:element[@name='complexCollection']">
 			<hj:ignored/>
+		</jaxb:bindings>
+
+		<jaxb:bindings
+			node="xsd:complexType[@name='issueYYYType']//xsd:element[@name='single']">
+			<hj:many-to-one>
+				<orm:join-column name="SINGLE_ISSUEXXXTYPE_HJID"/>
+			</hj:many-to-one>
 		</jaxb:bindings>
 
 		<jaxb:bindings

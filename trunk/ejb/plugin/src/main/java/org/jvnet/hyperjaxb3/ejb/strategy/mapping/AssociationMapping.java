@@ -1,12 +1,16 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
@@ -14,6 +18,7 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.PrimaryKeyJoinColumn;
+import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
@@ -21,6 +26,8 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
+
+	protected Log logger = LogFactory.getLog(getClass());
 
 	protected Collection<FieldOutline> getSourceIdFieldsOutline(
 			Mapping context, FieldOutline fieldOutline) {
@@ -41,12 +48,27 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 
 		assert type != null;
 
-		assert type instanceof CClassInfo;
+		assert type instanceof CClass;
 
-		final ClassOutline targetClassOutline = fieldOutline.parent().parent()
-				.getClazz((CClassInfo) type);
+		if (type instanceof CClassInfo) {
 
-		return getIdFieldsOutline(targetClassOutline);
+			final ClassOutline targetClassOutline = fieldOutline.parent()
+					.parent().getClazz((CClassInfo) type);
+
+			return getIdFieldsOutline(targetClassOutline);
+		} else {
+
+			logger
+					.error(MessageFormat
+							.format(
+									"Field outline [{0}] references the type [{1}] which is not present in the XJC model "
+											+ "(it is probably a class reference due to episodic compilation). "
+											+ "Due to this reason Hyperjaxb3 cannot generate correct identifier column mapping. "
+											+ "Please customize your association manually. See also issue HJIII-51.",
+									propertyInfo.getName(true), type.getType()
+											.fullName()));
+			return Collections.emptyList();
+		}
 	}
 
 	private Collection<FieldOutline> getIdFieldsOutline(
