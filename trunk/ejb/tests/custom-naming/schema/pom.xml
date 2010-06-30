@@ -41,20 +41,20 @@
 				<configuration>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.po.RoundtripTest</roundtripTestClassName>
 					<plugins>
-						<plugin>
+						<!--plugin>
 							<groupId>org.jvnet.hyperjaxb3</groupId>
 							<artifactId>hyperjaxb3-ejb-tests-custom-naming-extension</artifactId>
 							<version>0.5.5-SNAPSHOT</version>
-						</plugin>
+						</plugin-->
 					</plugins>
 				</configuration>
-				<!--dependencies>
+				<dependencies>
 					<dependency>
 						<groupId>org.jvnet.hyperjaxb3</groupId>
 						<artifactId>hyperjaxb3-ejb-tests-custom-naming-extension</artifactId>
 						<version>0.5.5-SNAPSHOT</version>
 					</dependency>
-				</dependencies-->
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

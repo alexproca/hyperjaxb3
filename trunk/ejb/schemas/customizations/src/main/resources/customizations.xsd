@@ -21,6 +21,7 @@
 			<xsd:element name="default-generated-id" type="hj:generated-id"/>
 			<xsd:element name="default-embedded-id" type="hj:embedded-id"/>
 			<xsd:element name="default-version" type="hj:version"/>
+			<xsd:element name="default-generated-version" type="hj:generated-version"/>
 			<xsd:element name="default-basic" type="hj:basic"/>
 			<xsd:element name="default-to-one" type="hj:to-one"/>
 			<xsd:element name="default-to-many" type="hj:to-many"/>
@@ -110,6 +111,20 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+
+	<xsd:element name="generated-version" type="hj:generated-version"/>
+	<xsd:complexType name="generated-version">
+		<xsd:complexContent>
+			<xsd:extension base="hj:version">
+			    <xsd:attribute name="attributeName" type="xsd:QName"/>
+			    <xsd:attribute name="javaType" type="xsd:string"/>
+			    <xsd:attribute name="schemaType" type="xsd:QName"/>
+			    <xsd:attribute name="transient" type="xsd:boolean"/>
+			    <xsd:attribute name="forced" type="xsd:boolean"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 	<!-- ... -->
 	<xsd:element name="table" type="orm:table"/>
 	<!-- ... -->

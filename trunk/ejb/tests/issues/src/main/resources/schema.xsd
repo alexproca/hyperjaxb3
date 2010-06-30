@@ -652,4 +652,19 @@ x
 		</xsd:complexContent>
 	</xsd:complexType> 
 
+	<xsd:element name="issueHJIII35Element" type="test:issueHJIII35Type"/>
+
+	<xsd:complexType name="issueHJIII35Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:generated-version name="Hjversion" javaType="java.lang.Long" schemaType="xsd:long">
+					<orm:column/>
+				</hj:generated-version>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType> 
+
 </xsd:schema>
