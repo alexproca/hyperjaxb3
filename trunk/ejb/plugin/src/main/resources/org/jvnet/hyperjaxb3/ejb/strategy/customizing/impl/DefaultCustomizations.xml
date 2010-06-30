@@ -18,6 +18,9 @@
 	<hj:default-version>
 		<orm:column/>
 	</hj:default-version>
+	<hj:default-generated-version name="Hjversion" javaType="java.lang.Long" schemaType="xsd:long" forced="false">
+		<orm:column/>
+	</hj:default-generated-version>
 	<hj:default-basic>
 		<orm:column/>
 	</hj:default-basic>

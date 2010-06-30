@@ -12,6 +12,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedClass;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedProperty;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedVersion;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
@@ -65,6 +66,8 @@ public interface Customizing {
 	public Version getVersion(CPropertyInfo property);
 
 	public Version getVersion(FieldOutline property);
+	
+	public GeneratedVersion getGeneratedVersion(CClassInfo classInfo);
 
 	public Object getToOne(CPropertyInfo property);
 

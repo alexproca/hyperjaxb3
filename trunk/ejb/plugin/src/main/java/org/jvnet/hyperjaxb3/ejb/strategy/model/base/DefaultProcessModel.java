@@ -9,7 +9,6 @@ import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
-import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.impl.DefaultIgnoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ClassInfoProcessor;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
@@ -38,8 +37,8 @@ public class DefaultProcessModel implements ProcessModel {
 
 		logger.debug("Processing model [...].");
 
-		final CClassInfo[] classInfos = model.beans().values().toArray(
-				new CClassInfo[0]);
+		final CClassInfo[] classInfos = model.beans().values()
+				.toArray(new CClassInfo[0]);
 		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
 
 		for (final CClassInfo classInfo : classInfos) {
@@ -104,6 +103,18 @@ public class DefaultProcessModel implements ProcessModel {
 		this.createDefaultIdPropertyInfos = createDefaultIdPropertyInfos;
 	}
 
+	private ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> createDefaultVersionPropertyInfos;
+
+	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getCreateDefaultVersionPropertyInfos() {
+		return createDefaultVersionPropertyInfos;
+	}
+
+	@Required
+	public void setCreateDefaultVersionPropertyInfos(
+			ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> createDefaultVersionPropertyInfos) {
+		this.createDefaultVersionPropertyInfos = createDefaultVersionPropertyInfos;
+	}
+
 	private ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getIdPropertyInfos;
 
 	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getGetIdPropertyInfos() {
@@ -113,6 +124,17 @@ public class DefaultProcessModel implements ProcessModel {
 	public void setGetIdPropertyInfos(
 			ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getIdPropertyInfos) {
 		this.getIdPropertyInfos = getIdPropertyInfos;
+	}
+
+	private ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getVersionPropertyInfos;
+
+	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getGetVersionPropertyInfos() {
+		return getVersionPropertyInfos;
+	}
+
+	public void setGetVersionPropertyInfos(
+			ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getVersionPropertyInfos) {
+		this.getVersionPropertyInfos = getVersionPropertyInfos;
 	}
 
 	private CreatePropertyInfos wrapComplexHeteroCollection;

@@ -45,6 +45,16 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 				newPropertyInfos.addAll(createDefaultIdPropertyInfos(context,
 						classInfo));
 			}
+
+			final Collection<CPropertyInfo> versionPropertyInfos = context
+					.getGetVersionPropertyInfos().process(context, classInfo);
+
+			// If no id properties found, create default.
+			if (versionPropertyInfos.isEmpty()) {
+				newPropertyInfos.addAll(createDefaultVersionPropertyInfos(
+						context, classInfo));
+			}
+
 		}
 
 		final CPropertyInfo[] propertyInfos = classInfo.getProperties()
@@ -56,10 +66,9 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		}
 
 		if (classInfo.declaresAttributeWildcard()) {
-			logger
-					.error("Class ["
-							+ classInfo.getName()
-							+ "] declares an attribute wildcard. This is currently not supported. See issue #46.");
+			logger.error("Class ["
+					+ classInfo.getName()
+					+ "] declares an attribute wildcard. This is currently not supported. See issue #46.");
 		}
 
 		// Add properties if they're not yet there
@@ -89,12 +98,12 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 						Customizations.EMBEDDABLE_ELEMENT_NAME);
 		if (classInfo.getRefBaseClass() != null) {
 			return notMappedSuperclassAndNotEmbeddable
-					&& !isSelfOrAncestorRootClass(context, classInfo
-							.getRefBaseClass());
+					&& !isSelfOrAncestorRootClass(context,
+							classInfo.getRefBaseClass());
 		} else if (classInfo.getBaseClass() != null) {
 			return notMappedSuperclassAndNotEmbeddable
-					&& !isSelfOrAncestorRootClass(context, classInfo
-							.getBaseClass());
+					&& !isSelfOrAncestorRootClass(context,
+							classInfo.getBaseClass());
 		} else {
 			return notMappedSuperclassAndNotEmbeddable;
 		}
@@ -105,8 +114,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		if (isRootClass(context, classInfo)) {
 			return true;
 		} else if (classInfo.getRefBaseClass() != null) {
-			return isSelfOrAncestorRootClass(context, classInfo
-					.getRefBaseClass());
+			return isSelfOrAncestorRootClass(context,
+					classInfo.getRefBaseClass());
 		} else if (classInfo.getBaseClass() != null) {
 			return isSelfOrAncestorRootClass(context, classInfo.getBaseClass());
 		} else {
@@ -128,10 +137,9 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 			return isSelfOrAncestorRootClass(referencedClass);
 
 		} catch (ClassNotFoundException cnfex) {
-			logger
-					.warn("Referenced class ["
-							+ className
-							+ "] could not be found, this may lead to incorrect generation of the identifier fields.");
+			logger.warn("Referenced class ["
+					+ className
+					+ "] could not be found, this may lead to incorrect generation of the identifier fields.");
 			return true;
 		}
 	}
@@ -163,6 +171,13 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 			ProcessModel context, CClassInfo classInfo) {
 
 		return context.getCreateDefaultIdPropertyInfos().process(context,
+				classInfo);
+	}
+
+	public Collection<CPropertyInfo> createDefaultVersionPropertyInfos(
+			ProcessModel context, CClassInfo classInfo) {
+
+		return context.getCreateDefaultVersionPropertyInfos().process(context,
 				classInfo);
 	}
 
@@ -390,19 +405,17 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		public Collection<CPropertyInfo> onCollectionBuiltinElementReference(
 				CReferencePropertyInfo referencePropertyInfo) {
 
-			logger
-					.error("["
-							+ referencePropertyInfo.getName(true)
-							+ "] is a collection builtin element reference. See issue #67.");
+			logger.error("["
+					+ referencePropertyInfo.getName(true)
+					+ "] is a collection builtin element reference. See issue #67.");
 			return Collections.emptyList();
 		}
 
 		public Collection<CPropertyInfo> onCollectionEnumElementReference(
 				CReferencePropertyInfo referencePropertyInfo) {
-			logger
-					.error("["
-							+ referencePropertyInfo.getName(true)
-							+ "] is a collection enum element reference. See issue #68.");
+			logger.error("["
+					+ referencePropertyInfo.getName(true)
+					+ "] is a collection enum element reference. See issue #68.");
 			return Collections.emptyList();
 		}
 
@@ -433,10 +446,9 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 		public Collection<CPropertyInfo> onCollectionClassElementReference(
 				CReferencePropertyInfo referencePropertyInfo) {
-			logger
-					.error("["
-							+ referencePropertyInfo.getName(true)
-							+ "] is a collection class element reference. See issue #71.");
+			logger.error("["
+					+ referencePropertyInfo.getName(true)
+					+ "] is a collection class element reference. See issue #71.");
 			return Collections.emptyList();
 		}
 

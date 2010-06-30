@@ -81,7 +81,7 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 		// final GeneratedId id =
 		// context.getCustomizing().getGeneratedId(classInfo);
 		final String name = id.getName();
-		Validate.notEmpty(name, "The hj:/@name attribute must not be empty.");
+		Validate.notEmpty(name, "The hj:id/@name attribute must not be empty.");
 		return name;
 	}
 
@@ -98,10 +98,10 @@ public class DefaultCreateDefaultIdPropertyInfos implements
 		// context.getCustomizing().getGeneratedId(classInfo);
 		final String javaType = id.getJavaType();
 		Validate.notEmpty(javaType,
-				"The hj:/@javaType attribute must not be empty.");
+				"The hj:id/@javaType attribute must not be empty.");
 		final QName schemaType = id.getSchemaType();
 		Validate.notNull(schemaType,
-				"The hj:/@schemaType attribute must not be null.");
+				"The hj:id/@schemaType attribute must not be null.");
 		try {
 			final Class<?> theClass = ClassUtils.forName(javaType);
 			return new CExternalLeafInfo(theClass, schemaType, null);

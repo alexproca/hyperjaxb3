@@ -16,7 +16,11 @@ public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 
 	public CreateDefaultIdPropertyInfos getCreateDefaultIdPropertyInfos();
 
+	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getCreateDefaultVersionPropertyInfos();
+
 	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getGetIdPropertyInfos();
+
+	public ClassInfoProcessor<Collection<CPropertyInfo>, ProcessModel> getGetVersionPropertyInfos();
 
 	public ProcessClassInfo getCreateIdClass();
 

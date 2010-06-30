@@ -21,6 +21,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Entity;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedClass;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedProperty;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedVersion;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
@@ -303,6 +304,32 @@ public class DefaultCustomizing implements Customizing {
 		return getVersion(property.getPropertyInfo());
 	}
 
+	public GeneratedVersion getGeneratedVersion(CClassInfo classInfo) {
+
+		final Persistence persistence = getModelCustomization(classInfo);
+
+		if (persistence.getDefaultGeneratedVersion() == null) {
+			throw new AssertionError(
+					"Default generated version element is not provided.");
+		}
+		final GeneratedVersion defaultGeneratedVersion = (GeneratedVersion) persistence
+				.getDefaultGeneratedVersion().copyTo(new GeneratedVersion());
+		final GeneratedVersion generatedVersion;
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.GENERATED_VERSION_ELEMENT_NAME)) {
+			generatedVersion = findCustomization(classInfo,
+					Customizations.GENERATED_VERSION_ELEMENT_NAME);
+
+			if (generatedVersion.isMerge()) {
+				generatedVersion.mergeFrom(generatedVersion,
+						defaultGeneratedVersion);
+			}
+		} else {
+			generatedVersion = defaultGeneratedVersion.isForced()? defaultGeneratedVersion : null;
+		}
+		return generatedVersion;
+	}
+
 	public Basic getDefaultBasic(CPropertyInfo property) throws AssertionError {
 		final Persistence persistence = getModelCustomization(property);
 		if (persistence.getDefaultBasic() == null) {
@@ -319,8 +346,7 @@ public class DefaultCustomizing implements Customizing {
 					.getTypeNames(schemaComponent);
 			Basic basic = null;
 			for (Iterator<QName> typeNameIterator = typeNames.iterator(); typeNameIterator
-					.hasNext()
-					&& basic == null;) {
+					.hasNext() && basic == null;) {
 				final QName typeName = typeNameIterator.next();
 				final SingleProperty singleProperty = getDefaultSingleProperty(
 						persistence, typeName);
@@ -328,10 +354,9 @@ public class DefaultCustomizing implements Customizing {
 					if (singleProperty.getBasic() != null) {
 						basic = singleProperty.getBasic();
 					} else {
-						logger
-								.warn("Default single property for type ["
-										+ typeName
-										+ "] does not define the expected basic mapping.");
+						logger.warn("Default single property for type ["
+								+ typeName
+								+ "] does not define the expected basic mapping.");
 					}
 				}
 			}
