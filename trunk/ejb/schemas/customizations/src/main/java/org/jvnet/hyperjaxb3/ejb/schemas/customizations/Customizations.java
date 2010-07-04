@@ -118,6 +118,9 @@ public class Customizations {
 	public static final QName MAPPED_SUPERCLASS_ELEMENT_NAME = hj("mapped-superclass");
 
 	public static final QName EMBEDDABLE_ELEMENT_NAME = hj("embeddable");
+	
+	public static final QName JAXB_CONTEXT_ELEMENT_NAME = hj("jaxb-context");
+
 
 	public static void markAsAcknowledged(
 			final CPluginCustomization customization) {

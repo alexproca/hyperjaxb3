@@ -23,6 +23,12 @@
 			<version>1.7.3.3</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jvnet.ogc</groupId>
+			<artifactId>gml-v_3_1_1-schema</artifactId>
+			<version>1.0.0</version>
+			<scope>runtime</scope>
+		</dependency>	
 	</dependencies>
 	<build>
 		<resources>
@@ -38,9 +44,6 @@
 			<plugin>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
-				<configuration>
-					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.issues.tests.RoundtripTest</roundtripTestClassName>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

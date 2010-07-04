@@ -667,4 +667,25 @@ x
 		</xsd:sequence>
 	</xsd:complexType> 
 
+	<xsd:element name="issueHJIII48Element" type="test:issueHJIII48Type"/>
+
+	<xsd:complexType name="issueHJIII48Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:generated-property name="AnyElement" propertyName="Anything">
+					<hj:jaxb-context contextPath="net.opengis.gml.v_3_1_1:org.w3.smil.v_2_0:org.w3.smil.v_2_0.language"/>
+				</hj:generated-property>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<jaxb:property name="AnyElement"/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:any>
+		</xsd:sequence>
+	</xsd:complexType> 
+
 </xsd:schema>

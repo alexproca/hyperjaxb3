@@ -32,6 +32,7 @@
 			<xsd:element name="default-embedded" type="hj:embedded"/>
 			<xsd:element name="default-single-property" type="hj:single-property"
 				minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="default-jaxb-context" type="hj:jaxb-context"/>
 		</xsd:sequence>
 		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
@@ -244,13 +245,33 @@
 		</xsd:sequence>
 		<xsd:attribute name="className" type="xsd:string"/>
 	</xsd:complexType>
+
 	<xsd:element name="generated-property" type="hj:generated-property"/>
+
 	<xsd:complexType name="generated-property">
 		<xsd:sequence>
 				<xsd:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string"/>
 		<xsd:attribute name="propertyName" type="xsd:string"/>
+		<xsd:attribute name="propertyQName" type="xsd:QName"/>
+		<xsd:attribute name="propertyKind">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:token">
+					<xsd:enumeration value="element"/>
+					<xsd:enumeration value="attribute"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
 	</xsd:complexType>
 
+	<xsd:element name="jaxb-context" type="hj:jaxb-context"/>
+
+	<xsd:complexType name="jaxb-context">
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="contextPath" type="xsd:string"/>
+		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+	</xsd:complexType>
 
 </xsd:schema>
