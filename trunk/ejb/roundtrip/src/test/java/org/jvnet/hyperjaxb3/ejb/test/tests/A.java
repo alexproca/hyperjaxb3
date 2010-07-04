@@ -677,13 +677,13 @@ public class A implements Equals {
 
 	@Basic
 	public String getHItem() {
-		return JAXBContextUtils.unmarshall(
+		return JAXBContextUtils.marshal(
 				"org.jvnet.hyperjaxb3.ejb.test.tests", getH());
 	}
 
 	public void setHItem(String h) {
 		setH(JAXBContextUtils
-				.marshall("org.jvnet.hyperjaxb3.ejb.test.tests", h));
+				.unmarshal("org.jvnet.hyperjaxb3.ejb.test.tests", h));
 	}
 
 }
