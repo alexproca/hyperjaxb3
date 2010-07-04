@@ -139,6 +139,8 @@
 		<hj:basic>
 			<orm:lob/>
 		</hj:basic>
-	</hj:default-single-property>	
+	</hj:default-single-property>
+	
+	<hj:default-jaxb-context/>	
 	
 </hj:persistence>

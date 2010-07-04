@@ -1,5 +1,6 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.SingleWrappingField;
 
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
@@ -14,7 +15,7 @@ public class AdaptBuiltinNonReference extends AbstractAdaptBuiltinPropertyInfo {
 	}
 	
 	@Override
-	protected FieldOutline generateField(CPropertyInfo core,
+	protected FieldOutline generateField(final ProcessModel context,CPropertyInfo core,
 			ClassOutlineImpl classOutline, CPropertyInfo propertyInfo) {
 		final SingleWrappingField fieldOutline = new SingleWrappingField(classOutline, propertyInfo, core);
 		fieldOutline.generateAccessors();

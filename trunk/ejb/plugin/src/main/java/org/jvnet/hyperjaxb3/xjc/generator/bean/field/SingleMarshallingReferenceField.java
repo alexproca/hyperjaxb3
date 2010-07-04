@@ -20,9 +20,12 @@ import com.sun.tools.xjc.outline.Aspect;
 
 public class SingleMarshallingReferenceField extends AbstractWrappingField {
 
+	private final String contextPath;
+
 	public SingleMarshallingReferenceField(ClassOutlineImpl context,
-			CPropertyInfo prop, CPropertyInfo core) {
+			CPropertyInfo prop, CPropertyInfo core, String contextPath) {
 		super(context, prop, core);
+		this.contextPath = contextPath;
 	}
 
 	@Override
@@ -40,30 +43,25 @@ public class SingleMarshallingReferenceField extends AbstractWrappingField {
 		final CNonElement type = elementInfo.getProperty().ref().iterator()
 				.next();
 
-		final JClass declaredType = (JClass) type.toType(
-				outline.parent(), Aspect.EXPOSED);
+		final JClass declaredType = (JClass) type.toType(outline.parent(),
+				Aspect.EXPOSED);
 
 		final JClass scope = getScope(elementInfo.getScope());
 
 		final QName name = elementInfo.getElementName();
 
-		final String contextPath = OutlineUtils
-				.getContextPath(outline.parent());
-
-		return codeModel.ref(JAXBContextUtils.class).staticInvoke(
-				"marshallJAXBElement").arg(contextPath).arg(
-				JExprUtils.newQName(codeModel, name)).arg(scope.dotclass())
-				.arg(target);
+		return codeModel.ref(JAXBContextUtils.class)
+				.staticInvoke("unmarshalJAXBElement").arg(contextPath)
+				.arg(JExprUtils.newQName(codeModel, name))
+				.arg(scope.dotclass()).arg(target);
 	}
 
 	@Override
 	protected JExpression unwrap(JExpression source) {
 
-		final String contextPath = OutlineUtils
-				.getContextPath(outline.parent());
-
-		return codeModel.ref(JAXBContextUtils.class).staticInvoke(
-				"unmarshallJAXBElement").arg(contextPath).arg(source);
+		return codeModel.ref(JAXBContextUtils.class)
+				.staticInvoke("marshalJAXBElement").arg(contextPath)
+				.arg(source);
 	}
 
 }

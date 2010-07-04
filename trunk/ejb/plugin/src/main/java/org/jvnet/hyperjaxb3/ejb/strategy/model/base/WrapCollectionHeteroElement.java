@@ -77,19 +77,19 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
 				parent, classInfo.shortName + propertyName + "Item", null,
-				new QName(propertyName), null, propertyInfo
-						.getSchemaComponent(), new CCustomizations());
+				new QName(propertyName), null,
+				propertyInfo.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);
 
 		final CElementPropertyInfo itemPropertyInfo = new CElementPropertyInfo(
 				"Item", CollectionMode.NOT_REPEATED, wrappedPropertyInfo.id(),
-				wrappedPropertyInfo.getExpectedMimeType(), wrappedPropertyInfo
-						.getSchemaComponent(), new CCustomizations(
+				wrappedPropertyInfo.getExpectedMimeType(),
+				wrappedPropertyInfo.getSchemaComponent(), new CCustomizations(
 						CustomizationUtils
 								.getCustomizations(wrappedPropertyInfo)),
-				wrappedPropertyInfo.getLocator(), wrappedPropertyInfo
-						.isRequired());
+				wrappedPropertyInfo.getLocator(),
+				wrappedPropertyInfo.isRequired());
 
 		itemPropertyInfo.getTypes().addAll(wrappedPropertyInfo.getTypes());
 
@@ -105,6 +105,10 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 		final String wrappingPropertyName = (generatedProperty == null || generatedProperty
 				.getPropertyName() == null) ? (propertyName + "Items")
 				: generatedProperty.getPropertyName();
+
+		final QName wrappingPropertyQName = (generatedProperty == null || generatedProperty
+				.getPropertyQName() == null) ? new QName(propertyName + "Items")
+				: generatedProperty.getPropertyQName();
 
 		final CCustomizations wrappingPropertyCustomizations;
 		if (generatedProperty != null && !generatedProperty.getAny().isEmpty()) {
@@ -130,8 +134,8 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 				wrappingPropertyCustomizations, null, false);
 
 		wrappingPropertyInfo.getTypes().add(
-				new CTypeRef(itemClassInfo, new QName(propertyName + "Items"),
-						null, false, null));
+				new CTypeRef(itemClassInfo, wrappingPropertyQName, null, false,
+						null));
 
 		wrappingPropertyInfo.realization = new FieldRenderer() {
 			public FieldOutline generate(ClassOutlineImpl outline,
@@ -193,8 +197,8 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 				}
 			};
 
-			final JClass itemClass = classOutline.implClass.owner().ref(
-					Item.class).narrow(fieldOutline.getRawType().boxify());
+			final JClass itemClass = classOutline.implClass.owner()
+					.ref(Item.class).narrow(fieldOutline.getRawType().boxify());
 			classOutline.implClass._implements(itemClass);
 			if (classOutline.parent().getModel().serializable) {
 				classOutline.implClass._implements(Serializable.class);

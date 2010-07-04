@@ -16,13 +16,13 @@ public abstract class AbstractAdaptEnumPropertyInfo extends
 		AbstractAdaptPropertyInfo {
 
 	@Override
-	public PropertyKind getPropertyKind(ProcessModel context,
+	public final PropertyKind getDefaultGeneratedPropertyKind(ProcessModel context,
 			CPropertyInfo propertyInfo) {
 		return PropertyKind.ATTRIBUTE;
 	}
 
 	@Override
-	public String getPropertyName(ProcessModel context,
+	public String getDefaultGeneratedPropertyName(ProcessModel context,
 			CPropertyInfo propertyInfo) {
 		return propertyInfo.getName(true) + "Item";
 	}

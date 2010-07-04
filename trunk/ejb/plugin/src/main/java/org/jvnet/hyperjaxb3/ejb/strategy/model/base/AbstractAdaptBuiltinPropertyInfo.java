@@ -28,7 +28,7 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 		this.propertyType = propertyType;
 	}
 
-	public Collection<CPropertyInfo> process(ProcessModel context,
+	public Collection<CPropertyInfo> process(final ProcessModel context,
 			final CPropertyInfo core) {
 		final CPropertyInfo newPropertyInfo = createPropertyInfo(context, core);
 
@@ -36,7 +36,7 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 
 			public FieldOutline generate(ClassOutlineImpl classOutline,
 					CPropertyInfo propertyInfo) {
-				return generateField(core, classOutline, propertyInfo);
+				return generateField(context, core, classOutline, propertyInfo);
 			}
 
 		};
@@ -47,8 +47,8 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 	private PropertyKind propertyKind = PropertyKind.ATTRIBUTE;
 
 	@Override
-	public PropertyKind getPropertyKind(ProcessModel context,
-			CPropertyInfo propertyInfo) {
+	public final PropertyKind getDefaultGeneratedPropertyKind(
+			ProcessModel context, CPropertyInfo propertyInfo) {
 		return propertyKind;
 	}
 
@@ -61,12 +61,13 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 	}
 
 	@Override
-	public String getPropertyName(ProcessModel context,
+	public String getDefaultGeneratedPropertyName(ProcessModel context,
 			CPropertyInfo propertyInfo) {
 		// TODO Allow for customization
 		return propertyInfo.getName(true) + "Item";
 	}
 
-	protected abstract FieldOutline generateField(final CPropertyInfo core,
-			ClassOutlineImpl classOutline, CPropertyInfo propertyInfo);
+	protected abstract FieldOutline generateField(final ProcessModel context,
+			final CPropertyInfo core, ClassOutlineImpl classOutline,
+			CPropertyInfo propertyInfo);
 }

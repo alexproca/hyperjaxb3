@@ -14,9 +14,12 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 
 public class SingleMarshallingField extends AbstractWrappingField {
 
+	private final String contextPath;
+
 	public SingleMarshallingField(ClassOutlineImpl context, CPropertyInfo prop,
-			CPropertyInfo core) {
+			CPropertyInfo core, String contextPath) {
 		super(context, prop, core);
+		this.contextPath = contextPath;
 	}
 
 	@Override
@@ -27,9 +30,6 @@ public class SingleMarshallingField extends AbstractWrappingField {
 	@Override
 	public JExpression unwrapCondifiton(JExpression source) {
 
-		final String contextPath = OutlineUtils
-				.getContextPath(outline.parent());
-
 		final JExpression isElement = codeModel.ref(JAXBContextUtils.class)
 				.staticInvoke("isMarshallable").arg(contextPath).arg(source);
 		return isElement;
@@ -37,19 +37,13 @@ public class SingleMarshallingField extends AbstractWrappingField {
 
 	protected JExpression wrap(final JExpression target) {
 
-		final String contextPath = OutlineUtils
-				.getContextPath(outline.parent());
-
-		return codeModel.ref(JAXBContextUtils.class).staticInvoke("marshall")
+		return codeModel.ref(JAXBContextUtils.class).staticInvoke("unmarshal")
 				.arg(contextPath).arg(target);
 	}
 
 	@Override
 	protected JExpression unwrap(JExpression source) {
-		final String contextPath = OutlineUtils
-				.getContextPath(outline.parent());
-
-		return codeModel.ref(JAXBContextUtils.class).staticInvoke("unmarshall")
+		return codeModel.ref(JAXBContextUtils.class).staticInvoke("marshal")
 				.arg(contextPath).arg(source);
 	}
 }

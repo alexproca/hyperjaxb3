@@ -23,6 +23,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedProperty;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedVersion;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.JaxbContext;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.MappedSuperclass;
@@ -72,6 +73,12 @@ public class DefaultCustomizing implements Customizing {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(classInfo, name);
 		return (T) unmarshalCustomization(customization);
+	}
+
+	public <T> Collection<T> findCustomizations(CClassInfo classInfo, QName name) {
+		final List<CPluginCustomization> customizations = CustomizationUtils
+				.findCustomizations(classInfo, name);
+		return unmarshalCustomizations(customizations);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -223,7 +230,26 @@ public class DefaultCustomizing implements Customizing {
 			generatedProperty = findCustomization(propertyInfo,
 					Customizations.GENERATED_PROPERTY_ELEMENT_NAME);
 		} else {
-			generatedProperty = null;
+			generatedProperty = getGeneratedProperty(
+					(CClassInfo) propertyInfo.parent(),
+					propertyInfo.getName(true));
+		}
+		return generatedProperty;
+	}
+
+	public GeneratedProperty getGeneratedProperty(CClassInfo classInfo,
+			String propertyName) {
+		GeneratedProperty generatedProperty = null;
+		if (classInfo != null && CustomizationUtils.containsCustomization(classInfo,
+				Customizations.GENERATED_PROPERTY_ELEMENT_NAME)) {
+			final Collection<GeneratedProperty> generatedProperties;
+			generatedProperties = findCustomizations(classInfo,
+					Customizations.GENERATED_PROPERTY_ELEMENT_NAME);
+			for (GeneratedProperty p : generatedProperties) {
+				if (propertyName.equals(p.getName())) {
+					generatedProperty = p;
+				}
+			}
 		}
 		return generatedProperty;
 	}
@@ -325,7 +351,8 @@ public class DefaultCustomizing implements Customizing {
 						defaultGeneratedVersion);
 			}
 		} else {
-			generatedVersion = defaultGeneratedVersion.isForced()? defaultGeneratedVersion : null;
+			generatedVersion = defaultGeneratedVersion.isForced() ? defaultGeneratedVersion
+					: null;
 		}
 		return generatedVersion;
 	}
@@ -909,6 +936,32 @@ public class DefaultCustomizing implements Customizing {
 
 	public Embedded getEmbedded(FieldOutline property) {
 		return getEmbedded(property.getPropertyInfo());
+	}
+
+	public JaxbContext getJaxbContext(FieldOutline property) {
+		return getJaxbContext(property.getPropertyInfo());
+	}
+
+	public JaxbContext getJaxbContext(CPropertyInfo property) {
+		final Persistence persistence = getModelCustomization(property);
+		if (persistence.getDefaultJaxbContext() == null) {
+			throw new AssertionError("Default jaxb-context element is not provided.");
+		}
+		final JaxbContext defaultJaxbContext = (JaxbContext) persistence
+				.getDefaultJaxbContext().copyTo(new JaxbContext());
+		final JaxbContext jaxbContext;
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.JAXB_CONTEXT_ELEMENT_NAME)) {
+			jaxbContext = findCustomization(property,
+					Customizations.JAXB_CONTEXT_ELEMENT_NAME);
+
+			if (jaxbContext.isMerge()) {
+				jaxbContext.mergeFrom(jaxbContext, defaultJaxbContext);
+			}
+		} else {
+			jaxbContext = defaultJaxbContext;
+		}
+		return jaxbContext;
 	}
 
 }

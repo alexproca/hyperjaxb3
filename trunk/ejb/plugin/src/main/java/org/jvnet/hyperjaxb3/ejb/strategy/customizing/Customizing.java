@@ -14,6 +14,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedId;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedProperty;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedVersion;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Id;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.JaxbContext;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.MappedSuperclass;
@@ -66,7 +67,7 @@ public interface Customizing {
 	public Version getVersion(CPropertyInfo property);
 
 	public Version getVersion(FieldOutline property);
-	
+
 	public GeneratedVersion getGeneratedVersion(CClassInfo classInfo);
 
 	public Object getToOne(CPropertyInfo property);
@@ -114,4 +115,9 @@ public interface Customizing {
 	public Embeddable getEmbeddable(ClassOutline classOutline);
 
 	public MappedSuperclass getMappedSuperclass(ClassOutline classOutline);
+
+	public JaxbContext getJaxbContext(FieldOutline fieldOutline);
+
+	public JaxbContext getJaxbContext(CPropertyInfo property);
+
 }
