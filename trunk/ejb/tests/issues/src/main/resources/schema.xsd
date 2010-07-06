@@ -667,13 +667,13 @@ x
 		</xsd:sequence>
 	</xsd:complexType> 
 
-	<xsd:element name="issueHJIII48Element" type="test:issueHJIII48Type"/>
+	<xsd:element name="issueHJIII48AElement" type="test:issueHJIII48AType"/>
 
-	<xsd:complexType name="issueHJIII48Type">
+	<xsd:complexType name="issueHJIII48AType">
 		<xsd:annotation>
 			<xsd:appinfo>
 				<hj:generated-property name="AnyElement" propertyName="Anything">
-					<hj:jaxb-context contextPath="net.opengis.gml.v_3_1_1:org.w3.smil.v_2_0:org.w3.smil.v_2_0.language"/>
+					<hj:jaxb-context contextPath="org.jvnet.hyperjaxb3.ejb.tests.po"/>
 				</hj:generated-property>
 			</xsd:appinfo>
 		</xsd:annotation>
@@ -687,5 +687,14 @@ x
 			</xsd:any>
 		</xsd:sequence>
 	</xsd:complexType> 
+
+	<xsd:element name="issueHJIII48BElement" type="test:issueHJIII48BType"/>
+
+	<xsd:complexType name="issueHJIII48BType">
+		<xsd:sequence>
+			<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType> 
+
 
 </xsd:schema>

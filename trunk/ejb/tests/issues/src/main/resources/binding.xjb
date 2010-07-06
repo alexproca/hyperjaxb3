@@ -32,7 +32,15 @@
 			scd="~test:issueXXXType">
 			<jaxb:class ref="org.jvnet.hyperjaxb3.ejb.tests.issues.MyIssueXXXType"/>
 		</jaxb:bindings>
+
+		<jaxb:bindings
+			node="xsd:complexType[@name='issueHJIII48BType']">
+			<hj:generated-property name="Any">
+				<hj:jaxb-context contextPath="org.jvnet.hyperjaxb3.ejb.tests.po"/>
+			</hj:generated-property>
+		</jaxb:bindings>
 	</jaxb:bindings>
+
 	<jaxb:bindings schemaLocation="schema-ignored.xsd" node="/xsd:schema">
 		<jaxb:schemaBindings>
 			<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.issuesignored"/>

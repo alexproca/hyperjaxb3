@@ -137,10 +137,10 @@ public class JAXBContextUtils {
 
 	}
 
-	public static Object unmarshal(String contextPath, String object) {
+	public static Object unmarshal(String contextPath, String string) {
 		try {
-			return object == null ? null : unmarshal(
-					getJAXBContext(contextPath), object);
+			return string == null ? null : unmarshal(
+					getJAXBContext(contextPath), string);
 		} catch (JAXBException ex) {
 			throw new RuntimeException(ex);
 		}

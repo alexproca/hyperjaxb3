@@ -6,7 +6,7 @@
 	
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xs:schema">
 		<jaxb:globalBindings localScoping="toplevel">
-			<!--jaxb:serializable/-->
+			<jaxb:serializable/>
 		</jaxb:globalBindings>
 		<jaxb:schemaBindings>
 			<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.ids.tests"/>

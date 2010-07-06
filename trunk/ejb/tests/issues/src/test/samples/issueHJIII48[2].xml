@@ -1,4 +1,4 @@
-<issueHJIII48AElement xmlns="urn:test">
+<issueHJIII48BElement xmlns="urn:test">
 	<purchaseOrder orderDate="1999-10-20">
 		<shipTo country="US">
 			<name>Alice Smith</name>
@@ -30,4 +30,4 @@
 			</item>
 		</items>
 	</purchaseOrder>
-</issueHJIII48AElement>
+</issueHJIII48BElement>

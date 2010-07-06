@@ -24,9 +24,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.ogc</groupId>
-			<artifactId>gml-v_3_1_1-schema</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<groupId>org.jvnet.hyperjaxb3</groupId>
+			<artifactId>hyperjaxb3-ejb-tests-po</artifactId>
+			<version>0.5.5-SNAPSHOT</version>
 			<scope>runtime</scope>
 		</dependency>	
 	</dependencies>
