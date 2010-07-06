@@ -29,7 +29,7 @@
 	<xs:complexType name="c_abcdefghijklmnopqrstvuw12345678910_type">
 		<xs:annotation>
 			<xs:appinfo>
-				<hj:embeddable/>
+				<!--hj:embeddable/-->
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -40,7 +40,7 @@
 	<xs:complexType name="d_abcdefghijklmnopqrstvuw12345678910_type">
 		<xs:annotation>
 			<xs:appinfo>
-				<hj:embeddable/>
+				<!--hj:embeddable/-->
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

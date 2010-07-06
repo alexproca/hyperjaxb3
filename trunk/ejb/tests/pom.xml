@@ -42,7 +42,7 @@
 				<module>device</module>
 				<!-- ** module>dl</module-->
 				<module>dom</module>
-				<!-- ** module>dy</module-->
+				<module>dy</module>
 				<module>ebxmlrr</module>
 				<module>edxl</module>
 				<module>embeddable</module>
