@@ -9,7 +9,6 @@
 	<modules>
 		<!-- General -->
 		<module>ejb</module>
-		<!--module>samples</module>
 		<module>templates</module-->
 		<!--module>jdo</module-->
 		<module>maven</module>
