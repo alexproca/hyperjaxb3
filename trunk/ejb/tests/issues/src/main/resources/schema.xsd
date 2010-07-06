@@ -696,5 +696,24 @@ x
 		</xsd:sequence>
 	</xsd:complexType> 
 
+	<xsd:element name="issueHJIII48CElement" type="test:issueHJIII48CType"/>
+
+	<xsd:complexType name="issueHJIII48CType">
+		<xsd:sequence>
+			<xsd:element name="any" type="xsd:anyType">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:generated-property propertyName="Anything">
+							<hj:jaxb-context contextPath="org.jvnet.hyperjaxb3.ejb.tests.po"/>
+							<hj:basic merged="false">
+								<orm:column name="EVERYTHING" length="3000"/>
+							</hj:basic>
+						</hj:generated-property>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType> 
+
 
 </xsd:schema>
