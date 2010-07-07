@@ -17,6 +17,7 @@
 		<module>issues</module>
 		<module>nml</module>
 		<module>one</module>
+		<module>po</module>
 		<module>po-customized</module>
 		<module>regrep</module>
 		<module>st</module>

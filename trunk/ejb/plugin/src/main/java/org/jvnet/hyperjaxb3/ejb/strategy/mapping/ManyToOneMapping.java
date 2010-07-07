@@ -64,7 +64,12 @@ public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
 			createJoinColumns(context, fieldOutline, idFieldsOutline, manyToOne
 					.getJoinColumn());
 		} else if (manyToOne.getJoinTable() != null) {
-			createJoinTable(context, fieldOutline, manyToOne.getJoinTable());
+			final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
+					context, fieldOutline);
+			final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
+					context, fieldOutline);
+
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, manyToOne.getJoinTable());
 		} else {
 			final Collection<FieldOutline> idFieldsOutline = getTargetIdFieldsOutline(
 					context, fieldOutline);

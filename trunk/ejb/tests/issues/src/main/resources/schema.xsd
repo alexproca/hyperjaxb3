@@ -715,5 +715,40 @@ x
 		</xsd:sequence>
 	</xsd:complexType> 
 
+	<xsd:element name="issueHJIII40A">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="test:issueHJIII40B">
+					<xsd:annotation>
+						<xsd:appinfo>
+							<jaxb:property name="First"/>
+							<hj:many-to-one>
+								<orm:join-column name="FIRST" />
+							</hj:many-to-one>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="test:issueHJIII40B">
+					<xsd:annotation>
+						<xsd:appinfo>
+							<jaxb:property name="Second"/>
+							<hj:many-to-one>
+								<orm:join-column name="SECOND" />
+							</hj:many-to-one>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element> 
+
+	<xsd:element name="issueHJIII40B">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="value" type="xsd:string" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType> 
+	</xsd:element>
+
 
 </xsd:schema>

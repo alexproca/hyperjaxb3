@@ -96,12 +96,11 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		return idFieldOutlines;
 	}
 
+	// * 1:1
 	public void createPrimaryKeyJoinColumns(Mapping context,
 			FieldOutline fieldOutline,
-
+			Collection<FieldOutline> idFieldOutlines,
 			List<PrimaryKeyJoinColumn> primaryKeyJoinColumns) {
-		final Collection<FieldOutline> idFieldOutlines = getSourceIdFieldsOutline(
-				context, fieldOutline);
 
 		final Iterator<PrimaryKeyJoinColumn> joinColumnIterator = new ArrayList<PrimaryKeyJoinColumn>(
 				primaryKeyJoinColumns).iterator();
@@ -119,14 +118,14 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 
 	}
 
-	public void createPrimaryKeyJoinColumn(Mapping context,
+	protected void createPrimaryKeyJoinColumn(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline,
 			PrimaryKeyJoinColumn primaryKeyJoinColumn) {
 		createPrimaryKeyJoinColumn$Name(context, fieldOutline, idFieldOutline,
 				primaryKeyJoinColumn);
 	}
 
-	public void createPrimaryKeyJoinColumn$Name(Mapping context,
+	protected void createPrimaryKeyJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline,
 			PrimaryKeyJoinColumn primaryKeyJoinColumn) {
 		if (primaryKeyJoinColumn.getName() == null
@@ -136,6 +135,9 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
+	// * M:1
+	// * 1:M
+	// * 1:1
 	public void createJoinColumns(Mapping context, FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines,
 			List<JoinColumn> joinColumns) {
@@ -155,12 +157,12 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
-	public void createJoinColumn(Mapping context, FieldOutline fieldOutline,
+	protected void createJoinColumn(Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline, JoinColumn joinColumn) {
 		createJoinColumn$Name(context, fieldOutline, idFieldOutline, joinColumn);
 	}
 
-	public void createJoinColumn$Name(Mapping context,
+	protected void createJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline,
 			JoinColumn joinColumn) {
 		if (joinColumn.getName() == null
@@ -170,12 +172,13 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
+	// 1:1
+	// M:1
+	// 1:M
+	// M:M
 	public void createJoinTable(Mapping context, FieldOutline fieldOutline,
-			JoinTable joinTable) {
-		final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
-				context, fieldOutline);
-		final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
-				context, fieldOutline);
+			Collection<FieldOutline> sourceIdFieldOutlines,
+			Collection<FieldOutline> targetIdFieldOutlines, JoinTable joinTable) {
 		createJoinTable$Name(context, fieldOutline, joinTable);
 		createJoinTable$JoinColumn(context, fieldOutline,
 				sourceIdFieldOutlines, joinTable);
@@ -183,7 +186,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 				targetIdFieldOutlines, joinTable);
 	}
 
-	public void createJoinTable$Name(Mapping context,
+	protected void createJoinTable$Name(Mapping context,
 			FieldOutline fieldOutline, JoinTable joinTable) {
 		if (joinTable.getName() == null
 				|| "##default".equals(joinTable.getName())) {
@@ -192,7 +195,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
-	public void createJoinTable$JoinColumn(Mapping context,
+	protected void createJoinTable$JoinColumn(Mapping context,
 			FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines, JoinTable joinTable) {
 
@@ -213,7 +216,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
-	public void createJoinTable$InverseJoinColumn(Mapping context,
+	protected void createJoinTable$InverseJoinColumn(Mapping context,
 			FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines, JoinTable joinTable) {
 
@@ -235,7 +238,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
-	public void createJoinTable$JoinColumn(Mapping context,
+	protected void createJoinTable$JoinColumn(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline,
 			JoinColumn joinColumn) {
 
@@ -246,7 +249,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		// idFieldOutline, joinColumn);
 	}
 
-	public void createJoinTable$InverseJoinColumn(Mapping context,
+	protected void createJoinTable$InverseJoinColumn(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline,
 			JoinColumn joinColumn) {
 
@@ -254,7 +257,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 				idFieldOutline, joinColumn);
 	}
 
-	public void createJoinTable$JoinColumn$Name(Mapping context,
+	protected void createJoinTable$JoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline,
 			JoinColumn joinColumn) {
 		if (joinColumn.getName() == null
@@ -265,7 +268,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
-	public void createJoinTable$JoinColumn$ReferencedColumnName(
+	protected void createJoinTable$JoinColumn$ReferencedColumnName(
 			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline, JoinColumn joinColumn) {
 		if (joinColumn.getName() == null
@@ -275,7 +278,7 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 		}
 	}
 
-	public void createManyToOne$JoinTable$InverseJoinColumn$Name(
+	protected void createManyToOne$JoinTable$InverseJoinColumn$Name(
 			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline, JoinColumn joinColumn) {
 		if (joinColumn.getName() == null

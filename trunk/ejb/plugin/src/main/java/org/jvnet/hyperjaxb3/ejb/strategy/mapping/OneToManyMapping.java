@@ -60,7 +60,12 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToMany
 					.getJoinColumn());
 		} else if (oneToMany.getJoinTable() != null) {
-			createJoinTable(context, fieldOutline, oneToMany.getJoinTable());
+			final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
+					context, fieldOutline);
+			final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
+					context, fieldOutline);
+
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, oneToMany.getJoinTable());
 		} else {
 			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
 					context, fieldOutline);

@@ -54,13 +54,17 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 
 	public void createManyToMany$JoinTable(Mapping context,
 			FieldOutline fieldOutline, ManyToMany manyToMany) {
+		final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
+				context, fieldOutline);
+		final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
+				context, fieldOutline);
 
 		if (manyToMany.getJoinTable() != null) {
-			createJoinTable(context, fieldOutline, manyToMany.getJoinTable());
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, manyToMany.getJoinTable());
 		} else {
 			final JoinTable joinTable = new JoinTable();
 			manyToMany.setJoinTable(joinTable);
-			createJoinTable(context, fieldOutline, manyToMany.getJoinTable());
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, manyToMany.getJoinTable());
 		}
 
 	}

@@ -54,8 +54,11 @@ public class OneToOneMapping extends AssociationMapping<OneToOne> {
 	public void createOneToOne$JoinTableOrJoinColumnOrPrimaryKeyJoinColumn(
 			Mapping context, FieldOutline fieldOutline, OneToOne oneToOne) {
 		if (!oneToOne.getPrimaryKeyJoinColumn().isEmpty()) {
-			createPrimaryKeyJoinColumns(context, fieldOutline, oneToOne
-					.getPrimaryKeyJoinColumn());
+
+			final Collection<FieldOutline> idFieldOutlines = getSourceIdFieldsOutline(
+					context, fieldOutline);
+			createPrimaryKeyJoinColumns(context, fieldOutline, idFieldOutlines,
+					oneToOne.getPrimaryKeyJoinColumn());
 		} else if (!oneToOne.getJoinColumn().isEmpty()) {
 			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
 					context, fieldOutline);
@@ -63,7 +66,13 @@ public class OneToOneMapping extends AssociationMapping<OneToOne> {
 			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToOne
 					.getJoinColumn());
 		} else if (oneToOne.getJoinTable() != null) {
-			createJoinTable(context, fieldOutline, oneToOne.getJoinTable());
+			final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
+					context, fieldOutline);
+			final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
+					context, fieldOutline);
+
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
+					targetIdFieldOutlines, oneToOne.getJoinTable());
 		} else {
 			final JoinColumn joinColumn = new JoinColumn();
 			oneToOne.getJoinColumn().add(joinColumn);
