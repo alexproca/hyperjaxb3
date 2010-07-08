@@ -6,26 +6,28 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.hyperjaxb3.codemodel.util.JExprUtils;
 import org.jvnet.hyperjaxb3.xml.bind.JAXBContextUtils;
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.codemodel.JClass;
+import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.internal.JMod;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementInfo;
-import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
-import com.sun.tools.xjc.outline.Aspect;
 
 public class SingleMarshallingReferenceField extends AbstractWrappingField {
 
-	private final String contextPath;
+	private final JExpression contextPath;
 
 	public SingleMarshallingReferenceField(ClassOutlineImpl context,
-			CPropertyInfo prop, CPropertyInfo core, String contextPath) {
+			CPropertyInfo prop, CPropertyInfo core, String contextPath, boolean _final) {
 		super(context, prop, core);
-		this.contextPath = contextPath;
+		this.contextPath = context.implClass.field(JMod.PUBLIC | JMod.STATIC
+				| (_final ? JMod.FINAL : JMod.NONE), String.class, prop
+				.getName(true)
+				+ "ContextPath", JExpr.lit(contextPath));
 	}
 
 	@Override
@@ -40,28 +42,24 @@ public class SingleMarshallingReferenceField extends AbstractWrappingField {
 
 		final CElementInfo elementInfo = (CElementInfo) element.getType();
 
-		final CNonElement type = elementInfo.getProperty().ref().iterator()
-				.next();
-
-		final JClass declaredType = (JClass) type.toType(outline.parent(),
-				Aspect.EXPOSED);
+//		final CNonElement type = elementInfo.getProperty().ref().iterator()
+//				.next();
 
 		final JClass scope = getScope(elementInfo.getScope());
 
 		final QName name = elementInfo.getElementName();
 
-		return codeModel.ref(JAXBContextUtils.class)
-				.staticInvoke("unmarshalJAXBElement").arg(contextPath)
-				.arg(JExprUtils.newQName(codeModel, name))
-				.arg(scope.dotclass()).arg(target);
+		return codeModel.ref(JAXBContextUtils.class).staticInvoke(
+				"unmarshalJAXBElement").arg(contextPath).arg(
+				JExprUtils.newQName(codeModel, name)).arg(scope.dotclass())
+				.arg(target);
 	}
 
 	@Override
 	protected JExpression unwrap(JExpression source) {
 
-		return codeModel.ref(JAXBContextUtils.class)
-				.staticInvoke("marshalJAXBElement").arg(contextPath)
-				.arg(source);
+		return codeModel.ref(JAXBContextUtils.class).staticInvoke(
+				"marshalJAXBElement").arg(contextPath).arg(source);
 	}
 
 }

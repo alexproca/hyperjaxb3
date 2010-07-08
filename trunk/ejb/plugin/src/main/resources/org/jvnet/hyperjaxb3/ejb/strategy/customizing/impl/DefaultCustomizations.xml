@@ -141,6 +141,8 @@
 		</hj:basic>
 	</hj:default-single-property>
 	
-	<hj:default-jaxb-context/>	
+	<hj:default-jaxb-context>
+		<hj:field final="true"/>
+	</hj:default-jaxb-context>	
 	
 </hj:persistence>

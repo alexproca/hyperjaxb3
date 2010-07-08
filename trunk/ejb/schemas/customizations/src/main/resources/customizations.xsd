@@ -269,6 +269,11 @@
 
 	<xsd:complexType name="jaxb-context">
 		<xsd:sequence>
+			<xsd:element name="field">
+				<xsd:complexType>
+					<xsd:attribute name="final" type="xsd:boolean"/>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="contextPath" type="xsd:string"/>
 		<xsd:attribute name="merge" type="xsd:boolean" default="true"/>

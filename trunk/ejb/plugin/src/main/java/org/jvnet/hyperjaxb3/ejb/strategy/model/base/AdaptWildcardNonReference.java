@@ -37,8 +37,12 @@ public class AdaptWildcardNonReference extends AbstractAdaptBuiltinPropertyInfo 
 				.getContextPath(classOutline.parent()) : jaxbContext
 				.getContextPath();
 
+		final boolean _final = (jaxbContext == null
+				|| jaxbContext.getField() == null || jaxbContext.getField()
+				.isFinal() == null) ? true : jaxbContext.getField().isFinal();
+
 		final SingleMarshallingField fieldOutline = new SingleMarshallingField(
-				classOutline, propertyInfo, core, contextPath);
+				classOutline, propertyInfo, core, contextPath, _final);
 		fieldOutline.generateAccessors();
 		return fieldOutline;
 	}
