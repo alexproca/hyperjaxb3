@@ -4,7 +4,7 @@ import org.jvnet.hyperjaxb3.xml.bind.JAXBContextUtils;
 
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.internal.JMod;
+import com.sun.codemodel.JMod;
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.model.CPropertyInfo;
 
