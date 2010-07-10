@@ -33,6 +33,11 @@
 				<orm:table name="item"/>
 			</hj:entity>
 		</jaxb:bindings>
+		<jaxb:bindings node="xs:complexType[@name='Items']/xs:sequence/xs:element[@name='item']">
+			<hj:one-to-many>
+				<orm:order-by>partNum</orm:order-by>
+			</hj:one-to-many>
+		</jaxb:bindings>
 		<jaxb:bindings node="xs:complexType[@name='Items']//xs:attribute[@name='partNum']">
 			<hj:id merge="false"/>
 		</jaxb:bindings>
