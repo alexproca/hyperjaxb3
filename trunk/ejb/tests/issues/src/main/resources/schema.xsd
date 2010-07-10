@@ -380,6 +380,9 @@
 							<xjc:javaType name="java.util.Calendar" adapter="org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.TimeStringAsCalendar"/>
 						</jaxb:baseType>
 					</jaxb:property>
+					<hj:basic>
+						<orm:temporal>TIMESTAMP</orm:temporal>
+					</hj:basic>
 				</xsd:appinfo>
 			</xsd:annotation>
 		</xsd:attribute>
