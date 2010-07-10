@@ -1,1 +1,0 @@
-call mvn install:install-file -DgroupId=com.sun.xml.bind	-DartifactId=jaxb-xjc	-Dversion=2.1.12.1 -Dpackaging=jar -Dfile=jaxb-xjc-2.1.12.1.jar -DpomFile=jaxb-xjc-2.1.12.1.pom
