@@ -137,7 +137,7 @@
 				<plugin>
 					<groupId>org.jvnet.jaxb2.maven2</groupId>
 					<artifactId>maven-jaxb2-plugin</artifactId>
-					<version>0.7.2</version>
+					<version>0.7.3</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
@@ -258,17 +258,17 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.7.2</version>
+				<version>0.7.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-raw</artifactId>
-				<version>0.7.2</version>
+				<version>0.7.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-testing</artifactId>
-				<version>0.7.2</version>
+				<version>0.7.3</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
@@ -297,7 +297,7 @@
 			<dependency>
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
-				<version>2.1</version>
+				<version>2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-beanutils</groupId>
@@ -398,7 +398,7 @@
 			<dependency>
 				<groupId>org.jvnet.annox</groupId>
 				<artifactId>annox</artifactId>
-				<version>0.4.3</version>
+				<version>0.4.4</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
