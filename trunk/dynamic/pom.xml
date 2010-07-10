@@ -5,12 +5,12 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-dynamic</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5.5-SNAPSHOT</version>
+	<version>0.5.5</version>
 	<name>Hyperjaxb3 EJB Hibernate</name>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3</artifactId>
-		<version>0.5.5-SNAPSHOT</version>
+		<version>0.5.5</version>
 	</parent>
 	<dependencies>
 		<dependency>

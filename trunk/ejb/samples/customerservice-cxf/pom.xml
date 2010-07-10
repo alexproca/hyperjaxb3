@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-samples-customerservice-cxf</artifactId>
-	<version>0.5.5-SNAPSHOT</version>
+	<version>0.5.5</version>
 	<packaging>war</packaging>
 	<name>Hyperjaxb3 EJB Sample [customerservice-cxf]</name>
 	<repositories>
@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-runtime</artifactId>
-			<version>0.5.5-SNAPSHOT</version>
+			<version>0.5.5</version>
 		</dependency>
 		<!-- HSQLDB -->
 		<dependency>
@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>org.hisrc.hifaces20</groupId>
 			<artifactId>hifaces20-testing</artifactId>
-			<version>0.1.3-SNAPSHOT</version>
+			<version>0.1.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -206,7 +206,7 @@
 					<dependency>
 						<groupId>org.jvnet.hyperjaxb3</groupId>
 						<artifactId>hyperjaxb3-ejb-plugin</artifactId>
-						<version>0.5.5-SNAPSHOT</version>
+						<version>0.5.5</version>
 					</dependency>
 				</dependencies>
 			</plugin>

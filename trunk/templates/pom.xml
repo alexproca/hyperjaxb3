@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-templates</artifactId>
-	<version>0.5.5-SNAPSHOT</version>
+	<version>0.5.5</version>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 Templates</name>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3</artifactId>
-		<version>0.5.5-SNAPSHOT</version>
+		<version>0.5.5</version>
 	</parent>
 	<build>
 		<defaultGoal>install</defaultGoal>
