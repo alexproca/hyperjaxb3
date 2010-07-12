@@ -87,8 +87,8 @@
 		</hj:basic>
 	</hj:default-single-property>
 	
-    <!-- 3.2.6 xsd:string -->
-	<hj:default-single-property type="xsd:duratin">
+    <!-- 3.2.6 xsd:duration -->
+	<hj:default-single-property type="xsd:duration">
 		<hj:basic>
 			<orm:column length="127"/>
 		</hj:basic>
@@ -175,7 +175,7 @@
     <!-- 3.3.2 xsd:token -->
     
     <!-- 3.3.3 xsd:language -->
-	<hj:default-single-property type="xsd:string">
+	<hj:default-single-property type="xsd:language">
 		<hj:basic>
 			<orm:column length="17"/>
 		</hj:basic>
@@ -242,7 +242,7 @@
     <!-- 3.3.20 xsd:nonNegativeInteger -->
 
     <!-- 3.3.21 xsd:unsignedLong -->
-	<hj:default-single-property type="xsd:long">
+	<hj:default-single-property type="xsd:unsignedLong">
 		<hj:basic>
 			<orm:column scale="0" precision="20"/>
 		</hj:basic>
