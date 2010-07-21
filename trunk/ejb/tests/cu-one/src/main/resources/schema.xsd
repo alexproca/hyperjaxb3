@@ -7,7 +7,10 @@
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
 
-	jaxb:extensionBindingPrefixes="hj orm xjc"
+	xmlns:annox="http://annox.dev.java.net"
+	xmlns:ha="http://annox.dev.java.net/org.hibernate.annotations"
+
+	jaxb:extensionBindingPrefixes="hj orm xjc annox"
 	jaxb:version="2.1"
 	targetNamespace="urn:test"
 	xmlns:test="urn:test"
@@ -59,6 +62,9 @@
 								</orm:unique-constraint>
 							</orm:join-table>
 						</hj:one-to-many>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

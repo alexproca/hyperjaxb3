@@ -3,7 +3,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5.5</version>
+	<version>0.5.6-SNAPSHOT</version>
 	<name>Hyperjaxb3</name>
 	<url>http://hj3.dev.java.net</url>
 	<modules>
@@ -358,6 +358,11 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
+				<version>3.4.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
 				<version>3.4.0.GA</version>
 			</dependency>
 			<!-- Java Persistence API -->

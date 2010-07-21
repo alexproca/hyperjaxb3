@@ -4,9 +4,14 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
 	elementFormDefault="qualified" 
 	attributeFormDefault="unqualified" 
+
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+
 	version="1.0"
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-	jaxb:version="1.0">
+	jaxb:version="1.0"
+	jaxb:extensionBindingPrefixes="hj orm">
 
 	<xsd:annotation>
 		<xsd:appinfo>
@@ -79,6 +84,31 @@
 			<xsd:element name="digits" minOccurs="0" type="test:digits"/>
 			<xsd:element name="totalDigits" minOccurs="0" type="test:totalDigits"/>
 			<xsd:element name="fractionDigits" minOccurs="0" type="test:fractionDigits"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="a">
+		<xsd:sequence>
+			<xsd:element name="aid" minOccurs="0" type="xsd:string">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:id/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="b" minOccurs="0" type="test:b"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="b">
+		<xsd:sequence>
+			<xsd:element name="bid" minOccurs="0" type="xsd:string">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:id/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
