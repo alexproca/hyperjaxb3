@@ -46,11 +46,13 @@
 				<version>0.7.3</version>
 				<configuration>
 					<args>
-						<arg>-Xhyperjaxb3-ejb</arg>
+						<arg>-Xhyperjaxb3-jpa2</arg>
+						<!--arg>-Xhyperjaxb3-jpa2-result=mappingFiles</arg-->
 						<arg>-Xequals</arg>
-						<arg>-Xinheritance</arg>
 						<arg>-XhashCode</arg>
 						<arg>-XtoString</arg>
+						<arg>-Xannotate</arg>
+						<arg>-Xinheritance</arg>
 					</args>
 					<plugins>
 						<plugin>

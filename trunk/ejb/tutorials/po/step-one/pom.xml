@@ -12,32 +12,32 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-runtime</artifactId>
-				<version>0.5.3</version>
+				<version>0.6.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-testing</artifactId>
-				<version>0.5.3</version>
+				<version>0.6.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-tools</artifactId>
-				<version>0.5.3</version>
+				<version>0.6.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics</artifactId>
-				<version>0.5.3.MR1</version>
+				<version>0.6.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-annotate</artifactId>
-				<version>0.5.3</version>
+				<version>0.6.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-ant</artifactId>
-				<version>0.5.3</version>
+				<version>0.6.0-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.4.0.GA</version>
+			<version>3.5.1-Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
