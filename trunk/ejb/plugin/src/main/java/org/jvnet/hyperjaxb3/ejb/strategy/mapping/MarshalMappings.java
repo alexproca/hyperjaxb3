@@ -60,8 +60,7 @@ public class MarshalMappings implements OutlineProcessor<EjbPlugin> {
 
 		classOutline._package()._package().addResourceFile(classOrmXmlFile);
 
-		final EntityMappings entityMappings = new EntityMappings();
-		entityMappings.setVersion("1.0");
+		final EntityMappings entityMappings = createEntityMappings();
 
 		final Object draftEntityOrMappedSuperclassOrEmbeddable = context
 				.getMapping().getEntityOrMappedSuperclassOrEmbeddableMapping()
@@ -93,6 +92,12 @@ public class MarshalMappings implements OutlineProcessor<EjbPlugin> {
 		PersistenceUtils.createMarshaller().marshal(entityMappings, writer);
 		classOrmXmlFile.setContents(writer.toString());
 		return classOutline;
+	}
+
+	protected EntityMappings createEntityMappings() {
+		final EntityMappings entityMappings = new EntityMappings();
+		entityMappings.setVersion("1.0");
+		return entityMappings;
 	}
 
 	private Ignoring ignoring;
