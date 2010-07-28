@@ -389,6 +389,8 @@
                    minOccurs="0"/>
       <xsd:element name="cascade-refresh" type="orm:emptyType"
                    minOccurs="0"/>
+      <xsd:element name="cascade-detach" type="orm:emptyType"
+                   minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
@@ -901,6 +903,29 @@
 
 <!-- **************************************************** -->
 
+  <xsd:simpleType name="lock-mode-type">
+    <xsd:annotation>
+      <xsd:documentation>
+
+        public enum LockModeType { READ, WRITE, OPTIMISTIC, OPTIMISTIC_FORCE_INCREMENT, PESSIMISTIC_READ, PESSIMISTIC_WRITE, PESSIMISTIC_FORCE_INCREMENT, NONE};
+
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="READ"/>
+      <xsd:enumeration value="WRITE"/>
+      <xsd:enumeration value="OPTIMISTIC"/>
+      <xsd:enumeration value="OPTIMISTIC_FORCE_INCREMENT"/>
+      <xsd:enumeration value="PESSIMISTIC_READ"/>
+      <xsd:enumeration value="PESSIMISTIC_WRITE"/>
+      <xsd:enumeration value="PESSIMISTIC_FORCE_INCREMENT"/>
+      <xsd:enumeration value="NONE"/>
+
+    </xsd:restriction>
+  </xsd:simpleType>
+
+<!-- **************************************************** -->
+
 <xsd:complexType name="many-to-many">
     <xsd:annotation>
       <xsd:documentation>
@@ -1070,6 +1095,7 @@
     </xsd:annotation>
     <xsd:sequence>
       <xsd:element name="query" type="xsd:string"/>
+      <xsd:element name="lock-mode" type="orm:lock-mode-type" minOccurs="0"/>
       <xsd:element name="hint" type="orm:query-hint" 
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
@@ -1112,6 +1138,7 @@
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
+    <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1151,6 +1178,7 @@
     <xsd:attribute name="optional" type="xsd:boolean"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
+    <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
 </xsd:complexType>
 
 <!-- **************************************************** -->
