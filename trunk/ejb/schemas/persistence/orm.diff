@@ -371,10 +371,3 @@
 >     <xsd:attribute name="updatable" type="xsd:boolean"/>
 >     <xsd:attribute name="column-definition" type="xsd:string"/>
 >   </xsd:complexType>
-> 
-> 
-> <!-- **************************************************** -->
-> 
-1346a1753,1754
->     <xsd:attribute name="catalog" type="xsd:string"/>
->     <xsd:attribute name="schema" type="xsd:string"/>
