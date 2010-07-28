@@ -378,5 +378,3 @@
 1346a1753,1754
 >     <xsd:attribute name="catalog" type="xsd:string"/>
 >     <xsd:attribute name="schema" type="xsd:string"/>
-1505a1916
->     <xsd:attribute name="name" type="xsd:string"/>
