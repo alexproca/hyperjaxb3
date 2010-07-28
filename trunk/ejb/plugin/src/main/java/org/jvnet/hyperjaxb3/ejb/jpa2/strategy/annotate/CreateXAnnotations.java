@@ -18,6 +18,7 @@ import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
+import com.sun.java.xml.ns.persistence.orm.UniqueConstraint;
 import com.sun.java.xml.ns.persistence.orm.Version;
 
 public class CreateXAnnotations extends
@@ -58,8 +59,7 @@ public class CreateXAnnotations extends
 	}
 
 	@Override
-	public Collection<XAnnotation> createEmbeddableAnnotations(
-			Embeddable source) {
+	public Collection<XAnnotation> createEmbeddableAnnotations(Embeddable source) {
 		final Collection<XAnnotation> annotations = super
 				.createEmbeddableAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
@@ -137,5 +137,18 @@ public class CreateXAnnotations extends
 				.createVersionAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
 				createAccess(source.getAccess()));
+	}
+
+	@Override
+	public XAnnotation createUniqueConstraint(UniqueConstraint source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.UniqueConstraint.class,
+						//
+						AnnotationUtils.create("name", source.getName()),
+						AnnotationUtils.create("columnNames", source
+								.getColumnName())
+				//
+				);
 	}
 }
