@@ -1511,6 +1511,7 @@
       <xsd:element name="column-name" type="xsd:string" 
                    maxOccurs="unbounded"/>
     </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
