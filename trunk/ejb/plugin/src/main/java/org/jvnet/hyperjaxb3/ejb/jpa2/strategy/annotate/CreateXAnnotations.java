@@ -18,6 +18,7 @@ import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
+import com.sun.java.xml.ns.persistence.orm.SequenceGenerator;
 import com.sun.java.xml.ns.persistence.orm.UniqueConstraint;
 import com.sun.java.xml.ns.persistence.orm.Version;
 
@@ -150,5 +151,29 @@ public class CreateXAnnotations extends
 								.getColumnName())
 				//
 				);
+	}
+
+	@Override
+	public XAnnotation createSequenceGenerator(SequenceGenerator source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.SequenceGenerator.class,
+				//
+						AnnotationUtils.create("name", source.getName()),
+						//
+						AnnotationUtils.create("sequenceName", source
+								.getSequenceName()),
+						//
+						AnnotationUtils.create("catalog", source
+								.getCatalog()),
+						//
+						AnnotationUtils.create("schema", source
+								.getSchema()),
+						//
+						AnnotationUtils.create("initialValue", source
+								.getInitialValue()),
+						//
+						AnnotationUtils.create("allocationSize", source
+								.getAllocationSize()));
 	}
 }
