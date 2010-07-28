@@ -5,11 +5,15 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.outline.OutlineProcessor;
+import org.jvnet.hyperjaxb3.persistence.jpa1.JPA1Utils;
 import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
 import org.jvnet.jaxb2_commons.util.CodeModelUtils;
 import org.jvnet.jaxb2_commons.util.OutlineUtils;
@@ -24,6 +28,10 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 public class MarshalMappings implements OutlineProcessor<EjbPlugin> {
+
+	protected Marshaller getMarshaller() throws JAXBException {
+		return JPA1Utils.createMarshaller();
+	}
 
 	protected Log logger = LogFactory.getLog(getClass());
 
@@ -89,7 +97,7 @@ public class MarshalMappings implements OutlineProcessor<EjbPlugin> {
 		}
 
 		final Writer writer = new StringWriter();
-		PersistenceUtils.createMarshaller().marshal(entityMappings, writer);
+		getMarshaller().marshal(entityMappings, writer);
 		classOrmXmlFile.setContents(writer.toString());
 		return classOutline;
 	}

@@ -470,8 +470,7 @@ public class CreateXAnnotations {
 					}
 				});
 	}
-	
-	
+
 	public Collection<XAnnotation> createAttributeAnnotations(Object attribute) {
 
 		if (attribute == null) {
@@ -1336,6 +1335,23 @@ public class CreateXAnnotations {
 		}
 	}
 
+	public static Collection<XAnnotation> annotations(
+			Collection<XAnnotation> annotations,
+
+			XAnnotation... additionalAnnotations) {
+		if (annotations == null) {
+			return annotations(additionalAnnotations);
+		} else if (additionalAnnotations == null) {
+			return annotations;
+		} else {
+			final Collection<XAnnotation> result = new ArrayList<XAnnotation>(
+					annotations.size() + additionalAnnotations.length);
+			result.addAll(annotations);
+			result.addAll(annotations(additionalAnnotations));
+			return result;
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public static Collection<XAnnotation> annotations(Object... annotations) {
 		if (annotations == null) {
@@ -1401,10 +1417,10 @@ public class CreateXAnnotations {
 				: javax.persistence.DiscriminatorType
 						.valueOf(discriminatorType);
 	}
-	
+
 	public javax.persistence.InheritanceType getInheritanceType(String strategy) {
 		return strategy == null ? null : javax.persistence.InheritanceType
 				.valueOf(strategy);
 	}
-	
+
 }

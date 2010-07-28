@@ -31,12 +31,13 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 		this.naming = naming;
 	}
 
-	private PersistenceMarshaller persistenceMarshaller = new PersistenceMarshaller();
+	private PersistenceMarshaller persistenceMarshaller;
 
 	public PersistenceMarshaller getPersistenceMarshaller() {
 		return persistenceMarshaller;
 	}
 
+	@Required
 	public void setPersistenceMarshaller(
 			PersistenceMarshaller persistenceMarshaller) {
 		this.persistenceMarshaller = persistenceMarshaller;
@@ -125,9 +126,11 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
 		}
 
-//		targetPersistenceUnit.mergeFrom(persistenceUnit, targetPersistenceUnit);
-		targetPersistenceUnit.mergeFrom(null, null, persistenceUnit, targetPersistenceUnit, JAXBMergeCollectionsStrategy.INSTANCE);
-//		persistenceUnit.copyTo(targetPersistenceUnit);
+		// targetPersistenceUnit.mergeFrom(persistenceUnit,
+		// targetPersistenceUnit);
+		targetPersistenceUnit.mergeFrom(null, null, persistenceUnit,
+				targetPersistenceUnit, JAXBMergeCollectionsStrategy.INSTANCE);
+		// persistenceUnit.copyTo(targetPersistenceUnit);
 		targetPersistenceUnit.setName(persistenceUnitName);
 
 		Collections.sort(targetPersistenceUnit.getClazz());

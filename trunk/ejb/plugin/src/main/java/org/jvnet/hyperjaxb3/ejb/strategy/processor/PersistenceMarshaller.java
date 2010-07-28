@@ -3,7 +3,10 @@ package org.jvnet.hyperjaxb3.ejb.strategy.processor;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.jvnet.hyperjaxb3.persistence.util.PersistenceUtils;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import org.jvnet.hyperjaxb3.persistence.jpa1.JPA1Utils;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JPackage;
@@ -11,6 +14,10 @@ import com.sun.codemodel.fmt.JTextFile;
 import com.sun.java.xml.ns.persistence.Persistence;
 
 public class PersistenceMarshaller {
+
+	protected Marshaller getMarshaller() throws JAXBException {
+		return JPA1Utils.createMarshaller();
+	}
 
 	public void marshallPersistence(JCodeModel codeModel,
 			Persistence persistence) throws Exception {
@@ -23,7 +30,7 @@ public class PersistenceMarshaller {
 		metaInfPackage.addResourceFile(persistenceXmlFile);
 
 		final Writer writer = new StringWriter();
-		PersistenceUtils.createMarshaller().marshal(persistence, writer);
+		getMarshaller().marshal(persistence, writer);
 		persistenceXmlFile.setContents(writer.toString());
 
 	}

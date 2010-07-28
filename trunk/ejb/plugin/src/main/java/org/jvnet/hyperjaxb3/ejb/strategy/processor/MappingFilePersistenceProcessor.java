@@ -22,12 +22,13 @@ import com.sun.tools.xjc.outline.Outline;
 public class MappingFilePersistenceProcessor implements
 		OutlineProcessor<EjbPlugin> {
 
-	private PersistenceMarshaller persistenceMarshaller = new PersistenceMarshaller();
+	private PersistenceMarshaller persistenceMarshaller;
 
 	public PersistenceMarshaller getPersistenceMarshaller() {
 		return persistenceMarshaller;
 	}
 
+	@Required
 	public void setPersistenceMarshaller(
 			PersistenceMarshaller persistenceMarshaller) {
 		this.persistenceMarshaller = persistenceMarshaller;
@@ -124,7 +125,8 @@ public class MappingFilePersistenceProcessor implements
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
 		}
 
-		targetPersistenceUnit.mergeFrom(null, null, persistenceUnit, targetPersistenceUnit, JAXBMergeCollectionsStrategy.INSTANCE);
+		targetPersistenceUnit.mergeFrom(null, null, persistenceUnit,
+				targetPersistenceUnit, JAXBMergeCollectionsStrategy.INSTANCE);
 		targetPersistenceUnit.setName(persistenceUnitName);
 		Collections.sort(targetPersistenceUnit.getMappingFile());
 		Collections.sort(targetPersistenceUnit.getClazz());
