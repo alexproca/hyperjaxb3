@@ -1352,6 +1352,8 @@
     </xsd:annotation>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="sequence-name" type="xsd:string"/>
+    <xsd:attribute name="catalog" type="xsd:string"/>
+    <xsd:attribute name="schema" type="xsd:string"/>
     <xsd:attribute name="initial-value" type="xsd:int"/>
     <xsd:attribute name="allocation-size" type="xsd:int"/>
   </xsd:complexType>
