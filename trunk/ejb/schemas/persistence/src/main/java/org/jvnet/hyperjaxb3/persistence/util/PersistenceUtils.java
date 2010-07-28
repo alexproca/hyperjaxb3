@@ -2,7 +2,6 @@ package org.jvnet.hyperjaxb3.persistence.util;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import com.sun.java.xml.ns.persistence.Persistence;
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
@@ -25,17 +24,6 @@ public class PersistenceUtils {
 
 			throw new ExceptionInInitializerError(jaxbex);
 		}
-	}
-
-	public static Marshaller createMarshaller() throws JAXBException {
-		final Marshaller marshaller = CONTEXT.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
-				PersistenceConstants.SCHEMA_LOCATION);
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
-				NAMESPACE_PREFIX_MAPPER);
-
-		return marshaller;
 	}
 
 	public static final NamespacePrefixMapper NAMESPACE_PREFIX_MAPPER = new NamespacePrefixMapper() {

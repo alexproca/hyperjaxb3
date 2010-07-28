@@ -237,6 +237,7 @@
     <!-- ** xsd:attribute name="class" type="xsd:string" use="required"/-->
     <xsd:attribute name="class" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
+    <xsd:attribute name="cacheable" type="xsd:boolean"/>
     <xsd:attribute name="metadata-complete" type="xsd:boolean"/>
   </xsd:complexType>
 
@@ -364,6 +365,7 @@
     <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
+    <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->

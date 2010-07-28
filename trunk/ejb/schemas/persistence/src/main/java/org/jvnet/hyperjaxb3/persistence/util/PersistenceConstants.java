@@ -16,9 +16,4 @@ public class PersistenceConstants {
 
 	public static final String ORM_NAMESPACE_URI = "http://java.sun.com/xml/ns/persistence/orm";
 
-	public static final String SCHEMA_LOCATION = PERSISTENCE_NAMESPACE_URI
-			+ " http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd\n"
-			+ ORM_NAMESPACE_URI
-			+ " http://java.sun.com/xml/ns/persistence/orm_1_0.xsd";
-
 }
