@@ -12,6 +12,7 @@ import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.CascadeType;
+import com.sun.java.xml.ns.persistence.orm.CollectionTable;
 import com.sun.java.xml.ns.persistence.orm.Embeddable;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
@@ -311,4 +312,25 @@ public class CreateXAnnotations extends
 
 	}
 
+	public XAnnotation createCollectionTable(CollectionTable source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.CollectionTable.class,
+				//
+						AnnotationUtils.create("name", source.getName()),
+						//
+						AnnotationUtils.create("catalog", source.getCatalog()),
+						//
+						AnnotationUtils.create("schema", source.getSchema()),
+						//
+						AnnotationUtils.create("joinColumns",
+								createJoinColumn(source.getJoinColumn())),
+						//
+						AnnotationUtils.create("uniqueConstraints",
+								createUniqueConstraint(source
+										.getUniqueConstraint()))
+				//
+				);
+
+	}
 }

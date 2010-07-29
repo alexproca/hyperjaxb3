@@ -396,6 +396,35 @@
 
 <!-- **************************************************** -->
 
+  <xsd:complexType name="collection-table">
+    <xsd:annotation>
+      <xsd:documentation>
+
+        @Target({METHOD, FIELD}) @Retention(RUNTIME)
+        public @interface CollectionTable {
+          String name() default "";
+          String catalog() default "";
+          String schema() default "";
+          JoinColumn[] joinColumns() default {};
+          UniqueConstraint[] uniqueConstraints() default {};
+        }
+
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="join-column" type="orm:join-column" 
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="unique-constraint" type="orm:unique-constraint" 
+                   minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="catalog" type="xsd:string"/>
+    <xsd:attribute name="schema" type="xsd:string"/>
+  </xsd:complexType>
+
+
+<!-- **************************************************** -->
+
   <xsd:complexType name="column">
     <xsd:annotation>
       <xsd:documentation>
