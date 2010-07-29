@@ -1039,6 +1039,37 @@
 
 <!-- **************************************************** -->
 
+  <xsd:complexType name="map-key-join-column">
+    <xsd:annotation>
+      <xsd:documentation>
+
+        @Target({METHOD, FIELD}) @Retention(RUNTIME)
+        public @interface MapKeyJoinColumn {
+          String name() default "";
+          String referencedColumnName() default "";
+          boolean unique() default false;
+          boolean nullable() default false;
+          boolean insertable() default true;
+          boolean updatable() default true;
+          String columnDefinition() default "";
+          String table() default "";
+        }
+
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="referenced-column-name" type="xsd:string"/>
+    <xsd:attribute name="unique" type="xsd:boolean"/>
+    <xsd:attribute name="nullable" type="xsd:boolean"/>
+    <xsd:attribute name="insertable" type="xsd:boolean"/>
+    <xsd:attribute name="updatable" type="xsd:boolean"/>
+    <xsd:attribute name="column-definition" type="xsd:string"/>
+    <xsd:attribute name="table" type="xsd:string"/>
+  </xsd:complexType>
+
+
+<!-- **************************************************** -->
+
   <xsd:complexType name="mapped-superclass">
     <xsd:annotation>
       <xsd:documentation>

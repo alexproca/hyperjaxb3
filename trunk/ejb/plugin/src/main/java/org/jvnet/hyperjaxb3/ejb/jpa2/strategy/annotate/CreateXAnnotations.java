@@ -20,6 +20,7 @@ import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.Id;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
+import com.sun.java.xml.ns.persistence.orm.MapKeyJoinColumn;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.java.xml.ns.persistence.orm.NamedQuery;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
@@ -329,6 +330,36 @@ public class CreateXAnnotations extends
 						AnnotationUtils.create("uniqueConstraints",
 								createUniqueConstraint(source
 										.getUniqueConstraint()))
+				//
+				);
+
+	}
+
+	public XAnnotation createMapKeyJoinColumn(MapKeyJoinColumn source) {
+		return source == null ? null :
+		//
+				new XAnnotation(
+						javax.persistence.MapKeyJoinColumn.class,
+						//
+						AnnotationUtils.create("name", source.getName()),
+						//
+						AnnotationUtils.create("referencedColumnName", source
+								.getReferencedColumnName()),
+						//
+						AnnotationUtils.create("unique", source.isUnique()),
+						//
+						AnnotationUtils.create("nullable", source.isNullable()),
+						//
+						AnnotationUtils.create("insertable", source
+								.isInsertable()),
+						//
+						AnnotationUtils.create("updatable", source
+								.isUpdatable()),
+						//
+						AnnotationUtils.create("columnDefinition", source
+								.getColumnDefinition()),
+						//
+						AnnotationUtils.create("table", source.getTable())
 				//
 				);
 
