@@ -1,10 +1,12 @@
 package org.jvnet.hyperjaxb3.ejb.jpa2.strategy.annotate;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 import javax.persistence.AccessType;
 import javax.persistence.LockModeType;
+import javax.persistence.MapKeyJoinColumns;
 
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
@@ -13,6 +15,7 @@ import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.CascadeType;
 import com.sun.java.xml.ns.persistence.orm.CollectionTable;
+import com.sun.java.xml.ns.persistence.orm.ElementCollection;
 import com.sun.java.xml.ns.persistence.orm.Embeddable;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
@@ -20,6 +23,8 @@ import com.sun.java.xml.ns.persistence.orm.Entity;
 import com.sun.java.xml.ns.persistence.orm.Id;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
+import com.sun.java.xml.ns.persistence.orm.MapKeyClass;
+import com.sun.java.xml.ns.persistence.orm.MapKeyColumn;
 import com.sun.java.xml.ns.persistence.orm.MapKeyJoinColumn;
 import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.java.xml.ns.persistence.orm.NamedQuery;
@@ -362,6 +367,145 @@ public class CreateXAnnotations extends
 						AnnotationUtils.create("table", source.getTable())
 				//
 				);
+	}
 
+	public XAnnotation createMapKeyJoinColumns(
+			Collection<MapKeyJoinColumn> source) {
+		return transform(MapKeyJoinColumns.class, source,
+				new Transformer<MapKeyJoinColumn, XAnnotation>() {
+					public XAnnotation transform(MapKeyJoinColumn input) {
+						return createMapKeyJoinColumn(input);
+					}
+				});
+	}
+
+	public XAnnotation createMapKeyColumn(MapKeyColumn source) {
+		return source == null ? null :
+		//
+				new XAnnotation(
+						javax.persistence.MapKeyColumn.class,
+						//
+						AnnotationUtils.create("name", source.getName()),
+						//
+						AnnotationUtils.create("unique", source.isUnique()),
+						//
+						AnnotationUtils.create("nullable", source.isNullable()),
+						//
+						AnnotationUtils.create("insertable", source
+								.isInsertable()),
+						//
+						AnnotationUtils.create("updatable", source
+								.isUpdatable()),
+						//
+						AnnotationUtils.create("columnDefinition", source
+								.getColumnDefinition()),
+						//
+						AnnotationUtils.create("table", source.getTable()),
+						//
+						AnnotationUtils.create("length", source.getLength()),
+						//
+						AnnotationUtils.create("precision", source
+								.getPrecision()),
+						//
+						AnnotationUtils.create("scale", source.getScale())
+
+				//
+				);
+	}
+
+	public XAnnotation createMapKeyClass(MapKeyClass source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.MapKeyClass.class,
+				//
+						source.getClazz() == null ? null
+								: new XAnnotationField.XClass("value", source
+										.getClazz())
+				//
+				);
+	}
+
+	public XAnnotation createElementCollection(ElementCollection source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.ElementCollection.class,
+				//
+						source.getTargetClass() == null ? null
+								: new XAnnotationField.XClass("value", source
+										.getTargetClass()),
+
+						AnnotationUtils.create("fetch", getFetchType(source
+								.getFetch()))
+
+				//
+				);
+	}
+
+	public Collection<XAnnotation> createElementCollectionAnnotations(
+			ElementCollection source) {
+		return source == null ? Collections.<XAnnotation> emptyList() :
+		//
+				annotations(
+				//
+						createElementCollection(source),
+						//
+						createOrderBy(source.getOrderBy()),
+						//
+						createOrderColumn(source.getOrderColumn()),
+
+						//
+						createMapKey(source.getMapKey()),
+						//
+						createMapKeyClass(source.getMapKeyClass()),
+						//
+						createMapKeyTemporal(source.getMapKeyTemporal()),
+						//
+						createMapKeyEnumerated(source.getMapKeyEnumerated()),
+						//
+						createAttributeOverrides(source
+								.getMapKeyAttributeOverride()),
+						//
+						createMapKeyColumn(source.getMapKeyColumn()),
+						//
+						createMapKeyJoinColumns(source.getMapKeyJoinColumn()),
+						//
+						createColumn(source.getColumn()),
+						//
+						createTemporal(source.getTemporal()),
+						//
+						createEnumerated(source.getEnumerated()),
+						//
+						createLob(source.getLob()),
+						//
+						createAttributeOverrides(source.getAttributeOverride()),
+						//
+						createAssociationOverrides(source
+								.getAssociationOverride()),
+						//
+						createCollectionTable(source.getCollectionTable()),
+						//
+						createAccess(source.getAccess())
+				//
+				);
+	}
+
+	public XAnnotation createMapKeyTemporal(String source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.MapKeyTemporal.class,
+				//
+						new XAnnotationField.XEnum("value",
+								javax.persistence.TemporalType.valueOf(source),
+								javax.persistence.TemporalType.class));
+	}
+
+	public XAnnotation createMapKeyEnumerated(String source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.MapKeyEnumerated.class,
+				//
+						new XAnnotationField.XEnum("value",
+								javax.persistence.EnumType.valueOf(source),
+								javax.persistence.EnumType.class));
 	}
 }
