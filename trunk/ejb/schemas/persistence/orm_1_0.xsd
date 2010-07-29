@@ -1365,8 +1365,8 @@
     <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
     <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
-    <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
+    <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
     <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
