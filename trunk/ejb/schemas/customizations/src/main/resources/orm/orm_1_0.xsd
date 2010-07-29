@@ -1199,6 +1199,31 @@
 
 <!-- **************************************************** -->
 
+  <xsd:complexType name="order-column">
+    <xsd:annotation>
+      <xsd:documentation>
+
+        @Target({METHOD, FIELD}) @Retention(RUNTIME)
+        public @interface OrderColumn {
+          String name() default "";
+          boolean nullable() default true;
+          boolean insertable() default true;
+          boolean updatable() default true;
+          String columnDefinition() default "";
+         }
+
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="nullable" type="xsd:boolean"/>
+    <xsd:attribute name="insertable" type="xsd:boolean"/>
+    <xsd:attribute name="updatable" type="xsd:boolean"/>
+    <xsd:attribute name="column-definition" type="xsd:string"/>
+  </xsd:complexType>
+
+
+<!-- **************************************************** -->
+
   <xsd:complexType name="post-load">
     <xsd:annotation>
       <xsd:documentation>

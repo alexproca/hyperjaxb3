@@ -23,6 +23,7 @@ import com.sun.java.xml.ns.persistence.orm.MappedSuperclass;
 import com.sun.java.xml.ns.persistence.orm.NamedQuery;
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
+import com.sun.java.xml.ns.persistence.orm.OrderColumn;
 import com.sun.java.xml.ns.persistence.orm.SequenceGenerator;
 import com.sun.java.xml.ns.persistence.orm.UniqueConstraint;
 import com.sun.java.xml.ns.persistence.orm.Version;
@@ -286,4 +287,28 @@ public class CreateXAnnotations extends
 			return cascades;
 		}
 	}
+
+	public XAnnotation createOrderColumn(OrderColumn source) {
+		return source == null ? null :
+		//
+				new XAnnotation(
+						javax.persistence.OrderColumn.class,
+						//
+						AnnotationUtils.create("name", source.getName()),
+						//
+						AnnotationUtils.create("nullable", source.isNullable()),
+						//
+						AnnotationUtils.create("insertable", source
+								.isInsertable()),
+						//
+						AnnotationUtils.create("updatable", source
+								.isUpdatable()),
+						//
+						AnnotationUtils.create("columnDefinition", source
+								.getColumnDefinition())
+				//
+				);
+
+	}
+
 }
