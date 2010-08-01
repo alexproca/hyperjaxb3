@@ -273,8 +273,12 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="join-column" type="orm:join-column"
-                   maxOccurs="unbounded"/>
+      <xsd:choice>
+        <xsd:element name="join-column" type="orm:join-column"
+                     minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="join-table" type="orm:join-table"
+                     minOccurs="0"/>
+      </xsd:choice>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
   </xsd:complexType>
@@ -1051,8 +1055,12 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="order-by" type="orm:order-by" 
+      <xsd:choice>
+        <xsd:element name="order-by" type="orm:order-by"
                    minOccurs="0"/>
+        <xsd:element name="order-column" type="orm:order-column"
+                   minOccurs="0"/>
+      </xsd:choice>
       <xsd:element name="map-key" type="orm:map-key" 
                    minOccurs="0"/>
       <xsd:element name="join-table" type="orm:join-table" 
@@ -1310,8 +1318,12 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="order-by" type="orm:order-by" 
+      <xsd:choice>
+        <xsd:element name="order-by" type="orm:order-by"
                    minOccurs="0"/>
+        <xsd:element name="order-column" type="orm:order-column"
+                   minOccurs="0"/>
+      </xsd:choice>
       <xsd:element name="map-key" type="orm:map-key" 
                    minOccurs="0"/>
       <xsd:choice>       

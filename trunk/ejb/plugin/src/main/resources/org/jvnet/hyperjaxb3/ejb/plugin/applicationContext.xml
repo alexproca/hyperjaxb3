@@ -289,7 +289,10 @@
 		<property name="context" ref="customizationsContext"/>
 	</bean>
 
-	
+	<bean name="persistenceFactory"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.PersistenceFactory">
+	</bean>
+
 	<bean name="persistenceMarshaller"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.PersistenceMarshaller">
 	</bean>
@@ -298,6 +301,7 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.processor.ClassPersistenceProcessor">
 		<property name="outlineProcessor" ref="annotateOutline"/>
 		<property name="naming" ref="naming"/>
+		<property name="persistenceFactory" ref="persistenceFactory"/>
 		<property name="persistenceMarshaller" ref="persistenceMarshaller"/>
 	</bean>
 	
@@ -313,6 +317,7 @@
 	class="org.jvnet.hyperjaxb3.ejb.strategy.processor.MappingFilePersistenceProcessor">
 		<property name="outlineProcessor" ref="marshalMappings"/>
 		<property name="naming" ref="naming"/>
+		<property name="persistenceFactory" ref="persistenceFactory"/>
 		<property name="persistenceMarshaller" ref="persistenceMarshaller"/>
 	</bean>
 	

@@ -11,12 +11,18 @@
 		<property name="ignoring" ref="ignoring"/>
 	</bean>
 	
+	<bean name="persistenceFactory"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.processor.PersistenceFactory">
+	</bean>
+
 	<bean name="persistenceMarshaller"
 		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.processor.PersistenceMarshaller">
 	</bean>
 	
 	<bean name="createXAnnotations" class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.annotate.CreateXAnnotations">
 	</bean>
+	
+	
 	
 
 </beans>

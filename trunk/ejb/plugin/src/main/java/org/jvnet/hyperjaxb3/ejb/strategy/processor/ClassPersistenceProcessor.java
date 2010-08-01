@@ -31,6 +31,17 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 		this.naming = naming;
 	}
 
+	private PersistenceFactory persistenceFactory;
+
+	public PersistenceFactory getPersistenceFactory() {
+		return persistenceFactory;
+	}
+
+	@Required
+	public void setPersistenceFactory(PersistenceFactory persistenceFactory) {
+		this.persistenceFactory = persistenceFactory;
+	}
+
 	private PersistenceMarshaller persistenceMarshaller;
 
 	public PersistenceMarshaller getPersistenceMarshaller() {
@@ -120,8 +131,7 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 			}
 
 		} else {
-			persistence = new Persistence();
-			persistence.setVersion("1.0");
+			persistence = getPersistenceFactory().createPersistence();
 			targetPersistenceUnit = new PersistenceUnit();
 			persistence.getPersistenceUnit().add(targetPersistenceUnit);
 		}

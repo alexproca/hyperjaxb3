@@ -240,8 +240,9 @@ public class DefaultCustomizing implements Customizing {
 	public GeneratedProperty getGeneratedProperty(CClassInfo classInfo,
 			String propertyName) {
 		GeneratedProperty generatedProperty = null;
-		if (classInfo != null && CustomizationUtils.containsCustomization(classInfo,
-				Customizations.GENERATED_PROPERTY_ELEMENT_NAME)) {
+		if (classInfo != null
+				&& CustomizationUtils.containsCustomization(classInfo,
+						Customizations.GENERATED_PROPERTY_ELEMENT_NAME)) {
 			final Collection<GeneratedProperty> generatedProperties;
 			generatedProperties = findCustomizations(classInfo,
 					Customizations.GENERATED_PROPERTY_ELEMENT_NAME);
@@ -538,6 +539,13 @@ public class DefaultCustomizing implements Customizing {
 			} else if (!cOneToMany.getJoinColumn().isEmpty()) {
 				defaultOneToMany.setJoinTable(null);
 			}
+
+			if (cOneToMany.getOrderBy() != null) {
+				defaultOneToMany.setOrderColumn(null);
+			} else if (cOneToMany.getOrderColumn() != null) {
+				defaultOneToMany.setOrderBy(null);
+			}
+
 			cOneToMany.mergeFrom(cOneToMany, defaultOneToMany);
 		}
 	}
@@ -665,10 +673,15 @@ public class DefaultCustomizing implements Customizing {
 		return cManyToMany;
 	}
 
-	private void merge(final ManyToMany cManyToMany,
-			final ManyToMany defaultManyToMany) {
-		if (cManyToMany.isMerge()) {
-			cManyToMany.mergeFrom(cManyToMany, defaultManyToMany);
+	private void merge(final ManyToMany source, final ManyToMany defaultSource) {
+		if (source.isMerge()) {
+			if (source.getOrderBy() != null) {
+				defaultSource.setOrderColumn(null);
+			} else if (source.getOrderColumn() != null) {
+				defaultSource.setOrderBy(null);
+			}
+
+			source.mergeFrom(source, defaultSource);
 		}
 	}
 
@@ -945,7 +958,8 @@ public class DefaultCustomizing implements Customizing {
 	public JaxbContext getJaxbContext(CPropertyInfo property) {
 		final Persistence persistence = getModelCustomization(property);
 		if (persistence.getDefaultJaxbContext() == null) {
-			throw new AssertionError("Default jaxb-context element is not provided.");
+			throw new AssertionError(
+					"Default jaxb-context element is not provided.");
 		}
 		final JaxbContext defaultJaxbContext = (JaxbContext) persistence
 				.getDefaultJaxbContext().copyTo(new JaxbContext());

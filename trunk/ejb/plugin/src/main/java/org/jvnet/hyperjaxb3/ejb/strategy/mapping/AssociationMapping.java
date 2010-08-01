@@ -17,6 +17,7 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
+import com.sun.java.xml.ns.persistence.orm.OrderColumn;
 import com.sun.java.xml.ns.persistence.orm.PrimaryKeyJoinColumn;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
@@ -277,6 +278,21 @@ public abstract class AssociationMapping<T> implements FieldOutlineMapping<T> {
 					.getColumn$Name(context, idFieldOutline));
 		}
 	}
+	
+	protected void createOrderColumn(Mapping context,
+			FieldOutline fieldOutline, final OrderColumn orderColumn) {
+		createOrderColumn$Name(context, fieldOutline, orderColumn);
+	}
+
+	protected void createOrderColumn$Name(Mapping context,
+			FieldOutline fieldOutline, final OrderColumn orderColumn) {
+		if (orderColumn.getName() == null
+				|| "##default".equals(orderColumn.getName())) {
+			orderColumn.setName(context.getNaming().getOrderColumn$Name(
+					context, fieldOutline));
+		}
+	}
+
 
 	protected void createManyToOne$JoinTable$InverseJoinColumn$Name(
 			Mapping context, FieldOutline fieldOutline,

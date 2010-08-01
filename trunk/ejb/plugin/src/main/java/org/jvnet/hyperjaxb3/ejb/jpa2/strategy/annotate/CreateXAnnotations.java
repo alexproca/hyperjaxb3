@@ -12,6 +12,7 @@ import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
 import org.jvnet.hyperjaxb3.annotation.util.AnnotationUtils;
 
+import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.CascadeType;
 import com.sun.java.xml.ns.persistence.orm.CollectionTable;
@@ -109,7 +110,8 @@ public class CreateXAnnotations extends
 		final Collection<XAnnotation> annotations = super
 				.createManyToManyAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
-				createAccess(source.getAccess()));
+				createAccess(source.getAccess()),
+				createOrderColumn(source.getOrderColumn()));
 	}
 
 	@Override
@@ -142,14 +144,14 @@ public class CreateXAnnotations extends
 						AnnotationUtils.create("cascade",
 								getCascadeType(cOneToMany.getCascade())),
 						//
-						AnnotationUtils.create("fetch", getFetchType(cOneToMany
-								.getFetch())),
+						AnnotationUtils.create("fetch",
+								getFetchType(cOneToMany.getFetch())),
 						//
-						AnnotationUtils.create("mappedBy", cOneToMany
-								.getMappedBy()),
+						AnnotationUtils.create("mappedBy",
+								cOneToMany.getMappedBy()),
 						//
-						AnnotationUtils.create("orphanRemoval", cOneToMany
-								.isOrphanRemoval())
+						AnnotationUtils.create("orphanRemoval",
+								cOneToMany.isOrphanRemoval())
 				//
 				);
 	}
@@ -159,7 +161,8 @@ public class CreateXAnnotations extends
 		final Collection<XAnnotation> annotations = super
 				.createOneToManyAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
-				createAccess(source.getAccess()));
+				createAccess(source.getAccess()),
+				createOrderColumn(source.getOrderColumn()));
 	}
 
 	// 9.1.23
@@ -175,17 +178,17 @@ public class CreateXAnnotations extends
 						AnnotationUtils.create("cascade",
 								getCascadeType(cOneToOne.getCascade())),
 						//
-						AnnotationUtils.create("fetch", getFetchType(cOneToOne
-								.getFetch())),
+						AnnotationUtils.create("fetch",
+								getFetchType(cOneToOne.getFetch())),
 						//
-						AnnotationUtils.create("optional", cOneToOne
-								.isOptional()),
+						AnnotationUtils.create("optional",
+								cOneToOne.isOptional()),
 						//
-						AnnotationUtils.create("mappedBy", cOneToOne
-								.getMappedBy()),
+						AnnotationUtils.create("mappedBy",
+								cOneToOne.getMappedBy()),
 						//
-						AnnotationUtils.create("orphanRemoval", cOneToOne
-								.isOrphanRemoval())
+						AnnotationUtils.create("orphanRemoval",
+								cOneToOne.isOrphanRemoval())
 				//
 				);
 	}
@@ -213,8 +216,8 @@ public class CreateXAnnotations extends
 				new XAnnotation(javax.persistence.UniqueConstraint.class,
 						//
 						AnnotationUtils.create("name", source.getName()),
-						AnnotationUtils.create("columnNames", source
-								.getColumnName())
+						AnnotationUtils.create("columnNames",
+								source.getColumnName())
 				//
 				);
 	}
@@ -227,18 +230,18 @@ public class CreateXAnnotations extends
 				//
 						AnnotationUtils.create("name", source.getName()),
 						//
-						AnnotationUtils.create("sequenceName", source
-								.getSequenceName()),
+						AnnotationUtils.create("sequenceName",
+								source.getSequenceName()),
 						//
 						AnnotationUtils.create("catalog", source.getCatalog()),
 						//
 						AnnotationUtils.create("schema", source.getSchema()),
 						//
-						AnnotationUtils.create("initialValue", source
-								.getInitialValue()),
+						AnnotationUtils.create("initialValue",
+								source.getInitialValue()),
 						//
-						AnnotationUtils.create("allocationSize", source
-								.getAllocationSize()));
+						AnnotationUtils.create("allocationSize",
+								source.getAllocationSize()));
 	}
 
 	// 8.3.1
@@ -249,8 +252,8 @@ public class CreateXAnnotations extends
 						//
 						AnnotationUtils.create("query", source.getQuery()),
 						//
-						AnnotationUtils.create("hint", createQueryHint(source
-								.getHint())),
+						AnnotationUtils.create("hint",
+								createQueryHint(source.getHint())),
 						//
 						AnnotationUtils.create("name", source.getName()),
 						AnnotationUtils.create("lockMode",
@@ -296,8 +299,9 @@ public class CreateXAnnotations extends
 	}
 
 	public XAnnotation createOrderColumn(OrderColumn source) {
-		return source == null ? null :
-		//
+		return source == null ? null
+				:
+				//
 				new XAnnotation(
 						javax.persistence.OrderColumn.class,
 						//
@@ -305,14 +309,14 @@ public class CreateXAnnotations extends
 						//
 						AnnotationUtils.create("nullable", source.isNullable()),
 						//
-						AnnotationUtils.create("insertable", source
-								.isInsertable()),
+						AnnotationUtils.create("insertable",
+								source.isInsertable()),
 						//
-						AnnotationUtils.create("updatable", source
-								.isUpdatable()),
+						AnnotationUtils.create("updatable",
+								source.isUpdatable()),
 						//
-						AnnotationUtils.create("columnDefinition", source
-								.getColumnDefinition())
+						AnnotationUtils.create("columnDefinition",
+								source.getColumnDefinition())
 				//
 				);
 
@@ -341,28 +345,29 @@ public class CreateXAnnotations extends
 	}
 
 	public XAnnotation createMapKeyJoinColumn(MapKeyJoinColumn source) {
-		return source == null ? null :
-		//
+		return source == null ? null
+				:
+				//
 				new XAnnotation(
 						javax.persistence.MapKeyJoinColumn.class,
 						//
 						AnnotationUtils.create("name", source.getName()),
 						//
-						AnnotationUtils.create("referencedColumnName", source
-								.getReferencedColumnName()),
+						AnnotationUtils.create("referencedColumnName",
+								source.getReferencedColumnName()),
 						//
 						AnnotationUtils.create("unique", source.isUnique()),
 						//
 						AnnotationUtils.create("nullable", source.isNullable()),
 						//
-						AnnotationUtils.create("insertable", source
-								.isInsertable()),
+						AnnotationUtils.create("insertable",
+								source.isInsertable()),
 						//
-						AnnotationUtils.create("updatable", source
-								.isUpdatable()),
+						AnnotationUtils.create("updatable",
+								source.isUpdatable()),
 						//
-						AnnotationUtils.create("columnDefinition", source
-								.getColumnDefinition()),
+						AnnotationUtils.create("columnDefinition",
+								source.getColumnDefinition()),
 						//
 						AnnotationUtils.create("table", source.getTable())
 				//
@@ -380,8 +385,9 @@ public class CreateXAnnotations extends
 	}
 
 	public XAnnotation createMapKeyColumn(MapKeyColumn source) {
-		return source == null ? null :
-		//
+		return source == null ? null
+				:
+				//
 				new XAnnotation(
 						javax.persistence.MapKeyColumn.class,
 						//
@@ -391,21 +397,21 @@ public class CreateXAnnotations extends
 						//
 						AnnotationUtils.create("nullable", source.isNullable()),
 						//
-						AnnotationUtils.create("insertable", source
-								.isInsertable()),
+						AnnotationUtils.create("insertable",
+								source.isInsertable()),
 						//
-						AnnotationUtils.create("updatable", source
-								.isUpdatable()),
+						AnnotationUtils.create("updatable",
+								source.isUpdatable()),
 						//
-						AnnotationUtils.create("columnDefinition", source
-								.getColumnDefinition()),
+						AnnotationUtils.create("columnDefinition",
+								source.getColumnDefinition()),
 						//
 						AnnotationUtils.create("table", source.getTable()),
 						//
 						AnnotationUtils.create("length", source.getLength()),
 						//
-						AnnotationUtils.create("precision", source
-								.getPrecision()),
+						AnnotationUtils.create("precision",
+								source.getPrecision()),
 						//
 						AnnotationUtils.create("scale", source.getScale())
 
@@ -419,8 +425,8 @@ public class CreateXAnnotations extends
 				new XAnnotation(javax.persistence.MapKeyClass.class,
 				//
 						source.getClazz() == null ? null
-								: new XAnnotationField.XClass("value", source
-										.getClazz())
+								: new XAnnotationField.XClass("value",
+										source.getClazz())
 				//
 				);
 	}
@@ -431,11 +437,11 @@ public class CreateXAnnotations extends
 				new XAnnotation(javax.persistence.ElementCollection.class,
 				//
 						source.getTargetClass() == null ? null
-								: new XAnnotationField.XClass("value", source
-										.getTargetClass()),
+								: new XAnnotationField.XClass("value",
+										source.getTargetClass()),
 
-						AnnotationUtils.create("fetch", getFetchType(source
-								.getFetch()))
+						AnnotationUtils.create("fetch",
+								getFetchType(source.getFetch()))
 
 				//
 				);
@@ -443,8 +449,9 @@ public class CreateXAnnotations extends
 
 	public Collection<XAnnotation> createElementCollectionAnnotations(
 			ElementCollection source) {
-		return source == null ? Collections.<XAnnotation> emptyList() :
-		//
+		return source == null ? Collections.<XAnnotation> emptyList()
+				:
+				//
 				annotations(
 				//
 						createElementCollection(source),
@@ -508,4 +515,23 @@ public class CreateXAnnotations extends
 								javax.persistence.EnumType.valueOf(source),
 								javax.persistence.EnumType.class));
 	}
+
+	// 9.1.12
+	public XAnnotation createAssociationOverride(AssociationOverride source) {
+		return source == null ? null :
+		//
+				new XAnnotation(javax.persistence.AssociationOverride.class,
+				//
+						AnnotationUtils.create("name", source.getName()),
+						//
+						AnnotationUtils.create("joinColumns",
+								createJoinColumn(source.getJoinColumn())),
+						//
+						AnnotationUtils.create("joinTable",
+								createJoinTable(source.getJoinTable()))
+
+				//
+				);
+	}
+
 }

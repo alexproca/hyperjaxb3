@@ -10,7 +10,6 @@ import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
-import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class OneToManyMapping extends AssociationMapping<OneToMany> {
@@ -21,6 +20,7 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 		final OneToMany oneToMany = context.getCustomizing().getOneToMany(
 				fieldOutline);
 		createOneToMany$Name(context, fieldOutline, oneToMany);
+		createOneToMany$OrderColumn(context, fieldOutline, oneToMany);
 		createOneToMany$TargetEntity(context, fieldOutline, oneToMany);
 		createOneToMany$JoinTableOrJoinColumn(context, fieldOutline, oneToMany);
 		return oneToMany;
@@ -29,6 +29,13 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 	public void createOneToMany$Name(Mapping context,
 			FieldOutline fieldOutline, final OneToMany oneToMany) {
 		oneToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
+	}
+
+	public void createOneToMany$OrderColumn(Mapping context,
+			FieldOutline fieldOutline, final OneToMany source) {
+		if (source.getOrderColumn() != null) {
+			createOrderColumn(context, fieldOutline, source.getOrderColumn());
+		}
 	}
 
 	public void createOneToMany$TargetEntity(Mapping context,
@@ -57,22 +64,23 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 		if (!oneToMany.getJoinColumn().isEmpty()) {
 			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
 					context, fieldOutline);
-			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToMany
-					.getJoinColumn());
+			createJoinColumns(context, fieldOutline, idFieldsOutline,
+					oneToMany.getJoinColumn());
 		} else if (oneToMany.getJoinTable() != null) {
 			final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
 					context, fieldOutline);
 			final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
 					context, fieldOutline);
 
-			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, oneToMany.getJoinTable());
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
+					targetIdFieldOutlines, oneToMany.getJoinTable());
 		} else {
 			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
 					context, fieldOutline);
 			// final JoinColumn joinColumn = new JoinColumn();
 			// oneToMany.getJoinColumn().add(joinColumn);
-			createJoinColumns(context, fieldOutline, idFieldsOutline, oneToMany
-					.getJoinColumn());
+			createJoinColumns(context, fieldOutline, idFieldsOutline,
+					oneToMany.getJoinColumn());
 		}
 
 	}

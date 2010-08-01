@@ -129,6 +129,12 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getName(fieldName);
 	}
 
+	@Override
+	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline) {
+		final String fieldColumnName = getColumn$Name(context, fieldOutline);
+		return getName(fieldColumnName + "_" + "ORDER");
+	}
+
 	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent,
 			FieldOutline child) {
 
@@ -276,14 +282,14 @@ public class DefaultNaming implements Naming, InitializingBean {
 		}
 		return sb.toString();
 	}
-	
+
 	public String getEntityName(Outline outline, NType type) {
 		final JType theType = type.toType(outline, Aspect.EXPOSED);
 		assert theType instanceof JClass;
 		final JClass theClass = (JClass) theType;
 		return CodeModelUtils.getLocalClassName(theClass);
 	}
-	
+
 	public String getEntityClass(Outline outline, NType type) {
 		final JType theType = type.toType(outline, Aspect.EXPOSED);
 		assert theType instanceof JClass;

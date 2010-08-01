@@ -35,4 +35,5 @@ public interface Naming {
 	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent,
 			FieldOutline child);
 
+	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline);
 }

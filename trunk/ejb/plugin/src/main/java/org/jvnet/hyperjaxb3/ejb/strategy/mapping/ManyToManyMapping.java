@@ -7,6 +7,7 @@ import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
+import com.sun.java.xml.ns.persistence.orm.OrderColumn;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -22,6 +23,7 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 				fieldOutline);
 
 		createManyToMany$Name(context, fieldOutline, manyToMany);
+		createManyToMany$OrderColumn(context, fieldOutline, manyToMany);
 		createManyToMany$TargetEntity(context, fieldOutline, manyToMany);
 		createManyToMany$JoinTable(context, fieldOutline, manyToMany);
 		return manyToMany;
@@ -30,6 +32,14 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 	public void createManyToMany$Name(Mapping context,
 			FieldOutline fieldOutline, final ManyToMany manyToMany) {
 		manyToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
+	}
+
+	public void createManyToMany$OrderColumn(Mapping context,
+			FieldOutline fieldOutline, final ManyToMany manyToMany) {
+		if (manyToMany.getOrderColumn() != null) {
+			createOrderColumn(context, fieldOutline,
+					manyToMany.getOrderColumn());
+		}
 	}
 
 	public void createManyToMany$TargetEntity(Mapping context,
@@ -60,11 +70,13 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 				context, fieldOutline);
 
 		if (manyToMany.getJoinTable() != null) {
-			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, manyToMany.getJoinTable());
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
+					targetIdFieldOutlines, manyToMany.getJoinTable());
 		} else {
 			final JoinTable joinTable = new JoinTable();
 			manyToMany.setJoinTable(joinTable);
-			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, manyToMany.getJoinTable());
+			createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
+					targetIdFieldOutlines, manyToMany.getJoinTable());
 		}
 
 	}
