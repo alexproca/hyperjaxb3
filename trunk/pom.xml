@@ -54,6 +54,12 @@
 		<developerConnection>scm:svn:https://hj3.dev.java.net/svn/hj3/trunk</developerConnection>
 		<url>https://hj3.dev.java.net/source/browse/hj3/</url>
 	</scm>
+	<properties>
+		<annox.version>0.5.0</annox.version>
+		<jaxb2-basics.version>0.6.0</jaxb2-basics.version>
+		<maven-jaxb2-plugin.version>0.7.4</maven-jaxb2-plugin.version>
+		<jaxb-ri.version>2.1.13</jaxb-ri.version>
+	</properties>
 	<profiles>
 		<profile>
 			<id>reporting</id>
@@ -137,7 +143,7 @@
 				<plugin>
 					<groupId>org.jvnet.jaxb2.maven2</groupId>
 					<artifactId>maven-jaxb2-plugin</artifactId>
-					<version>0.7.3</version>
+					<version>${maven-jaxb2-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
@@ -186,32 +192,32 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-runtime</artifactId>
-				<version>0.6.0-SNAPSHOT</version>
+				<version>${jaxb2-basics.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-testing</artifactId>
-				<version>0.6.0-SNAPSHOT</version>
+				<version>${jaxb2-basics.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-tools</artifactId>
-				<version>0.6.0-SNAPSHOT</version>
+				<version>${jaxb2-basics.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics</artifactId>
-				<version>0.6.0-SNAPSHOT</version>
+				<version>${jaxb2-basics.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-annotate</artifactId>
-				<version>0.6.0-SNAPSHOT</version>
+				<version>${jaxb2-basics.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-ant</artifactId>
-				<version>0.6.0-SNAPSHOT</version>
+				<version>${jaxb2-basics.version}</version>
 			</dependency>
 			<!-- Hyperjaxb -->
 			<dependency>
@@ -258,17 +264,17 @@
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.7.3</version>
+				<version>${maven-jaxb2-plugin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-raw</artifactId>
-				<version>0.7.3</version>
+				<version>${maven-jaxb2-plugin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-testing</artifactId>
-				<version>0.7.3</version>
+				<version>${maven-jaxb2-plugin.version}</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
@@ -279,12 +285,12 @@
 			<dependency>
 				<groupId>com.sun.xml.bind</groupId>
 				<artifactId>jaxb-impl</artifactId>
-				<version>2.1.13</version>
+				<version>${jaxb-ri.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2_commons</groupId>
 				<artifactId>jaxb2-basics-jaxb-xjc</artifactId>
-				<version>2.1.13.MR2-SNAPSHOT</version>
+				<version>2.1.13.MR2</version>
 				<!--exclusions>
 					<exclusion>
 						<groupId>sun.jdk</groupId>
@@ -298,7 +304,6 @@
 				<artifactId>junit</artifactId>
 				<version>3.8.1</version>
 			</dependency>
-
 			<!-- Commons -->
 			<dependency>
 				<groupId>commons-lang</groupId>
@@ -414,7 +419,7 @@
 			<dependency>
 				<groupId>org.jvnet.annox</groupId>
 				<artifactId>annox</artifactId>
-				<version>0.4.4</version>
+				<version>${annox.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

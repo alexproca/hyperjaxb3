@@ -203,6 +203,47 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 			}
 
 		}
+		else if ("jpa1".equals(variant)) {
+			arguments.add("-Xhyperjaxb3-jpa1");
+
+			if (result != null) {
+				arguments.add("-Xhyperjaxb3-jpa1-result=" + result);
+			}
+
+			if (roundtripTestClassName != null) {
+				arguments.add("-Xhyperjaxb3-jpa1-roundtripTestClassName="
+						+ roundtripTestClassName);
+			}
+			if (persistenceUnitName != null) {
+				arguments.add("-Xhyperjaxb3-jpa1-persistenceUnitName="
+						+ persistenceUnitName);
+			}
+			if (persistenceXml != null) {
+				arguments.add("-Xhyperjaxb3-jpa1-persistenceXml="
+						+ persistenceXml.getAbsolutePath());
+			}
+
+		}
+		else if ("jpa2".equals(variant)) {
+			arguments.add("-Xhyperjaxb3-jpa2");
+
+			if (result != null) {
+				arguments.add("-Xhyperjaxb3-jpa2-result=" + result);
+			}
+
+			if (roundtripTestClassName != null) {
+				arguments.add("-Xhyperjaxb3-jpa2-roundtripTestClassName="
+						+ roundtripTestClassName);
+			}
+			if (persistenceUnitName != null) {
+				arguments.add("-Xhyperjaxb3-jpa2-persistenceUnitName="
+						+ persistenceUnitName);
+			}
+			if (persistenceXml != null) {
+				arguments.add("-Xhyperjaxb3-jpa2-persistenceXml="
+						+ persistenceXml.getAbsolutePath());
+			}
+		}
 
 		if (generateEquals) {
 			arguments.add("-Xequals");
