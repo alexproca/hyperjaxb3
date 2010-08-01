@@ -1,25 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Java Persistence API object-relational mapping file schema -->
+<!-- Java Persistence API object/relational mapping file schema -->
 <xsd:schema targetNamespace="http://java.sun.com/xml/ns/persistence/orm" 
   xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   elementFormDefault="qualified" 
   attributeFormDefault="unqualified" 
-  version="1.0">
+  version="2.0">
 
   <xsd:annotation>
     <xsd:documentation>
-      @(#)orm_1_0.xsd 1.0  Feb 14 2006
+      @(#)orm_2_0.xsd 2.0  October 1 2009
     </xsd:documentation>
   </xsd:annotation>
+
+  <xsd:annotation>
+    <xsd:documentation>
+
+  Copyright (c) 2008, 2009 Sun Microsystems. All rights reserved. 
+  
+  This program and the accompanying materials are made available under the 
+  terms of the Eclipse Public License v1.0 and Eclipse Distribution License v. 1.0 
+  which accompanies this distribution. 
+  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+  and the Eclipse Distribution License is available at 
+  http://www.eclipse.org/org/documents/edl-v10.php.
+  
+  Contributors:
+      Linda DeMichiel - Java Persistence 2.0, Version 2.0 (October 1, 2009)
+      Specification available from http://jcp.org/en/jsr/detail?id=317
+  
+    </xsd:documentation>
+  </xsd:annotation>
+
   <xsd:annotation>
      <xsd:documentation><![CDATA[
 
-       This is the XML Schema for the persistence object-relational 
+       This is the XML Schema for the persistence object/relational 
        mapping file.
        The file may be named "META-INF/orm.xml" in the persistence 
        archive or it may be named some other name which would be 
        used to locate the file as resource on the classpath.
+
+       Object/relational mapping files must indicate the object/relational
+       mapping file schema by using the persistence namespace:
+
+       http://java.sun.com/xml/ns/persistence
+
+       and indicate the version of the schema by
+       using the version element as shown below:
+
+      <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+          http://java.sun.com/xml/ns/persistence/orm/orm_2_0.xsd"
+        version="2.0">
+          ...
+      </entity-mappings>
+
 
      ]]></xsd:documentation>
   </xsd:annotation>
@@ -39,7 +76,7 @@
       <xsd:annotation>
         <xsd:documentation>
 
-        The entity-mappings element is the root element of an mapping
+        The entity-mappings element is the root element of a mapping
         file. It contains the following four types of elements:
 
         1. The persistence-unit-metadata element contains metadata
@@ -55,9 +92,9 @@
         to the persistence unit. It is undefined to have more than one
         sequence-generator or table-generator of the same name in the same
         or different mapping files in a persistence unit. It is also 
-        undefined to have more than one named-query or named-native-query
-        of the same name in the same or different mapping files in a 
-        persistence unit.
+        undefined to have more than one named-query, named-native-query, or
+        result-set-mapping of the same name in the same or different mapping 
+        files in a persistence unit.
 
         4. The entity, mapped-superclass and embeddable elements each define
         the mapping information for a managed persistent class. The mapping
@@ -99,7 +136,7 @@
                      minOccurs="0" maxOccurs="unbounded"/>
       </xsd:sequence>
       <xsd:attribute name="version" type="orm:versionType" 
-                     fixed="1.0" use="required"/>
+                     fixed="2.0" use="required"/>
     </xsd:complexType>
   </xsd:element>
 
@@ -112,13 +149,14 @@
         Metadata that applies to the persistence unit and not just to 
         the mapping file in which it is contained. 
 
-        If the xml-mapping-metadata-complete element is specified then 
+        If the xml-mapping-metadata-complete element is specified,
         the complete set of mapping metadata for the persistence unit 
         is contained in the XML mapping files for the persistence unit.
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="xml-mapping-metadata-complete" type="orm:emptyType"
                    minOccurs="0"/>
       <xsd:element name="persistence-unit-defaults" 
@@ -137,23 +175,30 @@
         unless they are overridden by local annotation or XML 
         element settings. 
         
-        schema - Used as the schema for all tables or secondary tables
-            that apply to the persistence unit
-        catalog - Used as the catalog for all tables or secondary tables
-            that apply to the persistence unit
+        schema - Used as the schema for all tables, secondary tables, join
+            tables, collection tables, sequence generators, and table 
+            generators that apply to the persistence unit
+        catalog - Used as the catalog for all tables, secondary tables, join
+            tables, collection tables, sequence generators, and table 
+            generators that apply to the persistence unit
+        delimited-identifiers - Used to treat database identifiers as
+            delimited identifiers.
         access - Used as the access type for all managed classes in
             the persistence unit
         cascade-persist - Adds cascade-persist to the set of cascade options
-            in entity relationships of the persistence unit
+            in all entity relationships of the persistence unit
         entity-listeners - List of default entity listeners to be invoked 
             on each entity in the persistence unit. 
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+        <xsd:element name="description" type="xsd:string" minOccurs="0"/>
         <xsd:element name="schema" type="xsd:string"
                      minOccurs="0"/>
         <xsd:element name="catalog" type="xsd:string"
+                     minOccurs="0"/>
+        <xsd:element name="delimited-identifiers" type="orm:emptyType" 
                      minOccurs="0"/>
         <xsd:element name="access" type="orm:access-type"
                      minOccurs="0"/>
@@ -267,12 +312,14 @@
         @Target({TYPE, METHOD, FIELD}) @Retention(RUNTIME)
         public @interface AssociationOverride {
           String name();
-          JoinColumn[] joinColumns();
+          JoinColumn[] joinColumns() default{};
+          JoinTable joinTable() default @JoinTable;
         }
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:choice>
         <xsd:element name="join-column" type="orm:join-column"
                      minOccurs="0" maxOccurs="unbounded"/>
@@ -298,6 +345,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="column" type="orm:column"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
@@ -318,6 +366,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:choice>
         <xsd:element name="id" type="orm:id" 
                      minOccurs="0" maxOccurs="unbounded"/>
@@ -378,7 +427,7 @@
     <xsd:annotation>
       <xsd:documentation>
 
-        public enum CascadeType { ALL, PERSIST, MERGE, REMOVE, REFRESH};
+        public enum CascadeType { ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH};
 
       </xsd:documentation>
     </xsd:annotation>
@@ -704,6 +753,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="pre-persist" type="orm:pre-persist" minOccurs="0"/>
       <xsd:element name="post-persist" type="orm:post-persist" 
                    minOccurs="0"/>
@@ -1063,9 +1113,9 @@
       </xsd:choice>
       <xsd:element name="map-key" type="orm:map-key" 
                    minOccurs="0"/>
-      <xsd:element name="join-table" type="orm:join-table" 
+      <xsd:element name="join-table" type="orm:join-table"
                    minOccurs="0"/>
-      <xsd:element name="cascade" type="orm:cascade-type" 
+      <xsd:element name="cascade" type="orm:cascade-type"
                    minOccurs="0"/>
     </xsd:sequence>
     <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
@@ -1268,6 +1318,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="query" type="xsd:string"/>
       <xsd:element name="hint" type="orm:query-hint" 
                    minOccurs="0" maxOccurs="unbounded"/>
@@ -1287,12 +1338,14 @@
         public @interface NamedQuery {
           String name();
           String query();
+          LockModeType lockMode() default NONE;
           QueryHint[] hints() default {};
         }
 
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="query" type="xsd:string"/>
       <xsd:element name="lock-mode" type="orm:lock-mode-type" minOccurs="0"/>
       <xsd:element name="hint" type="orm:query-hint" 
@@ -1326,20 +1379,20 @@
       </xsd:choice>
       <xsd:element name="map-key" type="orm:map-key" 
                    minOccurs="0"/>
-      <xsd:choice>       
-        <xsd:element name="join-table" type="orm:join-table" 
+      <xsd:choice>
+        <xsd:element name="join-table" type="orm:join-table"
                      minOccurs="0"/>
-        <xsd:element name="join-column" type="orm:join-column" 
+        <xsd:element name="join-column" type="orm:join-column"
                      minOccurs="0" maxOccurs="unbounded"/>
-      </xsd:choice>       
-      <xsd:element name="cascade" type="orm:cascade-type" 
+      </xsd:choice>
+      <xsd:element name="cascade" type="orm:cascade-type"
                    minOccurs="0"/>
     </xsd:sequence>
     <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
     <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
-    <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
+    <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
     <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
   </xsd:complexType>
@@ -1357,6 +1410,7 @@
           FetchType fetch() default EAGER;
           boolean optional() default true;
           String mappedBy() default "";
+          boolean orphanRemoval() default false;
         }
 
       </xsd:documentation>
@@ -1377,8 +1431,8 @@
     <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
     <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
-    <xsd:attribute name="optional" type="xsd:boolean"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
+    <xsd:attribute name="optional" type="xsd:boolean"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="mapped-by" type="xsd:string"/>
     <xsd:attribute name="orphan-removal" type="xsd:boolean"/>
@@ -1436,6 +1490,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1450,6 +1507,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1464,6 +1524,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1478,6 +1541,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1492,6 +1558,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1506,6 +1575,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1520,6 +1592,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="method-name" type="xsd:string" use="required"/>
   </xsd:complexType>
 
@@ -1557,6 +1632,9 @@
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="value" type="xsd:string" use="required"/>
   </xsd:complexType>
@@ -1600,12 +1678,17 @@
         public @interface SequenceGenerator {
           String name();
           String sequenceName() default "";
+          String catalog() default "";
+          String schema() default "";
           int initialValue() default 1;
           int allocationSize() default 50;
         }
 
       </xsd:documentation>
     </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="sequence-name" type="xsd:string"/>
     <xsd:attribute name="catalog" type="xsd:string"/>
@@ -1630,6 +1713,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="entity-result" type="orm:entity-result" 
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="column-result" type="orm:column-result" 
@@ -1686,6 +1770,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
       <xsd:element name="unique-constraint" type="orm:unique-constraint" 
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
@@ -1760,6 +1845,7 @@
 
         @Target({}) @Retention(RUNTIME)
         public @interface UniqueConstraint {
+          String name() default "";
           String[] columnNames();
         }
 

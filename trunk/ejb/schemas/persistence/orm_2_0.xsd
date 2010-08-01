@@ -279,7 +279,8 @@
       <xsd:element name="attributes" type="orm:attributes" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
-    <xsd:attribute name="class" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="class" type="xsd:string" use="required"/-->
+    <xsd:attribute name="class" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="cacheable" type="xsd:boolean"/>
     <xsd:attribute name="metadata-complete" type="xsd:boolean"/>
@@ -415,7 +416,8 @@
         <xsd:element name="enumerated" type="orm:enumerated" minOccurs="0"/>
       </xsd:choice>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
     <xsd:attribute name="access" type="orm:access-type"/>
@@ -731,7 +733,8 @@
                    type="orm:association-override"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
@@ -750,7 +753,8 @@
       <xsd:element name="attribute-override" type="orm:attribute-override" 
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
@@ -949,7 +953,8 @@
       <xsd:element name="sequence-generator" type="orm:sequence-generator"
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
@@ -1154,7 +1159,8 @@
       <xsd:element name="cascade" type="orm:cascade-type"
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="access" type="orm:access-type"/>
@@ -1187,7 +1193,8 @@
       <xsd:element name="cascade" type="orm:cascade-type" 
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
@@ -1330,7 +1337,8 @@
       <xsd:element name="post-load" type="orm:post-load" minOccurs="0"/>
       <xsd:element name="attributes" type="orm:attributes" minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="class" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="class" type="xsd:string" use="required"/-->
+    <xsd:attribute name="class" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
     <xsd:attribute name="metadata-complete" type="xsd:boolean"/>
   </xsd:complexType>
@@ -1447,7 +1455,8 @@
       <xsd:element name="cascade" type="orm:cascade-type"
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="access" type="orm:access-type"/>
@@ -1486,7 +1495,8 @@
       <xsd:element name="cascade" type="orm:cascade-type" 
                    minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="target-entity" type="xsd:string"/>
     <xsd:attribute name="fetch" type="orm:fetch-type"/>
     <xsd:attribute name="optional" type="xsd:boolean"/>
@@ -1892,7 +1902,8 @@
 
       </xsd:documentation>
     </xsd:annotation>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
   </xsd:complexType>
 
 <!-- **************************************************** -->
@@ -1931,7 +1942,8 @@
       <xsd:element name="column" type="orm:column" minOccurs="0"/>
       <xsd:element name="temporal" type="orm:temporal" minOccurs="0"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/-->
+    <xsd:attribute name="name" type="xsd:string" default="##default"/>
     <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
