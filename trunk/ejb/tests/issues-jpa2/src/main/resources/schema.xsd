@@ -1,0 +1,55 @@
+<xsd:schema
+	targetNamespace="urn:test" xmlns:test="urn:test" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	jaxb:version="2.1" 
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+
+	elementFormDefault="qualified" 
+	attributeFormDefault="unqualified"
+
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+
+	jaxb:extensionBindingPrefixes="hj orm xjc"
+
+	>
+
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.issuesjpa2"/>
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:element name="HJIII-73-Parent" type="test:HJIII-73-Parent"/>
+
+	<xsd:complexType name="HJIII-73-Parent">
+		<xsd:sequence>
+			<xsd:element name="HJIII-73-Child-One-To-Many" type="test:HJIII-73-Child" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-many>
+							<orm:order-column/>
+						</hj:one-to-many>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="HJIII-73-Child-Many-To-Many" type="test:HJIII-73-Child" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-many>
+							<orm:order-column name="ORDNUNG"/>
+						</hj:many-to-many>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="HJIII-73-Child">
+		<xsd:attribute name="value" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
+</xsd:schema>
