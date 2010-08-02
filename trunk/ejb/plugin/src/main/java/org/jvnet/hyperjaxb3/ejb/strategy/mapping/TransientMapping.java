@@ -26,7 +26,7 @@ public class TransientMapping implements FieldOutlineMapping<Transient> {
 
 	public void createTransient$Name(Mapping context,
 			FieldOutline fieldOutline, final Transient _transient) {
-		_transient.setName(OutlineUtils.getPropertyName(fieldOutline));
+		_transient.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 }

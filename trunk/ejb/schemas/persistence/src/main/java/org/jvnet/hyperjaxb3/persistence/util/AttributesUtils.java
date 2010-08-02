@@ -2,6 +2,7 @@ package org.jvnet.hyperjaxb3.persistence.util;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
+import com.sun.java.xml.ns.persistence.orm.ElementCollection;
 import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
@@ -81,6 +82,12 @@ public class AttributesUtils {
 					return attribute;
 				}
 			}
+			for (final ElementCollection attribute : attributes
+					.getElementCollection()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
 			for (final Embedded attribute : attributes.getEmbedded()) {
 				if (attribute != null && name.equals(attribute.getName())) {
 					return attribute;
@@ -101,6 +108,38 @@ public class AttributesUtils {
 			return null;
 		} else {
 			for (final Basic attribute : attributes.getBasic()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+
+			for (final ManyToOne attribute : attributes.getManyToOne()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			for (final OneToMany attribute : attributes.getOneToMany()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			for (final OneToOne attribute : attributes.getOneToOne()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			for (final ManyToMany attribute : attributes.getManyToMany()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			for (final ElementCollection attribute : attributes
+					.getElementCollection()) {
+				if (attribute != null && name.equals(attribute.getName())) {
+					return attribute;
+				}
+			}
+			for (final Embedded attribute : attributes.getEmbedded()) {
 				if (attribute != null && name.equals(attribute.getName())) {
 					return attribute;
 				}

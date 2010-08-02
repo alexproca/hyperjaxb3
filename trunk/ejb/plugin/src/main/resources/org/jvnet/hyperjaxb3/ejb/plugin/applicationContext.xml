@@ -21,13 +21,15 @@
 			</bean>
 		</property>
 	</bean>
-
+	
+	<bean name="embeddableAttributesMapping" class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.EmbeddableAttributesMapping"/>
 	
 	<bean name="mapping"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping">
 		<property name="customizing" ref="customizing"/>
 		<property name="naming" ref="naming"/>
 		<property name="ignoring" ref="ignoring"/>
+		<property name="embeddableAttributesMapping" ref="embeddableAttributesMapping"/>
 	</bean>
 	
 	<bean name="createXAnnotations" class="org.jvnet.hyperjaxb3.ejb.strategy.annotate.CreateXAnnotations">

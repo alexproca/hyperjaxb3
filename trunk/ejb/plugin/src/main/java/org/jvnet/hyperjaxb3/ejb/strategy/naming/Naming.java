@@ -9,6 +9,8 @@ import com.sun.tools.xjc.outline.Outline;
 
 public interface Naming {
 	
+	public String getPropertyName(Mapping context, FieldOutline fieldOutline);
+	
 	public String getEntityClass(Outline outline, NType type);
 	
 	public String getEntityName(Outline outline, NType type);
@@ -32,8 +34,9 @@ public interface Naming {
 	public String getJoinTable$InverseJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline);
 
-	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent,
-			FieldOutline child);
-
 	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline);
+	
+	public Naming createEmbeddedNaming(Mapping context, FieldOutline fieldOutline);
+	
+	public String getName(final String draftName);
 }

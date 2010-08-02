@@ -28,7 +28,7 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 
 	public void createOneToMany$Name(Mapping context,
 			FieldOutline fieldOutline, final OneToMany oneToMany) {
-		oneToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
+		oneToMany.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createOneToMany$OrderColumn(Mapping context,

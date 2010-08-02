@@ -24,7 +24,7 @@ public class VersionMapping extends PropertyMapping implements
 
 	public void createVersion$Name(Mapping context, FieldOutline fieldOutline,
 			final Version version) {
-		version.setName(OutlineUtils.getPropertyName(fieldOutline));
+		version.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createVersion$Column(Mapping context,

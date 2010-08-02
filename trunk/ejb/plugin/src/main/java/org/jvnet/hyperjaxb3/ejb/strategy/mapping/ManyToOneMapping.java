@@ -29,7 +29,7 @@ public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
 
 	public void createManyToOne$Name(Mapping context,
 			FieldOutline fieldOutline, final ManyToOne manyToOne) {
-		manyToOne.setName(OutlineUtils.getPropertyName(fieldOutline));
+		manyToOne.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createManyToOne$TargetEntity(Mapping context,

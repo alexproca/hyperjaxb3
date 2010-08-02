@@ -19,33 +19,6 @@
 		<xs:sequence>
 			<xs:element name="b0" type="bType" minOccurs="0"/>
 			<xs:element name="b1" type="bType" minOccurs="0"/>
-			<xs:element name="b2" type="bType" minOccurs="0"/>
-			<xs:element name="b3" type="bType" minOccurs="0">
-				<xs:annotation>
-					<xs:appinfo xmlns:jp="http://annox.dev.java.net/javax.persistence">
-						<hj:ignored/>
-						<annox:annotate>
-							<jp:Embedded/>
-						</annox:annotate>
-						<annox:annotate>
-							<jp:AttributeOverrides>
-								<value>
-									<jp:AttributeOverride name="c">
-										<column>
-											<jp:Column name="B_THREE_C" length="997"/>
-										</column>
-									</jp:AttributeOverride>
-									<jp:AttributeOverride name="d">
-										<column>
-											<jp:Column name="B_THREE_D" precision="18" scale="8"/>
-										</column>
-									</jp:AttributeOverride>
-								</value>
-							</jp:AttributeOverrides>
-						</annox:annotate>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="e" type="eType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>

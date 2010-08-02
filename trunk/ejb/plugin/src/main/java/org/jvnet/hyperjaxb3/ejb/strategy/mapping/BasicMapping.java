@@ -44,7 +44,7 @@ public class BasicMapping extends PropertyMapping implements
 
 	public void createBasic$Name(Mapping context, FieldOutline fieldOutline,
 			final Basic basic) {
-		basic.setName(OutlineUtils.getPropertyName(fieldOutline));
+		basic.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createBasic$Column(Mapping context, FieldOutline fieldOutline,

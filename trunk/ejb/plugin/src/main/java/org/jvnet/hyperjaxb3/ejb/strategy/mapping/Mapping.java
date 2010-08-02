@@ -20,8 +20,18 @@ import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.java.xml.ns.persistence.orm.Transient;
 import com.sun.java.xml.ns.persistence.orm.Version;
+import com.sun.tools.xjc.outline.FieldOutline;
 
-public class Mapping {
+public class Mapping implements Cloneable {
+
+	@Override
+	public Mapping clone() {
+		try {
+			return (Mapping) super.clone();
+		} catch (CloneNotSupportedException cnsex) {
+			throw new UnsupportedOperationException(cnsex);
+		}
+	}
 
 	private ClassOutlineMapping<Object> entityOrMappedSuperclassOrEmbeddableMapping = new EntityOrMappedSuperclassOrEmbeddableMapping();
 
@@ -54,17 +64,17 @@ public class Mapping {
 			ClassOutlineMapping<MappedSuperclass> mappedSuperclassMapping) {
 		this.mappedSuperclassMapping = mappedSuperclassMapping;
 	}
-	
+
 	private ClassOutlineMapping<Embeddable> embeddableMapping = new EmbeddableMapping();
 
 	public ClassOutlineMapping<Embeddable> getEmbeddableMapping() {
 		return embeddableMapping;
 	}
 
-	public void setEmbeddableMapping(ClassOutlineMapping<Embeddable> embeddableMapping) {
+	public void setEmbeddableMapping(
+			ClassOutlineMapping<Embeddable> embeddableMapping) {
 		this.embeddableMapping = embeddableMapping;
 	}
-	
 
 	private ClassOutlineMapping<Attributes> attributesMapping = new AttributesMapping();
 
@@ -76,18 +86,20 @@ public class Mapping {
 			ClassOutlineMapping<Attributes> attributesMapping) {
 		this.attributesMapping = attributesMapping;
 	}
-	
-	private ClassOutlineMapping<EmbeddableAttributes> embeddableAttributesMapping = new EmbeddableAttributesMapping();
+
+	private ClassOutlineMapping<EmbeddableAttributes> embeddableAttributesMapping;// =
+																					// new
+																					// EmbeddableAttributesMapping();
 
 	public ClassOutlineMapping<EmbeddableAttributes> getEmbeddableAttributesMapping() {
 		return embeddableAttributesMapping;
 	}
 
+	@Required
 	public void setEmbeddableAttributesMapping(
 			ClassOutlineMapping<EmbeddableAttributes> embeddableAttributesMapping) {
 		this.embeddableAttributesMapping = embeddableAttributesMapping;
 	}
-	
 
 	private FieldOutlineMapping<Id> idMapping = new IdMapping();
 
@@ -105,7 +117,8 @@ public class Mapping {
 		return embeddedIdMapping;
 	}
 
-	public void setEmbeddedIdMapping(FieldOutlineMapping<EmbeddedId> embeddedIdMapping) {
+	public void setEmbeddedIdMapping(
+			FieldOutlineMapping<EmbeddedId> embeddedIdMapping) {
 		this.embeddedIdMapping = embeddedIdMapping;
 	}
 
@@ -133,13 +146,13 @@ public class Mapping {
 	 * private FieldOutlineMapping<EmbeddedId> embeddedIdMaping;// = new //
 	 * EmbeddedIdMapping();
 	 * 
-	 * public FieldOutlineMapping<EmbeddedId> getEmbeddedIdMapping() { throw
-	 * new UnsupportedOperationException(); // return embeddedIdMaping; }
+	 * public FieldOutlineMapping<EmbeddedId> getEmbeddedIdMapping() { throw new
+	 * UnsupportedOperationException(); // return embeddedIdMaping; }
 	 * 
 	 * public void setEmbeddedIdMaping( FieldOutlineMapping<EmbeddedId>
 	 * embeddedIdMaping) { this.embeddedIdMaping = embeddedIdMaping; }
 	 */
-	
+
 	private FieldOutlineMapping<Embedded> embeddedMapping = new EmbeddedMapping();
 
 	public FieldOutlineMapping<Embedded> getEmbeddedMapping() {
@@ -255,6 +268,15 @@ public class Mapping {
 	@Required
 	public void setIgnoring(Ignoring ignoring) {
 		this.ignoring = ignoring;
+	}
+
+	public Mapping createEmbeddedMapping(FieldOutline fieldOutline) {
+		// TODO Rework with wrappers
+		final Mapping embeddedMapping = clone();
+		embeddedMapping.setNaming(embeddedMapping.getNaming()
+				.createEmbeddedNaming(this, fieldOutline));
+		return embeddedMapping;
+
 	}
 
 }

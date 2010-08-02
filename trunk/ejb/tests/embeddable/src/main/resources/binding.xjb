@@ -8,27 +8,5 @@
 	jaxb:extensionBindingPrefixes="hj orm annox">
 	
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xs:schema">
-		<jaxb:bindings node="xs:complexType[@name='aType']/xs:sequence/xs:element[@name='b2']">
-			<hj:ignored/>
-			<annox:annotate>
-				<annox:annotate annox:class="javax.persistence.Embedded"/>
-			</annox:annotate>
-			<annox:annotate>
-				<annox:annotate annox:class="javax.persistence.AttributeOverrides">
-					<annox:annotate annox:field="value">
-						<annox:annotate annox:class="javax.persistence.AttributeOverride" name="c">
-							<annox:annotate annox:field="column">
-								<annox:annotate annox:class="javax.persistence.Column" name="B_TWO_C" length="998"/>
-							</annox:annotate>
-						</annox:annotate>
-						<annox:annotate annox:class="javax.persistence.AttributeOverride" name="d">
-							<annox:annotate annox:field="column">
-								<annox:annotate annox:class="javax.persistence.Column" name="B_TWO_D" precision="19" scale="9"/>
-							</annox:annotate>
-						</annox:annotate>
-					</annox:annotate>
-				</annox:annotate>
-			</annox:annotate>
-		</jaxb:bindings>
 	</jaxb:bindings>
 </jaxb:bindings>

@@ -23,7 +23,7 @@ public class IdMapping extends PropertyMapping implements
 
 	public void createId$Name(Mapping context, FieldOutline fieldOutline,
 			final Id id) {
-		id.setName(OutlineUtils.getPropertyName(fieldOutline));
+		id.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createId$Column(Mapping context, FieldOutline fieldOutline,

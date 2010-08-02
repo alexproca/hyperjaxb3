@@ -28,7 +28,7 @@ public class OneToOneMapping extends AssociationMapping<OneToOne> {
 
 	public void createOneToOne$Name(Mapping context, FieldOutline fieldOutline,
 			final OneToOne oneToOne) {
-		oneToOne.setName(OutlineUtils.getPropertyName(fieldOutline));
+		oneToOne.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createOneToOne$TargetEntity(Mapping context,

@@ -47,13 +47,29 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="f" type="xs:string" minOccurs="0"/>
-			<xs:element name="g" type="aType" minOccurs="0">
-				<xs:annotation>
-					<xs:appinfo>
-						<hj:ignored/>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="g" type="hType" minOccurs="0"/>
+			<xs:element name="eas" type="aType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="hType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="i" type="xs:string" minOccurs="0"/>
+			<xs:element name="j" type="kType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="kType">
+		<xs:annotation>
+			<xs:appinfo>
+				<hj:embeddable/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="l" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="employees">

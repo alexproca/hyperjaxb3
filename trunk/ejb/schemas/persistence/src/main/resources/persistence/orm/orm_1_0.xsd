@@ -385,6 +385,8 @@
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="many-to-many" type="orm:many-to-many" 
                    minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="element-collection" type="orm:element-collection" 
+                   minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="embedded" type="orm:embedded"
                    minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="transient" type="orm:transient"
@@ -696,6 +698,18 @@
     <xsd:sequence>
       <xsd:element name="basic" type="orm:basic" 
                    minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="many-to-one" type="orm:many-to-one"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="one-to-many" type="orm:one-to-many"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="one-to-one" type="orm:one-to-one"
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="many-to-many" type="orm:many-to-many" 
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="element-collection" type="orm:element-collection" 
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="embedded" type="orm:embedded"
+                   minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="transient" type="orm:transient" 
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
@@ -714,6 +728,9 @@
     </xsd:annotation>
     <xsd:sequence>
       <xsd:element name="attribute-override" type="orm:attribute-override" 
+                   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="association-override" 
+                   type="orm:association-override"
                    minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
     <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
@@ -1111,8 +1128,32 @@
         <xsd:element name="order-column" type="orm:order-column"
                    minOccurs="0"/>
       </xsd:choice>
-      <xsd:element name="map-key" type="orm:map-key" 
+      <xsd:choice>
+        <xsd:element name="map-key" type="orm:map-key"
                    minOccurs="0"/>
+        <xsd:sequence>
+          <xsd:element name="map-key-class" type="orm:map-key-class"
+                   minOccurs="0"/>
+          <xsd:choice>
+            <xsd:element name="map-key-temporal"
+                         type="orm:temporal"
+                         minOccurs="0"/>
+            <xsd:element name="map-key-enumerated"
+                         type="orm:enumerated"
+                         minOccurs="0"/>
+            <xsd:element name="map-key-attribute-override"
+                         type="orm:attribute-override"
+                         minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:choice>
+          <xsd:choice>
+            <xsd:element name="map-key-column" type="orm:map-key-column"
+                   minOccurs="0"/>
+            <xsd:element name="map-key-join-column"
+                   type="orm:map-key-join-column"
+                   minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:choice>
       <xsd:element name="join-table" type="orm:join-table"
                    minOccurs="0"/>
       <xsd:element name="cascade" type="orm:cascade-type"
@@ -1379,8 +1420,32 @@
         <xsd:element name="order-column" type="orm:order-column"
                    minOccurs="0"/>
       </xsd:choice>
-      <xsd:element name="map-key" type="orm:map-key" 
+      <xsd:choice>
+        <xsd:element name="map-key" type="orm:map-key"
                    minOccurs="0"/>
+        <xsd:sequence>
+          <xsd:element name="map-key-class" type="orm:map-key-class"
+                   minOccurs="0"/>
+          <xsd:choice>
+            <xsd:element name="map-key-temporal"
+                         type="orm:temporal"
+                         minOccurs="0"/>
+            <xsd:element name="map-key-enumerated"
+                         type="orm:enumerated"
+                         minOccurs="0"/>
+            <xsd:element name="map-key-attribute-override"
+                         type="orm:attribute-override"
+                         minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:choice>
+          <xsd:choice>
+            <xsd:element name="map-key-column" type="orm:map-key-column"
+                   minOccurs="0"/>
+            <xsd:element name="map-key-join-column"
+                   type="orm:map-key-join-column"
+                   minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:choice>
       <xsd:choice>
         <xsd:element name="join-table" type="orm:join-table"
                      minOccurs="0"/>

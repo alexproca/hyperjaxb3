@@ -31,7 +31,7 @@ public class ManyToManyMapping extends AssociationMapping<ManyToMany> {
 
 	public void createManyToMany$Name(Mapping context,
 			FieldOutline fieldOutline, final ManyToMany manyToMany) {
-		manyToMany.setName(OutlineUtils.getPropertyName(fieldOutline));
+		manyToMany.setName(context.getNaming().getPropertyName(context, fieldOutline));
 	}
 
 	public void createManyToMany$OrderColumn(Mapping context,

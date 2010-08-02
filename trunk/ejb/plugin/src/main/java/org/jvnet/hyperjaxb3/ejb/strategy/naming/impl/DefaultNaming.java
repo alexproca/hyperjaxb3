@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
@@ -34,6 +34,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.outline.PackageOutline;
+import com.sun.xml.bind.api.impl.NameConverter;
 
 public class DefaultNaming implements Naming, InitializingBean {
 
@@ -133,21 +134,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline) {
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
 		return getName(fieldColumnName + "_" + "ORDER");
-	}
-
-	public String getEmbedded$Column$Name(Mapping context, FieldOutline parent,
-			FieldOutline child) {
-
-		final String prefix;
-
-		final Embedded embedded = context.getCustomizing().getEmbedded(parent);
-		if (embedded != null && embedded.getColumnNamePrefix() != null) {
-			prefix = embedded.getColumnNamePrefix();
-		} else {
-			prefix = parent.getPropertyInfo().getName(true) + "_";
-		}
-		final String suffix = child.getPropertyInfo().getName(true);
-		return getName(prefix + suffix);
 	}
 
 	public String getJoinTable$Name(Mapping context, FieldOutline fieldOutline) {
@@ -295,5 +281,17 @@ public class DefaultNaming implements Naming, InitializingBean {
 		assert theType instanceof JClass;
 		final JClass theClass = (JClass) theType;
 		return CodeModelUtils.getPackagedClassName(theClass);
+	}
+
+	@Override
+	public String getPropertyName(Mapping context, FieldOutline fieldOutline) {
+		return NameConverter.standard.toVariableName(fieldOutline
+				.getPropertyInfo().getName(true));
+	}
+
+	@Override
+	public Naming createEmbeddedNaming(Mapping context,
+			FieldOutline fieldOutline) {
+		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
 }

@@ -123,10 +123,9 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 	}
 
 	private void processAttributeWildcard(ClassOutline classOutline) {
-		logger
-				.debug("The class ["
-						+ OutlineUtils.getClassName(classOutline)
-						+ "] declares an attribute wildcard which will be made transient.");
+		logger.debug("The class ["
+				+ OutlineUtils.getClassName(classOutline)
+				+ "] declares an attribute wildcard which will be made transient.");
 		String FIELD_NAME = "otherAttributes";
 		String METHOD_SEED = classOutline.parent().getModel()
 				.getNameConverter().toClassName(FIELD_NAME);
@@ -135,9 +134,8 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 				"get" + METHOD_SEED, new JType[0]);
 
 		if (getOtherAttributesMethod == null) {
-			logger
-					.error("Could not find the attribute wildcard method in the class ["
-							+ OutlineUtils.getClassName(classOutline) + "].");
+			logger.error("Could not find the attribute wildcard method in the class ["
+					+ OutlineUtils.getClassName(classOutline) + "].");
 		} else {
 			getOtherAttributesMethod.annotate(Transient.class);
 		}
@@ -145,7 +143,8 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 
 	public FieldOutline process(AnnotateOutline context,
 			FieldOutline fieldOutline, Options options, Object attributes) {
-		final String name = OutlineUtils.getPropertyName(fieldOutline);
+		final String name = context.getMapping().getNaming()
+				.getPropertyName(context.getMapping(), fieldOutline);
 		logger.debug("Processing field [" + name + "].");
 
 		// Ok

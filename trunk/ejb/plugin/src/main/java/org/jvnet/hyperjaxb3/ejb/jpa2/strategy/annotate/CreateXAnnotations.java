@@ -102,7 +102,8 @@ public class CreateXAnnotations extends
 		final Collection<XAnnotation> annotations = super
 				.createEmbeddedAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
-				createAccess(source.getAccess()));
+				createAccess(source.getAccess()),
+				createAssociationOverrides(source.getAssociationOverride()));
 	}
 
 	@Override
@@ -127,7 +128,13 @@ public class CreateXAnnotations extends
 				.createManyToManyAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
 				createAccess(source.getAccess()),
-				createOrderColumn(source.getOrderColumn()));
+				createOrderColumn(source.getOrderColumn()),
+				createMapKeyClass(source.getMapKeyClass()),
+				createMapKeyTemporal(source.getMapKeyTemporal()),
+				createMapKeyEnumerated(source.getMapKeyTemporal()),
+				// createMapKeyAttributeOverride(source.getMapKeyAttributeOverride()),
+				createMapKeyColumn(source.getMapKeyColumn()),
+				createMapKeyJoinColumns(source.getMapKeyJoinColumn()));
 	}
 
 	@Override
@@ -179,7 +186,13 @@ public class CreateXAnnotations extends
 				.createOneToManyAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
 				createAccess(source.getAccess()),
-				createOrderColumn(source.getOrderColumn()));
+				createOrderColumn(source.getOrderColumn()),
+				createMapKeyClass(source.getMapKeyClass()),
+				createMapKeyTemporal(source.getMapKeyTemporal()),
+				createMapKeyEnumerated(source.getMapKeyTemporal()),
+				// createMapKeyAttributeOverride(source.getMapKeyAttributeOverride()),
+				createMapKeyColumn(source.getMapKeyColumn()),
+				createMapKeyJoinColumns(source.getMapKeyJoinColumn()));
 	}
 
 	// 9.1.23
