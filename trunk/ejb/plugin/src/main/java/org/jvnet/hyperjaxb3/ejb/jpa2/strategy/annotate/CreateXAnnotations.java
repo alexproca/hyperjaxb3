@@ -39,6 +39,22 @@ import com.sun.java.xml.ns.persistence.orm.Version;
 public class CreateXAnnotations extends
 		org.jvnet.hyperjaxb3.ejb.strategy.annotate.CreateXAnnotations {
 
+	// 9.1.8
+	public XAnnotation createId(Boolean source) {
+		return source == null ? null : createId(source.booleanValue());
+	}
+
+	public XAnnotation createId(boolean source) {
+		return !source ? null : new XAnnotation(javax.persistence.Id.class);
+	}
+
+	public XAnnotation createMapsId(String source) {
+		return source == null ? null : new XAnnotation(
+				javax.persistence.MapsId.class, AnnotationUtils.create("value",
+						source));
+
+	}
+
 	public XAnnotation createAccess(String access) {
 		return access == null ? null : new XAnnotation(
 				javax.persistence.Access.class, AnnotationUtils.create("value",
@@ -119,7 +135,8 @@ public class CreateXAnnotations extends
 		final Collection<XAnnotation> annotations = super
 				.createManyToOneAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
-				createAccess(source.getAccess()));
+				createAccess(source.getAccess()),
+				createMapsId(source.getMapsId()), createId(source.isId()));
 	}
 
 	@Override
@@ -198,7 +215,8 @@ public class CreateXAnnotations extends
 		final Collection<XAnnotation> annotations = super
 				.createOneToOneAnnotations(source);
 		return source == null ? annotations : annotations(annotations,
-				createAccess(source.getAccess()));
+				createAccess(source.getAccess()),
+				createMapsId(source.getMapsId()), createId(source.isId()));
 	}
 
 	@Override
