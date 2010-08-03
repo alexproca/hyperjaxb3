@@ -802,7 +802,7 @@
 		</xs:simpleContent>
 	</xs:complexType>
 
-	<xs:complexType name="test001Type">
+	<xs:complexType name="integersType">
 		<xs:sequence>
 			<xs:element name="integers" maxOccurs="unbounded">
 				<xs:simpleType>

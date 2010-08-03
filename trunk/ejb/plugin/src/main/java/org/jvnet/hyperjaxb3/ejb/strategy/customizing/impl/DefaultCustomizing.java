@@ -37,6 +37,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeAnalyzer;
 import org.jvnet.hyperjaxb3.xsom.TypeUtils;
+import org.jvnet.jaxb2_commons.lang.CopyTo;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -85,7 +86,8 @@ public class DefaultCustomizing implements Customizing {
 	public <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(propertyInfo, name);
-		return (T) unmarshalCustomization(customization);
+		final T t = (T) unmarshalCustomization(customization);
+		return t;
 	}
 
 	public void addCustomization(CCustomizable customizable, QName name,
@@ -111,24 +113,27 @@ public class DefaultCustomizing implements Customizing {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> T unmarshalCustomization(
 			final CPluginCustomization customization) throws AssertionError {
 		if (customization == null) {
 			return null;
 		} else {
-			@SuppressWarnings("unchecked")
 			final T value = (T) this.customizationsMap.get(customization);
 
 			if (value != null)
 
 			{
-				return (T) value;
+				return value instanceof CopyTo ? (T) ((CopyTo) value)
+						.copyTo(((CopyTo) value).createNewInstance()) : value;
+
 			} else {
-				@SuppressWarnings("unchecked")
-				final T newValue = (T) CustomizationUtils.unmarshall(
+				final T t = (T) CustomizationUtils.unmarshall(
 						Customizations.getContext(), customization);
-				this.customizationsMap.put(customization, newValue);
-				return newValue;
+
+				this.customizationsMap.put(customization, t);
+				return t instanceof CopyTo ? (T) ((CopyTo) t)
+						.copyTo(((CopyTo) t).createNewInstance()) : t;
 			}
 		}
 	}
