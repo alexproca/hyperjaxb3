@@ -103,6 +103,11 @@
 								<orm:table name="O2M_BASIC_CUSTOM"/>
 							</hj:entity>
 						</hj:generated-class>
+						<!--hj:generated-property>
+							<annox:annotate>
+								<ha:Cascade value="DELETE_ORPHAN"/>
+							</annox:annotate>
+						</hj:generated-property-->
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

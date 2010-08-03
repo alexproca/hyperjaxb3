@@ -60,6 +60,7 @@
 		<xs:sequence>
 			<xs:element name="i" type="xs:string" minOccurs="0"/>
 			<xs:element name="j" type="kType" minOccurs="0"/>
+			<xs:element name="has" type="aType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="kType">
