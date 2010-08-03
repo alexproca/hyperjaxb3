@@ -48,7 +48,7 @@
 		<xs:sequence>
 			<xs:element name="f" type="xs:string" minOccurs="0"/>
 			<xs:element name="g" type="hType" minOccurs="0"/>
-			<xs:element name="eas" type="aType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ems" type="mType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="hType">
@@ -60,7 +60,7 @@
 		<xs:sequence>
 			<xs:element name="i" type="xs:string" minOccurs="0"/>
 			<xs:element name="j" type="kType" minOccurs="0"/>
-			<xs:element name="has" type="aType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="hms" type="mType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="kType">
@@ -71,6 +71,11 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="l" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mType">
+		<xs:sequence>
+			<xs:element name="n" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="employees">

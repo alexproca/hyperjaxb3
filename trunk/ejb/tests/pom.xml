@@ -12,16 +12,15 @@
 	<name>Hyperjaxb3 EJB Tests</name>
 	<modules>
 		<module>any</module>
-		<!-- ** module>derby</module-->
 		<module>episodes</module>
-		<module>issues</module>
-		<module>nml</module>
 		<module>one</module>
 		<module>po</module>
 		<module>po-customized</module>
-		<module>regrep</module>
 		<module>st</module>
-		<module>xmldsig</module>
+		<module>embeddable</module>
+		<module>embeddable-jpa2</module>
+		<module>issues</module>
+		<module>issues-jpa2</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -40,13 +39,13 @@
 				<!-- ** module>component</module-->
 				<!-- ** module>customizations</module-->
 				<!-- ** module>customType</module-->
+				<module>derby</module>
 				<module>device</module>
 				<!-- ** module>dl</module-->
 				<module>dom</module>
 				<module>dy</module>
 				<module>ebxmlrr</module>
 				<module>edxl</module>
-				<module>embeddable</module>
 				<module>enum</module>
 				<!--module>idSymbolSpace</module-->
 				<module>ids</module>
@@ -69,6 +68,11 @@
 				<!--module>verylong</module-->
 				<module>web</module>
 				<module>xacml</module>
+
+				<module>regrep</module>
+				<module>nml</module>
+				<module>xmldsig</module>
+
 			</modules>
 			<build>
 				<plugins>

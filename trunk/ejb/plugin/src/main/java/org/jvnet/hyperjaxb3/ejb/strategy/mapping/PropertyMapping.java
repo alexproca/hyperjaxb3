@@ -46,7 +46,8 @@ public class PropertyMapping {
 		}
 
 		if (column.getName() == null || "##default".equals(column.getName())) {
-			column.setName(context.getNaming().getColumn$Name(context, fieldOutline));
+			column.setName(context.getNaming().getColumn$Name(context,
+					fieldOutline));
 		}
 
 		// If string
@@ -308,8 +309,9 @@ public class PropertyMapping {
 				associationOverride = new AssociationOverride();
 				associationOverride.setName(name);
 				associationOverride.setJoinTable(source.getJoinTable());
-				associationOverride.getJoinColumn().addAll(
-						source.getJoinColumn());
+				// Join columns must not be overridden for 1:X
+				// associationOverride.getJoinColumn().addAll(
+				// source.getJoinColumn());
 				associationOverridesMap.put(name, associationOverride);
 				associationOverrides.add(associationOverride);
 			} else {
@@ -336,8 +338,14 @@ public class PropertyMapping {
 				associationOverride = new AssociationOverride();
 				associationOverride.setName(name);
 				associationOverride.setJoinTable(source.getJoinTable());
-				associationOverride.getJoinColumn().addAll(
-						source.getJoinColumn());
+				if (source.getMappedBy() == null) {
+					// Join columns must not be overridden for 1:X
+					// associationOverride.getJoinColumn().addAll(
+					// source.getJoinColumn());
+				} else {
+					associationOverride.getJoinColumn().addAll(
+							source.getJoinColumn());
+				}
 				associationOverridesMap.put(name, associationOverride);
 				associationOverrides.add(associationOverride);
 			} else {
