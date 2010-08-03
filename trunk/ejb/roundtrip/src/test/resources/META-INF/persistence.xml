@@ -17,4 +17,9 @@
         <class>org.jvnet.hyperjaxb3.ejb.cascadedids.tests.Company</class>
         <class>org.jvnet.hyperjaxb3.ejb.cascadedids.tests.Department</class>
     </persistence-unit>
+	<persistence-unit name="org.jvnet.hyperjaxb3.hibernate.tests.hhh4384">
+        <class>org.jvnet.hyperjaxb3.hibernate.tests.hhh4384.D</class>
+        <class>org.jvnet.hyperjaxb3.hibernate.tests.hhh4384.E</class>
+        <class>org.jvnet.hyperjaxb3.hibernate.tests.hhh4384.F</class>
+    </persistence-unit>    
 </persistence>
