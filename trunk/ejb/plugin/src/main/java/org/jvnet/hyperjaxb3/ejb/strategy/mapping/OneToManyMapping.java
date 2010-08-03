@@ -12,7 +12,7 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class OneToManyMapping extends AssociationMapping<OneToMany> {
+public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 
 	public OneToMany process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
@@ -28,13 +28,15 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 
 	public void createOneToMany$Name(Mapping context,
 			FieldOutline fieldOutline, final OneToMany oneToMany) {
-		oneToMany.setName(context.getNaming().getPropertyName(context, fieldOutline));
+		oneToMany.setName(context.getNaming().getPropertyName(context,
+				fieldOutline));
 	}
 
 	public void createOneToMany$OrderColumn(Mapping context,
 			FieldOutline fieldOutline, final OneToMany source) {
 		if (source.getOrderColumn() != null) {
-			createOrderColumn(context, fieldOutline, source.getOrderColumn());
+			context.getAssociationMapping().createOrderColumn(context,
+					fieldOutline, source.getOrderColumn());
 		}
 	}
 
@@ -62,25 +64,38 @@ public class OneToManyMapping extends AssociationMapping<OneToMany> {
 			FieldOutline fieldOutline, OneToMany oneToMany) {
 
 		if (!oneToMany.getJoinColumn().isEmpty()) {
-			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
-					context, fieldOutline);
-			createJoinColumns(context, fieldOutline, idFieldsOutline,
-					oneToMany.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = context
+					.getAssociationMapping().getSourceIdFieldsOutline(context,
+							fieldOutline);
+			if (idFieldsOutline.isEmpty()) {
+				oneToMany.getJoinColumn().clear();
+			}
+			context.getAssociationMapping().createJoinColumns(context,
+					fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
 		} else if (oneToMany.getJoinTable() != null) {
-			final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
-					context, fieldOutline);
-			final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
-					context, fieldOutline);
+			final Collection<FieldOutline> sourceIdFieldOutlines = context
+					.getAssociationMapping().getSourceIdFieldsOutline(context,
+							fieldOutline);
+			final Collection<FieldOutline> targetIdFieldOutlines = context
+					.getAssociationMapping().getTargetIdFieldsOutline(context,
+							fieldOutline);
 
-			createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
-					targetIdFieldOutlines, oneToMany.getJoinTable());
+			if (sourceIdFieldOutlines.isEmpty()) {
+				oneToMany.setJoinTable(null);
+			} else {
+				context.getAssociationMapping().createJoinTable(context,
+						fieldOutline, sourceIdFieldOutlines,
+						targetIdFieldOutlines, oneToMany.getJoinTable());
+			}
 		} else {
-			final Collection<FieldOutline> idFieldsOutline = getSourceIdFieldsOutline(
-					context, fieldOutline);
-			// final JoinColumn joinColumn = new JoinColumn();
-			// oneToMany.getJoinColumn().add(joinColumn);
-			createJoinColumns(context, fieldOutline, idFieldsOutline,
-					oneToMany.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = context
+					.getAssociationMapping().getSourceIdFieldsOutline(context,
+							fieldOutline);
+			if (idFieldsOutline.isEmpty()) {
+				oneToMany.getJoinColumn().clear();
+			}
+			context.getAssociationMapping().createJoinColumns(context,
+					fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
 		}
 
 	}

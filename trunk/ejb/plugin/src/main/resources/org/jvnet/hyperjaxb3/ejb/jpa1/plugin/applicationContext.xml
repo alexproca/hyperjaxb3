@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<import resource="classpath*:org/jvnet/hyperjaxb3/ejb/plugin/applicationContext.xml"/>
+
+	<bean name="embeddableAttributesMapping" class="org.jvnet.hyperjaxb3.ejb.jpa1.strategy.mapping.EmbeddableAttributesMapping"/>
 	
 	<bean name="marshalMappings"
 		class="org.jvnet.hyperjaxb3.ejb.jpa1.strategy.mapping.MarshalMappings">

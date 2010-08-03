@@ -44,8 +44,7 @@ public class EmbeddedNamingWrapper implements Naming {
 		return naming.getEntityTable$Name(context, fieldOutline);
 	}
 
-	public String getColumn$Name(Mapping context, FieldOutline fieldOutline) {
-
+	public String getColumn$Name$Prefix(Mapping context) {
 		final String prefix;
 
 		final Embedded embedded = context.getCustomizing().getEmbedded(
@@ -53,10 +52,14 @@ public class EmbeddedNamingWrapper implements Naming {
 		if (embedded != null && embedded.getColumnNamePrefix() != null) {
 			prefix = embedded.getColumnNamePrefix();
 		} else {
-			prefix = parentFieldOutline.getPropertyInfo().getName(true) + "_";
+			prefix = naming.getColumn$Name$Prefix(context)
+					+ parentFieldOutline.getPropertyInfo().getName(true) + "_";
 		}
-		// TODO Bug with recursive column name
-		return getName(prefix + naming.getColumn$Name(context, fieldOutline));
+		return prefix;
+	}
+
+	public String getColumn$Name(Mapping context, FieldOutline fieldOutline) {
+		return naming.getColumn$Name(context, fieldOutline);
 	}
 
 	public String getJoinTable$Name(Mapping context, FieldOutline fieldOutline) {
@@ -65,7 +68,8 @@ public class EmbeddedNamingWrapper implements Naming {
 
 	public String getJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
-		return naming.getJoinColumn$Name(context, fieldOutline, idFieldOutline);
+		return naming.getJoinColumn$Name(context, fieldOutline,
+						idFieldOutline);
 	}
 
 	public String getJoinTable$JoinColumn$Name(Mapping context,
@@ -90,8 +94,7 @@ public class EmbeddedNamingWrapper implements Naming {
 	}
 
 	@Override
-	public Naming createEmbeddedNaming(Mapping context,
-			FieldOutline fieldOutline) {
+	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
 

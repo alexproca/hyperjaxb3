@@ -46,7 +46,7 @@ public class PropertyMapping {
 		}
 
 		if (column.getName() == null || "##default".equals(column.getName())) {
-			column.setName(createColumn$Name(context, fieldOutline));
+			column.setName(context.getNaming().getColumn$Name(context, fieldOutline));
 		}
 
 		// If string
@@ -63,10 +63,6 @@ public class PropertyMapping {
 		}
 
 		return column;
-	}
-
-	public String createColumn$Name(Mapping context, FieldOutline fieldOutline) {
-		return context.getNaming().getColumn$Name(context, fieldOutline);
 	}
 
 	public Integer createColumn$Scale(FieldOutline fieldOutline) {

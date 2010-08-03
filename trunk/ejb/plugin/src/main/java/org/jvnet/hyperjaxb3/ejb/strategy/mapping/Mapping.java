@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
+import org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.EmbeddedNamingWrapper;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
@@ -273,10 +274,22 @@ public class Mapping implements Cloneable {
 	public Mapping createEmbeddedMapping(FieldOutline fieldOutline) {
 		// TODO Rework with wrappers
 		final Mapping embeddedMapping = clone();
-		embeddedMapping.setNaming(embeddedMapping.getNaming()
-				.createEmbeddedNaming(this, fieldOutline));
+		embeddedMapping.setNaming(getNaming()
+				.createEmbeddedNaming(fieldOutline));
+		embeddedMapping.setAssociationMapping(getAssociationMapping()
+				.createEmbeddedAssociationMapping(fieldOutline));
 		return embeddedMapping;
 
+	}
+
+	private AssociationMapping associationMapping = new DefaultAssociationMapping();
+
+	public AssociationMapping getAssociationMapping() {
+		return associationMapping;
+	}
+
+	public void setAssociationMapping(AssociationMapping associationMapping) {
+		this.associationMapping = associationMapping;
 	}
 
 }

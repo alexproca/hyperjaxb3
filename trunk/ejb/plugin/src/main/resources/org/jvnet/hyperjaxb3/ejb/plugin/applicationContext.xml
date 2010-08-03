@@ -22,7 +22,8 @@
 		</property>
 	</bean>
 	
-	<bean name="embeddableAttributesMapping" class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.EmbeddableAttributesMapping"/>
+	<bean name="embeddableAttributesMapping" class="org.jvnet.hyperjaxb3.ejb.jpa1.strategy.mapping.EmbeddableAttributesMapping"/>
+	<!-- bean name="embeddableAttributesMapping" class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.EmbeddableAttributesMapping"/-->
 	
 	<bean name="mapping"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping">

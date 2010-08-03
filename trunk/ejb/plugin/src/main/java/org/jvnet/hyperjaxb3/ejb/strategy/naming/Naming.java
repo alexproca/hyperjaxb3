@@ -9,12 +9,14 @@ import com.sun.tools.xjc.outline.Outline;
 
 public interface Naming {
 	
+	public String getColumn$Name$Prefix(Mapping context);
+
 	public String getPropertyName(Mapping context, FieldOutline fieldOutline);
-	
+
 	public String getEntityClass(Outline outline, NType type);
-	
+
 	public String getEntityName(Outline outline, NType type);
-	
+
 	public String getPersistenceUnitName(Outline outline);
 
 	public String getEntityTable$Name(Mapping context, ClassOutline classOutline);
@@ -35,8 +37,8 @@ public interface Naming {
 			FieldOutline fieldOutline, FieldOutline idFieldOutline);
 
 	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline);
-	
-	public Naming createEmbeddedNaming(Mapping context, FieldOutline fieldOutline);
-	
+
 	public String getName(final String draftName);
+	
+	public Naming createEmbeddedNaming(FieldOutline fieldOutline);
 }

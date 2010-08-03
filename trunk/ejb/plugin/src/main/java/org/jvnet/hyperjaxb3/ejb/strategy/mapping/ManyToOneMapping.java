@@ -13,7 +13,7 @@ import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
+public class ManyToOneMapping implements FieldOutlineMapping<ManyToOne> {
 
 	public ManyToOne process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
@@ -29,7 +29,8 @@ public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
 
 	public void createManyToOne$Name(Mapping context,
 			FieldOutline fieldOutline, final ManyToOne manyToOne) {
-		manyToOne.setName(context.getNaming().getPropertyName(context, fieldOutline));
+		manyToOne.setName(context.getNaming().getPropertyName(context,
+				fieldOutline));
 	}
 
 	public void createManyToOne$TargetEntity(Mapping context,
@@ -59,24 +60,34 @@ public class ManyToOneMapping extends AssociationMapping<ManyToOne> {
 
 		if (manyToOne.getJoinColumn() != null
 				&& !manyToOne.getJoinColumn().isEmpty()) {
-			final Collection<FieldOutline> idFieldsOutline = getTargetIdFieldsOutline(
+			final Collection<FieldOutline> idFieldsOutline = context.getAssociationMapping().getTargetIdFieldsOutline(
 					context, fieldOutline);
-			createJoinColumns(context, fieldOutline, idFieldsOutline, manyToOne
-					.getJoinColumn());
+			if (idFieldsOutline.isEmpty()) {
+				manyToOne.getJoinColumn().clear();
+			}
+			context.getAssociationMapping().createJoinColumns(context, fieldOutline, idFieldsOutline,
+					manyToOne.getJoinColumn());
 		} else if (manyToOne.getJoinTable() != null) {
-			final Collection<FieldOutline> sourceIdFieldOutlines = getSourceIdFieldsOutline(
+			final Collection<FieldOutline> sourceIdFieldOutlines = context.getAssociationMapping().getSourceIdFieldsOutline(
 					context, fieldOutline);
-			final Collection<FieldOutline> targetIdFieldOutlines = getTargetIdFieldsOutline(
+			final Collection<FieldOutline> targetIdFieldOutlines = context.getAssociationMapping().getTargetIdFieldsOutline(
 					context, fieldOutline);
-
-			createJoinTable(context, fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines, manyToOne.getJoinTable());
+			if (sourceIdFieldOutlines.isEmpty()) {
+				manyToOne.setJoinTable(null);
+			} else {
+				context.getAssociationMapping().createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
+						targetIdFieldOutlines, manyToOne.getJoinTable());
+			}
 		} else {
-			final Collection<FieldOutline> idFieldsOutline = getTargetIdFieldsOutline(
+			final Collection<FieldOutline> idFieldsOutline = context.getAssociationMapping().getTargetIdFieldsOutline(
 					context, fieldOutline);
 			final JoinColumn joinColumn = new JoinColumn();
 			manyToOne.getJoinColumn().add(joinColumn);
-			createJoinColumns(context, fieldOutline, idFieldsOutline, manyToOne
-					.getJoinColumn());
+			if (idFieldsOutline.isEmpty()) {
+				manyToOne.getJoinColumn().clear();
+			}
+			context.getAssociationMapping().createJoinColumns(context, fieldOutline, idFieldsOutline,
+					manyToOne.getJoinColumn());
 		}
 
 	}

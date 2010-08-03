@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.jpa2.strategy.mapping;
+package org.jvnet.hyperjaxb3.ejb.jpa1.strategy.mapping;
 
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.ClassOutlineMapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
@@ -20,16 +20,16 @@ public class EmbeddableAttributesMapping implements
 		final EmbeddableAttributes embeddableAttributes = new EmbeddableAttributes();
 
 		embeddableAttributes.getBasic().addAll(attributes.getBasic());
-		embeddableAttributes.getManyToOne().addAll(attributes.getManyToOne());
-		embeddableAttributes.getOneToMany().addAll(attributes.getOneToMany());
-		embeddableAttributes.getOneToOne().addAll(attributes.getOneToOne());
-		embeddableAttributes.getManyToMany().addAll(attributes.getManyToMany());
-		embeddableAttributes.getElementCollection().addAll(
-				attributes.getElementCollection());
-		embeddableAttributes.getEmbedded().addAll(attributes.getEmbedded());
 		embeddableAttributes.getTransient().addAll(attributes.getTransient());
 
-		// TODO Report errors
+		// TODO report errors
+//		embeddableAttributes.getManyToOne().addAll(attributes.getManyToOne());
+//		embeddableAttributes.getOneToMany().addAll(attributes.getOneToMany());
+//		embeddableAttributes.getOneToOne().addAll(attributes.getOneToOne());
+//		embeddableAttributes.getManyToMany().addAll(attributes.getManyToMany());
+//		embeddableAttributes.getElementCollection().addAll(
+//				attributes.getElementCollection());
+//		embeddableAttributes.getEmbedded().addAll(attributes.getEmbedded());
 //		for (Id id : attributes.getId()) {
 //			final Basic basic = new Basic();
 //			basic.setName(id.getName());

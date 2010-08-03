@@ -127,7 +127,8 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		final String fieldName = fieldOutline.getPropertyInfo().getName(true);
 
-		return getName(fieldName);
+		return getName(context.getNaming().getColumn$Name$Prefix(context)
+				+ fieldName);
 	}
 
 	@Override
@@ -221,10 +222,13 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		final String entityTableName = getEntityTable$Name(context,
 				fieldOutline.parent());
-		final String fieldColumnName = getColumn$Name(context, fieldOutline);
-		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
+		final String fieldColumnName = getName(fieldOutline.getPropertyInfo()
+				.getName(true));
+		final String idFieldColumnName = getName(idFieldOutline
+				.getPropertyInfo().getName(true));
 
-		return getName(fieldColumnName + "_" + entityTableName + "_"
+		return getName(context.getNaming().getColumn$Name$Prefix(context)
+				+ fieldColumnName + "_" + entityTableName + "_"
 				+ idFieldColumnName);
 	}
 
@@ -290,8 +294,12 @@ public class DefaultNaming implements Naming, InitializingBean {
 	}
 
 	@Override
-	public Naming createEmbeddedNaming(Mapping context,
-			FieldOutline fieldOutline) {
+	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
+	}
+
+	@Override
+	public String getColumn$Name$Prefix(Mapping context) {
+		return "";
 	}
 }
