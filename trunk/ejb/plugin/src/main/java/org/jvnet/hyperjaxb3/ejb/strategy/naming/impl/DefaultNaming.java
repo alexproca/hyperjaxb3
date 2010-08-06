@@ -131,7 +131,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 				+ fieldName);
 	}
 
-	@Override
 	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline) {
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
 		return getName(fieldColumnName + "_" + "ORDER");
@@ -287,18 +286,15 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return CodeModelUtils.getPackagedClassName(theClass);
 	}
 
-	@Override
 	public String getPropertyName(Mapping context, FieldOutline fieldOutline) {
 		return NameConverter.standard.toVariableName(fieldOutline
 				.getPropertyInfo().getName(true));
 	}
 
-	@Override
 	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
 
-	@Override
 	public String getColumn$Name$Prefix(Mapping context) {
 		return "";
 	}

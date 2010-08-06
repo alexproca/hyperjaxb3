@@ -94,7 +94,6 @@ public class EmbeddedAssociationMappingWrapper implements AssociationMapping {
 		return idFieldOutlines;
 	}
 
-	@Override
 	public AssociationMapping createEmbeddedAssociationMapping(
 			FieldOutline fieldOutline) {
 		return new EmbeddedAssociationMappingWrapper(this, parentFieldOutline);

@@ -30,7 +30,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-	@Override
 	public Collection<FieldOutline> getSourceIdFieldsOutline(Mapping context,
 			FieldOutline fieldOutline) {
 
@@ -39,7 +38,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 		return getIdFieldsOutline(classOutline);
 	}
 
-	@Override
 	public Collection<FieldOutline> getTargetIdFieldsOutline(Mapping context,
 			FieldOutline fieldOutline) {
 
@@ -99,7 +97,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 
 	// * 1:1
 
-	@Override
 	public void createPrimaryKeyJoinColumns(Mapping context,
 			FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines,
@@ -142,7 +139,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 	// * 1:M
 	// * 1:1
 
-	@Override
 	public void createJoinColumns(Mapping context, FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines,
 			List<JoinColumn> joinColumns) {
@@ -180,7 +176,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 	// M:1
 	// 1:M
 	// M:M
-	@Override
 	public void createJoinTable(Mapping context, FieldOutline fieldOutline,
 			Collection<FieldOutline> sourceIdFieldOutlines,
 			Collection<FieldOutline> targetIdFieldOutlines, JoinTable joinTable) {
@@ -308,7 +303,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 		}
 	}
 
-	@Override
 	public AssociationMapping createEmbeddedAssociationMapping(
 			FieldOutline fieldOutline) {
 		return new EmbeddedAssociationMappingWrapper(this, fieldOutline);

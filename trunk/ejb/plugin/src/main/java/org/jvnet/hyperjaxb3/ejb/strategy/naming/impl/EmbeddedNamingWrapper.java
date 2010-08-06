@@ -88,12 +88,10 @@ public class EmbeddedNamingWrapper implements Naming {
 		return naming.getOrderColumn$Name(context, fieldOutline);
 	}
 
-	@Override
 	public String getName(String draftName) {
 		return naming.getName(draftName);
 	}
 
-	@Override
 	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
