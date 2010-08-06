@@ -24,12 +24,7 @@
 	</modules>
 	<profiles>
 		<profile>
-			<id>fullTests</id>
-			<activation>
-				<property>
-					<name>fullTests</name>
-				</property>
-			</activation>
+			<id>tests-a-n</id>
 			<modules>
 				<module>addressbook</module>
 				<module>ak</module>
@@ -53,6 +48,11 @@
 				<module>ims-lip</module>
 				<module>nml</module>
 				<module>nokis</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>tests-o-z</id>
+			<modules>
 				<module>ows</module>
 				<module>pesc</module>
 				<module>po</module>
@@ -72,12 +72,7 @@
 				<module>regrep</module>
 				<module>nml</module>
 				<module>xmldsig</module>
-
 			</modules>
-			<build>
-				<plugins>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 	<dependencies>
