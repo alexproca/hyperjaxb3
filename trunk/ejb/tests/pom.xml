@@ -135,6 +135,21 @@
 						<variant>ejb</variant>
 						<!--roundtripTestClassName>RoundtripTest</roundtripTestClassName-->
 					</configuration>
+					<!-- Remove when plugin dependency management is reworked -->
+					<dependencies>
+						<!-- ** Needed for annox -->
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-search</artifactId>
+							<version>3.0.0.GA</version>
+						</dependency>
+						<!-- ** Needed for cu-one -->
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-annotations</artifactId>
+							<version>3.5.1-Final</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.jvnet.jaxb2.maven2</groupId>
