@@ -52,4 +52,14 @@
 		<xsd:attribute name="value" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
+	<xsd:element name="HJIII-63" type="test:HJIII-63"/>
+	
+	<xsd:complexType name="HJIII-63">
+		<xsd:attribute name="stringsAttribute" use="optional">
+			<xsd:simpleType>
+				<xsd:list itemType="xsd:string"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
 </xsd:schema>
