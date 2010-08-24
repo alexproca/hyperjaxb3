@@ -103,6 +103,8 @@ public class Customizations {
 
 	public static final QName MANY_TO_MANY_ELEMENT_NAME = hj("many-to-many");
 
+	public static final QName ELEMENT_COLLECTION_ELEMENT_NAME = hj("element-collection");
+
 	public static final QName BASIC_ELEMENT_NAME = hj("basic");
 
 	public static final QName EMBEDDED_ELEMENT_NAME = hj("embedded");

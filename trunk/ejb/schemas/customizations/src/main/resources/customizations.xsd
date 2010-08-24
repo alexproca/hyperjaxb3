@@ -29,6 +29,7 @@
 			<xsd:element name="default-one-to-many" type="hj:one-to-many"/>
 			<xsd:element name="default-one-to-one" type="hj:one-to-one"/>
 			<xsd:element name="default-many-to-many" type="hj:many-to-many"/>
+			<xsd:element name="default-element-collection" type="hj:element-collection"/>
 			<xsd:element name="default-embedded" type="hj:embedded"/>
 			<xsd:element name="default-single-property" type="hj:single-property"
 				minOccurs="0" maxOccurs="unbounded"/>
@@ -176,6 +177,16 @@
 	<xsd:complexType name="many-to-many">
 		<xsd:complexContent>
 			<xsd:extension base="orm:many-to-many">
+			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ... -->
+	<xsd:element name="element-collection" type="hj:element-collection"/>
+	<!-- ... -->
+	<xsd:complexType name="element-collection">
+		<xsd:complexContent>
+			<xsd:extension base="orm:element-collection">
 			    <xsd:attribute name="merge" type="xsd:boolean" default="true"/>
 			</xsd:extension>
 		</xsd:complexContent>
