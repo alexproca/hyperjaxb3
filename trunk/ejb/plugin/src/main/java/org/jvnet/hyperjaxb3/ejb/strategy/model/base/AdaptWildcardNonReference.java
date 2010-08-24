@@ -1,6 +1,5 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
-import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.JaxbContext;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.SingleMarshallingField;

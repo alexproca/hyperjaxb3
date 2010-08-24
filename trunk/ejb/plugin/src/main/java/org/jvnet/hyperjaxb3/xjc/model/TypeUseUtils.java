@@ -1,7 +1,5 @@
 package org.jvnet.hyperjaxb3.xjc.model;
 
-import org.jvnet.hyperjaxb3.lang.reflect.util.ReflectionUtils;
-
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CElementInfo;
@@ -14,12 +12,10 @@ import com.sun.tools.xjc.model.TypeUseFactory;
 public class TypeUseUtils {
 
 	public static TypeUse getTypeUse(CPropertyInfo propertyInfo) {
-		if (propertyInfo instanceof CAttributePropertyInfo
-				|| propertyInfo instanceof CValuePropertyInfo) {
-
-			return (TypeUse) ReflectionUtils
-					.getFieldValue(propertyInfo, "type");
-
+		if (propertyInfo instanceof CValuePropertyInfo) {
+			return ((CValuePropertyInfo) propertyInfo).getTarget();
+		} else if (propertyInfo instanceof CAttributePropertyInfo) {
+			return ((CAttributePropertyInfo) propertyInfo).getTarget();
 		} else {
 			final CTypeInfo type = propertyInfo.ref().iterator().next();
 			if (type instanceof CBuiltinLeafInfo) {

@@ -12,14 +12,14 @@ import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 
-public abstract class AbstractWrapSingleBuiltin implements CreatePropertyInfos {
+public abstract class AbstractWrapBuiltin implements CreatePropertyInfos {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
 	public Collection<CPropertyInfo> process(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		// Single
-		assert !propertyInfo.isCollection();
+//		 Single
+//		assert !propertyInfo.isCollection();
 		// Builtin
 		assert propertyInfo.ref().size() == 1;
 		assert propertyInfo.ref().iterator().next() instanceof CBuiltinLeafInfo;

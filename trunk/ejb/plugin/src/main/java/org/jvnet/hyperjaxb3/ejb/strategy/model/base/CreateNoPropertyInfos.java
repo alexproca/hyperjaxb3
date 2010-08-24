@@ -18,10 +18,7 @@ public class CreateNoPropertyInfos implements CreatePropertyInfos {
 	 */
 	public static CreatePropertyInfos INSTANCE = new CreateNoPropertyInfos();
 
-	/**
-	 * Hidden constructor.
-	 */
-	private CreateNoPropertyInfos() {
+	public CreateNoPropertyInfos() {
 	}
 
 	/**

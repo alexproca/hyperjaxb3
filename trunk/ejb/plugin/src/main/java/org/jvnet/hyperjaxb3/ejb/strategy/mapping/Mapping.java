@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
+import com.sun.java.xml.ns.persistence.orm.ElementCollection;
 import com.sun.java.xml.ns.persistence.orm.Embeddable;
 import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
@@ -173,6 +174,18 @@ public class Mapping implements Cloneable {
 	public void setToOneMapping(FieldOutlineMapping<?> toOneMapping) {
 		this.toOneMapping = toOneMapping;
 	}
+	
+	private FieldOutlineMapping<ElementCollection> elementCollectionMapping = new ElementCollectionMapping();
+
+	public FieldOutlineMapping<ElementCollection> getElementCollectionMapping() {
+		return elementCollectionMapping;
+	}
+
+	public void setElementCollectionMapping(
+			FieldOutlineMapping<ElementCollection> elementCollectionMapping) {
+		this.elementCollectionMapping = elementCollectionMapping;
+	}
+
 
 	private FieldOutlineMapping<ManyToOne> manyToOneMapping = new ManyToOneMapping();
 

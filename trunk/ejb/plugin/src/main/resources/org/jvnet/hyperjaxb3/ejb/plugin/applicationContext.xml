@@ -66,6 +66,10 @@
 	<bean name="wrapCollectionAttribute"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionAttribute">
 	</bean>
+
+	<bean name="wrapCollectionBuiltinAttribute"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionAttribute">
+	</bean>
 	
 	<bean name="wrapCollectionValue"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionValue">
@@ -125,7 +129,7 @@
 		
 		<property name="wrapSingleBuiltinAttribute" ref="wrapSingleBuiltinNonReference"/>
 		<property name="wrapSingleEnumAttribute" ref="wrapSingleEnumNonReference"/>
-		<property name="wrapCollectionBuiltinAttribute" ref="wrapCollectionAttribute"/>
+		<property name="wrapCollectionBuiltinAttribute" ref="wrapCollectionBuiltinAttribute"/>
 		<property name="wrapCollectionEnumAttribute" ref="wrapCollectionAttribute"/>
 
 		<property name="wrapSingleBuiltinValue" ref="wrapSingleBuiltinNonReference"/>

@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ElementCollection;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.EmbeddedId;
@@ -103,6 +104,10 @@ public interface Customizing {
 	public ManyToMany getManyToMany(CPropertyInfo property);
 
 	public ManyToMany getManyToMany(FieldOutline property);
+	
+	public ElementCollection getElementCollection(CPropertyInfo property);
+
+	public ElementCollection getElementCollection(FieldOutline property);
 
 	public Embedded getEmbedded(CPropertyInfo property);
 

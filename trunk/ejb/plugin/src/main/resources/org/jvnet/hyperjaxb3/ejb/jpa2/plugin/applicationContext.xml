@@ -23,5 +23,11 @@
 	
 	<bean name="createXAnnotations" class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.annotate.CreateXAnnotations">
 	</bean>
+	
+	
+	<bean name="wrapCollectionBuiltinAttribute"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionBuiltinNonReference">
+	</bean>
+	
 
 </beans>

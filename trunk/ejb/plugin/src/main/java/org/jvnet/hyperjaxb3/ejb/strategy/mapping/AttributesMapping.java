@@ -14,6 +14,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.java.xml.ns.persistence.orm.Attributes;
 import com.sun.java.xml.ns.persistence.orm.Basic;
+import com.sun.java.xml.ns.persistence.orm.ElementCollection;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.EmbeddedId;
 import com.sun.java.xml.ns.persistence.orm.Id;
@@ -29,6 +30,7 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
@@ -89,6 +91,8 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				attributes.getOneToOne().add((OneToOne) attributeMapping);
 			} else if (attributeMapping instanceof ManyToMany) {
 				attributes.getManyToMany().add((ManyToMany) attributeMapping);
+			} else if (attributeMapping instanceof ElementCollection) {
+				attributes.getElementCollection().add((ElementCollection) attributeMapping);
 			} else if (attributeMapping instanceof Embedded) {
 				attributes.getEmbedded().add((Embedded) attributeMapping);
 			} else if (attributeMapping instanceof Transient) {
@@ -155,6 +159,10 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 					logger.debug("Field outline  ["
 							+ propertyInfo.getName(true)
 							+ "] is a homogeneous collection field.");
+					if (isFieldOutlineElementCollection(fieldOutline)) {
+						return context.getElementCollectionMapping();
+					} else
+
 					if (isFieldOutlineComplex(fieldOutline)) {
 						logger
 								.debug("Field outline  ["
@@ -249,6 +257,15 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
 
 		return CTypeInfoUtils.getCommonBaseTypeInfo(types);
+	}
+
+	public boolean isFieldOutlineElementCollection(FieldOutline fieldOutline) {
+
+		final CTypeInfo type = getCommonBaseTypeInfo(fieldOutline);
+
+		assert type != null;
+
+		return JTypeUtils.isBasicType(type.toType(fieldOutline.parent().parent(), Aspect.EXPOSED));
 	}
 
 	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {

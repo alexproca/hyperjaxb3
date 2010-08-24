@@ -12,7 +12,7 @@ import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 
-public class WrapSingleBuiltinReference extends AbstractWrapSingleBuiltin {
+public class WrapSingleBuiltinReference extends AbstractWrapBuiltin {
 
 	protected Log logger = LogFactory.getLog(getClass());
 

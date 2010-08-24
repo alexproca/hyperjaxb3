@@ -565,4 +565,13 @@ public class CreateXAnnotations extends
 				);
 	}
 
+	public Collection<XAnnotation> createAttributeAnnotations(Object attribute) {
+		if (attribute instanceof ElementCollection) {
+			return createElementCollectionAnnotations((ElementCollection) attribute);
+		} else {
+			return super.createAttributeAnnotations(attribute);
+		}
+
+	}
+
 }

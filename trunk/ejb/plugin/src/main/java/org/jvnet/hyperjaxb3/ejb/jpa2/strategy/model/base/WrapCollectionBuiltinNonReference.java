@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
+package org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base;
 
 import java.util.Collection;
 
@@ -6,12 +6,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.base.AbstractWrapBuiltin;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.base.CreateNoPropertyInfos;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 
-public class WrapSingleBuiltinNonReference extends AbstractWrapBuiltin {
+public class WrapCollectionBuiltinNonReference extends AbstractWrapBuiltin {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
@@ -36,14 +38,15 @@ public class WrapSingleBuiltinNonReference extends AbstractWrapBuiltin {
 			return CreateNoPropertyInfos.INSTANCE;
 
 		} else {
-			return new AdaptBuiltinNonReference(adaptingTypeUse);
+			logger.error("In progress (HJIII-63).");
+			return CreateNoPropertyInfos.INSTANCE;
 		}
 	}
 
 	protected Collection<CPropertyInfo> wrapAnyType(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		return new AdaptWildcardNonReference(CBuiltinLeafInfo.STRING).process(
-				context, propertyInfo);
+		logger.error("In progress (HJIII-63).");
+		return CreateNoPropertyInfos.INSTANCE.process(context, propertyInfo);
 	}
 
 }

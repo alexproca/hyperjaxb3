@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ElementCollection;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embedded;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.EmbeddedId;
@@ -689,6 +690,32 @@ public class DefaultCustomizing implements Customizing {
 			source.mergeFrom(source, defaultSource);
 		}
 	}
+	
+	public ElementCollection getElementCollection(FieldOutline fieldOutline) {
+		return getElementCollection(fieldOutline.getPropertyInfo());
+	}
+
+	public ElementCollection getElementCollection(CPropertyInfo property) {
+		final Persistence persistence = getModelCustomization(property);
+		if (persistence.getDefaultElementCollection() == null) {
+			throw new AssertionError(
+					"Default element-collection element is not provided.");
+		}
+		final ElementCollection defaultCustomization = (ElementCollection) persistence
+				.getDefaultElementCollection().copyTo(new ElementCollection());
+		final ElementCollection customization;
+		if (CustomizationUtils.containsCustomization(property,
+				Customizations.ELEMENT_COLLECTION_ELEMENT_NAME)) {
+			customization = findCustomization(property,
+					Customizations.ELEMENT_COLLECTION_ELEMENT_NAME);
+			if (customization.isMerge()) {
+				customization.mergeFrom(customization, defaultCustomization);
+			}
+		} else {
+			customization = defaultCustomization;
+		}
+		return customization;
+	}	
 
 	public ManyToMany getManyToMany(FieldOutline property) {
 		return getManyToMany(property.getPropertyInfo());

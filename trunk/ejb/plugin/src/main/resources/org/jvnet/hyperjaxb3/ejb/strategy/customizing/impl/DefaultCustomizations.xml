@@ -54,6 +54,11 @@
 			<orm:cascade-all/>
 		</orm:cascade>
 	</hj:default-many-to-many>
+	<hj:default-element-collection>
+		<orm:order-column/>
+		<orm:column/>
+		<orm:collection-table/>
+	</hj:default-element-collection>
 	<hj:default-embedded>
 	</hj:default-embedded>
 
