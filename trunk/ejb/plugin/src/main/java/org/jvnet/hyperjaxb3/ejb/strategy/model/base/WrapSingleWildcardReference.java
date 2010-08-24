@@ -46,10 +46,6 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 					CBuiltinLeafInfo.STRING);
 		}
 
-		if (createPropertyInfos == null) {
-			throw new UnsupportedOperationException();
-		}
-
 		final Collection<CPropertyInfo> newPropertyInfos = createPropertyInfos
 				.process(context, propertyInfo);
 
