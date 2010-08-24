@@ -57,7 +57,9 @@
 	<hj:default-element-collection>
 		<orm:order-column/>
 		<orm:column/>
-		<orm:collection-table/>
+		<orm:collection-table>
+			<orm:join-column/>
+		</orm:collection-table>
 	</hj:default-element-collection>
 	<hj:default-embedded>
 	</hj:default-embedded>
