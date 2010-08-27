@@ -28,6 +28,25 @@
 	<bean name="wrapCollectionBuiltinAttribute"
 		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionBuiltinNonReference">
 	</bean>
+
+	<bean name="wrapCollectionEnumAttribute"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionEnumNonReference">
+	</bean>
+
+	<bean name="wrapCollectionBuiltinElement"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionBuiltinNonReference">
+	</bean>
+
+	<bean name="wrapCollectionEnumElement"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionEnumNonReference">
+	</bean>
+
+	<bean name="wrapCollectionBuiltinValue"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionBuiltinNonReference">
+	</bean>
 	
+	<bean name="wrapCollectionEnumValue"
+		class="org.jvnet.hyperjaxb3.ejb.jpa2.strategy.model.base.WrapCollectionEnumNonReference">
+	</bean>
 
 </beans>

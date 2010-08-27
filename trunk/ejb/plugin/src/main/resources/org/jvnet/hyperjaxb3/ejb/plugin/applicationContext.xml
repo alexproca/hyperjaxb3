@@ -59,11 +59,15 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapSingleHeteroElement">
 	</bean>
 	
-	<bean name="wrapCollectionElement"
+	<bean name="wrapCollectionBuiltinElement"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionElement">
 	</bean>
 
-	<bean name="wrapCollectionAttribute"
+	<bean name="wrapCollectionEnumElement"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionElement">
+	</bean>
+
+	<bean name="wrapCollectionEnumAttribute"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionAttribute">
 	</bean>
 
@@ -71,10 +75,14 @@
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionAttribute">
 	</bean>
 	
-	<bean name="wrapCollectionValue"
+	<bean name="wrapCollectionBuiltinValue"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionValue">
 	</bean>
 	
+	<bean name="wrapCollectionEnumValue"
+		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapCollectionValue">
+	</bean>
+
 	<bean name="wrapSingleBuiltinReference"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.model.base.WrapSingleBuiltinReference">
 	</bean>
@@ -130,18 +138,18 @@
 		<property name="wrapSingleBuiltinAttribute" ref="wrapSingleBuiltinNonReference"/>
 		<property name="wrapSingleEnumAttribute" ref="wrapSingleEnumNonReference"/>
 		<property name="wrapCollectionBuiltinAttribute" ref="wrapCollectionBuiltinAttribute"/>
-		<property name="wrapCollectionEnumAttribute" ref="wrapCollectionAttribute"/>
+		<property name="wrapCollectionEnumAttribute" ref="wrapCollectionEnumAttribute"/>
 
 		<property name="wrapSingleBuiltinValue" ref="wrapSingleBuiltinNonReference"/>
 		<property name="wrapSingleEnumValue" ref="wrapSingleEnumNonReference"/>
-		<property name="wrapCollectionBuiltinValue" ref="wrapCollectionValue"/>
-		<property name="wrapCollectionEnumValue" ref="wrapCollectionValue"/>
+		<property name="wrapCollectionBuiltinValue" ref="wrapCollectionBuiltinValue"/>
+		<property name="wrapCollectionEnumValue" ref="wrapCollectionEnumValue"/>
 
 		<property name="wrapSingleBuiltinElement" ref="wrapSingleBuiltinNonReference"/>
 		<property name="wrapSingleEnumElement" ref="wrapSingleEnumNonReference"/>
 		<property name="wrapSingleHeteroElement" ref="wrapSingleHeteroElement"/>
-		<property name="wrapCollectionBuiltinElement" ref="wrapCollectionElement"/>
-		<property name="wrapCollectionEnumElement" ref="wrapCollectionElement"/>
+		<property name="wrapCollectionBuiltinElement" ref="wrapCollectionBuiltinElement"/>
+		<property name="wrapCollectionEnumElement" ref="wrapCollectionEnumElement"/>
 		<property name="wrapCollectionHeteroElement" ref="wrapCollectionHeteroElement"/>
 
 		
