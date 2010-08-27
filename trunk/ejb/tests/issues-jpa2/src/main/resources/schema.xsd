@@ -52,14 +52,58 @@
 		<xsd:attribute name="value" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
-	<xsd:element name="HJIII-63" type="test:HJIII-63"/>
+	<xsd:element name="HJIII-63-Alpha" type="test:HJIII-63-Alpha"/>
 	
-	<xsd:complexType name="HJIII-63">
+	<xsd:complexType name="HJIII-63-Alpha">
+		<xsd:sequence>
+			<xsd:element name="stringElements" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="stringsElement" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:list itemType="xsd:string"/>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="stringsElements" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:list itemType="xsd:string"/>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
 		<xsd:attribute name="stringsAttribute" use="optional">
 			<xsd:simpleType>
 				<xsd:list itemType="xsd:string"/>
 			</xsd:simpleType>
 		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:simpleType name="HJIII-63-Strings">
+		<xsd:list itemType="xsd:string"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="HJIII-63-Beta">
+		<xsd:simpleContent>
+			<xsd:restriction base="test:HJIII-63-Strings">
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="HJIII-63-StringEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="B"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="HJIII-63-StringEnums">
+		<xsd:list itemType="test:HJIII-63-StringEnum"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="HJIII-63-Gamma">
+		<xsd:sequence>
+			<xsd:element name="enumElements" type="test:HJIII-63-StringEnum" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="enumsElement" type="test:HJIII-63-StringEnums" minOccurs="0"/>
+			<xsd:element name="enumsElements" type="test:HJIII-63-StringEnums" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="enumsAttribute" type="test:HJIII-63-StringEnums" use="optional"/>
 	</xsd:complexType>
 
 </xsd:schema>
