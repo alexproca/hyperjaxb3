@@ -111,4 +111,21 @@
 		<xsd:attribute name="qnamesAttribute" type="test:HJIII-63-QNames" use="optional"/>
 	</xsd:complexType>
 
+	<xsd:element name="HJIII-63-Epsilon" type="test:HJIII-63-Epsilon"/>
+
+	<xsd:complexType name="HJIII-63-Epsilon">
+		<xsd:simpleContent>
+			<xsd:extension base="test:HJIII-63-QNames"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:element name="HJIII-63-Zeta" type="test:HJIII-63-Zeta"/>
+
+	<xsd:complexType name="HJIII-63-Zeta">
+		<xsd:simpleContent>
+			<xsd:extension base="test:HJIII-63-StringEnums"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+
 </xsd:schema>
