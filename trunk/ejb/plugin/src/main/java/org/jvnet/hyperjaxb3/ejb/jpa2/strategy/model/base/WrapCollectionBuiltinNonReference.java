@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.base.AbstractWrapBuiltin;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.base.AdaptCollectionBuiltinNonReference;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.base.CreateNoPropertyInfos;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
@@ -38,8 +39,7 @@ public class WrapCollectionBuiltinNonReference extends AbstractWrapBuiltin {
 			return CreateNoPropertyInfos.INSTANCE;
 
 		} else {
-			logger.error("In progress (HJIII-63).");
-			return CreateNoPropertyInfos.INSTANCE;
+			return new AdaptCollectionBuiltinNonReference(adaptingTypeUse);
 		}
 	}
 

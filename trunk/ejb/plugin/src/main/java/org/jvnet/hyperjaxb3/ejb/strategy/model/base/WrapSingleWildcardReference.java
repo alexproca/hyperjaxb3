@@ -37,7 +37,7 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 
 		final CreatePropertyInfos createPropertyInfos;
 		if (wildcard.equals(WildcardMode.SKIP)) {
-			createPropertyInfos = new AdaptBuiltinNonReference(
+			createPropertyInfos = new AdaptSingleBuiltinNonReference(
 
 					new CExternalLeafInfo(String.class, "string",
 							ElementAsString.class));

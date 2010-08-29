@@ -36,7 +36,7 @@ public class WrapSingleBuiltinNonReference extends AbstractWrapBuiltin {
 			return CreateNoPropertyInfos.INSTANCE;
 
 		} else {
-			return new AdaptBuiltinNonReference(adaptingTypeUse);
+			return new AdaptSingleBuiltinNonReference(adaptingTypeUse);
 		}
 	}
 

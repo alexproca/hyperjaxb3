@@ -4,7 +4,18 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.namespace.QName;
 
+import org.jvnet.hyperjaxb3.item.Converter;
+
 public class XmlAdapterUtils {
+
+	public static <I, O> Converter<I, O> getConverter(
+			Class<? extends XmlAdapter<O, I>> xmlAdapterClass) {
+		return asConverter(getXmlAdapter(xmlAdapterClass));
+	}
+
+	public static <I, O> Converter<I, O> asConverter(XmlAdapter<O, I> adapter) {
+		return new XmlAdapterConverter<I, O>(adapter);
+	}
 
 	public static <ValueType, BoundType> ValueType marshall(
 			Class<? extends XmlAdapter<ValueType, BoundType>> xmlAdapterClass,
@@ -29,11 +40,16 @@ public class XmlAdapterUtils {
 	}
 
 	public static <ValueType, BoundType> XmlAdapter<ValueType, BoundType> getXmlAdapter(
-			Class<? extends XmlAdapter<ValueType, BoundType>> xmlAdapterClass)
-			throws InstantiationException, IllegalAccessException {
-		final XmlAdapter<ValueType, BoundType> xmlAdapter = xmlAdapterClass
-				.newInstance();
-		return xmlAdapter;
+			Class<? extends XmlAdapter<ValueType, BoundType>> xmlAdapterClass) {
+		try {
+			final XmlAdapter<ValueType, BoundType> xmlAdapter = xmlAdapterClass
+					.newInstance();
+			return xmlAdapter;
+		} catch (IllegalAccessException iaex) {
+			throw new RuntimeException(iaex);
+		} catch (InstantiationException iex) {
+			throw new RuntimeException(iex);
+		}
 	}
 
 	public static <ValueType, BoundType> ValueType unmarshallJAXBElement(

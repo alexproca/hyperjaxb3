@@ -10,6 +10,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.GeneratedProperty;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
+import org.jvnet.hyperjaxb3.xjc.model.DefaultTypeUse;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.w3c.dom.Element;
 
@@ -22,6 +23,7 @@ import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.TypeUse;
+import com.sun.tools.xjc.model.TypeUseFactory;
 import com.sun.xml.bind.v2.model.core.PropertyKind;
 import com.sun.xml.xsom.XSComponent;
 
@@ -32,6 +34,11 @@ public abstract class AbstractAdaptPropertyInfo implements CreatePropertyInfos {
 
 	public abstract String getDefaultGeneratedPropertyName(
 			ProcessModel context, CPropertyInfo propertyInfo);
+
+	public CollectionMode getDefaultGeneratedPropertyCollectionMode(
+			ProcessModel context, CPropertyInfo propertyInfo) {
+		return CollectionMode.NOT_REPEATED;
+	}
 
 	public final QName getDefaultGeneratedPropertyQName(ProcessModel context,
 			CPropertyInfo propertyInfo) {
@@ -56,6 +63,9 @@ public abstract class AbstractAdaptPropertyInfo implements CreatePropertyInfos {
 		final QName wrappingPropertyQName = (generatedProperty == null || generatedProperty
 				.getPropertyQName() == null) ? getDefaultGeneratedPropertyQName(
 				context, propertyInfo) : generatedProperty.getPropertyQName();
+
+		final CollectionMode wrappingPropertyCollectionMode = getDefaultGeneratedPropertyCollectionMode(
+				context, propertyInfo);
 
 		final PropertyKind wrappingPropertyKind;
 
@@ -103,12 +113,15 @@ public abstract class AbstractAdaptPropertyInfo implements CreatePropertyInfos {
 		final CPropertyInfo newPropertyInfo;
 
 		if (PropertyKind.ELEMENT.equals(wrappingPropertyKind)) {
+
 			newPropertyInfo = createElementPropertyInfo(wrappingPropertyName,
 					source, propertyTypeInfo, wrappingPropertyQName,
+					wrappingPropertyCollectionMode,
 					wrappingPropertyCustomizations);
 		} else if (PropertyKind.ATTRIBUTE.equals(wrappingPropertyKind)) {
 			newPropertyInfo = createAttributePropertyInfo(wrappingPropertyName,
 					source, propertyTypeInfo, wrappingPropertyQName,
+					wrappingPropertyCollectionMode,
 					wrappingPropertyCustomizations);
 
 		} else {
@@ -145,25 +158,30 @@ public abstract class AbstractAdaptPropertyInfo implements CreatePropertyInfos {
 
 	public CPropertyInfo createAttributePropertyInfo(String propertyName,
 			XSComponent source, TypeUse propertyType, QName propertyQName,
-			CCustomizations customizations) {
+			CollectionMode collectionMode, CCustomizations customizations) {
+
+		final TypeUse typeUse = collectionMode.isRepeated() ?
+
+		new DefaultTypeUse(propertyType.getInfo(), true,
+				propertyType.idUse(), propertyType.getExpectedMimeType(),
+				propertyType.getAdapterUse()) : propertyType;
+
 		final CAttributePropertyInfo propertyInfo = new CAttributePropertyInfo(
+				propertyName, source,
 
-		propertyName, source,
-
-		customizations, null, propertyQName, propertyType, propertyType
-				.getInfo().getTypeName(), false);
+				customizations, null, propertyQName, typeUse, typeUse.getInfo()
+						.getTypeName(), false);
 		return propertyInfo;
 	}
 
 	public CPropertyInfo createElementPropertyInfo(String propertyName,
 			XSComponent source, TypeUse propertyType, QName propertyQName,
-			CCustomizations customizations) {
+			CollectionMode collectionMode, CCustomizations customizations) {
 
 		final CNonElement propertyTypeInfo = propertyType.getInfo();
 
 		final CElementPropertyInfo propertyInfo = new CElementPropertyInfo(
-				propertyName, CollectionMode.NOT_REPEATED,
-				propertyTypeInfo.idUse(),
+				propertyName, collectionMode, propertyTypeInfo.idUse(),
 				propertyTypeInfo.getExpectedMimeType(), source, customizations,
 				null, true);
 

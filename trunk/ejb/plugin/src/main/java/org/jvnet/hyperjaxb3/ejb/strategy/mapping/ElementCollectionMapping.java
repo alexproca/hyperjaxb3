@@ -1,15 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
-import java.util.Collection;
-
-import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
-
 import com.sun.java.xml.ns.persistence.orm.ElementCollection;
-import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.model.CClass;
-import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.FieldOutline;
 
 public class ElementCollectionMapping implements

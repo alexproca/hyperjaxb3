@@ -8,9 +8,9 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class AdaptBuiltinNonReference extends AbstractAdaptBuiltinPropertyInfo {
+public class AdaptSingleBuiltinNonReference extends AbstractAdaptBuiltinPropertyInfo {
 
-	public AdaptBuiltinNonReference(TypeUse propertyType) {
+	public AdaptSingleBuiltinNonReference(TypeUse propertyType) {
 		super(propertyType);
 	}
 	

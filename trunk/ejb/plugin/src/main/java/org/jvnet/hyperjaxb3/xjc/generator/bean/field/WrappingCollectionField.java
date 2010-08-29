@@ -1,7 +1,5 @@
 package org.jvnet.hyperjaxb3.xjc.generator.bean.field;
 
-import javax.xml.bind.annotation.XmlTransient;
-
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldRef;
 import com.sun.codemodel.JFieldVar;

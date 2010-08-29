@@ -47,7 +47,7 @@ public abstract class AbstractAdaptBuiltinPropertyInfo extends
 	private PropertyKind propertyKind = PropertyKind.ATTRIBUTE;
 
 	@Override
-	public final PropertyKind getDefaultGeneratedPropertyKind(
+	public PropertyKind getDefaultGeneratedPropertyKind(
 			ProcessModel context, CPropertyInfo propertyInfo) {
 		return propertyKind;
 	}

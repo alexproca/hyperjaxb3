@@ -343,6 +343,11 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+				<groupId>net.sourceforge.collections</groupId>
+				<artifactId>collections-generic</artifactId>
+				<version>4.01</version>
+			</dependency>
 			<!-- Log4j -->
 			<dependency>
 				<groupId>log4j</groupId>

@@ -54,28 +54,25 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				if (attributes.getEmbeddedId() == null) {
 					attributes.getId().add((Id) attributeMapping);
 				} else {
-					logger
-							.error("Could not add an id element to the attributes of the class ["
-									+
+					logger.error("Could not add an id element to the attributes of the class ["
+							+
 
-									fieldOutline.parent().target.getName()
-									+ "] because they already contain an embedded-id element.");
+							fieldOutline.parent().target.getName()
+							+ "] because they already contain an embedded-id element.");
 				}
 			} else if (attributeMapping instanceof EmbeddedId) {
 				if (!attributes.getId().isEmpty()) {
-					logger
-							.error("Could not add an embedded-id element to the attributes of the class ["
-									+
+					logger.error("Could not add an embedded-id element to the attributes of the class ["
+							+
 
-									fieldOutline.parent().target.getName()
-									+ "] because they already contain an id element.");
+							fieldOutline.parent().target.getName()
+							+ "] because they already contain an id element.");
 				} else if (attributes.getEmbeddedId() != null) {
-					logger
-							.error("Could not add an embedded-id element to the attributes of the class ["
-									+
+					logger.error("Could not add an embedded-id element to the attributes of the class ["
+							+
 
-									fieldOutline.parent().target.getName()
-									+ "] because they already contain an embedded-id element.");
+							fieldOutline.parent().target.getName()
+							+ "] because they already contain an embedded-id element.");
 				} else {
 					attributes.setEmbeddedId((EmbeddedId) attributeMapping);
 				}
@@ -92,7 +89,8 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 			} else if (attributeMapping instanceof ManyToMany) {
 				attributes.getManyToMany().add((ManyToMany) attributeMapping);
 			} else if (attributeMapping instanceof ElementCollection) {
-				attributes.getElementCollection().add((ElementCollection) attributeMapping);
+				attributes.getElementCollection().add(
+						(ElementCollection) attributeMapping);
 			} else if (attributeMapping instanceof Embedded) {
 				attributes.getEmbedded().add((Embedded) attributeMapping);
 			} else if (attributeMapping instanceof Transient) {
@@ -164,22 +162,19 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 					} else
 
 					if (isFieldOutlineComplex(fieldOutline)) {
-						logger
-								.debug("Field outline  ["
-										+ propertyInfo.getName(true)
-										+ "] is a complex homogeneous collection field.");
+						logger.debug("Field outline  ["
+								+ propertyInfo.getName(true)
+								+ "] is a complex homogeneous collection field.");
 						return context.getToManyMapping();
 					}
 				} else if (isFieldOutlineMultitypedHomogeneous(fieldOutline)) {
-					logger
-							.debug("Field outline  ["
-									+ propertyInfo.getName(true)
-									+ "] is a multityped homogeneous collection field.");
+					logger.debug("Field outline  ["
+							+ propertyInfo.getName(true)
+							+ "] is a multityped homogeneous collection field.");
 					if (isFieldOutlineComplex(fieldOutline)) {
-						logger
-								.debug("Field outline  ["
-										+ propertyInfo.getName(true)
-										+ "] is a complex multityped homogeneous collection field.");
+						logger.debug("Field outline  ["
+								+ propertyInfo.getName(true)
+								+ "] is a complex multityped homogeneous collection field.");
 						return context.getToManyMapping();
 					}
 				} else {
@@ -261,11 +256,18 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 
 	public boolean isFieldOutlineElementCollection(FieldOutline fieldOutline) {
 
+		return isFieldOutlineCore2(fieldOutline)
+				|| isFieldOutlineEnumerated(fieldOutline);
+	}
+
+	public boolean isFieldOutlineCore2(FieldOutline fieldOutline) {
+
 		final CTypeInfo type = getCommonBaseTypeInfo(fieldOutline);
 
 		assert type != null;
 
-		return JTypeUtils.isBasicType(type.toType(fieldOutline.parent().parent(), Aspect.EXPOSED));
+		return JTypeUtils.isBasicType(type.toType(fieldOutline.parent()
+				.parent(), Aspect.EXPOSED));
 	}
 
 	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {
