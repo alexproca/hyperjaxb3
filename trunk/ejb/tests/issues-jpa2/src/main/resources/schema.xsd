@@ -57,32 +57,26 @@
 	<xsd:complexType name="HJIII-63-Alpha">
 		<xsd:sequence>
 			<xsd:element name="stringElements" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element name="stringsElement" minOccurs="0">
-				<xsd:simpleType>
-					<xsd:list itemType="xsd:string"/>
-				</xsd:simpleType>
-			</xsd:element>
-			<xsd:element name="stringsElements" minOccurs="0" maxOccurs="unbounded">
-				<xsd:simpleType>
-					<xsd:list itemType="xsd:string"/>
-				</xsd:simpleType>
-			</xsd:element>
+			<xsd:element name="stringsElement" type="test:HJIII-63-Strings" minOccurs="0"/>
+			<xsd:element name="stringsElements" type="test:HJIII-63-Strings" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
-		<xsd:attribute name="stringsAttribute" use="optional">
-			<xsd:simpleType>
-				<xsd:list itemType="xsd:string"/>
-			</xsd:simpleType>
-		</xsd:attribute>
+		<xsd:attribute name="stringsAttribute" type="test:HJIII-63-Strings" use="optional"/>
 	</xsd:complexType>
 
 	<xsd:simpleType name="HJIII-63-Strings">
 		<xsd:list itemType="xsd:string"/>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="HJIII-63-QNames">
+		<xsd:list itemType="xsd:QName"/>
+	</xsd:simpleType>
+
+	<xsd:element name="HJIII-63-Beta" type="test:HJIII-63-Beta"/>
+
 	<xsd:complexType name="HJIII-63-Beta">
 		<xsd:simpleContent>
-			<xsd:restriction base="test:HJIII-63-Strings">
-			</xsd:restriction>
+			<xsd:extension base="test:HJIII-63-Strings">
+			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
 
@@ -97,6 +91,7 @@
 		<xsd:list itemType="test:HJIII-63-StringEnum"/>
 	</xsd:simpleType>
 
+	<xsd:element name="HJIII-63-Gamma" type="test:HJIII-63-Gamma"/>
 	<xsd:complexType name="HJIII-63-Gamma">
 		<xsd:sequence>
 			<xsd:element name="enumElements" type="test:HJIII-63-StringEnum" minOccurs="0" maxOccurs="unbounded"/>
@@ -104,6 +99,16 @@
 			<xsd:element name="enumsElements" type="test:HJIII-63-StringEnums" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="enumsAttribute" type="test:HJIII-63-StringEnums" use="optional"/>
+	</xsd:complexType>
+
+	<xsd:element name="HJIII-63-Delta" type="test:HJIII-63-Delta"/>
+	<xsd:complexType name="HJIII-63-Delta">
+		<xsd:sequence>
+			<xsd:element name="qnameElements" type="xsd:QName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="qnamesElement" type="test:HJIII-63-QNames" minOccurs="0"/>
+			<xsd:element name="qnamesElements" type="test:HJIII-63-QNames" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="qnamesAttribute" type="test:HJIII-63-QNames" use="optional"/>
 	</xsd:complexType>
 
 </xsd:schema>
