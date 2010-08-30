@@ -56,22 +56,18 @@ public class AdaptCollectionBuiltinNonReference extends
 			CPropertyInfo propertyInfo) {
 		return propertyInfo.accept(new CPropertyVisitor<PropertyKind>() {
 
-			@Override
 			public PropertyKind onAttribute(CAttributePropertyInfo p) {
 				return PropertyKind.ATTRIBUTE;
 			}
 
-			@Override
 			public PropertyKind onElement(CElementPropertyInfo p) {
 				return PropertyKind.ELEMENT;
 			}
 
-			@Override
 			public PropertyKind onReference(CReferencePropertyInfo p) {
 				return PropertyKind.ELEMENT;
 			}
 
-			@Override
 			public PropertyKind onValue(CValuePropertyInfo p) {
 				return PropertyKind.ATTRIBUTE;
 			}
