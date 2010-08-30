@@ -9,6 +9,11 @@
 	<name>Hyperjaxb3 EJB Tutorial [po:step-three]</name>
 	<dependencies>
 		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
 			<version>2.1.13</version>
