@@ -10,5 +10,7 @@ public class RunIssuesJPA2Plugin extends RunEjbHyperjaxb3Mojo {
 		super.configureHyperjaxb3Mojo(mojo);
 		mojo.setVerbose(true);
 		mojo.variant = "jpa2";
+		mojo.roundtripTestClassName = null;
+		mojo.setDebug(false);
 	}
 }
