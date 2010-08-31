@@ -66,7 +66,7 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>tests-o-z</id>
+			<id>tests-o-p</id>
 			<modules>
 				<module>one</module>
 				<module>onix30</module>
@@ -83,6 +83,11 @@
 				<module>polyform</module>
 				<module>punit</module>
 				<module>px</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>tests-r-z</id>
+			<modules>
 				<module>regrep</module>
 				<module>rim</module>
 				<!-- module>sbml</module -->
