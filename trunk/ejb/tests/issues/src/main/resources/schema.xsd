@@ -784,5 +784,18 @@ x
 	</xsd:complexType>
 
 
+	<xsd:simpleType name="issueHJIII85SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4096" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="issueHJIII85ComplexType">
+		<xsd:simpleContent>
+			<xsd:extension base="test:issueHJIII85SimpleType">
+				<xsd:attribute name="attribute" type="xsd:string" use="optional" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
 
 </xsd:schema>
