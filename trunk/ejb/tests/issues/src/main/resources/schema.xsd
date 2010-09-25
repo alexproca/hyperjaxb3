@@ -798,4 +798,58 @@ x
 		</xsd:simpleContent>
 	</xsd:complexType>
 
+
+	<xsd:element name="issueHJIII86" type="test:issueHJIII86Type"/>
+
+	<xsd:element name="issueHJIII86A" type="test:issueHJIII86AType"/>
+
+	<xsd:element name="issueHJIII86B" type="test:issueHJIII86BType"/>
+
+	<xsd:complexType name="issueHJIII86Type">
+		<xsd:sequence>
+			<xsd:element ref="test:issueHJIII86A" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="test:issueHJIII86B" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="issueHJIII86AType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:secondary-table name="ISSUEHJIII86BTYPE">
+						<orm:primary-key-join-column name="A_" referenced-column-name="ID"/>
+					</orm:secondary-table>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="login" type="xsd:string" minOccurs="0" />
+			<xsd:element name="password" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="id" use="required" type="xsd:string">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:id>
+						<hj:generator generatorClass="assigned" />
+					</hj:id>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="issueHJIII86BType">
+		<xsd:sequence>
+			<xsd:element name="A" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" use="required" type="xsd:string">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:id>
+						<hj:generator generatorClass="assigned" />
+					</hj:id>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
 </xsd:schema>
