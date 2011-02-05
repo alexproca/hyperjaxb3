@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.AppenderSkeleton;
@@ -122,6 +122,13 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 	@MojoParameter(expression = "${maven.hj3.result}", defaultValue = "annotations")
 	public String result = "annotations";
 
+	@MojoParameter
+	public String[] preArgs = new String[0];
+
+	@MojoParameter
+	public String[] postArgs = new String[0];
+
+
 	/**
 	 * Sets up the verbose and debug mode depending on mvn logging level, and
 	 * sets up hyperjaxb logging.
@@ -164,6 +171,8 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 		getLog().info("generateEquals:" + generateEquals);
 		getLog().info("generateTransientId:" + generateTransientId);
 		getLog().info("result:" + result);
+		getLog().info("preArgs:" + Arrays.toString(preArgs));
+		getLog().info("postArgs:" + Arrays.toString(postArgs));
 		try {
 			getLog().info(
 					"XJC loaded from:"
@@ -175,9 +184,16 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 
 	}
 
+
 	protected String[] getArguments() throws MojoExecutionException {
-		final List<String> arguments = new LinkedList<String>(Arrays
-				.asList(super.getArguments()));
+		final List<String> arguments = new ArrayList<String>();
+
+		if (this.preArgs != null) {
+			arguments.addAll(Arrays.asList(this.preArgs));
+		}
+
+		arguments.addAll(Arrays.asList(super.getArguments()));
+
 		if ("ejb".equals(variant)) {
 			arguments.add("-Xhyperjaxb3-ejb");
 
@@ -252,6 +268,11 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 			arguments.add("-XhashCode");
 		}
 		arguments.add("-Xinheritance");
+
+		if (this.postArgs != null) {
+			arguments.addAll(Arrays.asList(this.postArgs));
+		}
+
 
 		return arguments.toArray(new String[arguments.size()]);
 	}

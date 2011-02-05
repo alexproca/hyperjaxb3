@@ -41,5 +41,15 @@
         </jaxb:bindings>
       </jaxb:bindings>
     </jaxb:bindings>
+
+    <jaxb:bindings node="xs:complexType[@name='HYPERJAXB3_149_Type']/xs:attribute[@name='timestamp1']">
+      <hj:generated-property propertyName="Ts1">
+        <annox:annotate>
+          <annox:annotate
+            annox:class="org.hibernate.annotations.Index"
+            name="HYPERJAXB3_149_TYPE_INDEX_TS1" columnNames="TS1"/>
+        </annox:annotate>
+      </hj:generated-property>
+    </jaxb:bindings>
   </jaxb:bindings>
 </jaxb:bindings>

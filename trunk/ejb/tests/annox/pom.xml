@@ -16,6 +16,10 @@
 			<artifactId>hibernate-search</artifactId>
 			<version>3.0.0.GA</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+		</dependency>
 		<!-- Hibernate Dependencies -->
 		<!-- Test -->
 		<dependency>
@@ -37,15 +41,20 @@
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<configuration>
-					<args>
+					<postArgs>
 						<arg>-Xannotate</arg>
-					</args>
+					</postArgs>
 				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-search</artifactId>
 						<version>3.0.0.GA</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-annotations</artifactId>
+						<version>3.5.1-Final</version>
 					</dependency>
 				</dependencies>
 			</plugin>
