@@ -16,7 +16,8 @@
 			<hj:default-generated-id name="MySuperId" transient="true">
 				<orm:column name="MY_SUPER_ID"/>
 			</hj:default-generated-id>
-			<hj:default-one-to-many>
+			<hj:default-one-to-many merge="false">
+				<orm:cascade/>
 				<orm:join-table/>
 			</hj:default-one-to-many>
 		</hj:persistence>

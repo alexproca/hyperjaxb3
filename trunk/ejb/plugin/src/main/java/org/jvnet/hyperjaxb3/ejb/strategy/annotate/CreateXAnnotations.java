@@ -120,15 +120,17 @@ public class CreateXAnnotations {
 
 	// 8.3.1
 	public XAnnotation createNamedQuery(NamedQuery cNamedQuery) {
-		return cNamedQuery == null ? null :
-		//
+		return cNamedQuery == null ? null
+				:
+				//
 				new XAnnotation(
 						javax.persistence.NamedQuery.class,
 						//
 						AnnotationUtils.create("query", cNamedQuery.getQuery()),
 						//
 						AnnotationUtils.create("hint",
-								createQueryHint(cNamedQuery.getHint())),
+								createQueryHint(cNamedQuery.getHint()),
+								javax.persistence.QueryHint.class),
 						//
 						AnnotationUtils.create("name", cNamedQuery.getName())
 				//
@@ -137,7 +139,8 @@ public class CreateXAnnotations {
 	}
 
 	public XAnnotation createNamedQueries(Collection<NamedQuery> cNamedQueries) {
-		return transform(NamedQueries.class, cNamedQueries,
+		return transform(NamedQueries.class,
+				javax.persistence.NamedQuery.class, cNamedQueries,
 				new Transformer<NamedQuery, XAnnotation>() {
 					public XAnnotation transform(NamedQuery input) {
 						return createNamedQuery(input);
@@ -153,11 +156,11 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("name", cQueryHint.getName()),
 						//
 						AnnotationUtils.create("value", cQueryHint.getValue())
-				//		
+				//
 				);
 	}
 
-	public Collection<XAnnotation> createQueryHint(
+	public XAnnotation[] createQueryHint(
 			Collection<QueryHint> cQueryHints) {
 		return transform(cQueryHints,
 				new Transformer<QueryHint, XAnnotation>() {
@@ -173,14 +176,15 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.NamedNativeQuery.class,
 				//
-						AnnotationUtils.create("name", cNamedNativeQuery
-								.getName()),
+						AnnotationUtils.create("name",
+								cNamedNativeQuery.getName()),
 						//
-						AnnotationUtils.create("query", cNamedNativeQuery
-								.getQuery()),
+						AnnotationUtils.create("query",
+								cNamedNativeQuery.getQuery()),
 						//
 						AnnotationUtils.create("hints",
-								createQueryHint(cNamedNativeQuery.getHint())),
+								createQueryHint(cNamedNativeQuery.getHint()),
+								javax.persistence.QueryHint.class),
 						//
 						cNamedNativeQuery.getResultClass() == null ? null
 								: new XAnnotationField.XClass("resultClass",
@@ -194,7 +198,8 @@ public class CreateXAnnotations {
 
 	public XAnnotation createNamedNativeQuery(
 			Collection<NamedNativeQuery> cNamedNativeQueries) {
-		return transform(NamedNativeQueries.class, cNamedNativeQueries,
+		return transform(NamedNativeQueries.class,
+				javax.persistence.NamedNativeQuery.class, cNamedNativeQueries,
 				new Transformer<NamedNativeQuery, XAnnotation>() {
 					public XAnnotation transform(NamedNativeQuery input) {
 						return createNamedNativeQuery(input);
@@ -208,23 +213,27 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.SqlResultSetMapping.class,
 				//
-						AnnotationUtils.create("name", cSqlResultSetMapping
-								.getName()),
+						AnnotationUtils.create("name",
+								cSqlResultSetMapping.getName()),
 						//
 						AnnotationUtils.create("entityResult",
 								createEntityResult(cSqlResultSetMapping
-										.getEntityResult())),
+										.getEntityResult()),
+								javax.persistence.EntityResult.class),
 						//
 						AnnotationUtils.create("columnResult",
 								createColumnResult(cSqlResultSetMapping
-										.getColumnResult()))
+										.getColumnResult()),
+								javax.persistence.ColumnResult.class)
 				//
 				);
 	}
 
 	public XAnnotation createSqlResultSetMapping(
 			Collection<SqlResultSetMapping> cSqlResultSetMappings) {
-		return transform(SqlResultSetMappings.class, cSqlResultSetMappings,
+		return transform(SqlResultSetMappings.class,
+				javax.persistence.SqlResultSetMapping.class,
+				cSqlResultSetMappings,
 				new Transformer<SqlResultSetMapping, XAnnotation>() {
 					public XAnnotation transform(SqlResultSetMapping input) {
 						return createSqlResultSetMapping(input);
@@ -243,7 +252,8 @@ public class CreateXAnnotations {
 						//
 						AnnotationUtils.create("fields",
 								createFieldResult(cEntityResult
-										.getFieldResult())),
+										.getFieldResult()),
+								javax.persistence.FieldResult.class),
 						//
 						AnnotationUtils.create("discriminatorColumn",
 								cEntityResult.getDiscriminatorColumn())
@@ -251,7 +261,7 @@ public class CreateXAnnotations {
 				);
 	}
 
-	public Collection<XAnnotation> createEntityResult(
+	public XAnnotation[] createEntityResult(
 			List<EntityResult> cEntityResults) {
 		return transform(cEntityResults,
 				new Transformer<EntityResult, XAnnotation>() {
@@ -268,13 +278,13 @@ public class CreateXAnnotations {
 				//
 						AnnotationUtils.create("name", cFieldResult.getName()),
 						//
-						AnnotationUtils.create("column", cFieldResult
-								.getColumn())
+						AnnotationUtils.create("column",
+								cFieldResult.getColumn())
 				//
 				);
 	}
 
-	public Collection<XAnnotation> createFieldResult(
+	public XAnnotation[] createFieldResult(
 			List<FieldResult> cFieldResults) {
 		return transform(cFieldResults,
 				new Transformer<FieldResult, XAnnotation>() {
@@ -294,7 +304,7 @@ public class CreateXAnnotations {
 				);
 	}
 
-	public Collection<XAnnotation> createColumnResult(
+	public XAnnotation[] createColumnResult(
 			Collection<ColumnResult> cColumnResults) {
 		return transform(cColumnResults,
 				new Transformer<ColumnResult, XAnnotation>() {
@@ -320,9 +330,11 @@ public class CreateXAnnotations {
 						//
 						AnnotationUtils.create("schema", cTable.getSchema()),
 						//
-						AnnotationUtils.create("uniqueConstraints",
+						AnnotationUtils.create(
+								"uniqueConstraints",
 								createUniqueConstraint(cTable
-										.getUniqueConstraint()))
+										.getUniqueConstraint()),
+								javax.persistence.UniqueConstraint.class)
 				//
 				);
 
@@ -334,22 +346,25 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.SecondaryTable.class,
 				//
-						AnnotationUtils.create("name", cSecondaryTable
-								.getName()),
+						AnnotationUtils.create("name",
+								cSecondaryTable.getName()),
 						//
-						AnnotationUtils.create("catalog", cSecondaryTable
-								.getCatalog()),
+						AnnotationUtils.create("catalog",
+								cSecondaryTable.getCatalog()),
 						//
-						AnnotationUtils.create("schema", cSecondaryTable
-								.getSchema()),
+						AnnotationUtils.create("schema",
+								cSecondaryTable.getSchema()),
 						//
 						AnnotationUtils.create("pkJoinColumns",
 								createPrimaryKeyJoinColumn(cSecondaryTable
-										.getPrimaryKeyJoinColumn())),
+										.getPrimaryKeyJoinColumn()),
+								javax.persistence.PrimaryKeyJoinColumn.class),
 						//
-						AnnotationUtils.create("uniqueConstraints",
+						AnnotationUtils.create(
+								"uniqueConstraints",
 								createUniqueConstraint(cSecondaryTable
-										.getUniqueConstraint()))
+										.getUniqueConstraint()),
+								javax.persistence.UniqueConstraint.class)
 				//
 				);
 	}
@@ -357,7 +372,8 @@ public class CreateXAnnotations {
 	// 9.1.3
 	public XAnnotation createSecondaryTables(
 			List<SecondaryTable> cSecondaryTables) {
-		return transform(SecondaryTables.class, cSecondaryTables,
+		return transform(SecondaryTables.class,
+				javax.persistence.SecondaryTable.class, cSecondaryTables,
 				new Transformer<SecondaryTable, XAnnotation>() {
 					public XAnnotation transform(SecondaryTable input) {
 						return createSecondaryTable(input);
@@ -367,17 +383,18 @@ public class CreateXAnnotations {
 
 	// 9.1.4
 	public XAnnotation createUniqueConstraint(UniqueConstraint cUniqueConstraint) {
-		return cUniqueConstraint == null ? null :
-		//
-				new XAnnotation(javax.persistence.UniqueConstraint.class,
+		return cUniqueConstraint == null ? null
+				:
 				//
-						AnnotationUtils.create("columnNames", cUniqueConstraint
-								.getColumnName())
+				new XAnnotation(javax.persistence.UniqueConstraint.class,
+						//
+						AnnotationUtils.create("columnNames",
+								cUniqueConstraint.getColumnName().toArray(new String[cUniqueConstraint.getColumnName().size()]))
 				//
 				);
 	}
 
-	public Collection<XAnnotation> createUniqueConstraint(
+	public XAnnotation[] createUniqueConstraint(
 			List<UniqueConstraint> cUniqueConstraints) {
 		return transform(cUniqueConstraints,
 				new Transformer<UniqueConstraint, XAnnotation>() {
@@ -390,40 +407,41 @@ public class CreateXAnnotations {
 	// 9.1.5
 	public XAnnotation createColumn(Column cColumn) {
 
-		return cColumn == null ? null :
-		//
+		return cColumn == null ? null
+				:
+				//
 				new XAnnotation(javax.persistence.Column.class,
 				//
 						AnnotationUtils.create("name", cColumn.getName()),
 						//
 						AnnotationUtils.create("unique", cColumn.isUnique()),
 						//
-						AnnotationUtils
-								.create("nullable", cColumn.isNullable()),
+						AnnotationUtils.create("nullable", cColumn.isNullable()),
 						//
-						AnnotationUtils.create("insertable", cColumn
-								.isInsertable()),
+						AnnotationUtils.create("insertable",
+								cColumn.isInsertable()),
 						//
-						AnnotationUtils.create("updatable", cColumn
-								.isUpdatable()),
+						AnnotationUtils.create("updatable",
+								cColumn.isUpdatable()),
 						//
-						AnnotationUtils.create("columnDefinition", cColumn
-								.getColumnDefinition()),
+						AnnotationUtils.create("columnDefinition",
+								cColumn.getColumnDefinition()),
 						//
 						AnnotationUtils.create("table", cColumn.getTable()),
 						//
 						AnnotationUtils.create("length", cColumn.getLength()),
 						//
-						AnnotationUtils.create("precision", cColumn
-								.getPrecision()),
+						AnnotationUtils.create("precision",
+								cColumn.getPrecision()),
 						//
 						AnnotationUtils.create("scale", cColumn.getScale()));
 	}
 
 	// 9.1.6
 	public XAnnotation createJoinColumn(JoinColumn cJoinColumn) {
-		return cJoinColumn == null ? null :
-		//
+		return cJoinColumn == null ? null
+				:
+				//
 				new XAnnotation(javax.persistence.JoinColumn.class,
 				//
 						AnnotationUtils.create("name", cJoinColumn.getName()),
@@ -431,27 +449,26 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("referencedColumnName",
 								cJoinColumn.getReferencedColumnName()),
 						//
-						AnnotationUtils
-								.create("unique", cJoinColumn.isUnique()),
+						AnnotationUtils.create("unique", cJoinColumn.isUnique()),
 						//
-						AnnotationUtils.create("nullable", cJoinColumn
-								.isNullable()),
+						AnnotationUtils.create("nullable",
+								cJoinColumn.isNullable()),
 						//
-						AnnotationUtils.create("insertable", cJoinColumn
-								.isInsertable()),
+						AnnotationUtils.create("insertable",
+								cJoinColumn.isInsertable()),
 						//
-						AnnotationUtils.create("updatable", cJoinColumn
-								.isUpdatable()),
+						AnnotationUtils.create("updatable",
+								cJoinColumn.isUpdatable()),
 						//
-						AnnotationUtils.create("columnDefinition", cJoinColumn
-								.getColumnDefinition()),
+						AnnotationUtils.create("columnDefinition",
+								cJoinColumn.getColumnDefinition()),
 						//
 						AnnotationUtils.create("table", cJoinColumn.getTable())
 				//
 				);
 	}
 
-	public Collection<XAnnotation> createJoinColumn(
+	public XAnnotation[] createJoinColumn(
 			List<JoinColumn> cJoinColumns) {
 		return transform(cJoinColumns,
 				new Transformer<JoinColumn, XAnnotation>() {
@@ -463,8 +480,8 @@ public class CreateXAnnotations {
 
 	// 9.1.7
 	public XAnnotation createJoinColumns(List<JoinColumn> cJoinColumns) {
-		return transform(JoinColumns.class, cJoinColumns,
-				new Transformer<JoinColumn, XAnnotation>() {
+		return transform(JoinColumns.class, javax.persistence.JoinColumn.class,
+				cJoinColumns, new Transformer<JoinColumn, XAnnotation>() {
 					public XAnnotation transform(JoinColumn input) {
 						return createJoinColumn(input);
 					}
@@ -517,8 +534,8 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.GeneratedValue.class,
 				//
-						AnnotationUtils.create("generator", cGeneratedValue
-								.getGenerator()),
+						AnnotationUtils.create("generator",
+								cGeneratedValue.getGenerator()),
 						//
 						createGeneratedValue$Strategy(cGeneratedValue
 								.getStrategy())
@@ -529,8 +546,8 @@ public class CreateXAnnotations {
 	public XAnnotationField.XEnum createGeneratedValue$Strategy(String strategy) {
 		return strategy == null ? null :
 		//
-				new XAnnotationField.XEnum("strategy", GenerationType
-						.valueOf(strategy), GenerationType.class);
+				new XAnnotationField.XEnum("strategy",
+						GenerationType.valueOf(strategy), GenerationType.class);
 	}
 
 	// 9.1.10
@@ -540,8 +557,8 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.AttributeOverride.class,
 				//
-						AnnotationUtils.create("name", cAttributeOverride
-								.getName()),
+						AnnotationUtils.create("name",
+								cAttributeOverride.getName()),
 						//
 						AnnotationUtils.create("column",
 								createColumn(cAttributeOverride.getColumn()))
@@ -549,7 +566,7 @@ public class CreateXAnnotations {
 				);
 	}
 
-	public Collection<XAnnotation> createAttributeOverride(
+	public XAnnotation[] createAttributeOverride(
 			List<AttributeOverride> cAttributeOverrides) {
 		return transform(cAttributeOverrides,
 				new Transformer<AttributeOverride, XAnnotation>() {
@@ -563,7 +580,7 @@ public class CreateXAnnotations {
 	public XAnnotation createAttributeOverrides(
 			List<AttributeOverride> cAttributeOverrides) {
 		return transform(javax.persistence.AttributeOverrides.class,
-				cAttributeOverrides,
+				javax.persistence.AttributeOverride.class, cAttributeOverrides,
 				new Transformer<AttributeOverride, XAnnotation>() {
 					public XAnnotation transform(AttributeOverride input) {
 						return createAttributeOverride(input);
@@ -578,12 +595,13 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.AssociationOverride.class,
 				//
-						AnnotationUtils.create("name", cAssociationOverride
-								.getName()),
+						AnnotationUtils.create("name",
+								cAssociationOverride.getName()),
 						//
 						AnnotationUtils.create("joinColumns",
 								createJoinColumn(cAssociationOverride
-										.getJoinColumn()))
+										.getJoinColumn()),
+								javax.persistence.JoinColumn.class)
 				//
 				);
 	}
@@ -592,6 +610,7 @@ public class CreateXAnnotations {
 	public XAnnotation createAssociationOverrides(
 			List<AssociationOverride> cAssociationOverrides) {
 		return transform(javax.persistence.AssociationOverrides.class,
+				javax.persistence.AssociationOverride.class,
 				cAssociationOverrides,
 				new Transformer<AssociationOverride, XAnnotation>() {
 					public XAnnotation transform(AssociationOverride input) {
@@ -614,8 +633,8 @@ public class CreateXAnnotations {
 				new XAnnotation(javax.persistence.IdClass.class,
 				//
 						cIdClass.getClazz() == null ? null
-								: new XAnnotationField.XClass("value", cIdClass
-										.getClazz())
+								: new XAnnotationField.XClass("value",
+										cIdClass.getClazz())
 				//
 				);
 	}
@@ -640,8 +659,8 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.Basic.class,
 				//
-						AnnotationUtils.create("fetch", getFetchType(cBasic
-								.getFetch())),
+						AnnotationUtils.create("fetch",
+								getFetchType(cBasic.getFetch())),
 						//
 						AnnotationUtils.create("optional", cBasic.isOptional())
 				//
@@ -669,10 +688,10 @@ public class CreateXAnnotations {
 
 	// 9.1.21
 	public XAnnotation createEnumerated(String cEnumerated) {
-		return cEnumerated == null ? null :
-		//
-				new XAnnotation(
-						javax.persistence.Enumerated.class,
+		return cEnumerated == null ? null
+				:
+				//
+				new XAnnotation(javax.persistence.Enumerated.class,
 						//
 						new XAnnotationField.XEnum(
 								"value",
@@ -693,11 +712,11 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("cascade",
 								getCascadeType(cManyToOne.getCascade())),
 						//
-						AnnotationUtils.create("fetch", getFetchType(cManyToOne
-								.getFetch())),
+						AnnotationUtils.create("fetch",
+								getFetchType(cManyToOne.getFetch())),
 						//
-						AnnotationUtils.create("optional", cManyToOne
-								.isOptional())
+						AnnotationUtils.create("optional",
+								cManyToOne.isOptional())
 
 				//
 				);
@@ -716,14 +735,14 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("cascade",
 								getCascadeType(cOneToOne.getCascade())),
 						//
-						AnnotationUtils.create("fetch", getFetchType(cOneToOne
-								.getFetch())),
+						AnnotationUtils.create("fetch",
+								getFetchType(cOneToOne.getFetch())),
 						//
-						AnnotationUtils.create("optional", cOneToOne
-								.isOptional()),
+						AnnotationUtils.create("optional",
+								cOneToOne.isOptional()),
 						//
-						AnnotationUtils.create("mappedBy", cOneToOne
-								.getMappedBy())
+						AnnotationUtils.create("mappedBy",
+								cOneToOne.getMappedBy())
 				//
 				);
 	}
@@ -741,41 +760,46 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("cascade",
 								getCascadeType(cOneToMany.getCascade())),
 						//
-						AnnotationUtils.create("fetch", getFetchType(cOneToMany
-								.getFetch())),
+						AnnotationUtils.create("fetch",
+								getFetchType(cOneToMany.getFetch())),
 						//
-						AnnotationUtils.create("mappedBy", cOneToMany
-								.getMappedBy())
+						AnnotationUtils.create("mappedBy",
+								cOneToMany.getMappedBy())
 				//
 				);
 	}
 
 	// 9.1.25
 	public XAnnotation createJoinTable(JoinTable cJoinTable) {
-		return cJoinTable == null ? null :
-		//
+		return cJoinTable == null ? null
+				:
+				//
 				new XAnnotation(javax.persistence.JoinTable.class,
 
 				//
 						AnnotationUtils.create("name", cJoinTable.getName()),
 						//
-						AnnotationUtils.create("catalog", cJoinTable
-								.getCatalog()),
+						AnnotationUtils.create("catalog",
+								cJoinTable.getCatalog()),
 						//
-						AnnotationUtils
-								.create("schema", cJoinTable.getSchema()),
+						AnnotationUtils.create("schema", cJoinTable.getSchema()),
 
 						//
 						AnnotationUtils.create("joinColumns",
-								createJoinColumn(cJoinTable.getJoinColumn())),
+								createJoinColumn(cJoinTable.getJoinColumn()),
+								javax.persistence.JoinColumn.class),
 						//
-						AnnotationUtils.create("inverseJoinColumns",
+						AnnotationUtils.create(
+								"inverseJoinColumns",
 								createJoinColumn(cJoinTable
-										.getInverseJoinColumn())),
+										.getInverseJoinColumn()),
+								javax.persistence.JoinColumn.class),
 						//
-						AnnotationUtils.create("uniqueConstraints",
+						AnnotationUtils.create(
+								"uniqueConstraints",
 								createUniqueConstraint(cJoinTable
-										.getUniqueConstraint()))
+										.getUniqueConstraint()),
+								javax.persistence.UniqueConstraint.class)
 				//
 				);
 	}
@@ -796,8 +820,8 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("fetch",
 								getFetchType(cManyToMany.getFetch())),
 						//
-						AnnotationUtils.create("mappedBy", cManyToMany
-								.getMappedBy())
+						AnnotationUtils.create("mappedBy",
+								cManyToMany.getMappedBy())
 				//
 				);
 	}
@@ -840,8 +864,8 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.DiscriminatorColumn.class,
 				//
-						AnnotationUtils.create("name", cDiscriminatorColumn
-								.getName()),
+						AnnotationUtils.create("name",
+								cDiscriminatorColumn.getName()),
 						//
 						AnnotationUtils.create("discriminatorType",
 								getDiscriminatorType(cDiscriminatorColumn
@@ -850,8 +874,8 @@ public class CreateXAnnotations {
 						AnnotationUtils.create("columnDefinition",
 								cDiscriminatorColumn.getColumnDefinition()),
 						//
-						AnnotationUtils.create("length", cDiscriminatorColumn
-								.getLength())
+						AnnotationUtils.create("length",
+								cDiscriminatorColumn.getLength())
 				//
 				);
 	}
@@ -871,8 +895,8 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.PrimaryKeyJoinColumn.class,
 				//
-						AnnotationUtils.create("name", cPrimaryKeyJoinColumn
-								.getName()),
+						AnnotationUtils.create("name",
+								cPrimaryKeyJoinColumn.getName()),
 						//
 						AnnotationUtils
 								.create("referencedColumnName",
@@ -885,7 +909,7 @@ public class CreateXAnnotations {
 				);
 	}
 
-	public Collection<XAnnotation> createPrimaryKeyJoinColumn(
+	public XAnnotation[] createPrimaryKeyJoinColumn(
 			List<PrimaryKeyJoinColumn> cPrimaryKeyJoinColumn) {
 		return transform(cPrimaryKeyJoinColumn,
 				new Transformer<PrimaryKeyJoinColumn, XAnnotation>() {
@@ -899,7 +923,9 @@ public class CreateXAnnotations {
 	// 9.1.33
 	public XAnnotation createPrimaryKeyJoinColumns(
 			List<PrimaryKeyJoinColumn> cPrimaryKeyJoinColumn) {
-		return transform(PrimaryKeyJoinColumns.class, cPrimaryKeyJoinColumn,
+		return transform(PrimaryKeyJoinColumns.class,
+				javax.persistence.PrimaryKeyJoinColumn.class,
+				cPrimaryKeyJoinColumn,
 				new Transformer<PrimaryKeyJoinColumn, XAnnotation>() {
 					public XAnnotation transform(PrimaryKeyJoinColumn input) {
 						return createPrimaryKeyJoinColumn(input);
@@ -937,8 +963,8 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.SequenceGenerator.class,
 				//
-						AnnotationUtils.create("name", cSequenceGenerator
-								.getName()),
+						AnnotationUtils.create("name",
+								cSequenceGenerator.getName()),
 						//
 						AnnotationUtils.create("sequenceName",
 								cSequenceGenerator.getSequenceName()),
@@ -957,36 +983,38 @@ public class CreateXAnnotations {
 		//
 				new XAnnotation(javax.persistence.TableGenerator.class,
 				//
-						AnnotationUtils.create("name", cTableGenerator
-								.getName()),
+						AnnotationUtils.create("name",
+								cTableGenerator.getName()),
 						//
-						AnnotationUtils.create("table", cTableGenerator
-								.getTable()),
+						AnnotationUtils.create("table",
+								cTableGenerator.getTable()),
 						//
-						AnnotationUtils.create("catalog", cTableGenerator
-								.getCatalog()),
+						AnnotationUtils.create("catalog",
+								cTableGenerator.getCatalog()),
 						//
-						AnnotationUtils.create("schema", cTableGenerator
-								.getSchema()),
+						AnnotationUtils.create("schema",
+								cTableGenerator.getSchema()),
 						//
-						AnnotationUtils.create("pkColumnName", cTableGenerator
-								.getPkColumnName()),
+						AnnotationUtils.create("pkColumnName",
+								cTableGenerator.getPkColumnName()),
 						//
 						AnnotationUtils.create("valueColumnName",
 								cTableGenerator.getValueColumnName()),
 						//
-						AnnotationUtils.create("pkColumnValue", cTableGenerator
-								.getPkColumnValue()),
+						AnnotationUtils.create("pkColumnValue",
+								cTableGenerator.getPkColumnValue()),
 						//
-						AnnotationUtils.create("initialValue", cTableGenerator
-								.getInitialValue()),
+						AnnotationUtils.create("initialValue",
+								cTableGenerator.getInitialValue()),
 						//
 						AnnotationUtils.create("allocationSize",
 								cTableGenerator.getAllocationSize()),
 						//
-						AnnotationUtils.create("uniqueConstraints",
+						AnnotationUtils.create(
+								"uniqueConstraints",
 								createUniqueConstraint(cTableGenerator
-										.getUniqueConstraint()))
+										.getUniqueConstraint()),
+								javax.persistence.UniqueConstraint.class)
 				//
 				);
 	}
@@ -997,8 +1025,9 @@ public class CreateXAnnotations {
 
 	// 10.1.3
 	public Collection<XAnnotation> createEntityAnnotations(Entity cEntity) {
-		return cEntity == null ? Collections.<XAnnotation> emptyList() :
-		//
+		return cEntity == null ? Collections.<XAnnotation> emptyList()
+				:
+				//
 				annotations(
 				//
 						createEntity(cEntity),
@@ -1091,7 +1120,7 @@ public class CreateXAnnotations {
 		return cEmbeddedId == null ? Collections.<XAnnotation> emptyList() :
 		//
 				annotations(
-				//
+						//
 						createEmbeddedId(cEmbeddedId),
 						//
 						createAttributeOverrides(cEmbeddedId
@@ -1175,7 +1204,7 @@ public class CreateXAnnotations {
 		return cOneToOne == null ? Collections.<XAnnotation> emptyList() :
 		//
 				annotations(
-				//
+						//
 						createOneToOne(cOneToOne),
 						//
 						createPrimaryKeyJoinColumns(cOneToOne
@@ -1202,7 +1231,7 @@ public class CreateXAnnotations {
 						createMapKey(cManyToMany.getMapKey()),
 						//
 						createJoinTable(cManyToMany.getJoinTable())
-				// 
+				//
 				);
 	}
 
@@ -1211,12 +1240,12 @@ public class CreateXAnnotations {
 		return cEmbedded == null ? Collections.<XAnnotation> emptyList() :
 		//
 				annotations(
-				//
+						//
 						createEmbedded(cEmbedded),
 						//
 						createAttributeOverrides(cEmbedded
 								.getAttributeOverride())
-				//		
+				//
 				);
 	}
 
@@ -1240,7 +1269,7 @@ public class CreateXAnnotations {
 				.<XAnnotation> emptyList() :
 		//
 				annotations(
-				//
+						//
 						createMappedSuperclass(cMappedSuperclass),
 						//
 						createIdClass(cMappedSuperclass.getIdClass()),
@@ -1291,6 +1320,8 @@ public class CreateXAnnotations {
 
 	public static <T> XAnnotation transform(
 			Class<? extends Annotation> collectionClass,
+			Class<? extends Annotation> singleClass,
+
 			Collection<T> collection, Transformer<T, XAnnotation> transformer) {
 		if (collection == null || collection.isEmpty()) {
 			return null;
@@ -1298,12 +1329,13 @@ public class CreateXAnnotations {
 			return transformer.transform(collection.iterator().next());
 		} else {
 
-			return new XAnnotation(collectionClass, AnnotationUtils.create(
-					"value", transform(collection, transformer)));
+			return new XAnnotation(collectionClass,
+					AnnotationUtils.create("value",
+							transform(collection, transformer), singleClass));
 		}
 	}
 
-	public static <T> Collection<XAnnotation> transform(
+	public static <T> XAnnotation[] transform(
 			Collection<T> collection, Transformer<T, XAnnotation> transformer) {
 		if (collection == null || collection.isEmpty()) {
 			return null;
@@ -1313,7 +1345,7 @@ public class CreateXAnnotations {
 			for (T item : collection) {
 				annotations.add(transformer.transform(item));
 			}
-			return annotations;
+			return annotations.toArray(new XAnnotation[annotations.size()]);
 		}
 	}
 
@@ -1384,8 +1416,7 @@ public class CreateXAnnotations {
 				.valueOf(fetch);
 	}
 
-	public Collection<javax.persistence.CascadeType> getCascadeType(
-			CascadeType cascade) {
+	public javax.persistence.CascadeType[] getCascadeType(CascadeType cascade) {
 
 		if (cascade == null) {
 			return null;
@@ -1407,7 +1438,8 @@ public class CreateXAnnotations {
 			if (cascade.getCascadeRemove() != null) {
 				cascades.add(javax.persistence.CascadeType.REMOVE);
 			}
-			return cascades;
+			return cascades.toArray(new javax.persistence.CascadeType[cascades
+					.size()]);
 		}
 	}
 

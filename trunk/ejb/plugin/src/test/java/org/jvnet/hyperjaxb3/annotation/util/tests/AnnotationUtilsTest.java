@@ -16,7 +16,15 @@ public class AnnotationUtilsTest extends TestCase {
 		final Collection<XAnnotation> a = new LinkedList<XAnnotation>();
 		a.add(new XAnnotation(Override.class));
 		a.add(new XAnnotation(Override.class));
-		XAnnotationField<XAnnotation[]> xa = AnnotationUtils.create("test", a);
+		XAnnotationField<XAnnotation[]> xa = AnnotationUtils.create("test",
+				a.toArray(new XAnnotation[a.size()]), Override.class);
+	}
+
+	public void testB() throws Exception {
+
+		final Collection<XAnnotation> a = new LinkedList<XAnnotation>();
+		XAnnotationField<XAnnotation[]> xa = AnnotationUtils.create("test",
+				a.toArray(new XAnnotation[a.size()]), Override.class);
 	}
 
 }

@@ -28,6 +28,7 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.JaxbContext;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ManyToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.MappedSuperclass;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Mergeable;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.OneToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Persistence;
@@ -36,9 +37,13 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToMany;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ToOne;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Version;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
+import org.jvnet.hyperjaxb3.jaxb2_commons.lang.MergeableMergeStrategy;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeAnalyzer;
 import org.jvnet.hyperjaxb3.xsom.TypeUtils;
 import org.jvnet.jaxb2_commons.lang.CopyTo;
+import org.jvnet.jaxb2_commons.lang.JAXBMergeStrategy;
+import org.jvnet.jaxb2_commons.lang.MergeFrom;
+import org.jvnet.jaxb2_commons.lang.MergeStrategy;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -189,7 +194,7 @@ public class DefaultCustomizing implements Customizing {
 			}
 			cPersistence.getDefaultSingleProperty().addAll(
 					defaultPersistence.getDefaultSingleProperty());
-			cPersistence.mergeFrom(cPersistence, defaultPersistence);
+			mergeFrom(cPersistence, defaultPersistence);
 			return cPersistence;
 		}
 	}
@@ -208,9 +213,7 @@ public class DefaultCustomizing implements Customizing {
 			id = findCustomization(classInfo,
 					Customizations.GENERATED_ID_ELEMENT_NAME);
 
-			if (id.isMerge()) {
-				id.mergeFrom(id, defaultId);
-			}
+			mergeFrom(id, defaultId);
 		} else {
 			id = defaultId;
 		}
@@ -272,9 +275,7 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.ID_ELEMENT_NAME)) {
 			id = findCustomization(property, Customizations.ID_ELEMENT_NAME);
 
-			if (id.isMerge()) {
-				id.mergeFrom(id, defaultId);
-			}
+			mergeFrom(id, defaultId);
 		} else {
 			id = defaultId;
 		}
@@ -298,9 +299,7 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.EMBEDDED_ID_ELEMENT_NAME)) {
 			id = findCustomization(property,
 					Customizations.EMBEDDED_ID_ELEMENT_NAME);
-			if (id.isMerge()) {
-				id.mergeFrom(id, defaultId);
-			}
+			mergeFrom(id, defaultId);
 		} else {
 			id = defaultId;
 		}
@@ -324,9 +323,7 @@ public class DefaultCustomizing implements Customizing {
 			version = findCustomization(property,
 					Customizations.VERSION_ELEMENT_NAME);
 
-			if (version.isMerge()) {
-				version.mergeFrom(version, defaultVersion);
-			}
+			mergeFrom(version, defaultVersion);
 		} else {
 			version = defaultVersion;
 		}
@@ -353,10 +350,7 @@ public class DefaultCustomizing implements Customizing {
 			generatedVersion = findCustomization(classInfo,
 					Customizations.GENERATED_VERSION_ELEMENT_NAME);
 
-			if (generatedVersion.isMerge()) {
-				generatedVersion.mergeFrom(generatedVersion,
-						defaultGeneratedVersion);
-			}
+			mergeFrom(generatedVersion, defaultGeneratedVersion);
 		} else {
 			generatedVersion = defaultGeneratedVersion.isForced() ? defaultGeneratedVersion
 					: null;
@@ -399,10 +393,8 @@ public class DefaultCustomizing implements Customizing {
 						new Basic());
 			} else {
 				defaultBasic = (Basic) basic.copyTo(new Basic());
-				if (defaultBasic.isMerge()) {
-					defaultBasic.mergeFrom(defaultBasic, (Basic) persistence
-							.getDefaultBasic().copyTo(new Basic()));
-				}
+				mergeFrom(defaultBasic, (Basic) persistence.getDefaultBasic()
+						.copyTo(new Basic()));
 			}
 		}
 
@@ -448,9 +440,7 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.BASIC_ELEMENT_NAME)) {
 			basic = findCustomization(property,
 					Customizations.BASIC_ELEMENT_NAME);
-			if (basic.isMerge()) {
-				basic.mergeFrom(basic, defaultBasic);
-			}
+			mergeFrom(basic, defaultBasic);
 		} else {
 			basic = defaultBasic;
 		}
@@ -552,14 +542,12 @@ public class DefaultCustomizing implements Customizing {
 				defaultOneToMany.setOrderBy(null);
 			}
 
-			cOneToMany.mergeFrom(cOneToMany, defaultOneToMany);
+			mergeFrom(cOneToMany, defaultOneToMany);
 		}
 	}
 
 	private void merge(final Embedded cEmbedded, final Embedded defaultEmbedded) {
-		if (cEmbedded.isMerge()) {
-			cEmbedded.mergeFrom(cEmbedded, defaultEmbedded);
-		}
+		mergeFrom(cEmbedded, defaultEmbedded);
 	}
 
 	public Persistence getModelCustomization(CPropertyInfo property) {
@@ -608,7 +596,7 @@ public class DefaultCustomizing implements Customizing {
 			} else if (!cManyToOne.getJoinColumn().isEmpty()) {
 				defaultManyToOne.setJoinTable(null);
 			}
-			cManyToOne.mergeFrom(cManyToOne, defaultManyToOne);
+			mergeFrom(cManyToOne, defaultManyToOne);
 		}
 	}
 
@@ -647,7 +635,7 @@ public class DefaultCustomizing implements Customizing {
 			} else if (!cOneToOne.getJoinColumn().isEmpty()) {
 				defaultOneToOne.setJoinTable(null);
 			}
-			cOneToOne.mergeFrom(cOneToOne, defaultOneToOne);
+			mergeFrom(cOneToOne, defaultOneToOne);
 		}
 	}
 
@@ -687,10 +675,10 @@ public class DefaultCustomizing implements Customizing {
 				defaultSource.setOrderBy(null);
 			}
 
-			source.mergeFrom(source, defaultSource);
+			mergeFrom(source, defaultSource);
 		}
 	}
-	
+
 	public ElementCollection getElementCollection(FieldOutline fieldOutline) {
 		return getElementCollection(fieldOutline.getPropertyInfo());
 	}
@@ -708,14 +696,12 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.ELEMENT_COLLECTION_ELEMENT_NAME)) {
 			customization = findCustomization(property,
 					Customizations.ELEMENT_COLLECTION_ELEMENT_NAME);
-			if (customization.isMerge()) {
-				customization.mergeFrom(customization, defaultCustomization);
-			}
+			mergeFrom(customization, defaultCustomization);
 		} else {
 			customization = defaultCustomization;
 		}
 		return customization;
-	}	
+	}
 
 	public ManyToMany getManyToMany(FieldOutline property) {
 		return getManyToMany(property.getPropertyInfo());
@@ -741,9 +727,7 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.ENTITY_ELEMENT_NAME)) {
 			cEntity = findCustomization(classInfo,
 					Customizations.ENTITY_ELEMENT_NAME);
-			if (cEntity.isMerge()) {
-				cEntity.mergeFrom(cEntity, defaultEntity);
-			}
+			mergeFrom(cEntity, defaultEntity);
 		} else {
 			addCustomization(classInfo, Customizations.ENTITY_ELEMENT_NAME,
 					defaultEntity);
@@ -894,10 +878,7 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
 			cMappedSuperclass = findCustomization(classInfo,
 					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
-			if (cMappedSuperclass.isMerge()) {
-				cMappedSuperclass.mergeFrom(cMappedSuperclass,
-						defaultMappedSuperclass);
-			}
+			mergeFrom(cMappedSuperclass, defaultMappedSuperclass);
 		} else {
 			return defaultMappedSuperclass;
 		}
@@ -943,9 +924,7 @@ public class DefaultCustomizing implements Customizing {
 				Customizations.EMBEDDABLE_ELEMENT_NAME)) {
 			cEmbeddable = findCustomization(classInfo,
 					Customizations.EMBEDDABLE_ELEMENT_NAME);
-			if (cEmbeddable.isMerge()) {
-				cEmbeddable.mergeFrom(cEmbeddable, defaultEmbeddable);
-			}
+			mergeFrom(cEmbeddable, defaultEmbeddable);
 		} else {
 			return defaultEmbeddable;
 		}
@@ -970,9 +949,7 @@ public class DefaultCustomizing implements Customizing {
 			embedded = findCustomization(property,
 					Customizations.EMBEDDED_ELEMENT_NAME);
 
-			if (embedded.isMerge()) {
-				embedded.mergeFrom(embedded, defaultEmbedded);
-			}
+			mergeFrom(embedded, defaultEmbedded);
 		} else {
 			embedded = defaultEmbedded;
 		}
@@ -1001,13 +978,19 @@ public class DefaultCustomizing implements Customizing {
 			jaxbContext = findCustomization(property,
 					Customizations.JAXB_CONTEXT_ELEMENT_NAME);
 
-			if (jaxbContext.isMerge()) {
-				jaxbContext.mergeFrom(jaxbContext, defaultJaxbContext);
-			}
+			mergeFrom(jaxbContext, defaultJaxbContext);
 		} else {
 			jaxbContext = defaultJaxbContext;
 		}
 		return jaxbContext;
+	}
+
+	private final static MergeStrategy MERGE_STRATEGY = new MergeableMergeStrategy(
+			JAXBMergeStrategy.INSTANCE);
+
+	private <T extends Mergeable & MergeFrom> void mergeFrom(T value,
+			T defaultValue) {
+		value.mergeFrom(null, null, value, defaultValue, MERGE_STRATEGY);
 	}
 
 }

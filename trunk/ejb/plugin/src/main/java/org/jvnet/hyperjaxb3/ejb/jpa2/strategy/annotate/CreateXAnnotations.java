@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import javax.persistence.AccessType;
+import javax.persistence.JoinColumn;
 import javax.persistence.LockModeType;
 import javax.persistence.MapKeyJoinColumns;
+import javax.persistence.QueryHint;
 
 import org.jvnet.annox.model.XAnnotation;
 import org.jvnet.annox.model.XAnnotationField;
@@ -248,7 +250,7 @@ public class CreateXAnnotations extends
 						//
 						AnnotationUtils.create("name", source.getName()),
 						AnnotationUtils.create("columnNames",
-								source.getColumnName())
+								source.getColumnName().toArray(new String[source.getColumnName().size()]))
 				//
 				);
 	}
@@ -280,11 +282,12 @@ public class CreateXAnnotations extends
 		return source == null ? null :
 		//
 				new XAnnotation(javax.persistence.NamedQuery.class,
-						//
+				//
 						AnnotationUtils.create("query", source.getQuery()),
 						//
 						AnnotationUtils.create("hint",
-								createQueryHint(source.getHint())),
+								createQueryHint(source.getHint()),
+								QueryHint.class),
 						//
 						AnnotationUtils.create("name", source.getName()),
 						AnnotationUtils.create("lockMode",
@@ -299,7 +302,7 @@ public class CreateXAnnotations extends
 		return lockMode == null ? null : LockModeType.valueOf(lockMode);
 	}
 
-	public Collection<javax.persistence.CascadeType> getCascadeType(
+	public javax.persistence.CascadeType[] getCascadeType(
 			CascadeType cascade) {
 
 		if (cascade == null) {
@@ -325,7 +328,7 @@ public class CreateXAnnotations extends
 			if (cascade.getCascadeDetach() != null) {
 				cascades.add(javax.persistence.CascadeType.DETACH);
 			}
-			return cascades;
+			return cascades.toArray(new javax.persistence.CascadeType[cascades.size()]);
 		}
 	}
 
@@ -365,11 +368,13 @@ public class CreateXAnnotations extends
 						AnnotationUtils.create("schema", source.getSchema()),
 						//
 						AnnotationUtils.create("joinColumns",
-								createJoinColumn(source.getJoinColumn())),
+								createJoinColumn(source.getJoinColumn()),
+								JoinColumn.class),
 						//
 						AnnotationUtils.create("uniqueConstraints",
 								createUniqueConstraint(source
-										.getUniqueConstraint()))
+										.getUniqueConstraint()),
+								javax.persistence.UniqueConstraint.class)
 				//
 				);
 
@@ -407,7 +412,8 @@ public class CreateXAnnotations extends
 
 	public XAnnotation createMapKeyJoinColumns(
 			Collection<MapKeyJoinColumn> source) {
-		return transform(MapKeyJoinColumns.class, source,
+		return transform(MapKeyJoinColumns.class,
+				javax.persistence.MapKeyJoinColumn.class, source,
 				new Transformer<MapKeyJoinColumn, XAnnotation>() {
 					public XAnnotation transform(MapKeyJoinColumn input) {
 						return createMapKeyJoinColumn(input);
@@ -556,7 +562,8 @@ public class CreateXAnnotations extends
 						AnnotationUtils.create("name", source.getName()),
 						//
 						AnnotationUtils.create("joinColumns",
-								createJoinColumn(source.getJoinColumn())),
+								createJoinColumn(source.getJoinColumn()),
+								JoinColumn.class),
 						//
 						AnnotationUtils.create("joinTable",
 								createJoinTable(source.getJoinTable()))
