@@ -89,9 +89,7 @@
 			<xs:element name="one-to-many-children" type="test:two" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:appinfo>
-						<hj:one-to-many mapped-by="manyToOneParent">
-							<orm:join-column name="O2M_ONE_ID"/>
-						</hj:one-to-many>
+						<hj:one-to-many mapped-by="manyToOneParent" merge="false"/>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

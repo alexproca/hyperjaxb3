@@ -75,13 +75,15 @@ public class ManyToManyMapping implements FieldOutlineMapping<ManyToMany> {
 			context.getAssociationMapping().createJoinTable(context,
 					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
 					manyToMany.getJoinTable());
-		} else {
-			final JoinTable joinTable = new JoinTable();
-			manyToMany.setJoinTable(joinTable);
-			context.getAssociationMapping().createJoinTable(context,
-					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
-					manyToMany.getJoinTable());
 		}
+//		else {
+//			// ***
+//			final JoinTable joinTable = new JoinTable();
+//			manyToMany.setJoinTable(joinTable);
+//			context.getAssociationMapping().createJoinTable(context,
+//					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
+//					manyToMany.getJoinTable());
+//		}
 
 	}
 }

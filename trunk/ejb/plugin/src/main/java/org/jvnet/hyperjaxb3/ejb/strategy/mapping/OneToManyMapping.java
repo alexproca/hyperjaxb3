@@ -87,16 +87,18 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 						fieldOutline, sourceIdFieldOutlines,
 						targetIdFieldOutlines, oneToMany.getJoinTable());
 			}
-		} else {
-			final Collection<FieldOutline> idFieldsOutline = context
-					.getAssociationMapping().getSourceIdFieldsOutline(context,
-							fieldOutline);
-			if (idFieldsOutline.isEmpty()) {
-				oneToMany.getJoinColumn().clear();
-			}
-			context.getAssociationMapping().createJoinColumns(context,
-					fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
 		}
+//		else {
+//			// ***
+//			final Collection<FieldOutline> idFieldsOutline = context
+//					.getAssociationMapping().getSourceIdFieldsOutline(context,
+//							fieldOutline);
+//			if (idFieldsOutline.isEmpty()) {
+//				oneToMany.getJoinColumn().clear();
+//			}
+//			context.getAssociationMapping().createJoinColumns(context,
+//					fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
+//		}
 
 	}
 }

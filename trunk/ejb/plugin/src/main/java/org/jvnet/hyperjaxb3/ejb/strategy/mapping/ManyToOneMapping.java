@@ -78,17 +78,19 @@ public class ManyToOneMapping implements FieldOutlineMapping<ManyToOne> {
 				context.getAssociationMapping().createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
 						targetIdFieldOutlines, manyToOne.getJoinTable());
 			}
-		} else {
-			final Collection<FieldOutline> idFieldsOutline = context.getAssociationMapping().getTargetIdFieldsOutline(
-					context, fieldOutline);
-			final JoinColumn joinColumn = new JoinColumn();
-			manyToOne.getJoinColumn().add(joinColumn);
-			if (idFieldsOutline.isEmpty()) {
-				manyToOne.getJoinColumn().clear();
-			}
-			context.getAssociationMapping().createJoinColumns(context, fieldOutline, idFieldsOutline,
-					manyToOne.getJoinColumn());
 		}
+//		else {
+//			// ***
+//			final Collection<FieldOutline> idFieldsOutline = context.getAssociationMapping().getTargetIdFieldsOutline(
+//					context, fieldOutline);
+//			final JoinColumn joinColumn = new JoinColumn();
+//			manyToOne.getJoinColumn().add(joinColumn);
+//			if (idFieldsOutline.isEmpty()) {
+//				manyToOne.getJoinColumn().clear();
+//			}
+//			context.getAssociationMapping().createJoinColumns(context, fieldOutline, idFieldsOutline,
+//					manyToOne.getJoinColumn());
+//		}
 
 	}
 

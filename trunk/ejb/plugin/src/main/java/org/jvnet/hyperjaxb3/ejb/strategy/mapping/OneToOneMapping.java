@@ -89,19 +89,21 @@ public class OneToOneMapping implements FieldOutlineMapping<OneToOne> {
 						fieldOutline, sourceIdFieldOutlines,
 						targetIdFieldOutlines, oneToOne.getJoinTable());
 			}
-		} else {
-			final JoinColumn joinColumn = new JoinColumn();
-			oneToOne.getJoinColumn().add(joinColumn);
-			final Collection<FieldOutline> idFieldsOutline = context
-					.getAssociationMapping().getSourceIdFieldsOutline(context,
-							fieldOutline);
-			if (idFieldsOutline.isEmpty()) {
-				oneToOne.getJoinColumn().clear();
-			}
-
-			context.getAssociationMapping().createJoinColumns(context,
-					fieldOutline, idFieldsOutline, oneToOne.getJoinColumn());
 		}
+//		else {
+//			// ***
+//			final JoinColumn joinColumn = new JoinColumn();
+//			oneToOne.getJoinColumn().add(joinColumn);
+//			final Collection<FieldOutline> idFieldsOutline = context
+//					.getAssociationMapping().getSourceIdFieldsOutline(context,
+//							fieldOutline);
+//			if (idFieldsOutline.isEmpty()) {
+//				oneToOne.getJoinColumn().clear();
+//			}
+//
+//			context.getAssociationMapping().createJoinColumns(context,
+//					fieldOutline, idFieldsOutline, oneToOne.getJoinColumn());
+//		}
 
 	}
 
