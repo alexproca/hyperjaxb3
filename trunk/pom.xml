@@ -14,10 +14,10 @@
 		<module>maven</module>
 	</modules>
 	<repositories>
-		<repository>
+		<!--repository>
 			<id>maven2-repository.jboss.com</id>
 			<url>http://repository.jboss.com/maven2</url>
-		</repository>
+		</repository-->
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<url>http://download.java.net/maven/2</url>
@@ -374,12 +374,12 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
-				<version>3.6.4-Final</version>
+				<version>3.6.4.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
-				<version>3.6.4-Final</version>
+				<version>3.6.4.Final</version>
 			</dependency>
 			<!-- Java Persistence API -->
 			<dependency>
