@@ -374,12 +374,12 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
-				<version>3.5.1-Final</version>
+				<version>3.6.4-Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
-				<version>3.5.1-Final</version>
+				<version>3.6.4-Final</version>
 			</dependency>
 			<!-- Java Persistence API -->
 			<dependency>
