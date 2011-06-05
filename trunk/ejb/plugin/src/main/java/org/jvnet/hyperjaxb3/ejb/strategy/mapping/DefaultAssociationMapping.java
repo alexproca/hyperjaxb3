@@ -292,6 +292,55 @@ public class DefaultAssociationMapping implements AssociationMapping {
 		}
 	}
 
+	public void createElementCollection$OrderColumn(Mapping context, FieldOutline fieldOutline,
+			final OrderColumn orderColumn) {
+		createElementCollection$OrderColumn$Name(context, fieldOutline, orderColumn);
+	}
+	
+	protected void createElementCollection$OrderColumn$Name(Mapping context,
+			FieldOutline fieldOutline, final OrderColumn orderColumn) {
+		if (orderColumn.getName() == null
+				|| "##default".equals(orderColumn.getName())) {
+			orderColumn.setName(context.getNaming().getElementCollection$OrderColumn$Name(
+					context, fieldOutline));
+		}
+	}
+	
+	public void createElementCollection$CollectionTable$JoinColumns(Mapping context, FieldOutline fieldOutline,
+			Collection<FieldOutline> idFieldOutlines,
+			List<JoinColumn> joinColumns) {
+		final Iterator<JoinColumn> joinColumnIterator = new ArrayList<JoinColumn>(
+				joinColumns).iterator();
+		for (FieldOutline idFieldOutline : idFieldOutlines) {
+			final JoinColumn joinColumn;
+			if (joinColumnIterator.hasNext()) {
+				joinColumn = joinColumnIterator.next();
+			} else {
+				joinColumn = new JoinColumn();
+				joinColumns.add(joinColumn);
+			}
+			createElementCollection$CollectionTable$JoinColumn(context, fieldOutline, idFieldOutline, joinColumn);
+
+		}
+	}
+
+	protected void createElementCollection$CollectionTable$JoinColumn(Mapping context, FieldOutline fieldOutline,
+			FieldOutline idFieldOutline, JoinColumn joinColumn) {
+		createElementCollection$CollectionTable$JoinColumn$Name(context, fieldOutline, idFieldOutline, joinColumn);
+	}
+
+	protected void createElementCollection$CollectionTable$JoinColumn$Name(Mapping context,
+			FieldOutline fieldOutline, FieldOutline idFieldOutline,
+			JoinColumn joinColumn) {
+		if (joinColumn.getName() == null
+				|| "##default".equals(joinColumn.getName())) {
+			joinColumn.setName(context.getNaming().getElementCollection$CollectionTable$JoinColumn$Name(context,
+					fieldOutline, idFieldOutline));
+		}
+	}
+	
+
+	
 	protected void createManyToOne$JoinTable$InverseJoinColumn$Name(
 			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline, JoinColumn joinColumn) {

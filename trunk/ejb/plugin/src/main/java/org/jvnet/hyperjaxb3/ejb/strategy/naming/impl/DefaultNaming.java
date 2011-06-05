@@ -133,7 +133,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline) {
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
-		return getName(fieldColumnName + "_" + "ORDER");
+		return getName(fieldColumnName + "_" + "HJORDER");
 	}
 
 	public String getJoinTable$Name(Mapping context, FieldOutline fieldOutline) {
@@ -298,4 +298,50 @@ public class DefaultNaming implements Naming, InitializingBean {
 	public String getColumn$Name$Prefix(Mapping context) {
 		return "";
 	}
+
+	@Override
+	public String getElementCollection$CollectionTable$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		final String entityTableName = getEntityTable$Name(context,
+				fieldOutline.parent());
+		final String fieldColumnName = getColumn$Name(context, fieldOutline);
+		return getName(entityTableName + "_" + fieldColumnName);
+	}
+	
+	@Override
+	public String getElementCollection$CollectionTable$JoinColumn$Name(
+			Mapping context, FieldOutline fieldOutline,
+			FieldOutline idFieldOutline) {
+//		final String entityTableName = getEntityTable$Name(context,
+//				fieldOutline.parent());
+//		final String fieldColumnName = getName(fieldOutline.getPropertyInfo()
+//				.getName(true));
+		final String idFieldColumnName = getName(idFieldOutline
+				.getPropertyInfo().getName(true));
+
+		return getName(context.getNaming().getColumn$Name$Prefix(context)
+//				+ fieldColumnName + "_" + entityTableName + "_"
+				+ idFieldColumnName);
+	}
+	
+	@Override
+	public String getElementCollection$OrderColumn$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		// final String collectionTableName =
+		// getElementCollection$CollectionTable$Name(context, fieldOutline);
+		final String columnName = /* collectionTableName + "_" + */
+		context.getNaming().getColumn$Name$Prefix(context) + "HJINDEX";
+		return getName(columnName);
+	}
+
+	@Override
+	public String getElementCollection$Column$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		// final String collectionTableName =
+		// getElementCollection$CollectionTable$Name(context, fieldOutline);
+		final String columnName = /* collectionTableName + "_" + */
+		context.getNaming().getColumn$Name$Prefix(context) + "HJVALUE";
+		return getName(columnName);
+	}
+
 }

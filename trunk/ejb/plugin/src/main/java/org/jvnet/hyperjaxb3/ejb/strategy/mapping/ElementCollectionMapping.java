@@ -1,6 +1,11 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
+import java.util.Collection;
+
+import com.sun.java.xml.ns.persistence.orm.CollectionTable;
+import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.java.xml.ns.persistence.orm.ElementCollection;
+import com.sun.java.xml.ns.persistence.orm.OrderColumn;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
@@ -13,19 +18,69 @@ public class ElementCollectionMapping implements
 		final ElementCollection elementCollection = context.getCustomizing()
 				.getElementCollection(fieldOutline);
 		createElementCollection$Name(context, fieldOutline, elementCollection);
-		// createOneToMany$OrderColumn(context, fieldOutline,
-		// elementCollection);
-		// createOneToMany$TargetEntity(context, fieldOutline,
-		// elementCollection);
-		// createOneToMany$JoinTableOrJoinColumn(context, fieldOutline,
-		// elementCollection);
+		createElementCollection$Column(context, fieldOutline, elementCollection);
+		createElementCollection$OrderColumn(context, fieldOutline,
+				elementCollection);
+		createElementCollection$CollectionTable(context, fieldOutline,
+				elementCollection);
 		return elementCollection;
 	}
 
-	public void createElementCollection$Name(Mapping context,
+	private void createElementCollection$Column(Mapping context,
+			FieldOutline fieldOutline, final ElementCollection elementCollection) {
+		if (elementCollection.getColumn() == null) {
+			elementCollection.setColumn(new Column());
+		}
+		createElementCollection$Column$Name(context, fieldOutline,
+				elementCollection.getColumn());
+	}
+
+	private void createElementCollection$Column$Name(Mapping context,
+			FieldOutline fieldOutline, Column column) {
+		if (column.getName() == null || "##default".equals(column.getName())) {
+			column.setName(context.getNaming()
+					.getElementCollection$Column$Name(context, fieldOutline));
+		}
+	}
+
+	private void createElementCollection$CollectionTable(Mapping context,
+			FieldOutline fieldOutline, ElementCollection elementCollection) {
+		if (elementCollection.getCollectionTable() == null) {
+			elementCollection.setCollectionTable(new CollectionTable());
+		}
+
+		final CollectionTable collectionTable = elementCollection
+				.getCollectionTable();
+		createElementCollection$CollectionTable$Name(context, fieldOutline,
+				collectionTable);
+		createElementCollection$CollectionTable$JoinColumn(context,
+				fieldOutline, collectionTable);
+	}
+
+	private void createElementCollection$CollectionTable$Name(Mapping context,
+			FieldOutline fieldOutline, CollectionTable collectionTable) {
+		if (collectionTable.getName() == null
+				|| "##default".equals(collectionTable.getName())) {
+			collectionTable.setName(context.getNaming()
+					.getElementCollection$CollectionTable$Name(context,
+							fieldOutline));
+		}
+	}
+
+	private void createElementCollection$Name(Mapping context,
 			FieldOutline fieldOutline, final ElementCollection target) {
 		target.setName(context.getNaming().getPropertyName(context,
 				fieldOutline));
+	}
+
+	private void createElementCollection$OrderColumn(Mapping context,
+			FieldOutline fieldOutline, final ElementCollection source) {
+		if (source.getOrderColumn() == null) {
+			source.setOrderColumn(new OrderColumn());
+		}
+		context.getAssociationMapping().createElementCollection$OrderColumn(
+				context, fieldOutline, source.getOrderColumn());
+
 	}
 
 	// public void createOneToMany$OrderColumn(Mapping context,
@@ -56,43 +111,19 @@ public class ElementCollectionMapping implements
 	//
 	// }
 	//
-	// public void createOneToMany$JoinTableOrJoinColumn(Mapping context,
-	// FieldOutline fieldOutline, OneToMany oneToMany) {
-	//
-	// if (!oneToMany.getJoinColumn().isEmpty()) {
-	// final Collection<FieldOutline> idFieldsOutline = context
-	// .getAssociationMapping().getSourceIdFieldsOutline(context,
-	// fieldOutline);
-	// if (idFieldsOutline.isEmpty()) {
-	// oneToMany.getJoinColumn().clear();
-	// }
-	// context.getAssociationMapping().createJoinColumns(context,
-	// fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
-	// } else if (oneToMany.getJoinTable() != null) {
-	// final Collection<FieldOutline> sourceIdFieldOutlines = context
-	// .getAssociationMapping().getSourceIdFieldsOutline(context,
-	// fieldOutline);
-	// final Collection<FieldOutline> targetIdFieldOutlines = context
-	// .getAssociationMapping().getTargetIdFieldsOutline(context,
-	// fieldOutline);
-	//
-	// if (sourceIdFieldOutlines.isEmpty()) {
-	// oneToMany.setJoinTable(null);
-	// } else {
-	// context.getAssociationMapping().createJoinTable(context,
-	// fieldOutline, sourceIdFieldOutlines,
-	// targetIdFieldOutlines, oneToMany.getJoinTable());
-	// }
-	// } else {
-	// final Collection<FieldOutline> idFieldsOutline = context
-	// .getAssociationMapping().getSourceIdFieldsOutline(context,
-	// fieldOutline);
-	// if (idFieldsOutline.isEmpty()) {
-	// oneToMany.getJoinColumn().clear();
-	// }
-	// context.getAssociationMapping().createJoinColumns(context,
-	// fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
-	// }
-	//
-	// }
+	public void createElementCollection$CollectionTable$JoinColumn(
+			Mapping context, FieldOutline fieldOutline,
+			CollectionTable collectionTable) {
+
+		final Collection<FieldOutline> idFieldsOutline = context
+				.getAssociationMapping().getSourceIdFieldsOutline(context,
+						fieldOutline);
+		if (idFieldsOutline.isEmpty()) {
+			collectionTable.getJoinColumn().clear();
+		}
+		context.getAssociationMapping()
+				.createElementCollection$CollectionTable$JoinColumns(context,
+						fieldOutline, idFieldsOutline,
+						collectionTable.getJoinColumn());
+	}
 }

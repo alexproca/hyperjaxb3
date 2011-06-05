@@ -93,6 +93,21 @@ public class EmbeddedAssociationMappingWrapper implements AssociationMapping {
 
 		return idFieldOutlines;
 	}
+	
+	@Override
+	public void createElementCollection$CollectionTable$JoinColumns(
+			Mapping context, FieldOutline fieldOutline,
+			Collection<FieldOutline> idFieldOutlines,
+			List<JoinColumn> joinColumns) {
+		associationMapping.createElementCollection$CollectionTable$JoinColumns(context, fieldOutline, idFieldOutlines, joinColumns);
+	}
+	
+	@Override
+	public void createElementCollection$OrderColumn(Mapping context,
+			FieldOutline fieldOutline, OrderColumn orderColumn) {
+		associationMapping.createElementCollection$OrderColumn(context, fieldOutline, orderColumn);
+		
+	}
 
 	public AssociationMapping createEmbeddedAssociationMapping(
 			FieldOutline fieldOutline) {

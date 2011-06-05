@@ -40,6 +40,13 @@ public interface AssociationMapping {
 
 	public void createOrderColumn(Mapping context, FieldOutline fieldOutline,
 			final OrderColumn orderColumn);
+
+	public void createElementCollection$OrderColumn(Mapping context, FieldOutline fieldOutline,
+			final OrderColumn orderColumn);
+
+	public void createElementCollection$CollectionTable$JoinColumns(Mapping context, FieldOutline fieldOutline,
+			Collection<FieldOutline> idFieldOutlines,
+			List<JoinColumn> joinColumns);
 	
 	public AssociationMapping createEmbeddedAssociationMapping(FieldOutline fieldOutline);
 

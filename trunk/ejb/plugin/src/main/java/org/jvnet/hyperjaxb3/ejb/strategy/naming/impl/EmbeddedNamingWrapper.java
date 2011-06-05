@@ -68,8 +68,7 @@ public class EmbeddedNamingWrapper implements Naming {
 
 	public String getJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
-		return naming.getJoinColumn$Name(context, fieldOutline,
-						idFieldOutline);
+		return naming.getJoinColumn$Name(context, fieldOutline, idFieldOutline);
 	}
 
 	public String getJoinTable$JoinColumn$Name(Mapping context,
@@ -94,6 +93,32 @@ public class EmbeddedNamingWrapper implements Naming {
 
 	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
+	}
+
+	
+	@Override
+	public String getElementCollection$CollectionTable$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		return naming.getElementCollection$CollectionTable$Name(context, fieldOutline);
+	}
+	
+	@Override
+	public String getElementCollection$CollectionTable$JoinColumn$Name(
+			Mapping context, FieldOutline fieldOutline, FieldOutline idFieldOutline) {
+		return naming.getElementCollection$CollectionTable$JoinColumn$Name(context, fieldOutline, idFieldOutline);
+	}
+
+	@Override
+	public String getElementCollection$Column$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		return naming.getElementCollection$Column$Name(context, fieldOutline);
+	}
+
+	@Override
+	public String getElementCollection$OrderColumn$Name(Mapping context,
+			FieldOutline fieldOutline) {
+		return naming.getElementCollection$OrderColumn$Name(context,
+				fieldOutline);
 	}
 
 }
