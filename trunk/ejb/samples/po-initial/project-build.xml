@@ -95,7 +95,6 @@
 					<include name="jsr173_api-*.jar"/>
 					<include name="stax-api-*.jar"/>
                                                        
-					<include name="jaxb2-basics-jaxb-xjc-*.jar"/>
 					<include name="jaxb-xjc-*.jar"/>
 					<include name="codemodel-*.jar"/>
 					<include name="dtd-parser-*.jar"/>

@@ -5,7 +5,63 @@
 	<packaging>pom</packaging>
 	<version>0.5.6-SNAPSHOT</version>
 	<name>Hyperjaxb3</name>
-	<url>http://hj3.dev.java.net</url>
+	<url>http://confluence.highsource.org/display/HJ3/Home</url>
+	<description>Hyperjaxb3 is an open source project which provides relational persistence for JAXB objects.</description>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<distributionManagement>
+		<site>
+			<id>org.highsource.static.hyperjaxb3</id>
+			<url>${sftp.static.highsource.org}/hyperjaxb3</url>
+		</site>
+	</distributionManagement>
+	<issueManagement>
+		<system>JIRA</system>
+		<url>http://jira.highsource.org/browse/HJ3</url>
+	</issueManagement>
+	<inceptionYear>2005</inceptionYear>
+	<mailingLists>
+		<mailingList>
+			<name>Users List</name>
+			<subscribe>users-subscribe@hyperjaxb.java.net</subscribe>
+			<unsubscribe>users-unsubscribe@hyperjaxb.java.net</unsubscribe>
+			<post>users@hyperjaxb.java.net</post>
+			<archive>http://java.net/projects/hyperjaxb/lists/users/archive</archive>
+		</mailingList>
+	</mailingLists>
+	<developers>
+		<developer>
+			<id>lexi</id>
+			<name>Aleksei Valikov</name>
+			<email>valikov@gmx.net</email>
+		</developer>
+	</developers>
+	<contributors>
+		<!--contributor>
+			<name></name>
+			<email></email>
+			<organization></organization>
+			<organizationUrl></organizationUrl>
+			<timezone></timezone>
+		</contributor-->
+	</contributors>
+	<licenses>
+		<license>
+			<name>BSD-Style License</name>
+			<url>http://confluence.highsource.org/display/HJ3/License</url>
+			<distribution>repo</distribution>
+			<comments>Hyperjaxb3 license is the 3-clause BSD license which is compatible with GPL. Hyperjaxb3 license does not require you to include any acknowledgments for Hyperjaxb3 in advertising materials for your software.</comments>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:https://svn.java.net/svn/hj3~svn/trunk</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/hj3~svn/trunk</developerConnection>
+		<url>http://java.net/projects/hj3/sources/svn/show/trunk</url>
+	</scm>
+
 	<modules>
 		<!-- General -->
 		<module>ejb</module>
@@ -13,53 +69,14 @@
 		<!--module>jdo</module-->
 		<module>maven</module>
 	</modules>
-	<repositories>
-		<!--repository>
-			<id>maven2-repository.jboss.com</id>
-			<url>http://repository.jboss.com/maven2</url>
-		</repository-->
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>maven-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>java.net-maven2-repository</id>
-			<url>${dev.java.net-releases.deploy.url}</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>org.highsource.repository.maven2.snapshots</id>
-			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
-		</snapshotRepository>
-		<site>
-			<url>${sftp.static.highsource.org}/hyperjaxb3</url>
-		</site>
-	</distributionManagement>
-	<scm>
-		<!--connection>scm:svn:https://hj3.dev.java.net/svn/hj3/trunk</connection-->
-		<developerConnection>scm:svn:https://hj3.dev.java.net/svn/hj3/trunk</developerConnection>
-		<url>https://hj3.dev.java.net/source/browse/hj3/</url>
-	</scm>
+
 	<properties>
 		<annox.version>0.5.0</annox.version>
-		<jaxb2-basics.version>0.6.0</jaxb2-basics.version>
-		<maven-jaxb2-plugin.version>0.7.4</maven-jaxb2-plugin.version>
-		<jaxb-ri.version>2.1.13</jaxb-ri.version>
+		<jaxb2-basics.version>0.6.2-SNAPSHOT</jaxb2-basics.version>
+		<maven-jaxb2-plugin.version>0.8.0-SNAPSHOT</maven-jaxb2-plugin.version>
+		<jaxb.version>2.2.4-SNAPSHOT</jaxb.version>
 	</properties>
+
 	<profiles>
 		<profile>
 			<id>reporting</id>
@@ -123,13 +140,6 @@
 	</profiles>
 	<build>
 		<defaultGoal>install</defaultGoal>
-		<extensions>
-			<extension>
-				<groupId>org.jvnet.wagon-svn</groupId>
-				<artifactId>wagon-svn</artifactId>
-				<version>1.8</version>
-			</extension>
-		</extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -268,7 +278,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin-raw</artifactId>
+				<artifactId>maven-jaxb2-plugin-core</artifactId>
 				<version>${maven-jaxb2-plugin.version}</version>
 			</dependency>
 			<dependency>
@@ -285,18 +295,12 @@
 			<dependency>
 				<groupId>com.sun.xml.bind</groupId>
 				<artifactId>jaxb-impl</artifactId>
-				<version>${jaxb-ri.version}</version>
+				<version>${jaxb.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-jaxb-xjc</artifactId>
-				<version>2.1.13.MR2</version>
-				<!--exclusions>
-					<exclusion>
-						<groupId>sun.jdk</groupId>
-						<artifactId>tools</artifactId>
-					</exclusion>	
-				</exclusions-->
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-xjc</artifactId>
+				<version>${jaxb.version}</version>
 			</dependency>
 			<!-- JUnit -->
 			<dependency>
@@ -379,7 +383,21 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
-				<version>3.6.4.Final</version>
+				<version>3.5.6-Final</version>
+				<exclusions>
+					<exclusion> 
+						<groupId>org.hibernate</groupId> 
+						<artifactId>hibernate-core</artifactId> 
+					</exclusion> 
+					<exclusion> 
+						<groupId>org.hibernate</groupId> 
+						<artifactId>hibernate-commons-annotations</artifactId> 
+					</exclusion> 
+					<exclusion> 
+						<groupId>org.hibernate.javax.persistence</groupId> 
+						<artifactId>hibernate-jpa-2.0-api</artifactId> 
+					</exclusion> 
+				</exclusions>
 			</dependency>
 			<!-- Java Persistence API -->
 			<dependency>

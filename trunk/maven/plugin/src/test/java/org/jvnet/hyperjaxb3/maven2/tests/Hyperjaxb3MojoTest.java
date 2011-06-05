@@ -24,6 +24,7 @@ public class Hyperjaxb3MojoTest extends RunXJC2Mojo {
 	protected void configureHyperjaxb3Mojo(Hyperjaxb3Mojo mojo) {
 		mojo.setProject(new MavenProject());
 		mojo.setDebug(true);
+		mojo.setForceRegenerate(true);
 	}
 
 	@Override

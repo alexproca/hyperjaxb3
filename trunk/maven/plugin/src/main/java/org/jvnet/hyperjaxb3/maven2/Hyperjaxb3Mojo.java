@@ -17,8 +17,8 @@ package org.jvnet.hyperjaxb3.maven2;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.AppenderSkeleton;
@@ -35,13 +35,13 @@ import org.apache.maven.plugin.logging.Log;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoPhase;
-import org.jvnet.jaxb2.maven2.RawXJC2Mojo;
+import org.jvnet.mjiip.v_2.XJC2Mojo;
 
 import com.sun.tools.xjc.Options;
 
 @MojoGoal("generate")
 @MojoPhase("generate-sources")
-public class Hyperjaxb3Mojo extends RawXJC2Mojo {
+public class Hyperjaxb3Mojo extends XJC2Mojo {
 
 	/**
 	 * Target directory for the generated mappings. If left empty, mappings are
@@ -128,7 +128,6 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 	@MojoParameter
 	public String[] postArgs = new String[0];
 
-
 	/**
 	 * Sets up the verbose and debug mode depending on mvn logging level, and
 	 * sets up hyperjaxb logging.
@@ -184,15 +183,14 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 
 	}
 
-
-	protected String[] getArguments() throws MojoExecutionException {
+	protected List<String> getArguments() throws MojoExecutionException {
 		final List<String> arguments = new ArrayList<String>();
 
 		if (this.preArgs != null) {
 			arguments.addAll(Arrays.asList(this.preArgs));
 		}
 
-		arguments.addAll(Arrays.asList(super.getArguments()));
+		arguments.addAll(super.getArguments());
 
 		if ("ejb".equals(variant)) {
 			arguments.add("-Xhyperjaxb3-ejb");
@@ -218,8 +216,7 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 				arguments.add("-Xhyperjaxb3-ejb-generateTransientId=true");
 			}
 
-		}
-		else if ("jpa1".equals(variant)) {
+		} else if ("jpa1".equals(variant)) {
 			arguments.add("-Xhyperjaxb3-jpa1");
 
 			if (result != null) {
@@ -239,8 +236,7 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 						+ persistenceXml.getAbsolutePath());
 			}
 
-		}
-		else if ("jpa2".equals(variant)) {
+		} else if ("jpa2".equals(variant)) {
 			arguments.add("-Xhyperjaxb3-jpa2");
 
 			if (result != null) {
@@ -273,8 +269,7 @@ public class Hyperjaxb3Mojo extends RawXJC2Mojo {
 			arguments.addAll(Arrays.asList(this.postArgs));
 		}
 
-
-		return arguments.toArray(new String[arguments.size()]);
+		return arguments;
 	}
 
 	/**

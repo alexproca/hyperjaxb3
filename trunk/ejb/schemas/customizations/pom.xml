@@ -14,12 +14,12 @@
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-runtime</artifactId>
-			<exclusions>
+			<!--exclusions>
 				<exclusion>
 					<groupId>com.sun.xml.bind</groupId>
 					<artifactId>jaxb-impl</artifactId>
 				</exclusion>
-			</exclusions>
+			</exclusions-->
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -31,8 +31,8 @@
 			<artifactId>jaxb2-basics-tools</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-jaxb-xjc</artifactId>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-xjc</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
