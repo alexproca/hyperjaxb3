@@ -38,7 +38,7 @@ import com.sun.xml.xsom.XSComponent;
 
 public class PropertyMapping {
 
-	public Column createColumn(Mapping context, FieldOutline fieldOutline,
+	public final Column createColumn(Mapping context, FieldOutline fieldOutline,
 			Column column) {
 
 		if (column == null) {
