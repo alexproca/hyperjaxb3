@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,16 +16,25 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
+import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
+import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
+import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
+import com.sun.java.xml.ns.persistence.orm.ManyToMany;
+import com.sun.java.xml.ns.persistence.orm.ManyToOne;
+import com.sun.java.xml.ns.persistence.orm.OneToMany;
+import com.sun.java.xml.ns.persistence.orm.OneToOne;
 import com.sun.java.xml.ns.persistence.orm.OrderColumn;
 import com.sun.java.xml.ns.persistence.orm.PrimaryKeyJoinColumn;
+import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 public class DefaultAssociationMapping implements AssociationMapping {
 
@@ -292,21 +302,24 @@ public class DefaultAssociationMapping implements AssociationMapping {
 		}
 	}
 
-	public void createElementCollection$OrderColumn(Mapping context, FieldOutline fieldOutline,
-			final OrderColumn orderColumn) {
-		createElementCollection$OrderColumn$Name(context, fieldOutline, orderColumn);
+	public void createElementCollection$OrderColumn(Mapping context,
+			FieldOutline fieldOutline, final OrderColumn orderColumn) {
+		createElementCollection$OrderColumn$Name(context, fieldOutline,
+				orderColumn);
 	}
-	
+
 	protected void createElementCollection$OrderColumn$Name(Mapping context,
 			FieldOutline fieldOutline, final OrderColumn orderColumn) {
 		if (orderColumn.getName() == null
 				|| "##default".equals(orderColumn.getName())) {
-			orderColumn.setName(context.getNaming().getElementCollection$OrderColumn$Name(
-					context, fieldOutline));
+			orderColumn.setName(context.getNaming()
+					.getElementCollection$OrderColumn$Name(context,
+							fieldOutline));
 		}
 	}
-	
-	public void createElementCollection$CollectionTable$JoinColumns(Mapping context, FieldOutline fieldOutline,
+
+	public void createElementCollection$CollectionTable$JoinColumns(
+			Mapping context, FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines,
 			List<JoinColumn> joinColumns) {
 		final Iterator<JoinColumn> joinColumnIterator = new ArrayList<JoinColumn>(
@@ -319,28 +332,30 @@ public class DefaultAssociationMapping implements AssociationMapping {
 				joinColumn = new JoinColumn();
 				joinColumns.add(joinColumn);
 			}
-			createElementCollection$CollectionTable$JoinColumn(context, fieldOutline, idFieldOutline, joinColumn);
+			createElementCollection$CollectionTable$JoinColumn(context,
+					fieldOutline, idFieldOutline, joinColumn);
 
 		}
 	}
 
-	protected void createElementCollection$CollectionTable$JoinColumn(Mapping context, FieldOutline fieldOutline,
+	protected void createElementCollection$CollectionTable$JoinColumn(
+			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline, JoinColumn joinColumn) {
-		createElementCollection$CollectionTable$JoinColumn$Name(context, fieldOutline, idFieldOutline, joinColumn);
+		createElementCollection$CollectionTable$JoinColumn$Name(context,
+				fieldOutline, idFieldOutline, joinColumn);
 	}
 
-	protected void createElementCollection$CollectionTable$JoinColumn$Name(Mapping context,
-			FieldOutline fieldOutline, FieldOutline idFieldOutline,
-			JoinColumn joinColumn) {
+	protected void createElementCollection$CollectionTable$JoinColumn$Name(
+			Mapping context, FieldOutline fieldOutline,
+			FieldOutline idFieldOutline, JoinColumn joinColumn) {
 		if (joinColumn.getName() == null
 				|| "##default".equals(joinColumn.getName())) {
-			joinColumn.setName(context.getNaming().getElementCollection$CollectionTable$JoinColumn$Name(context,
-					fieldOutline, idFieldOutline));
+			joinColumn.setName(context.getNaming()
+					.getElementCollection$CollectionTable$JoinColumn$Name(
+							context, fieldOutline, idFieldOutline));
 		}
 	}
-	
 
-	
 	protected void createManyToOne$JoinTable$InverseJoinColumn$Name(
 			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline, JoinColumn joinColumn) {
@@ -355,6 +370,132 @@ public class DefaultAssociationMapping implements AssociationMapping {
 	public AssociationMapping createEmbeddedAssociationMapping(
 			FieldOutline fieldOutline) {
 		return new EmbeddedAssociationMappingWrapper(this, fieldOutline);
+	}
+
+	public void createAssociationOverride(Mapping context,
+			FieldOutline fieldOutline,
+			final List<AssociationOverride> associationOverrides) {
+
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		assert types.size() == 1;
+
+		final CTypeInfo typeInfo = types.iterator().next();
+
+		assert typeInfo instanceof CClassInfo;
+
+		final CClassInfo classInfo = (CClassInfo) typeInfo;
+
+		final Outline outline = fieldOutline.parent().parent();
+
+		final ClassOutline classOutline = outline.getClazz(classInfo);
+
+		final Options options = outline.getModel().options;
+
+		final Map<String, AssociationOverride> associationOverridesMap = new HashMap<String, AssociationOverride>();
+		for (final AssociationOverride associationOverride : associationOverrides) {
+			associationOverridesMap.put(associationOverride.getName(),
+					associationOverride);
+		}
+		Mapping embeddedMapping = context.createEmbeddedMapping(fieldOutline);
+
+		final EmbeddableAttributes embeddableAttributes = embeddedMapping
+				.getEmbeddableAttributesMapping().process(embeddedMapping,
+						classOutline, options);
+
+		for (final ManyToOne source : embeddableAttributes.getManyToOne()) {
+			final String name = source.getName();
+			final AssociationOverride associationOverride;
+			if (!associationOverridesMap.containsKey(name)) {
+				associationOverride = new AssociationOverride();
+				associationOverride.setName(name);
+				associationOverride.setJoinTable(source.getJoinTable());
+				associationOverride.getJoinColumn().addAll(
+						source.getJoinColumn());
+				associationOverridesMap.put(name, associationOverride);
+				associationOverrides.add(associationOverride);
+			} else {
+				associationOverride = associationOverridesMap.get(name);
+			}
+		}
+		for (final OneToMany source : embeddableAttributes.getOneToMany()) {
+			final String name = source.getName();
+			final AssociationOverride associationOverride;
+			if (!associationOverridesMap.containsKey(name)) {
+				associationOverride = new AssociationOverride();
+				associationOverride.setName(name);
+				associationOverride.setJoinTable(source.getJoinTable());
+				// Join columns must not be overridden for 1:X
+				// associationOverride.getJoinColumn().addAll(
+				// source.getJoinColumn());
+				associationOverridesMap.put(name, associationOverride);
+				associationOverrides.add(associationOverride);
+			} else {
+				associationOverride = associationOverridesMap.get(name);
+			}
+		}
+		for (final ManyToMany source : embeddableAttributes.getManyToMany()) {
+			final String name = source.getName();
+			final AssociationOverride associationOverride;
+			if (!associationOverridesMap.containsKey(name)) {
+				associationOverride = new AssociationOverride();
+				associationOverride.setName(name);
+				associationOverride.setJoinTable(source.getJoinTable());
+				associationOverridesMap.put(name, associationOverride);
+				associationOverrides.add(associationOverride);
+			} else {
+				associationOverride = associationOverridesMap.get(name);
+			}
+		}
+		for (final OneToOne source : embeddableAttributes.getOneToOne()) {
+			final String name = source.getName();
+			final AssociationOverride associationOverride;
+			if (!associationOverridesMap.containsKey(name)) {
+				associationOverride = new AssociationOverride();
+				associationOverride.setName(name);
+				associationOverride.setJoinTable(source.getJoinTable());
+				if (source.getMappedBy() == null) {
+					// Join columns must not be overridden for 1:X
+					// associationOverride.getJoinColumn().addAll(
+					// source.getJoinColumn());
+				} else {
+					associationOverride.getJoinColumn().addAll(
+							source.getJoinColumn());
+				}
+				associationOverridesMap.put(name, associationOverride);
+				associationOverrides.add(associationOverride);
+			} else {
+				associationOverride = associationOverridesMap.get(name);
+			}
+		}
+		// TODO Element collection
+
+		for (final Embedded embedded : embeddableAttributes.getEmbedded()) {
+			final String parentName = embedded.getName();
+
+			for (AssociationOverride embeddedAssociationOverride : embedded
+					.getAssociationOverride()) {
+				final String childName = embeddedAssociationOverride.getName();
+				final String name = parentName + "." + childName;
+
+				final AssociationOverride associationOverride;
+				if (!associationOverridesMap.containsKey(name)) {
+					associationOverride = new AssociationOverride();
+					associationOverride.setName(name);
+					associationOverride
+							.setJoinTable(embeddedAssociationOverride
+									.getJoinTable());
+					associationOverride.getJoinColumn().addAll(
+							embeddedAssociationOverride.getJoinColumn());
+					associationOverridesMap.put(name, associationOverride);
+					associationOverrides.add(associationOverride);
+				} else {
+					associationOverride = associationOverridesMap.get(name);
+				}
+			}
+		}
 	}
 
 }

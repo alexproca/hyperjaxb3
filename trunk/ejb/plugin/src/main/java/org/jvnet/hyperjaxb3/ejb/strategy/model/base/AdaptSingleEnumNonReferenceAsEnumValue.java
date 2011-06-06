@@ -9,10 +9,10 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class AdaptEnumNonReferenceAsEnumValue extends
+public class AdaptSingleEnumNonReferenceAsEnumValue extends
 		AbstractAdaptEnumPropertyInfo {
 
-	public AdaptEnumNonReferenceAsEnumValue() {
+	public AdaptSingleEnumNonReferenceAsEnumValue() {
 		super();
 	}
 

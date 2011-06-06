@@ -10,7 +10,7 @@ public class EntityOrMappedSuperclassOrEmbeddableMapping implements
 		ClassOutlineMapping<Object> {
 
 	public Object process(Mapping context, ClassOutline classOutline,
-			Options options) throws Exception {
+			Options options) {
 		final Object entityOrMappedSuperclass = context.getCustomizing()
 				.getEntityOrMappedSuperclassOrEmbeddable(classOutline);
 

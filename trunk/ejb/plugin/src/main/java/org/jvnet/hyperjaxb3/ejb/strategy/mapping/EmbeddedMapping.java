@@ -4,22 +4,21 @@ import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class EmbeddedMapping extends PropertyMapping implements
-		FieldOutlineMapping<Embedded> {
+public class EmbeddedMapping implements FieldOutlineMapping<Embedded> {
 
 	public Embedded process(Mapping context, FieldOutline fieldOutline,
-			Options options) throws Exception {
+			Options options) {
 
 		final Embedded embedded = context.getCustomizing().getEmbedded(
 				fieldOutline);
 
 		createEmbedded$Name(context, fieldOutline, embedded);
 
-		createAttributeOverride(context, fieldOutline,
-				embedded.getAttributeOverride());
+		context.getAttributeMapping().createAttributeOverride(context,
+				fieldOutline, embedded.getAttributeOverride());
 
-		createAssociationOverride(context, fieldOutline,
-				embedded.getAssociationOverride());
+		context.getAssociationMapping().createAssociationOverride(context,
+				fieldOutline, embedded.getAssociationOverride());
 
 		return embedded;
 	}

@@ -28,7 +28,7 @@ public class EmbeddableAttributesMapping implements
 	protected Log logger = LogFactory.getLog(getClass());
 
 	public EmbeddableAttributes process(Mapping context,
-			ClassOutline classOutline, Options options) throws Exception {
+			ClassOutline classOutline, Options options) {
 
 		final EmbeddableAttributes attributes = new EmbeddableAttributes();
 
@@ -49,7 +49,7 @@ public class EmbeddableAttributesMapping implements
 	}
 
 	public FieldOutlineMapping<?> getAttributeMapping(Mapping context,
-			FieldOutline fieldOutline, Options options) throws Exception {
+			FieldOutline fieldOutline, Options options) {
 		if (context.getIgnoring().isFieldOutlineIgnored(fieldOutline)) {
 			return context.getTransientMapping();
 		} else if (isFieldOutlineId(fieldOutline)) {
@@ -95,21 +95,19 @@ public class EmbeddableAttributesMapping implements
 					} else
 
 					if (isFieldOutlineComplex(fieldOutline)) {
-						logger
-								.warn("Field outline  ["
-										+ propertyInfo.getName(true)
-										+ "] is a complex field. "
-										+ "This is not supported in embeddable classes. "
-										+ "This field will be made transient.");
+						logger.warn("Field outline  ["
+								+ propertyInfo.getName(true)
+								+ "] is a complex field. "
+								+ "This is not supported in embeddable classes. "
+								+ "This field will be made transient.");
 
 						return context.getTransientMapping();
 					} else {
-						logger
-								.warn("Field outline  ["
-										+ propertyInfo.getName(true)
-										+ "] is not a basic field. "
-										+ "This is not supported in embeddable classes. "
-										+ "This field will be made transient.");
+						logger.warn("Field outline  ["
+								+ propertyInfo.getName(true)
+								+ "] is not a basic field. "
+								+ "This is not supported in embeddable classes. "
+								+ "This field will be made transient.");
 
 						return context.getTransientMapping();
 

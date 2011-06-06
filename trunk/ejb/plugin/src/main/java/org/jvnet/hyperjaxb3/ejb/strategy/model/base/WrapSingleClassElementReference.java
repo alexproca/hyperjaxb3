@@ -37,7 +37,7 @@ public class WrapSingleClassElementReference implements CreatePropertyInfos {
 		assert contentType instanceof CClassInfo;
 
 		final CClassInfo classInfo = (CClassInfo) contentType;
-		final CreatePropertyInfos createPropertyInfos = new AdaptBuiltinReference(
+		final CreatePropertyInfos createPropertyInfos = new AdaptSingleBuiltinReference(
 				classInfo);
 
 		final Collection<CPropertyInfo> newPropertyInfos = createPropertyInfos

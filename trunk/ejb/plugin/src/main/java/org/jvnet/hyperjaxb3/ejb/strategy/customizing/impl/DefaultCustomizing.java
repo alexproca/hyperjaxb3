@@ -13,6 +13,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Basic;
+import org.jvnet.hyperjaxb3.ejb.schemas.customizations.CollectionProperty;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.ElementCollection;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Embeddable;
@@ -194,6 +195,8 @@ public class DefaultCustomizing implements Customizing {
 			}
 			cPersistence.getDefaultSingleProperty().addAll(
 					defaultPersistence.getDefaultSingleProperty());
+			cPersistence.getDefaultCollectionProperty().addAll(
+					defaultPersistence.getDefaultCollectionProperty());
 			mergeFrom(cPersistence, defaultPersistence);
 			return cPersistence;
 		}
@@ -420,14 +423,94 @@ public class DefaultCustomizing implements Customizing {
 		return defaultBasic;
 	}
 
+	public ElementCollection getDefaultElementCollection(CPropertyInfo property)
+			throws AssertionError {
+		final Persistence persistence = getModelCustomization(property);
+		if (persistence.getDefaultElementCollection() == null) {
+			throw new AssertionError(
+					"Default element collection element is not provided.");
+		}
+
+		final ElementCollection defaultItem;
+		final XSComponent schemaComponent = property.getSchemaComponent();
+		if (schemaComponent == null) {
+			defaultItem = (ElementCollection) persistence
+					.getDefaultElementCollection().copyTo(
+							new ElementCollection());
+		} else {
+			final List<QName> typeNames = TypeUtils
+					.getTypeNames(schemaComponent);
+			ElementCollection item = null;
+			for (Iterator<QName> typeNameIterator = typeNames.iterator(); typeNameIterator
+					.hasNext() && item == null;) {
+				final QName typeName = typeNameIterator.next();
+				final CollectionProperty collectionProperty = getDefaultCollectionProperty(
+						persistence, typeName);
+				if (collectionProperty != null) {
+					if (collectionProperty.getElementCollection() != null) {
+						item = collectionProperty.getElementCollection();
+					} else {
+						logger.warn("Default single property for type ["
+								+ typeName
+								+ "] does not define the expected basic mapping.");
+					}
+				}
+			}
+			if (item == null) {
+				defaultItem = (ElementCollection) persistence
+						.getDefaultElementCollection().copyTo(
+								new ElementCollection());
+			} else {
+				defaultItem = (ElementCollection) item
+						.copyTo(new ElementCollection());
+				mergeFrom(defaultItem, (Basic) persistence
+						.getDefaultElementCollection().copyTo(new Basic()));
+			}
+		}
+
+		if (defaultItem.getColumn() != null) {
+
+			final Integer length = createColumn$Length(property);
+
+			if (length != null) {
+				defaultItem.getColumn().setLength(length);
+			}
+
+			final Integer precision = createColumn$Precision(property);
+			if (precision != null) {
+				defaultItem.getColumn().setPrecision(precision);
+			}
+
+			final Integer scale = createColumn$Scale(property);
+			if (scale != null && scale.intValue() != 0) {
+				defaultItem.getColumn().setScale(scale);
+			}
+
+		}
+		return defaultItem;
+	}
+
 	public SingleProperty getDefaultSingleProperty(Persistence persistence,
 			QName typeName) {
 		Validate.notNull(persistence);
 		Validate.notNull(typeName);
-		for (final SingleProperty singleProperty : persistence
+		for (final SingleProperty property : persistence
 				.getDefaultSingleProperty()) {
-			if (typeName.equals(singleProperty.getType())) {
-				return singleProperty;
+			if (typeName.equals(property.getType())) {
+				return property;
+			}
+		}
+		return null;
+	}
+
+	public CollectionProperty getDefaultCollectionProperty(
+			Persistence persistence, QName typeName) {
+		Validate.notNull(persistence);
+		Validate.notNull(typeName);
+		for (final CollectionProperty property : persistence
+				.getDefaultCollectionProperty()) {
+			if (typeName.equals(property.getType())) {
+				return property;
 			}
 		}
 		return null;
@@ -684,23 +767,17 @@ public class DefaultCustomizing implements Customizing {
 	}
 
 	public ElementCollection getElementCollection(CPropertyInfo property) {
-		final Persistence persistence = getModelCustomization(property);
-		if (persistence.getDefaultElementCollection() == null) {
-			throw new AssertionError(
-					"Default element-collection element is not provided.");
-		}
-		final ElementCollection defaultCustomization = (ElementCollection) persistence
-				.getDefaultElementCollection().copyTo(new ElementCollection());
-		final ElementCollection customization;
+		final ElementCollection defaultItem = getDefaultElementCollection(property);
+		final ElementCollection item;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ELEMENT_COLLECTION_ELEMENT_NAME)) {
-			customization = findCustomization(property,
+			item = findCustomization(property,
 					Customizations.ELEMENT_COLLECTION_ELEMENT_NAME);
-			mergeFrom(customization, defaultCustomization);
+			mergeFrom(item, defaultItem);
 		} else {
-			customization = defaultCustomization;
+			item = defaultItem;
 		}
-		return customization;
+		return item;
 	}
 
 	public ManyToMany getManyToMany(FieldOutline property) {

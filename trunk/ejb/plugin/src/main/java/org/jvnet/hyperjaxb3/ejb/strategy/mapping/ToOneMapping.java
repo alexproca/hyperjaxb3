@@ -9,7 +9,7 @@ import com.sun.tools.xjc.outline.FieldOutline;
 public class ToOneMapping implements FieldOutlineMapping<Object> {
 
 	public Object process(Mapping context, FieldOutline fieldOutline,
-			Options options) throws Exception {
+			Options options) {
 
 		final Object toOne = context.getCustomizing().getToOne(fieldOutline);
 

@@ -23,6 +23,22 @@ public class ElementCollectionMapping implements
 				elementCollection);
 		createElementCollection$CollectionTable(context, fieldOutline,
 				elementCollection);
+
+		if (elementCollection.getLob() == null
+				&& elementCollection.getTemporal() == null
+				&& elementCollection.getEnumerated() == null) {
+			if (context.getAttributeMapping().isTemporal(fieldOutline)) {
+				elementCollection.setTemporal(context.getAttributeMapping()
+						.createTemporalType(fieldOutline));
+			} else if (context.getAttributeMapping().isEnumerated(fieldOutline)) {
+				elementCollection.setEnumerated(context.getAttributeMapping()
+						.createEnumerated(fieldOutline));
+			} else if (context.getAttributeMapping().isLob(fieldOutline)) {
+				elementCollection.setLob(context.getAttributeMapping().createLob(
+						fieldOutline));
+			}
+
+		}
 		return elementCollection;
 	}
 

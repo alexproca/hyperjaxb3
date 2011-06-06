@@ -17,14 +17,14 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	// private static Log logger = LogFactory.getLog(EntityMapping.class);
 
 	public Entity process(Mapping context, ClassOutline classOutline,
-			Options options) throws Exception {
+			Options options) {
 		final Entity entity = context.getCustomizing().getEntity(classOutline);
 		createEntity(context, classOutline, entity);
 		return entity;
 	}
 
 	public void createEntity(Mapping context, ClassOutline classOutline,
-			final Entity entity) throws Exception {
+			final Entity entity) {
 		createEntity$Name(context, classOutline, entity);
 		createEntity$Class(context, classOutline, entity);
 
@@ -113,7 +113,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	}
 
 	public void createEntity$Attributes(Mapping context,
-			ClassOutline classOutline, final Entity entity) throws Exception {
+			ClassOutline classOutline, final Entity entity) {
 		final Attributes attributes = context.getAttributesMapping().process(
 				context, classOutline, null);
 		entity.setAttributes(attributes);
@@ -163,8 +163,8 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 		if (classOutline.getSuperClass() != null) {
 			return !CustomizationUtils.containsCustomization(classOutline,
 					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)
-					&& !isSelfOrAncestorRootClass(context, classOutline
-							.getSuperClass());
+					&& !isSelfOrAncestorRootClass(context,
+							classOutline.getSuperClass());
 		} else {
 			return !CustomizationUtils.containsCustomization(classOutline,
 					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
@@ -178,8 +178,8 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 		} else if (isRootClass(context, classOutline)) {
 			return true;
 		} else if (classOutline.getSuperClass() != null) {
-			return isSelfOrAncestorRootClass(context, classOutline
-					.getSuperClass());
+			return isSelfOrAncestorRootClass(context,
+					classOutline.getSuperClass());
 		} else {
 			return !CustomizationUtils.containsCustomization(classOutline,
 					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);

@@ -1,4 +1,4 @@
-package org.jvnet.hyperjaxb3.hibernate.tests.hhh4384;
+package org.jvnet.hyperjaxb3.hibernate.tests.hhh;
 
 import static org.junit.Assert.assertNotNull;
 

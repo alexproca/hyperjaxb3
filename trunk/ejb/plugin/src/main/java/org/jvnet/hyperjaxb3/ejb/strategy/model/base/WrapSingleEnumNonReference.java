@@ -29,7 +29,7 @@ public class WrapSingleEnumNonReference implements CreatePropertyInfos {
 		final Basic basic = context.getCustomizing().getBasic(propertyInfo);
 
 		if (basic != null && basic.getEnumeratedValue() != null) {
-			return new AdaptEnumNonReferenceAsEnumValue();
+			return new AdaptSingleEnumNonReferenceAsEnumValue();
 		} else {
 			return CreateNoPropertyInfos.INSTANCE;
 		}

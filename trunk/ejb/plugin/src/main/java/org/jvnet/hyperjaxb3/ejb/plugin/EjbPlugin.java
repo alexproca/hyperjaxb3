@@ -175,7 +175,6 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	@Override
 	public int parseArgument(Options opt, String[] args, int start)
 			throws BadCommandLineException, IOException {
-		// TODO Auto-generated method stub
 		final int result = super.parseArgument(opt, args, start);
 
 		

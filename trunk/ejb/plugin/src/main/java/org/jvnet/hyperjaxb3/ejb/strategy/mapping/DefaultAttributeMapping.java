@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EnumType;
 import javax.xml.namespace.QName;
 
 import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
@@ -17,18 +18,15 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
-import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
 import com.sun.java.xml.ns.persistence.orm.AttributeOverride;
 import com.sun.java.xml.ns.persistence.orm.Basic;
 import com.sun.java.xml.ns.persistence.orm.Column;
 import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
-import com.sun.java.xml.ns.persistence.orm.ManyToMany;
-import com.sun.java.xml.ns.persistence.orm.ManyToOne;
-import com.sun.java.xml.ns.persistence.orm.OneToMany;
-import com.sun.java.xml.ns.persistence.orm.OneToOne;
+import com.sun.java.xml.ns.persistence.orm.Lob;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -36,10 +34,14 @@ import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.xml.xsom.XSComponent;
 
-public class PropertyMapping {
+public final class DefaultAttributeMapping implements AttributeMapping {
 
-	public final Column createColumn(Mapping context, FieldOutline fieldOutline,
-			Column column) {
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#createColumn(org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping, com.sun.tools.xjc.outline.FieldOutline, com.sun.java.xml.ns.persistence.orm.Column)
+	 */
+	@Override
+	public final Column createColumn(Mapping context,
+			FieldOutline fieldOutline, Column column) {
 
 		if (column == null) {
 			column = new Column();
@@ -66,7 +68,7 @@ public class PropertyMapping {
 		return column;
 	}
 
-	public Integer createColumn$Scale(FieldOutline fieldOutline) {
+	private Integer createColumn$Scale(FieldOutline fieldOutline) {
 		final Integer scale;
 		final Long fractionDigits = SimpleTypeAnalyzer
 				.getFractionDigits(fieldOutline.getPropertyInfo()
@@ -79,7 +81,7 @@ public class PropertyMapping {
 		return scale;
 	}
 
-	public Integer createColumn$Precision(FieldOutline fieldOutline) {
+	private Integer createColumn$Precision(FieldOutline fieldOutline) {
 		final Integer precision;
 		final Long totalDigits = SimpleTypeAnalyzer.getTotalDigits(fieldOutline
 				.getPropertyInfo().getSchemaComponent());
@@ -91,7 +93,7 @@ public class PropertyMapping {
 		return precision;
 	}
 
-	public Integer createColumn$Length(FieldOutline fieldOutline) {
+	private Integer createColumn$Length(FieldOutline fieldOutline) {
 		final Integer finalLength;
 		final Long length = SimpleTypeAnalyzer.getLength(fieldOutline
 				.getPropertyInfo().getSchemaComponent());
@@ -122,13 +124,21 @@ public class PropertyMapping {
 		return finalLength;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#isTemporal(com.sun.tools.xjc.outline.FieldOutline)
+	 */
+	@Override
 	public boolean isTemporal(FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 		final JType type = getter.type();
 		return JTypeUtils.isTemporalType(type);
 	}
 
-	public String getTemporalType(FieldOutline fieldOutline) {
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#getTemporalType(com.sun.tools.xjc.outline.FieldOutline)
+	 */
+	@Override
+	public String createTemporalType(FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 		final JType type = getter.type();
 		final JCodeModel codeModel = type.owner();
@@ -174,9 +184,53 @@ public class PropertyMapping {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#isLob(com.sun.tools.xjc.outline.FieldOutline)
+	 */
+	@Override
+	public final boolean isLob(FieldOutline fieldOutline) {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#getLob(com.sun.tools.xjc.outline.FieldOutline)
+	 */
+	@Override
+	public final Lob createLob(FieldOutline fieldOutline) {
+		return new Lob();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#isEnumerated(com.sun.tools.xjc.outline.FieldOutline)
+	 */
+	@Override
+	public final boolean isEnumerated(FieldOutline fieldOutline) {
+		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
+
+		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+
+		assert types.size() == 1;
+
+		final CTypeInfo type = types.iterator().next();
+
+		return type instanceof CEnumLeafInfo;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#createEnumerated(com.sun.tools.xjc.outline.FieldOutline)
+	 */
+	@Override
+	public String createEnumerated(FieldOutline fieldOutline) {
+		return EnumType.STRING.name();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#createAttributeOverride(org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping, com.sun.tools.xjc.outline.FieldOutline, java.util.List)
+	 */
+	@Override
 	public void createAttributeOverride(Mapping context,
 			FieldOutline fieldOutline,
-			final List<AttributeOverride> attributeOverrides) throws Exception {
+			final List<AttributeOverride> attributeOverrides) {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
@@ -253,130 +307,4 @@ public class PropertyMapping {
 		}
 	}
 
-	public void createAssociationOverride(Mapping context,
-			FieldOutline fieldOutline,
-			final List<AssociationOverride> associationOverrides)
-			throws Exception {
-
-		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
-
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
-
-		assert types.size() == 1;
-
-		final CTypeInfo typeInfo = types.iterator().next();
-
-		assert typeInfo instanceof CClassInfo;
-
-		final CClassInfo classInfo = (CClassInfo) typeInfo;
-
-		final Outline outline = fieldOutline.parent().parent();
-
-		final ClassOutline classOutline = outline.getClazz(classInfo);
-
-		final Options options = outline.getModel().options;
-
-		final Map<String, AssociationOverride> associationOverridesMap = new HashMap<String, AssociationOverride>();
-		for (final AssociationOverride associationOverride : associationOverrides) {
-			associationOverridesMap.put(associationOverride.getName(),
-					associationOverride);
-		}
-		Mapping embeddedMapping = context.createEmbeddedMapping(fieldOutline);
-
-		final EmbeddableAttributes embeddableAttributes = embeddedMapping
-				.getEmbeddableAttributesMapping().process(embeddedMapping,
-						classOutline, options);
-
-		for (final ManyToOne source : embeddableAttributes.getManyToOne()) {
-			final String name = source.getName();
-			final AssociationOverride associationOverride;
-			if (!associationOverridesMap.containsKey(name)) {
-				associationOverride = new AssociationOverride();
-				associationOverride.setName(name);
-				associationOverride.setJoinTable(source.getJoinTable());
-				associationOverride.getJoinColumn().addAll(
-						source.getJoinColumn());
-				associationOverridesMap.put(name, associationOverride);
-				associationOverrides.add(associationOverride);
-			} else {
-				associationOverride = associationOverridesMap.get(name);
-			}
-		}
-		for (final OneToMany source : embeddableAttributes.getOneToMany()) {
-			final String name = source.getName();
-			final AssociationOverride associationOverride;
-			if (!associationOverridesMap.containsKey(name)) {
-				associationOverride = new AssociationOverride();
-				associationOverride.setName(name);
-				associationOverride.setJoinTable(source.getJoinTable());
-				// Join columns must not be overridden for 1:X
-				// associationOverride.getJoinColumn().addAll(
-				// source.getJoinColumn());
-				associationOverridesMap.put(name, associationOverride);
-				associationOverrides.add(associationOverride);
-			} else {
-				associationOverride = associationOverridesMap.get(name);
-			}
-		}
-		for (final ManyToMany source : embeddableAttributes.getManyToMany()) {
-			final String name = source.getName();
-			final AssociationOverride associationOverride;
-			if (!associationOverridesMap.containsKey(name)) {
-				associationOverride = new AssociationOverride();
-				associationOverride.setName(name);
-				associationOverride.setJoinTable(source.getJoinTable());
-				associationOverridesMap.put(name, associationOverride);
-				associationOverrides.add(associationOverride);
-			} else {
-				associationOverride = associationOverridesMap.get(name);
-			}
-		}
-		for (final OneToOne source : embeddableAttributes.getOneToOne()) {
-			final String name = source.getName();
-			final AssociationOverride associationOverride;
-			if (!associationOverridesMap.containsKey(name)) {
-				associationOverride = new AssociationOverride();
-				associationOverride.setName(name);
-				associationOverride.setJoinTable(source.getJoinTable());
-				if (source.getMappedBy() == null) {
-					// Join columns must not be overridden for 1:X
-					// associationOverride.getJoinColumn().addAll(
-					// source.getJoinColumn());
-				} else {
-					associationOverride.getJoinColumn().addAll(
-							source.getJoinColumn());
-				}
-				associationOverridesMap.put(name, associationOverride);
-				associationOverrides.add(associationOverride);
-			} else {
-				associationOverride = associationOverridesMap.get(name);
-			}
-		}
-		// TODO Element collection
-
-		for (final Embedded embedded : embeddableAttributes.getEmbedded()) {
-			final String parentName = embedded.getName();
-
-			for (AssociationOverride embeddedAssociationOverride : embedded
-					.getAssociationOverride()) {
-				final String childName = embeddedAssociationOverride.getName();
-				final String name = parentName + "." + childName;
-
-				final AssociationOverride associationOverride;
-				if (!associationOverridesMap.containsKey(name)) {
-					associationOverride = new AssociationOverride();
-					associationOverride.setName(name);
-					associationOverride
-							.setJoinTable(embeddedAssociationOverride
-									.getJoinTable());
-					associationOverride.getJoinColumn().addAll(
-							embeddedAssociationOverride.getJoinColumn());
-					associationOverridesMap.put(name, associationOverride);
-					associationOverrides.add(associationOverride);
-				} else {
-					associationOverride = associationOverridesMap.get(name);
-				}
-			}
-		}
-	}
 }

@@ -23,7 +23,6 @@ import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsG
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsGYear;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsGYearMonth;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsTime;
-import org.jvnet.hyperjaxb3.xsom.SimpleTypeVisitor;
 import org.jvnet.hyperjaxb3.xsom.TypeUtils;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;

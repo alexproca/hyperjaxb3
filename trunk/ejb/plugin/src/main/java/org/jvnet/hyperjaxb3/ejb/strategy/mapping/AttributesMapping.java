@@ -39,7 +39,7 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 	protected Log logger = LogFactory.getLog(getClass());
 
 	public Attributes process(Mapping context, ClassOutline classOutline,
-			Options options) throws Exception {
+			Options options) {
 
 		final Attributes attributes = new Attributes();
 
@@ -101,7 +101,7 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 	}
 
 	public FieldOutlineMapping<?> getAttributeMapping(Mapping context,
-			FieldOutline fieldOutline, Options options) throws Exception {
+			FieldOutline fieldOutline, Options options) {
 		if (context.getIgnoring().isFieldOutlineIgnored(fieldOutline)) {
 			return context.getTransientMapping();
 		} else if (isFieldOutlineId(fieldOutline)) {

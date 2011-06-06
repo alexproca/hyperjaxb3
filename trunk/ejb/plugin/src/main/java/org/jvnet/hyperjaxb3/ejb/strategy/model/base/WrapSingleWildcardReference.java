@@ -42,7 +42,7 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 					new CExternalLeafInfo(String.class, "string",
 							ElementAsString.class));
 		} else {
-			createPropertyInfos = new AdaptWildcardNonReference(
+			createPropertyInfos = new AdaptSingleWildcardNonReference(
 					CBuiltinLeafInfo.STRING);
 		}
 

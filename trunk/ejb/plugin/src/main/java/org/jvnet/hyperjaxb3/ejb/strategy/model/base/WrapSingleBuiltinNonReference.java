@@ -42,7 +42,7 @@ public class WrapSingleBuiltinNonReference extends AbstractWrapBuiltin {
 
 	protected Collection<CPropertyInfo> wrapAnyType(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		return new AdaptWildcardNonReference(CBuiltinLeafInfo.STRING).process(
+		return new AdaptSingleWildcardNonReference(CBuiltinLeafInfo.STRING).process(
 				context, propertyInfo);
 	}
 

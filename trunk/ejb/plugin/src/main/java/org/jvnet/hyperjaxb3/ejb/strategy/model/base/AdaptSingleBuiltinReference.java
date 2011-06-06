@@ -11,14 +11,14 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class AdaptBuiltinReference extends AbstractAdaptBuiltinPropertyInfo {
+public class AdaptSingleBuiltinReference extends AbstractAdaptBuiltinPropertyInfo {
 
-	public AdaptBuiltinReference(TypeUse type,
+	public AdaptSingleBuiltinReference(TypeUse type,
 			Class<? extends XmlAdapter<?, ?>> adapterClass) {
 		super(type, adapterClass);
 	}
 
-	public AdaptBuiltinReference(TypeUse propertyType) {
+	public AdaptSingleBuiltinReference(TypeUse propertyType) {
 		super(propertyType);
 	}
 

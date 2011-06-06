@@ -26,10 +26,14 @@ public class WrapCollectionEnumNonReference implements CreatePropertyInfos {
 
 	public CreatePropertyInfos getCreatePropertyInfos(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		// final Basic basic = context.getCustomizing().getBasic(propertyInfo);
+
+		// See http://jira.highsource.org/browse/HJIII-90
+		// final ElementCollection elementCollection =
+		// context.getCustomizing().getElementCollection(propertyInfo);
 		//
-		// if (basic != null && basic.getEnumeratedValue() != null) {
-		// return new AdaptEnumNonReferenceAsEnumValue();
+		// if (elementCollection != null &&
+		// elementCollection.getEnumeratedValue() != null) {
+		// return new AdaptCollectionEnumNonReferenceAsEnumValue();
 		// } else {
 		return CreateNoPropertyInfos.INSTANCE;
 		// }

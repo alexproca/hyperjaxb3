@@ -37,7 +37,7 @@ public class WrapSingleEnumElementReference implements CreatePropertyInfos {
 		assert contentType instanceof CEnumLeafInfo;
 
 		final CEnumLeafInfo enumLeafInfo = (CEnumLeafInfo) contentType;
-		final CreatePropertyInfos createPropertyInfos = new AdaptBuiltinReference(
+		final CreatePropertyInfos createPropertyInfos = new AdaptSingleBuiltinReference(
 				enumLeafInfo);
 
 		final Collection<CPropertyInfo> newPropertyInfos = createPropertyInfos

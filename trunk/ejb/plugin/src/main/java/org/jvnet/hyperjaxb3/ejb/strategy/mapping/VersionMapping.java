@@ -7,8 +7,7 @@ import com.sun.java.xml.ns.persistence.orm.Version;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class VersionMapping extends PropertyMapping implements
-		FieldOutlineMapping<Version> {
+public class VersionMapping implements FieldOutlineMapping<Version> {
 
 	public Version process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
@@ -24,7 +23,8 @@ public class VersionMapping extends PropertyMapping implements
 
 	public void createVersion$Name(Mapping context, FieldOutline fieldOutline,
 			final Version version) {
-		version.setName(context.getNaming().getPropertyName(context, fieldOutline));
+		version.setName(context.getNaming().getPropertyName(context,
+				fieldOutline));
 	}
 
 	public void createVersion$Column(Mapping context,
@@ -33,14 +33,14 @@ public class VersionMapping extends PropertyMapping implements
 			version.setColumn(new Column());
 		}
 
-		version.setColumn(createColumn(context, fieldOutline, version
-				.getColumn()));
+		version.setColumn(context.getAttributeMapping().createColumn(context, fieldOutline,
+				version.getColumn()));
 	}
 
 	public void createVersion$Temporal(Mapping context,
 			FieldOutline fieldOutline, Version version) {
-		if (version.getTemporal() == null && isTemporal(fieldOutline)) {
-			version.setTemporal(getTemporalType(fieldOutline));
+		if (version.getTemporal() == null && context.getAttributeMapping().isTemporal(fieldOutline)) {
+			version.setTemporal(context.getAttributeMapping().createTemporalType(fieldOutline));
 		}
 	}
 

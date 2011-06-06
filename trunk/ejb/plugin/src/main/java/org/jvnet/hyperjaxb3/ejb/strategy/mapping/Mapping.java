@@ -304,5 +304,15 @@ public class Mapping implements Cloneable {
 	public void setAssociationMapping(AssociationMapping associationMapping) {
 		this.associationMapping = associationMapping;
 	}
+	
+	private AttributeMapping defaultAttributeMapping = new DefaultAttributeMapping();
+	
+	public AttributeMapping getAttributeMapping() {
+		return defaultAttributeMapping;
+	}
+	
+	public void setAttributeMapping(AttributeMapping defaultAttributeMapping) {
+		this.defaultAttributeMapping = defaultAttributeMapping;
+	}
 
 }

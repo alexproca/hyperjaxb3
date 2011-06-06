@@ -12,7 +12,7 @@ public class EmbeddableAttributesMapping implements
 		ClassOutlineMapping<EmbeddableAttributes> {
 
 	public EmbeddableAttributes process(Mapping context,
-			ClassOutline classOutline, Options options) throws Exception {
+			ClassOutline classOutline, Options options) {
 
 		final Attributes attributes = context.getAttributesMapping().process(
 				context, classOutline, options);
@@ -30,31 +30,31 @@ public class EmbeddableAttributesMapping implements
 		embeddableAttributes.getTransient().addAll(attributes.getTransient());
 
 		// TODO Report errors
-//		for (Id id : attributes.getId()) {
-//			final Basic basic = new Basic();
-//			basic.setName(id.getName());
-//			basic.setAccess(id.getAccess());
-//			basic.setColumn(id.getColumn());
-//			basic.setTemporal(id.getTemporal());
-//			embeddableAttributes.getBasic().add(basic);
-//		}
-//		for (Version version : attributes.getVersion()) {
-//			final Basic basic = new Basic();
-//			basic.setName(version.getName());
-//			basic.setAccess(version.getAccess());
-//			basic.setColumn(version.getColumn());
-//			basic.setTemporal(version.getTemporal());
-//			embeddableAttributes.getBasic().add(basic);
-//		}
-//		if (attributes.getEmbeddedId() != null) {
-//			final EmbeddedId embeddedId = attributes.getEmbeddedId();
-//			final Embedded embedded = new Embedded();
-//			embedded.setName(embeddedId.getName());
-//			embedded.setAccess(embeddedId.getAccess());
-//			embedded.getAttributeOverride().addAll(
-//					embeddedId.getAttributeOverride());
-//			embeddableAttributes.getEmbedded().add(embedded);
-//		}
+		// for (Id id : attributes.getId()) {
+		// final Basic basic = new Basic();
+		// basic.setName(id.getName());
+		// basic.setAccess(id.getAccess());
+		// basic.setColumn(id.getColumn());
+		// basic.setTemporal(id.getTemporal());
+		// embeddableAttributes.getBasic().add(basic);
+		// }
+		// for (Version version : attributes.getVersion()) {
+		// final Basic basic = new Basic();
+		// basic.setName(version.getName());
+		// basic.setAccess(version.getAccess());
+		// basic.setColumn(version.getColumn());
+		// basic.setTemporal(version.getTemporal());
+		// embeddableAttributes.getBasic().add(basic);
+		// }
+		// if (attributes.getEmbeddedId() != null) {
+		// final EmbeddedId embeddedId = attributes.getEmbeddedId();
+		// final Embedded embedded = new Embedded();
+		// embedded.setName(embeddedId.getName());
+		// embedded.setAccess(embeddedId.getAccess());
+		// embedded.getAttributeOverride().addAll(
+		// embeddedId.getAttributeOverride());
+		// embeddableAttributes.getEmbedded().add(embedded);
+		// }
 		return embeddableAttributes;
 	}
 }

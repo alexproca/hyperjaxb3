@@ -7,6 +7,7 @@ import java.util.List;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
+import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.OrderColumn;
@@ -93,20 +94,30 @@ public class EmbeddedAssociationMappingWrapper implements AssociationMapping {
 
 		return idFieldOutlines;
 	}
-	
+
 	@Override
 	public void createElementCollection$CollectionTable$JoinColumns(
 			Mapping context, FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines,
 			List<JoinColumn> joinColumns) {
-		associationMapping.createElementCollection$CollectionTable$JoinColumns(context, fieldOutline, idFieldOutlines, joinColumns);
+		associationMapping.createElementCollection$CollectionTable$JoinColumns(
+				context, fieldOutline, idFieldOutlines, joinColumns);
 	}
-	
+
 	@Override
 	public void createElementCollection$OrderColumn(Mapping context,
 			FieldOutline fieldOutline, OrderColumn orderColumn) {
-		associationMapping.createElementCollection$OrderColumn(context, fieldOutline, orderColumn);
-		
+		associationMapping.createElementCollection$OrderColumn(context,
+				fieldOutline, orderColumn);
+
+	}
+
+	@Override
+	public void createAssociationOverride(Mapping context,
+			FieldOutline fieldOutline,
+			List<AssociationOverride> associationOverrides) {
+		associationMapping.createAssociationOverride(context, fieldOutline,
+				associationOverrides);
 	}
 
 	public AssociationMapping createEmbeddedAssociationMapping(

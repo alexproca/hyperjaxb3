@@ -3,6 +3,7 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 import java.util.Collection;
 import java.util.List;
 
+import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.OrderColumn;
@@ -41,13 +42,19 @@ public interface AssociationMapping {
 	public void createOrderColumn(Mapping context, FieldOutline fieldOutline,
 			final OrderColumn orderColumn);
 
-	public void createElementCollection$OrderColumn(Mapping context, FieldOutline fieldOutline,
-			final OrderColumn orderColumn);
+	public void createElementCollection$OrderColumn(Mapping context,
+			FieldOutline fieldOutline, final OrderColumn orderColumn);
 
-	public void createElementCollection$CollectionTable$JoinColumns(Mapping context, FieldOutline fieldOutline,
+	public void createElementCollection$CollectionTable$JoinColumns(
+			Mapping context, FieldOutline fieldOutline,
 			Collection<FieldOutline> idFieldOutlines,
 			List<JoinColumn> joinColumns);
-	
-	public AssociationMapping createEmbeddedAssociationMapping(FieldOutline fieldOutline);
+
+	public AssociationMapping createEmbeddedAssociationMapping(
+			FieldOutline fieldOutline);
+
+	public void createAssociationOverride(Mapping context,
+			FieldOutline fieldOutline,
+			final List<AssociationOverride> associationOverrides);
 
 }

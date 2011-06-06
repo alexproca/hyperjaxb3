@@ -9,12 +9,24 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.base.AbstractWrapBuiltin;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.base.AdaptCollectionBuiltinNonReference;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.base.CreateNoPropertyInfos;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 
 public class WrapCollectionBuiltinNonReference extends AbstractWrapBuiltin {
+
+	private CreatePropertyInfos fallback;
+
+	public CreatePropertyInfos getFallback() {
+		return fallback;
+	}
+
+	@Required
+	public void setFallback(CreatePropertyInfos fallback) {
+		this.fallback = fallback;
+	}
 
 	protected Log logger = LogFactory.getLog(getClass());
 
@@ -45,8 +57,7 @@ public class WrapCollectionBuiltinNonReference extends AbstractWrapBuiltin {
 
 	protected Collection<CPropertyInfo> wrapAnyType(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		logger.error("In progress (HJIII-63).");
-		return CreateNoPropertyInfos.INSTANCE.process(context, propertyInfo);
+		logger.error("Element collections of any type is not supported. See issue #HJIII-89 (http://jira.highsource.org/browse/HJIII-89)");
+		return getFallback().process(context, propertyInfo);
 	}
-
 }

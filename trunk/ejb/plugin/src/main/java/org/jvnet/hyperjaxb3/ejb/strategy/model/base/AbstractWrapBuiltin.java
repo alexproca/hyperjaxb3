@@ -32,7 +32,7 @@ public abstract class AbstractWrapBuiltin implements CreatePropertyInfos {
 		} else if (originalTypeUse == CBuiltinLeafInfo.DATA_HANDLER) {
 			// TODO #42
 			logger
-					.error("Data handler is currently not supported. See issue #42.");
+					.error("Data handler is currently not supported. See issue #88 (http://java.net/jira/browse/HYPERJAXB3-88).");
 			return Collections.emptyList();
 		} else if (originalTypeUse == CBuiltinLeafInfo.ANYTYPE) {
 			return wrapAnyType(context, propertyInfo);

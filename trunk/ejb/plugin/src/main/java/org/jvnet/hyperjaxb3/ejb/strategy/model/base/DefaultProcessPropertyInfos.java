@@ -407,7 +407,7 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 			logger.error("["
 					+ referencePropertyInfo.getName(true)
-					+ "] is a collection builtin element reference. See issue #67.");
+					+ "] is a collection builtin element reference. See issue #67 (http://java.net/jira/browse/HYPERJAXB3-67).");
 			return Collections.emptyList();
 		}
 
@@ -415,7 +415,7 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 				CReferencePropertyInfo referencePropertyInfo) {
 			logger.error("["
 					+ referencePropertyInfo.getName(true)
-					+ "] is a collection enum element reference. See issue #68.");
+					+ "] is a collection enum element reference. See issue #68 (http://java.net/jira/browse/HYPERJAXB3-68).");
 			return Collections.emptyList();
 		}
 

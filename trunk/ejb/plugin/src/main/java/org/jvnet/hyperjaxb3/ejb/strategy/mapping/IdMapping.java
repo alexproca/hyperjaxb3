@@ -7,8 +7,7 @@ import com.sun.java.xml.ns.persistence.orm.Id;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class IdMapping extends PropertyMapping implements
-		FieldOutlineMapping<Id> {
+public class IdMapping implements FieldOutlineMapping<Id> {
 
 	public Id process(Mapping context, FieldOutline fieldOutline,
 			Options options) {
@@ -32,13 +31,13 @@ public class IdMapping extends PropertyMapping implements
 			id.setColumn(new Column());
 		}
 
-		id.setColumn(createColumn(context, fieldOutline, id.getColumn()));
+		id.setColumn(context.getAttributeMapping().createColumn(context, fieldOutline, id.getColumn()));
 	}
 
 	public void createId$Temporal(Mapping context, FieldOutline fieldOutline,
 			Id id) {
-		if (id.getTemporal() == null && isTemporal(fieldOutline)) {
-			id.setTemporal(getTemporalType(fieldOutline));
+		if (id.getTemporal() == null && context.getAttributeMapping().isTemporal(fieldOutline)) {
+			id.setTemporal(context.getAttributeMapping().createTemporalType(fieldOutline));
 		}
 	}
 

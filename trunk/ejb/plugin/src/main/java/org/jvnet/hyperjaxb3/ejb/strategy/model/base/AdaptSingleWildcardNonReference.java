@@ -10,9 +10,9 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class AdaptWildcardNonReference extends AbstractAdaptBuiltinPropertyInfo {
+public class AdaptSingleWildcardNonReference extends AbstractAdaptBuiltinPropertyInfo {
 
-	public AdaptWildcardNonReference(TypeUse propertyType) {
+	public AdaptSingleWildcardNonReference(TypeUse propertyType) {
 		super(propertyType);
 	}
 

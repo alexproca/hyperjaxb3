@@ -35,11 +35,11 @@ public class WrapSingleBuiltinReference extends AbstractWrapBuiltin {
 		final TypeUse adaptingTypeUse = context.getAdaptBuiltinTypeUse()
 				.process(context, propertyInfo);
 
-		return new AdaptBuiltinReference(adaptingTypeUse);
+		return new AdaptSingleBuiltinReference(adaptingTypeUse);
 	}
 	
 	protected Collection<CPropertyInfo> wrapAnyType(ProcessModel context, CPropertyInfo propertyInfo) {
-		return new AdaptWildcardReference(CBuiltinLeafInfo.STRING).process(context,
+		return new AdaptSingleWildcardReference(CBuiltinLeafInfo.STRING).process(context,
 				propertyInfo);
 	}
 	
