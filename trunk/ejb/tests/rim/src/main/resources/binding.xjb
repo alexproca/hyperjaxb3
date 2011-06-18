@@ -238,7 +238,7 @@
         </jaxb:schemaBindings>    
 
 	<!-- Added by lexi -->
-        <jaxb:bindings node="xs:complexType[@name='RegistryRequestType']">
+        <!-- jaxb:bindings node="xs:complexType[@name='RegistryRequestType']">
 		<hj:entity>
 			<orm:association-override name="slot">
 				<orm:join-column name="SLOT_REGISTRYREQUESTTYPE_ID"/>
@@ -251,7 +251,7 @@
 				<orm:join-column name="SLOT_REGISTRYRESPONSETYPE_ID"/>
 			</orm:association-override>
 		</hj:entity>
-        </jaxb:bindings>        
+        </jaxb:bindings-->        
 
     </jaxb:bindings>
     
