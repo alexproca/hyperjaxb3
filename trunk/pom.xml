@@ -74,7 +74,7 @@
 		<annox.version>0.5.0</annox.version>
 		<jaxb2-basics.version>0.6.2-SNAPSHOT</jaxb2-basics.version>
 		<maven-jaxb2-plugin.version>0.8.0-SNAPSHOT</maven-jaxb2-plugin.version>
-		<jaxb.version>2.2.4-SNAPSHOT</jaxb.version>
+		<jaxb.version>2.2.4-1</jaxb.version>
 	</properties>
 
 	<profiles>
@@ -356,7 +356,7 @@
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
-				<version>1.2.13</version>
+				<version>1.2.14</version>
 			</dependency>
 			<!-- SLF4J -->
 			<dependency>

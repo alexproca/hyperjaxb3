@@ -32,7 +32,7 @@
 				<module>any</module>
 				<module>bibtexml</module>
 				<!-- ** module>ccr</module-->
-				<module>cda</module>
+				<!-- ** module>cda</module-->
 				<!-- ** module>component</module-->
 				<module>cu-one</module>
 				<!-- ** module>custom-naming</module-->

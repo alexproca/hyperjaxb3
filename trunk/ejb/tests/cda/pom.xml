@@ -41,7 +41,7 @@
 					<schemaIncludes>
 						<schemaInclude>CDASchemas/cda/Schemas/CDA.xsd</schemaInclude>
 					</schemaIncludes>
-					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.cuone.RoundtripTest</roundtripTestClassName>
+					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.cda.RoundtripTest</roundtripTestClassName>
 				</configuration>
 			</plugin>
 		</plugins>

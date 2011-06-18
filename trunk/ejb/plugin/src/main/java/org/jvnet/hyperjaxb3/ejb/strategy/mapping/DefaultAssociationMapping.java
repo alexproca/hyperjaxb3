@@ -17,6 +17,7 @@ import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.java.xml.ns.persistence.orm.AssociationOverride;
+import com.sun.java.xml.ns.persistence.orm.ElementCollection;
 import com.sun.java.xml.ns.persistence.orm.EmbeddableAttributes;
 import com.sun.java.xml.ns.persistence.orm.Embedded;
 import com.sun.java.xml.ns.persistence.orm.JoinColumn;
@@ -471,6 +472,31 @@ public class DefaultAssociationMapping implements AssociationMapping {
 			}
 		}
 		// TODO Element collection
+		// http://jira.highsource.org/browse/HJIII-64
+		for (final ElementCollection source : embeddableAttributes
+				.getElementCollection()) {
+			final String name = source.getName();
+			final AssociationOverride associationOverride;
+			if (!associationOverridesMap.containsKey(name)) {
+				associationOverride = new AssociationOverride();
+				associationOverride.setName(name);
+				final JoinTable joinTable = new JoinTable();
+				if (source.getCollectionTable() != null) {
+					joinTable.setCatalog(source.getCollectionTable()
+							.getCatalog());
+					joinTable
+							.setSchema(source.getCollectionTable().getSchema());
+					joinTable.setName(source.getCollectionTable().getName());
+					joinTable.getJoinColumn().addAll(
+							source.getCollectionTable().getJoinColumn());
+				}
+				associationOverride.setJoinTable(joinTable);
+				associationOverridesMap.put(name, associationOverride);
+				associationOverrides.add(associationOverride);
+			} else {
+				associationOverride = associationOverridesMap.get(name);
+			}
+		}
 
 		for (final Embedded embedded : embeddableAttributes.getEmbedded()) {
 			final String parentName = embedded.getName();
