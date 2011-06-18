@@ -45,7 +45,7 @@
 				<module>dom</module>
 				<module>dy</module>
 				<module>ebxmlrr</module>
-				<module>edxl</module>
+				<!-- ** module>edxl</module-->
 				<module>ek</module>
 				<module>embeddable</module>
 				<module>embeddable-jpa2</module>
