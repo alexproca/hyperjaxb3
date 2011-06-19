@@ -89,14 +89,14 @@
 			<id>tests-r-z</id>
 			<modules>
 				<module>regrep</module>
-				<!-- module>rim</module -->
+				<!-- *** module>rim</module -->
 				<!-- module>sbml</module -->
 				<module>sepa</module>
 				<module>service</module>
 				<module>simple</module>
 				<module>sml</module>
 				<module>st</module>
-				<module>star</module>
+				<!-- *** module>star</module -->
 				<module>tp</module>
 				<module>transient-ids</module>
 				<module>uniprot</module>
