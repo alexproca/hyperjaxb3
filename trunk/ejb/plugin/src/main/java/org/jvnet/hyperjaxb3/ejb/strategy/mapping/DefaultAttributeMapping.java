@@ -36,10 +36,6 @@ import com.sun.xml.xsom.XSComponent;
 
 public final class DefaultAttributeMapping implements AttributeMapping {
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#createColumn(org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping, com.sun.tools.xjc.outline.FieldOutline, com.sun.java.xml.ns.persistence.orm.Column)
-	 */
-	@Override
 	public final Column createColumn(Mapping context,
 			FieldOutline fieldOutline, Column column) {
 
@@ -124,20 +120,12 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 		return finalLength;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#isTemporal(com.sun.tools.xjc.outline.FieldOutline)
-	 */
-	@Override
 	public boolean isTemporal(FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 		final JType type = getter.type();
 		return JTypeUtils.isTemporalType(type);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#getTemporalType(com.sun.tools.xjc.outline.FieldOutline)
-	 */
-	@Override
 	public String createTemporalType(FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 		final JType type = getter.type();
@@ -184,26 +172,14 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#isLob(com.sun.tools.xjc.outline.FieldOutline)
-	 */
-	@Override
 	public final boolean isLob(FieldOutline fieldOutline) {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#getLob(com.sun.tools.xjc.outline.FieldOutline)
-	 */
-	@Override
 	public final Lob createLob(FieldOutline fieldOutline) {
 		return new Lob();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#isEnumerated(com.sun.tools.xjc.outline.FieldOutline)
-	 */
-	@Override
 	public final boolean isEnumerated(FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
@@ -216,18 +192,10 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 		return type instanceof CEnumLeafInfo;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#createEnumerated(com.sun.tools.xjc.outline.FieldOutline)
-	 */
-	@Override
 	public String createEnumerated(FieldOutline fieldOutline) {
 		return EnumType.STRING.name();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jvnet.hyperjaxb3.ejb.strategy.mapping.AttributeMapping#createAttributeOverride(org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping, com.sun.tools.xjc.outline.FieldOutline, java.util.List)
-	 */
-	@Override
 	public void createAttributeOverride(Mapping context,
 			FieldOutline fieldOutline,
 			final List<AttributeOverride> attributeOverrides) {

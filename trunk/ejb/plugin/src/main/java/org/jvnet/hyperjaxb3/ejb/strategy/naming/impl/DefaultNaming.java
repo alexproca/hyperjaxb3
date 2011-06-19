@@ -299,7 +299,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return "";
 	}
 
-	@Override
 	public String getElementCollection$CollectionTable$Name(Mapping context,
 			FieldOutline fieldOutline) {
 		final String entityTableName = getEntityTable$Name(context,
@@ -308,7 +307,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getName(entityTableName + "_" + fieldColumnName);
 	}
 	
-	@Override
 	public String getElementCollection$CollectionTable$JoinColumn$Name(
 			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline) {
@@ -324,7 +322,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 				+ idFieldColumnName);
 	}
 	
-	@Override
 	public String getElementCollection$OrderColumn$Name(Mapping context,
 			FieldOutline fieldOutline) {
 		// final String collectionTableName =
@@ -334,7 +331,6 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return getName(columnName);
 	}
 
-	@Override
 	public String getElementCollection$Column$Name(Mapping context,
 			FieldOutline fieldOutline) {
 		// final String collectionTableName =

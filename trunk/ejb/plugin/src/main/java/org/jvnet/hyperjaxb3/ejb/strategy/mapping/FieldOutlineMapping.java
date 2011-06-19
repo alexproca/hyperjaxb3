@@ -8,7 +8,6 @@ import com.sun.tools.xjc.outline.FieldOutline;
 public interface FieldOutlineMapping<T> extends
 		FieldOutlineProcessor<T, Mapping> {
 
-	@Override
 	public T process(Mapping context, FieldOutline fieldOutline, Options options);
 
 }
