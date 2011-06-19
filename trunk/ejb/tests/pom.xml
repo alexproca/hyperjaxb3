@@ -73,7 +73,7 @@
 				<module>ota</module>
 				<module>ows</module>
 				<module>pesc</module>
-				<module>plmxml</module>
+				<!-- *** module>plmxml</module -->
 				<module>po</module>
 				<module>po-customized</module>
 				<module>po-el-customized</module>
