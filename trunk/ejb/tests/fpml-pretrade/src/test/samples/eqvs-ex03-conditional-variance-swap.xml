@@ -23,7 +23,7 @@
       <valuation>
         <valuationDate id="FinalValuationDate">
           <adjustableDate>
-            <unadjustedDate>2004-07-21Z</unadjustedDate>
+            <unadjustedDate>2004-07-21</unadjustedDate>
           </adjustableDate>
         </valuationDate>
         <optionsPriceValuation>true</optionsPriceValuation>

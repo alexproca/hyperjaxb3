@@ -38,7 +38,7 @@
 				<!-- ** module>custom-naming</module-->
 				<!-- ** module>customType</module-->
 				<!-- ** module>customizations</module-->
-				<module>dc</module>
+				<!-- *** module>dc</module-->
 				<module>derby</module>
 				<module>device</module>
 				<!-- ** module>dl</module-->
@@ -90,7 +90,7 @@
 			<modules>
 				<module>regrep</module>
 				<!-- *** module>rim</module -->
-				<!-- module>sbml</module -->
+				<module>sbml</module>
 				<module>sepa</module>
 				<module>service</module>
 				<module>simple</module>
@@ -100,7 +100,7 @@
 				<module>tp</module>
 				<module>transient-ids</module>
 				<module>uniprot</module>
-				<!--module>verylong</module-->
+				<!-- **** module>verylong</module-->
 				<module>web</module>
 				<module>xacml</module>
 				<module>xmldsig</module>
