@@ -71,7 +71,7 @@
 				<module>one</module>
 				<module>onix30</module>
 				<module>ota</module>
-				<module>ows</module>
+				<!-- *** module>ows</module -->
 				<module>pesc</module>
 				<!-- *** module>plmxml</module -->
 				<module>po</module>
