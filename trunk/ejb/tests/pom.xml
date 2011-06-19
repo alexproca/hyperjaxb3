@@ -38,7 +38,7 @@
 				<!-- ** module>custom-naming</module-->
 				<!-- ** module>customType</module-->
 				<!-- ** module>customizations</module-->
-				<!-- *** module>dc</module-->
+ 				<module>dc</module>
 				<module>derby</module>
 				<module>device</module>
 				<!-- ** module>dl</module-->
@@ -56,7 +56,7 @@
 				<module>fpml-pretrade</module>
 				<!--module>idSymbolSpace</module-->
 				<module>ids</module>
-				<module>ims-eportfolio</module>
+				<!-- *** Duplicate definition module>ims-eportfolio</module -->
 				<module>ims-lip</module>
 				<module>ioda</module>
 				<module>issues</module>

@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 
-<record
-  xmlns="http://example.org/learningapp/"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://example.org/learningapp/ http://example.org/learningapp/schema.xsd"
+<qualifieddc
   xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:ims="http://www.imsglobal.org/xsd/imsmd_v1p2">
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <dc:title>
     Frog maths
@@ -16,10 +14,5 @@
   <dc:description>
     Simple maths games for 5-7 year olds.
   </dc:description>
-  <ims:typicallearningtime>
-    <ims:datetime>
-      0000-00-00T00:15
-    </ims:datetime>
-  </ims:typicallearningtime>
 
-</record>
+</qualifieddc>
