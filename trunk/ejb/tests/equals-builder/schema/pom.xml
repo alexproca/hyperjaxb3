@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-tests-equals-builder-builder</artifactId>
-			<version>0.5.6-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<!-- Hibernate Dependencies -->
 		<!-- Test -->
@@ -39,8 +39,14 @@
 				<configuration>
 					<roundtripTestClassName>org.jvnet.hyperjaxb3.ejb.tests.po.RoundtripTest</roundtripTestClassName>
 					<args>
-						<arg>-Xequals-equalsBuilderClass=org.jvnet.hyperjaxb3.ejb.tests.equalsbuilder.HelloWorldEqualsBuilder</arg>
+						<arg>-Xequals-equalsStrategyClass=org.jvnet.hyperjaxb3.ejb.tests.equalsbuilder.HelloWorldEqualsStrategy</arg>
 					</args>
+					<plugins>
+						<plugin>
+							<groupId>org.jvnet.hyperjaxb3</groupId>
+							<artifactId>hyperjaxb3-ejb-tests-equals-builder-builder</artifactId>
+						</plugin>
+					</plugins>
 				</configuration>
 			</plugin>
 		</plugins>
