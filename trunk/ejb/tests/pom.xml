@@ -32,7 +32,7 @@
 				<module>any</module>
 				<module>bibtexml</module>
 				<!-- ** module>ccr</module-->
-				<module>cda</module>
+				<!-- *** Documents differ module>cda</module-->
 				<!-- ** module>component</module-->
 				<module>cu-one</module>
 				<!-- ** module>custom-naming</module-->
@@ -100,7 +100,7 @@
 				<module>tp</module>
 				<module>transient-ids</module>
 				<module>uniprot</module>
-				<!-- **** module>verylong</module-->
+				<!-- module>verylong</module-->
 				<module>web</module>
 				<module>xacml</module>
 				<module>xmldsig</module>
