@@ -6,11 +6,11 @@
 	<artifactId>hyperjaxb3-ejb-samples</artifactId>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 EJB Samples</name>
-	<version>0.5.6-SNAPSHOT</version>
+	<version>0.5.6</version>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb</artifactId>
-		<version>0.5.6-SNAPSHOT</version>
+		<version>0.5.6</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modules>
@@ -20,6 +20,21 @@
 		<module>po-maven-jaxb2-plugin</module>
 		<module>customerservice-cxf</module>
 	</modules>
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.releases</id>
+			<url>${sftp.repository.highsource.org}/maven2/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.snapshots</id>
+			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<url>${sftp.static.highsource.org}/hyperjaxb3/hyperjaxb-ejb/hyperjaxb-ejb-samples</url>
+		</site>
+	</distributionManagement>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>

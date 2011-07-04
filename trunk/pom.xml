@@ -3,7 +3,7 @@
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5.6-SNAPSHOT</version>
+	<version>0.5.6</version>
 	<name>Hyperjaxb3</name>
 	<url>http://confluence.highsource.org/display/HJ3/Home</url>
 	<description>Hyperjaxb3 is an open source project which provides relational persistence for JAXB objects.</description>
@@ -72,9 +72,9 @@
 
 	<properties>
 		<annox.version>0.5.0</annox.version>
-		<jaxb2-basics.version>0.6.2-SNAPSHOT</jaxb2-basics.version>
-		<maven-jaxb2-plugin.version>0.8.0-SNAPSHOT</maven-jaxb2-plugin.version>
-		<jaxb.version>2.2.4-SNAPSHOT</jaxb.version>
+		<jaxb2-basics.version>0.6.2</jaxb2-basics.version>
+		<maven-jaxb2-plugin.version>0.8.0</maven-jaxb2-plugin.version>
+		<jaxb.version>2.2.4-1</jaxb.version>
 	</properties>
 
 	<profiles>
@@ -362,17 +362,17 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.5.2</version>
+				<version>1.6.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-nop</artifactId>
-				<version>1.5.2</version>
+				<version>1.6.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.5.2</version>
+				<version>1.6.1</version>
 			</dependency>
 			<!-- Hibernate -->
 			<dependency>

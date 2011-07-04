@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-tutorials-po-step-two</artifactId>
-	<version>0.5.6-SNAPSHOT</version>
+	<version>0.5.6</version>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 EJB Tutorial [po:step-two]</name>
 	<dependencies>
@@ -16,12 +16,12 @@
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>2.1.12</version>
+			<version>2.2.4-1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-runtime</artifactId>
-			<version>0.5.6-SNAPSHOT</version>
+			<version>0.5.6</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
-			<version>0.5.6-SNAPSHOT</version>
+			<version>0.5.6</version>
 		</dependency>
 
 
@@ -43,14 +43,15 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.1-Final</version>
+			<version>3.6.4.Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.2</version>
+			<version>1.6.1</version>
 		</dependency>
+
 		<!-- Database -->
 		<dependency>
 			<groupId>hsqldb</groupId>
@@ -59,25 +60,13 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>maven2-repository.jboss.com</id>
-			<url>http://repository.jboss.com/maven2</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
-				<version>0.5.6-SNAPSHOT</version>
+				<version>0.5.6</version>
 				<executions>
 					<execution>
 						<goals>

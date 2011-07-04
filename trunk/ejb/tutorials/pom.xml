@@ -6,13 +6,28 @@
 	<artifactId>hyperjaxb3-ejb-tutorials</artifactId>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 EJB Tutorials</name>
-	<version>0.5.6-SNAPSHOT</version>
+	<version>0.5.6</version>
 	<!--parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb</artifactId>
-		<version>0.5.6-SNAPSHOT</version>
+		<version>0.5.6</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent-->
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.releases</id>
+			<url>${sftp.repository.highsource.org}/maven2/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.snapshots</id>
+			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<url>${sftp.static.highsource.org}/hyperjaxb3/hyperjaxb-ejb/hyperjaxb-ejb-tutorials</url>
+		</site>
+	</distributionManagement>
 	<modules>
 		<module>po</module>
 	</modules>

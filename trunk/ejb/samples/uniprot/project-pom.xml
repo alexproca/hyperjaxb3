@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-ejb-samples-uniprot-maven</artifactId>
-	<version>0.5.6-SNAPSHOT</version>
+	<version>0.5.6</version>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 Samples [uniprot:maven]</name>
 	<dependencies>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-runtime</artifactId>
-			<version>0.5.6-SNAPSHOT</version>
+			<version>0.5.6</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
-			<version>0.5.6-SNAPSHOT</version>
+			<version>0.5.6</version>
 		</dependency>
 
 		<!-- Hibernate Dependencies -->

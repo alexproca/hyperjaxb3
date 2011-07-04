@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb-tests</artifactId>
-		<version>0.5.6-SNAPSHOT</version>
+		<version>0.5.6</version>
 	</parent>
 	<artifactId>hyperjaxb3-ejb-tests-ota</artifactId>
 	<packaging>jar</packaging>
@@ -44,12 +44,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.5.2</version>
+			<version>1.6.1</version>
 		</dependency> 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.2</version>
+			<version>1.6.1</version>
 		</dependency> 
 	</dependencies>
 	<build>

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvnet.hyperjaxb3</groupId>
 	<artifactId>hyperjaxb3-jdo-sample-hotel</artifactId>
-	<version>0.5.6-SNAPSHOT</version>
+	<version>0.5.6</version>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 JDO Sample Hotel</name>
 	<dependencies>

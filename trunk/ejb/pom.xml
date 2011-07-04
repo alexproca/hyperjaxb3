@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3</artifactId>
-		<version>0.5.6-SNAPSHOT</version>
+		<version>0.5.6</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modules>
@@ -50,6 +50,17 @@
 			</activation>
 			<modules>
 				<module>tests</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>tutorials</id>
+			<activation>
+				<property>
+					<name>tutorials</name>
+				</property>
+			</activation>
+			<modules>
+				<module>tutorials</module>
 			</modules>
 		</profile>
 	</profiles>
