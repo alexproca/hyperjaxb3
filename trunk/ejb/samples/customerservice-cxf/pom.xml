@@ -6,6 +6,12 @@
 	<version>0.5.6</version>
 	<packaging>war</packaging>
 	<name>Hyperjaxb3 EJB Sample [customerservice-cxf]</name>
+	<repositories>
+		<repository>
+			<id>org.highsource.repository.maven2.releases</id>
+			<url>http://repository.highsource.org/maven2/releases</url>
+		</repository>
+	</repositories>
 	<distributionManagement>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
@@ -50,7 +56,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.6.4.Final</version>
+			<version>3.6.5.Final</version>
 		</dependency>
 		<!-- Hyperjaxb3 -->
 		<dependency>

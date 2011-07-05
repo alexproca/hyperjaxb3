@@ -183,7 +183,7 @@
 						<dependency>
 							<groupId>org.hibernate</groupId>
 							<artifactId>hibernate-search</artifactId>
-							<version>3.0.0.GA</version>
+							<version>3.4.0.Final</version>
 						</dependency>
 						<!-- ** Needed for cu-one -->
 						<dependency>

@@ -11,6 +11,14 @@
 		<artifactId>hyperjaxb3-ejb-samples</artifactId>
 		<version>0.5.6</version>
 	</parent>
+	<repositories>
+		<repository>
+			<id>maven-repository.java.net</id>
+			<name>Java.net Maven 1 Repository (legacy)</name>
+			<url>http://download.java.net/maven/1</url>
+			<layout>legacy</layout>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
