@@ -7,6 +7,21 @@
 	<version>0.5.6</version>
 	<packaging>jar</packaging>
 	<name>Hyperjaxb3 EJB Tutorial [po:step-two]</name>
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.releases</id>
+			<url>${sftp.repository.highsource.org}/maven2/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>org.highsource.repository.maven2.snapshots</id>
+			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<url>${sftp.static.highsource.org}/hyperjaxb3/hyperjaxb-ejb/hyperjaxb3-ejb-tutorials/hyperjaxb3-ejb-tutorials-po/hyperjaxb3-ejb-tutorials-po-step-two</url>
+		</site>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>

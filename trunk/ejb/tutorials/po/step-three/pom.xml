@@ -27,7 +27,7 @@
 			<url>${sftp.repository.highsource.org}/maven2/snapshots</url>
 		</snapshotRepository>
 		<site>
-			<url>${sftp.static.highsource.org}/hyperjaxb3/hyperjaxb-ejb/hyperjaxb-ejb-samples/hyperjaxb3-ejb-samples-po-customized-toplink</url>
+			<url>${sftp.static.highsource.org}/hyperjaxb3/hyperjaxb-ejb/hyperjaxb3-ejb-tutorials/hyperjaxb3-ejb-tutorials-po/hyperjaxb3-ejb-tutorials-po-step-three</url>
 		</site>
 	</distributionManagement>
 	<dependencies>
