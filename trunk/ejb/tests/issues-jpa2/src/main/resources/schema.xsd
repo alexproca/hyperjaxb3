@@ -131,4 +131,43 @@
 	</xsd:complexType>
 
 
+	<xsd:group name="HJIII-91-Group">
+		<xsd:sequence>
+			<xsd:element name="one" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="two" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:element name="HJIII-91-A" type="test:HJIII-91-A-Type"/>
+
+	<xsd:complexType name="HJIII-91-A-Type">
+		<xsd:sequence>
+			<xsd:group ref="test:HJIII-91-Group"/>
+			<xsd:element name="athree" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:string">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:id/>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:element name="HJIII-91-B" type="test:HJIII-91-B-Type"/>
+
+	<xsd:complexType name="HJIII-91-B-Type">
+		<xsd:sequence>
+			<xsd:group ref="test:HJIII-91-Group"/>
+			<xsd:element name="bthree" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:string">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<hj:id/>
+				</xsd:appinfo>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
 </xsd:schema>
