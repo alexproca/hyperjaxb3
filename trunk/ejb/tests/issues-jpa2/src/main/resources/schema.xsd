@@ -141,9 +141,25 @@
 	<xsd:element name="HJIII-91-A" type="test:HJIII-91-A-Type"/>
 
 	<xsd:complexType name="HJIII-91-A-Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:table name="HJIII91GROUP"/>
+					<orm:secondary-table name="HJIII91ATYPE"/>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:group ref="test:HJIII-91-Group"/>
-			<xsd:element name="athree" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="athree" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column table="HJIII91ATYPE"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:string">
 			<xsd:annotation>
@@ -157,9 +173,25 @@
 	<xsd:element name="HJIII-91-B" type="test:HJIII-91-B-Type"/>
 
 	<xsd:complexType name="HJIII-91-B-Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:table name="HJIII91GROUP"/>
+					<orm:secondary-table name="HJIII91BTYPE"/>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:group ref="test:HJIII-91-Group"/>
-			<xsd:element name="bthree" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="bthree" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column table="HJIII91BTYPE"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:string">
 			<xsd:annotation>
