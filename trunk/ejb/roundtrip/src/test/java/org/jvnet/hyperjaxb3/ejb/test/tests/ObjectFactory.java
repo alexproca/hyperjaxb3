@@ -40,8 +40,8 @@ public class ObjectFactory {
 		return new K();
 	}
 
-	public L createL() {
-		return new L();
+	public M createM() {
+		return new M();
 	}
 
 	@XmlElementDecl(namespace = "", name = "A")
