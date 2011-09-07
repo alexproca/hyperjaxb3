@@ -12,6 +12,8 @@
         <class>org.jvnet.hyperjaxb3.ejb.test.tests.A$GItem</class>
         <class>org.jvnet.hyperjaxb3.ejb.test.tests.B</class>
         <class>org.jvnet.hyperjaxb3.ejb.test.tests.C</class>
+        <class>org.jvnet.hyperjaxb3.ejb.test.tests.K</class>
+        <class>org.jvnet.hyperjaxb3.ejb.test.tests.L</class>
     </persistence-unit>
     <persistence-unit name="org.jvnet.hyperjaxb3.ejb.cascadedids.tests">
         <class>org.jvnet.hyperjaxb3.ejb.cascadedids.tests.Company</class>

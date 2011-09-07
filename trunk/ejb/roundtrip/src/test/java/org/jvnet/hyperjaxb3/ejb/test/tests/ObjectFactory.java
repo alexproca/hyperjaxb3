@@ -21,6 +21,10 @@ public class ObjectFactory {
 
 	private final static QName _G2_QNAME = new QName("", "g2");
 
+	private final static QName _K_QNAME = new QName("", "K");
+
+	private final static QName _L_QNAME = new QName("", "L");
+
 	public ObjectFactory() {
 	}
 
@@ -30,6 +34,14 @@ public class ObjectFactory {
 
 	public B createB() {
 		return new B();
+	}
+
+	public K createK() {
+		return new K();
+	}
+
+	public L createL() {
+		return new L();
 	}
 
 	@XmlElementDecl(namespace = "", name = "A")
@@ -42,11 +54,21 @@ public class ObjectFactory {
 		return new JAXBElement<G>(_G_QNAME, G.class, null, value);
 	}
 
+	@XmlElementDecl(namespace = "", name = "K")
+	public JAXBElement<K> createK(K value) {
+		return new JAXBElement<K>(_K_QNAME, K.class, null, value);
+	}
+
+	@XmlElementDecl(namespace = "", name = "L")
+	public JAXBElement<L> createL(L value) {
+		return new JAXBElement<L>(_L_QNAME, L.class, null, value);
+	}
+
 	public G createG() {
 		return new G();
 	}
 
-    @XmlElementDecl(namespace = "", name = "g1", substitutionHeadNamespace = "", substitutionHeadName = "g")
+	@XmlElementDecl(namespace = "", name = "g1", substitutionHeadNamespace = "", substitutionHeadName = "g")
 	public JAXBElement<G1> createG1(G1 value) {
 		return new JAXBElement<G1>(_G1_QNAME, G1.class, null, value);
 	}
@@ -55,7 +77,7 @@ public class ObjectFactory {
 		return new G1();
 	}
 
-    @XmlElementDecl(namespace = "", name = "g2", substitutionHeadNamespace = "", substitutionHeadName = "g")
+	@XmlElementDecl(namespace = "", name = "g2", substitutionHeadNamespace = "", substitutionHeadName = "g")
 	public JAXBElement<G2> createG2(G2 value) {
 		return new JAXBElement<G2>(_G2_QNAME, G2.class, null, value);
 	}
