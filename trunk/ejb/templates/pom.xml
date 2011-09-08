@@ -6,11 +6,11 @@
 	<artifactId>hyperjaxb3-ejb-templates</artifactId>
 	<packaging>pom</packaging>
 	<name>Hyperjaxb3 EJB Templates</name>
-	<version>0.5.6</version>
+	<version>0.5.7-SNAPSHOT</version>
 	<parent>
 		<groupId>org.jvnet.hyperjaxb3</groupId>
 		<artifactId>hyperjaxb3-ejb</artifactId>
-		<version>0.5.6</version>
+		<version>0.5.7-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<distributionManagement>

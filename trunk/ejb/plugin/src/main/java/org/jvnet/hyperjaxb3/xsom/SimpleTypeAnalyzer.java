@@ -6,9 +6,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverterInterface;
-
-import com.sun.xml.bind.DatatypeConverterImpl;
+import javax.xml.bind.DatatypeConverter;
 import com.sun.xml.xsom.XSAnnotation;
 import com.sun.xml.xsom.XSAttGroupDecl;
 import com.sun.xml.xsom.XSAttributeDecl;
@@ -78,12 +76,6 @@ public class SimpleTypeAnalyzer {
 
 	public static abstract class FacetAnalyzer<T> implements XSFunction<T>,
 			XSSimpleTypeFunction<T> {
-
-		private DatatypeConverterInterface datatypeConverter = DatatypeConverterImpl.theInstance;
-
-		public DatatypeConverterInterface getDatatypeConverter() {
-			return datatypeConverter;
-		}
 
 		public T annotation(XSAnnotation arg0) {
 			return null;
@@ -230,8 +222,7 @@ public class SimpleTypeAnalyzer {
 				if (v == null) {
 					return null;
 				} else {
-					final BigInteger integerValue = getDatatypeConverter()
-							.parseInteger(v);
+					final BigInteger integerValue = DatatypeConverter.parseInteger(v);
 					if (integerValue.compareTo(BigInteger
 							.valueOf(Long.MAX_VALUE)) > 0) {
 						return Long.MAX_VALUE;
