@@ -41,7 +41,6 @@ import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.jaxb2_commons.lang.MergeableMergeStrategy;
 import org.jvnet.hyperjaxb3.xsom.SimpleTypeAnalyzer;
 import org.jvnet.hyperjaxb3.xsom.TypeUtils;
-import org.jvnet.jaxb2_commons.lang.CopyTo;
 import org.jvnet.jaxb2_commons.lang.JAXBMergeStrategy;
 import org.jvnet.jaxb2_commons.lang.MergeFrom;
 import org.jvnet.jaxb2_commons.lang.MergeStrategy;
@@ -63,11 +62,12 @@ public class DefaultCustomizing implements Customizing {
 
 	private final Map<CPluginCustomization, Object> customizationsMap = new IdentityHashMap<CPluginCustomization, Object>();
 
-	@SuppressWarnings("unchecked")
-	public <T> T findCustomization(Model model, QName name) {
+	private <T> T findCustomization(Model model, QName name) {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(model, name);
-		return (T) unmarshalCustomization(customization);
+		@SuppressWarnings("unchecked")
+		final T t = (T) unmarshalCustomization(customization);
+		return t;
 	}
 
 	public <T> Collection<T> findCustomizations(Model model, QName name) {
@@ -76,21 +76,31 @@ public class DefaultCustomizing implements Customizing {
 		return unmarshalCustomizations(customizations);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T findCustomization(CClassInfo classInfo, QName name) {
+	private <T> T findCustomization(CClassInfo classInfo, QName name,
+			T defaultValue, Merge<T> merge) {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(classInfo, name);
-		return (T) unmarshalCustomization(customization);
+		return (T) unmarshalCustomization(customization, defaultValue, merge);
 	}
 
-	public <T> Collection<T> findCustomizations(CClassInfo classInfo, QName name) {
+	private <T> Collection<T> findCustomizations(CClassInfo classInfo,
+			QName name) {
 		final List<CPluginCustomization> customizations = CustomizationUtils
 				.findCustomizations(classInfo, name);
 		return unmarshalCustomizations(customizations);
 	}
 
+	private <T> T findCustomization(CPropertyInfo propertyInfo, QName name,
+			T defaultValue, Merge<T> merge) {
+		final CPluginCustomization customization = CustomizationUtils
+				.findCustomization(propertyInfo, name);
+		final T t = (T) unmarshalCustomization(customization, defaultValue,
+				merge);
+		return t;
+	}
+
 	@SuppressWarnings("unchecked")
-	public <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
+	private <T> T findCustomization(CPropertyInfo propertyInfo, QName name) {
 		final CPluginCustomization customization = CustomizationUtils
 				.findCustomization(propertyInfo, name);
 		final T t = (T) unmarshalCustomization(customization);
@@ -103,7 +113,6 @@ public class DefaultCustomizing implements Customizing {
 				.addCustomization(customizable, Customizations.getContext(),
 						name, customization);
 		this.customizationsMap.put(pluginCustomization, customization);
-
 	}
 
 	private <T> Collection<T> unmarshalCustomizations(
@@ -113,8 +122,8 @@ public class DefaultCustomizing implements Customizing {
 		final List<T> unmarshalledCustomizations = new ArrayList<T>(
 				customizations.size());
 		for (CPluginCustomization customization : customizations) {
-			unmarshalledCustomizations.add(this
-					.<T> unmarshalCustomization(customization));
+			unmarshalledCustomizations.add(this.<T> unmarshalCustomization(
+					customization, null, null));
 		}
 		return unmarshalledCustomizations;
 
@@ -122,7 +131,8 @@ public class DefaultCustomizing implements Customizing {
 
 	@SuppressWarnings("unchecked")
 	private <T> T unmarshalCustomization(
-			final CPluginCustomization customization) throws AssertionError {
+			final CPluginCustomization customization, T defaultValue,
+			Merge<T> merge) throws AssertionError {
 		if (customization == null) {
 			return null;
 		} else {
@@ -131,18 +141,29 @@ public class DefaultCustomizing implements Customizing {
 			if (value != null)
 
 			{
-				return value instanceof CopyTo ? (T) ((CopyTo) value)
-						.copyTo(((CopyTo) value).createNewInstance()) : value;
+				// return value instanceof CopyTo ? (T) ((CopyTo) value)
+				// .copyTo(((CopyTo) value).createNewInstance()) : value;
+				return value;
 
 			} else {
 				final T t = (T) CustomizationUtils.unmarshall(
 						Customizations.getContext(), customization);
-
+				if (defaultValue != null) {
+					Validate.notNull(merge);
+					merge.merge(t, defaultValue);
+				}
 				this.customizationsMap.put(customization, t);
-				return t instanceof CopyTo ? (T) ((CopyTo) t)
-						.copyTo(((CopyTo) t).createNewInstance()) : t;
+				return t;
+				// return t instanceof CopyTo ? (T) ((CopyTo) t)
+				// .copyTo(((CopyTo) t).createNewInstance()) : t;
 			}
 		}
+	}
+
+	private <T> T unmarshalCustomization(
+			final CPluginCustomization customization) throws AssertionError {
+		T t = (T) unmarshalCustomization(customization, (T) null, null);
+		return t;
 	}
 
 	private Persistence defaultCustomizations;
@@ -214,9 +235,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.GENERATED_ID_ELEMENT_NAME)) {
 			id = findCustomization(classInfo,
-					Customizations.GENERATED_ID_ELEMENT_NAME);
-
-			mergeFrom(id, defaultId);
+					Customizations.GENERATED_ID_ELEMENT_NAME, defaultId,
+					this.<GeneratedId> merge());
 		} else {
 			id = defaultId;
 		}
@@ -276,9 +296,8 @@ public class DefaultCustomizing implements Customizing {
 		final Id id;
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ID_ELEMENT_NAME)) {
-			id = findCustomization(property, Customizations.ID_ELEMENT_NAME);
-
-			mergeFrom(id, defaultId);
+			id = findCustomization(property, Customizations.ID_ELEMENT_NAME,
+					defaultId, this.<Id> merge());
 		} else {
 			id = defaultId;
 		}
@@ -301,8 +320,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.EMBEDDED_ID_ELEMENT_NAME)) {
 			id = findCustomization(property,
-					Customizations.EMBEDDED_ID_ELEMENT_NAME);
-			mergeFrom(id, defaultId);
+					Customizations.EMBEDDED_ID_ELEMENT_NAME, defaultId,
+					this.<EmbeddedId> merge());
 		} else {
 			id = defaultId;
 		}
@@ -324,9 +343,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.VERSION_ELEMENT_NAME)) {
 			version = findCustomization(property,
-					Customizations.VERSION_ELEMENT_NAME);
-
-			mergeFrom(version, defaultVersion);
+					Customizations.VERSION_ELEMENT_NAME, defaultVersion,
+					this.<Version> merge());
 		} else {
 			version = defaultVersion;
 		}
@@ -351,9 +369,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.GENERATED_VERSION_ELEMENT_NAME)) {
 			generatedVersion = findCustomization(classInfo,
-					Customizations.GENERATED_VERSION_ELEMENT_NAME);
-
-			mergeFrom(generatedVersion, defaultGeneratedVersion);
+					Customizations.GENERATED_VERSION_ELEMENT_NAME,
+					defaultGeneratedVersion, this.<GeneratedVersion> merge());
 		} else {
 			generatedVersion = defaultGeneratedVersion.isForced() ? defaultGeneratedVersion
 					: null;
@@ -522,8 +539,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.BASIC_ELEMENT_NAME)) {
 			basic = findCustomization(property,
-					Customizations.BASIC_ELEMENT_NAME);
-			mergeFrom(basic, defaultBasic);
+					Customizations.BASIC_ELEMENT_NAME, defaultBasic,
+					this.<Basic> merge());
 		} else {
 			basic = defaultBasic;
 		}
@@ -601,9 +618,15 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_MANY_ELEMENT_NAME)) {
 			coneToMany = findCustomization(property,
-					Customizations.ONE_TO_MANY_ELEMENT_NAME);
+					Customizations.ONE_TO_MANY_ELEMENT_NAME, defaultOneToMany,
+					new Merge<OneToMany>() {
+						@Override
+						public void merge(OneToMany value,
+								OneToMany defaultValue) {
+							DefaultCustomizing.this.merge(value, defaultValue);
+						}
+					});
 
-			merge(coneToMany, defaultOneToMany);
 		} else {
 			return defaultOneToMany;
 		}
@@ -663,8 +686,14 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.MANY_TO_ONE_ELEMENT_NAME)) {
 			cmanyToOne = findCustomization(property,
-					Customizations.MANY_TO_ONE_ELEMENT_NAME);
-			merge(cmanyToOne, defaultManyToOne);
+					Customizations.MANY_TO_ONE_ELEMENT_NAME, defaultManyToOne,
+					new Merge<ManyToOne>() {
+						@Override
+						public void merge(ManyToOne value,
+								ManyToOne defaultValue) {
+							DefaultCustomizing.this.merge(value, defaultValue);
+						}
+					});
 		} else {
 			return defaultManyToOne;
 		}
@@ -703,8 +732,13 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ONE_TO_ONE_ELEMENT_NAME)) {
 			cOneToOne = findCustomization(property,
-					Customizations.ONE_TO_ONE_ELEMENT_NAME);
-			merge(cOneToOne, defaultOneToOne);
+					Customizations.ONE_TO_ONE_ELEMENT_NAME, defaultOneToOne,
+					new Merge<OneToOne>() {
+						@Override
+						public void merge(OneToOne value, OneToOne defaultValue) {
+							DefaultCustomizing.this.merge(value, defaultValue);
+						}
+					});
 		} else {
 			return defaultOneToOne;
 		}
@@ -742,8 +776,14 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.MANY_TO_MANY_ELEMENT_NAME)) {
 			cManyToMany = findCustomization(property,
-					Customizations.MANY_TO_MANY_ELEMENT_NAME);
-			merge(cManyToMany, defaultManyToMany);
+					Customizations.MANY_TO_MANY_ELEMENT_NAME,
+					defaultManyToMany, new Merge<ManyToMany>() {
+						@Override
+						public void merge(ManyToMany value,
+								ManyToMany defaultValue) {
+							DefaultCustomizing.this.merge(value, defaultValue);
+						}
+					});
 		} else {
 			return defaultManyToMany;
 		}
@@ -772,8 +812,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.ELEMENT_COLLECTION_ELEMENT_NAME)) {
 			item = findCustomization(property,
-					Customizations.ELEMENT_COLLECTION_ELEMENT_NAME);
-			mergeFrom(item, defaultItem);
+					Customizations.ELEMENT_COLLECTION_ELEMENT_NAME,
+					defaultItem, this.<ElementCollection> merge());
 		} else {
 			item = defaultItem;
 		}
@@ -803,8 +843,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.ENTITY_ELEMENT_NAME)) {
 			cEntity = findCustomization(classInfo,
-					Customizations.ENTITY_ELEMENT_NAME);
-			mergeFrom(cEntity, defaultEntity);
+					Customizations.ENTITY_ELEMENT_NAME, defaultEntity,
+					this.<Entity> merge());
 		} else {
 			addCustomization(classInfo, Customizations.ENTITY_ELEMENT_NAME,
 					defaultEntity);
@@ -954,8 +994,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME)) {
 			cMappedSuperclass = findCustomization(classInfo,
-					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME);
-			mergeFrom(cMappedSuperclass, defaultMappedSuperclass);
+					Customizations.MAPPED_SUPERCLASS_ELEMENT_NAME,
+					defaultMappedSuperclass, this.<MappedSuperclass> merge());
 		} else {
 			return defaultMappedSuperclass;
 		}
@@ -1000,8 +1040,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(classInfo,
 				Customizations.EMBEDDABLE_ELEMENT_NAME)) {
 			cEmbeddable = findCustomization(classInfo,
-					Customizations.EMBEDDABLE_ELEMENT_NAME);
-			mergeFrom(cEmbeddable, defaultEmbeddable);
+					Customizations.EMBEDDABLE_ELEMENT_NAME, defaultEmbeddable,
+					this.<Embeddable> merge());
 		} else {
 			return defaultEmbeddable;
 		}
@@ -1024,9 +1064,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.EMBEDDED_ELEMENT_NAME)) {
 			embedded = findCustomization(property,
-					Customizations.EMBEDDED_ELEMENT_NAME);
-
-			mergeFrom(embedded, defaultEmbedded);
+					Customizations.EMBEDDED_ELEMENT_NAME, defaultEmbedded,
+					this.<Embedded> merge());
 		} else {
 			embedded = defaultEmbedded;
 		}
@@ -1053,9 +1092,8 @@ public class DefaultCustomizing implements Customizing {
 		if (CustomizationUtils.containsCustomization(property,
 				Customizations.JAXB_CONTEXT_ELEMENT_NAME)) {
 			jaxbContext = findCustomization(property,
-					Customizations.JAXB_CONTEXT_ELEMENT_NAME);
-
-			mergeFrom(jaxbContext, defaultJaxbContext);
+					Customizations.JAXB_CONTEXT_ELEMENT_NAME,
+					defaultJaxbContext, this.<JaxbContext> merge());
 		} else {
 			jaxbContext = defaultJaxbContext;
 		}
@@ -1068,6 +1106,18 @@ public class DefaultCustomizing implements Customizing {
 	private <T extends Mergeable & MergeFrom> void mergeFrom(T value,
 			T defaultValue) {
 		value.mergeFrom(null, null, value, defaultValue, MERGE_STRATEGY);
+	}
+
+	private interface Merge<M> {
+		public void merge(M value, M defaultValue);
+	}
+
+	private <M extends Mergeable & MergeFrom> Merge<M> merge() {
+		return new Merge<M>() {
+			public void merge(M value, M defaultValue) {
+				DefaultCustomizing.this.mergeFrom(value, defaultValue);
+			}
+		};
 	}
 
 }

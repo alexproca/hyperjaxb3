@@ -34,13 +34,17 @@ import com.sun.tools.xjc.outline.FieldOutline;
  */
 public interface Customizing {
 
-	public <T> T findCustomization(Model model, QName name);
-
+	// public <T> T findCustomization(Model model, QName name,T defaultValue,
+	// Merge<T> merge);
+	//
 	public <T> Collection<T> findCustomizations(Model model, QName name);
 
-	public <T> T findCustomization(CClassInfo classInfo, QName name);
-
-	public <T> T findCustomization(CPropertyInfo propertyInfo, QName name);
+	//
+	// public <T> T findCustomization(CClassInfo classInfo, QName name,T
+	// defaultValue, Merge<T> merge);
+	//
+	// public <T> T findCustomization(CPropertyInfo propertyInfo, QName name,T
+	// defaultValue, Merge<T> merge);
 
 	public Object getEntityOrMappedSuperclassOrEmbeddable(
 			ClassOutline classOutline);
@@ -104,7 +108,7 @@ public interface Customizing {
 	public ManyToMany getManyToMany(CPropertyInfo property);
 
 	public ManyToMany getManyToMany(FieldOutline property);
-	
+
 	public ElementCollection getElementCollection(CPropertyInfo property);
 
 	public ElementCollection getElementCollection(FieldOutline property);
