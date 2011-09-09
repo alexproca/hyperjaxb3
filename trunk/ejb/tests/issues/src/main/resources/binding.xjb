@@ -39,6 +39,18 @@
 				<hj:jaxb-context contextPath="org.jvnet.hyperjaxb3.ejb.tests.po"/>
 			</hj:generated-property>
 		</jaxb:bindings>
+
+		<jaxb:bindings node="xsd:complexType[@name='issueHJIII92Type']">
+			<hj:entity>
+				<orm:table name="ISSUEHJIII92_CUSTOM_TABLE" />
+			</hj:entity>
+			<jaxb:bindings node="xsd:sequence/xsd:element[@name='id1']">
+				<hj:id/>
+			</jaxb:bindings>
+			<jaxb:bindings node="xsd:sequence/xsd:element[@name='id2']">
+				<hj:id/>
+			</jaxb:bindings>
+		</jaxb:bindings>
 	</jaxb:bindings>
 
 	<jaxb:bindings schemaLocation="schema-ignored.xsd" node="/xsd:schema">

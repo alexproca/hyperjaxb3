@@ -852,4 +852,14 @@ x
 		</xsd:attribute>
 	</xsd:complexType>
 
+	<xsd:element name="issueHJIII92" type="test:issueHJIII92Type"/>
+
+	<xsd:complexType name="issueHJIII92Type"> 
+		<xsd:sequence> 
+			<xsd:element name="id1" type="xsd:string" minOccurs="1" maxOccurs="1" /> 
+			<xsd:element name="id2" type="xsd:string" minOccurs="1" maxOccurs="1" /> 
+			<xsd:element name="field1" type="xsd:string" minOccurs="0" />	
+		</xsd:sequence> 
+	</xsd:complexType> 
+
 </xsd:schema>
