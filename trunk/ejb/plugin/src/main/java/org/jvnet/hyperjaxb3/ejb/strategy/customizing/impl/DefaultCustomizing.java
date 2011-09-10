@@ -620,7 +620,6 @@ public class DefaultCustomizing implements Customizing {
 			coneToMany = findCustomization(property,
 					Customizations.ONE_TO_MANY_ELEMENT_NAME, defaultOneToMany,
 					new Merge<OneToMany>() {
-						@Override
 						public void merge(OneToMany value,
 								OneToMany defaultValue) {
 							DefaultCustomizing.this.merge(value, defaultValue);
@@ -688,7 +687,6 @@ public class DefaultCustomizing implements Customizing {
 			cmanyToOne = findCustomization(property,
 					Customizations.MANY_TO_ONE_ELEMENT_NAME, defaultManyToOne,
 					new Merge<ManyToOne>() {
-						@Override
 						public void merge(ManyToOne value,
 								ManyToOne defaultValue) {
 							DefaultCustomizing.this.merge(value, defaultValue);
@@ -734,7 +732,6 @@ public class DefaultCustomizing implements Customizing {
 			cOneToOne = findCustomization(property,
 					Customizations.ONE_TO_ONE_ELEMENT_NAME, defaultOneToOne,
 					new Merge<OneToOne>() {
-						@Override
 						public void merge(OneToOne value, OneToOne defaultValue) {
 							DefaultCustomizing.this.merge(value, defaultValue);
 						}
@@ -778,7 +775,6 @@ public class DefaultCustomizing implements Customizing {
 			cManyToMany = findCustomization(property,
 					Customizations.MANY_TO_MANY_ELEMENT_NAME,
 					defaultManyToMany, new Merge<ManyToMany>() {
-						@Override
 						public void merge(ManyToMany value,
 								ManyToMany defaultValue) {
 							DefaultCustomizing.this.merge(value, defaultValue);
