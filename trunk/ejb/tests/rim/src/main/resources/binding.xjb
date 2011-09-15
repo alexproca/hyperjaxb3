@@ -107,6 +107,7 @@
         </jaxb:schemaBindings>    
                         
         <jaxb:bindings node="xs:complexType[@name='ExtensibleObjectType']">
+            <hj:generated-id/>
             <hj:mapped-superclass/>
         </jaxb:bindings>
         <jaxb:bindings node="xs:complexType[@name='IdentifiableType']">
