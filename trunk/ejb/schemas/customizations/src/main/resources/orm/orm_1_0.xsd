@@ -953,8 +953,7 @@
       <xsd:element name="sequence-generator" type="orm:sequence-generator"
                    minOccurs="0"/>
     </xsd:sequence>
-    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/ -->
-    <xsd:attribute name="name" type="xsd:string" default="##default"/>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
@@ -1942,8 +1941,7 @@
       <xsd:element name="column" type="orm:column" minOccurs="0"/>
       <xsd:element name="temporal" type="orm:temporal" minOccurs="0"/>
     </xsd:sequence>
-    <!-- ** xsd:attribute name="name" type="xsd:string" use="required"/-->
-    <xsd:attribute name="name" type="xsd:string" default="##default"/>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="access" type="orm:access-type"/>
   </xsd:complexType>
 
