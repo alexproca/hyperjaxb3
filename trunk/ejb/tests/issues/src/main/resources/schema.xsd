@@ -862,4 +862,25 @@ x
 		</xsd:sequence> 
 	</xsd:complexType> 
 
+	<xsd:complexType name="issueHJIII94Type" abstract="true">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" ref="test:issueHJIII94A"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="issueHJIII94A" type="test:issueHJIII94AType"/>
+	<xsd:complexType name="issueHJIII94AType">
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:element name="issueHJIII94Sub" type="test:issueHJIII94SubType"/>
+	<xsd:complexType name="issueHJIII94SubType">
+		<xsd:complexContent>
+			<xsd:extension base="test:issueHJIII94Type">
+				<xsd:sequence>
+					<xsd:element name="subelement" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 </xsd:schema>

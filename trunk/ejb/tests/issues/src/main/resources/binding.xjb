@@ -51,6 +51,25 @@
 				<hj:id/>
 			</jaxb:bindings>
 		</jaxb:bindings>
+	        <jaxb:bindings node="xsd:complexType[@name='issueHJIII94Type']">
+			<hj:mapped-superclass/>
+			<hj:generated-id/>
+			<hj:generated-version/>
+	        </jaxb:bindings>
+	        <jaxb:bindings node="xsd:complexType[@name='issueHJIII94Type']//xsd:element[@ref='test:issueHJIII94A']">
+			<hj:one-to-many>
+				<orm:join-column name="ISSUEHJIII94A"/>
+			</hj:one-to-many>
+	        </jaxb:bindings>
+	        <jaxb:bindings node="xsd:complexType[@name='issueHJIII94SubType']">
+			<hj:entity>
+				<orm:association-override name="issueHJIII94A">
+					<orm:join-column name="ISSUEHJIII94_ISSUEHJIII94A"/>
+				</orm:association-override>
+			</hj:entity>
+	        </jaxb:bindings>        
+
+
 	</jaxb:bindings>
 
 	<jaxb:bindings schemaLocation="schema-ignored.xsd" node="/xsd:schema">
