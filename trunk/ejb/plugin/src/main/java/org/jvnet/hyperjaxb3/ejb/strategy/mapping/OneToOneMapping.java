@@ -57,20 +57,20 @@ public class OneToOneMapping implements FieldOutlineMapping<OneToOne> {
 			final Collection<FieldOutline> idFieldOutlines = context
 					.getAssociationMapping().getSourceIdFieldsOutline(context,
 							fieldOutline);
-			if (idFieldOutlines.isEmpty()) {
-				oneToOne.getPrimaryKeyJoinColumn().clear();
-			} else {
-				context.getAssociationMapping().createPrimaryKeyJoinColumns(
-						context, fieldOutline, idFieldOutlines,
-						oneToOne.getPrimaryKeyJoinColumn());
-			}
+			// if (idFieldOutlines.isEmpty()) {
+			// oneToOne.getPrimaryKeyJoinColumn().clear();
+			// } else {
+			context.getAssociationMapping().createPrimaryKeyJoinColumns(
+					context, fieldOutline, idFieldOutlines,
+					oneToOne.getPrimaryKeyJoinColumn());
+			// }
 		} else if (!oneToOne.getJoinColumn().isEmpty()) {
 			final Collection<FieldOutline> idFieldsOutline = context
 					.getAssociationMapping().getSourceIdFieldsOutline(context,
 							fieldOutline);
-			if (idFieldsOutline.isEmpty()) {
-				oneToOne.getJoinColumn().clear();
-			}
+			// if (idFieldsOutline.isEmpty()) {
+			// oneToOne.getJoinColumn().clear();
+			// }
 
 			context.getAssociationMapping().createJoinColumns(context,
 					fieldOutline, idFieldsOutline, oneToOne.getJoinColumn());
@@ -82,29 +82,14 @@ public class OneToOneMapping implements FieldOutlineMapping<OneToOne> {
 					.getAssociationMapping().getTargetIdFieldsOutline(context,
 							fieldOutline);
 
-			if (sourceIdFieldOutlines.isEmpty()) {
-				oneToOne.setJoinTable(null);
-			} else {
-				context.getAssociationMapping().createJoinTable(context,
-						fieldOutline, sourceIdFieldOutlines,
-						targetIdFieldOutlines, oneToOne.getJoinTable());
-			}
+			// if (sourceIdFieldOutlines.isEmpty()) {
+			// oneToOne.setJoinTable(null);
+			// } else {
+			context.getAssociationMapping().createJoinTable(context,
+					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
+					oneToOne.getJoinTable());
+			// }
 		}
-//		else {
-//			// ***
-//			final JoinColumn joinColumn = new JoinColumn();
-//			oneToOne.getJoinColumn().add(joinColumn);
-//			final Collection<FieldOutline> idFieldsOutline = context
-//					.getAssociationMapping().getSourceIdFieldsOutline(context,
-//							fieldOutline);
-//			if (idFieldsOutline.isEmpty()) {
-//				oneToOne.getJoinColumn().clear();
-//			}
-//
-//			context.getAssociationMapping().createJoinColumns(context,
-//					fieldOutline, idFieldsOutline, oneToOne.getJoinColumn());
-//		}
-
 	}
 
 }
