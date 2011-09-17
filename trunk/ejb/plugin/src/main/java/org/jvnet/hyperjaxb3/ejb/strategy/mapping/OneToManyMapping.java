@@ -3,7 +3,6 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 import java.util.Collection;
 
 import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
 
 import com.sun.java.xml.ns.persistence.orm.OneToMany;
 import com.sun.tools.xjc.Options;
@@ -67,9 +66,9 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 			final Collection<FieldOutline> idFieldsOutline = context
 					.getAssociationMapping().getSourceIdFieldsOutline(context,
 							fieldOutline);
-			if (idFieldsOutline.isEmpty()) {
-				oneToMany.getJoinColumn().clear();
-			}
+			// if (idFieldsOutline.isEmpty()) {
+			// oneToMany.getJoinColumn().clear();
+			// }
 			context.getAssociationMapping().createJoinColumns(context,
 					fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
 		} else if (oneToMany.getJoinTable() != null) {
@@ -80,25 +79,13 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 					.getAssociationMapping().getTargetIdFieldsOutline(context,
 							fieldOutline);
 
-			if (sourceIdFieldOutlines.isEmpty()) {
-				oneToMany.setJoinTable(null);
-			} else {
-				context.getAssociationMapping().createJoinTable(context,
-						fieldOutline, sourceIdFieldOutlines,
-						targetIdFieldOutlines, oneToMany.getJoinTable());
-			}
+			// if (sourceIdFieldOutlines.isEmpty()) {
+			// oneToMany.setJoinTable(null);
+			// } else {
+			context.getAssociationMapping().createJoinTable(context,
+					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
+					oneToMany.getJoinTable());
+			// }
 		}
-//		else {
-//			// ***
-//			final Collection<FieldOutline> idFieldsOutline = context
-//					.getAssociationMapping().getSourceIdFieldsOutline(context,
-//							fieldOutline);
-//			if (idFieldsOutline.isEmpty()) {
-//				oneToMany.getJoinColumn().clear();
-//			}
-//			context.getAssociationMapping().createJoinColumns(context,
-//					fieldOutline, idFieldsOutline, oneToMany.getJoinColumn());
-//		}
-
 	}
 }
