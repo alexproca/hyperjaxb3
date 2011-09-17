@@ -95,15 +95,17 @@ public class EmbeddedNamingWrapper implements Naming {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
 
-	
 	public String getElementCollection$CollectionTable$Name(Mapping context,
 			FieldOutline fieldOutline) {
-		return naming.getElementCollection$CollectionTable$Name(context, fieldOutline);
+		return naming.getElementCollection$CollectionTable$Name(context,
+				fieldOutline);
 	}
-	
+
 	public String getElementCollection$CollectionTable$JoinColumn$Name(
-			Mapping context, FieldOutline fieldOutline, FieldOutline idFieldOutline) {
-		return naming.getElementCollection$CollectionTable$JoinColumn$Name(context, fieldOutline, idFieldOutline);
+			Mapping context, FieldOutline fieldOutline,
+			FieldOutline idFieldOutline) {
+		return naming.getElementCollection$CollectionTable$JoinColumn$Name(
+				context, fieldOutline, idFieldOutline);
 	}
 
 	public String getElementCollection$Column$Name(Mapping context,
