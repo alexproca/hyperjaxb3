@@ -1,7 +1,11 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +41,8 @@ public class DefaultProcessModel implements ProcessModel {
 
 		logger.debug("Processing model [...].");
 
-		final CClassInfo[] classInfos = model.beans().values()
+		final Collection<CClassInfo> unorderedClassInfos = model.beans().values();
+		final CClassInfo[] classInfos = orderClassInfos(unorderedClassInfos)
 				.toArray(new CClassInfo[0]);
 		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
 
@@ -56,6 +61,29 @@ public class DefaultProcessModel implements ProcessModel {
 			}
 		}
 		return includedClasses;
+	}
+
+	private List<CClassInfo> orderClassInfos(Collection<CClassInfo> classInfos) {
+		final List<CClassInfo> orderedClassInfos = new ArrayList<CClassInfo>(
+				classInfos.size());
+		final Set<CClassInfo> addedClassInfos = new HashSet<CClassInfo>();
+
+		for (CClassInfo classInfo : classInfos) {
+			orderClassInfo(classInfo, orderedClassInfos, addedClassInfos);
+		}
+		return Collections.unmodifiableList(orderedClassInfos);
+	}
+
+	private void orderClassInfo(CClassInfo classInfo,
+			List<CClassInfo> orderedClassInfos, Set<CClassInfo> addedClassInfos) {
+		if (!addedClassInfos.contains(classInfo)) {
+			if (classInfo.getBaseClass() != null) {
+				orderClassInfo(classInfo.getBaseClass(), orderedClassInfos,
+						addedClassInfos);
+			}
+			orderedClassInfos.add(classInfo);
+			addedClassInfos.add(classInfo);
+		}
 	}
 
 	private ProcessClassInfo processClassInfo;
