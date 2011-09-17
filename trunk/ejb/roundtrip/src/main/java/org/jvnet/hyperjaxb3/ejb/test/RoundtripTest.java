@@ -10,6 +10,7 @@ import javax.xml.bind.Unmarshaller;
 import org.jvnet.hyperjaxb3.ejb.util.EntityUtils;
 import org.jvnet.jaxb2_commons.lang.ContextUtils;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
+import org.jvnet.jaxb2_commons.locator.DefaultRootObjectLocator;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
@@ -73,12 +74,12 @@ public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
 
 		if (unmarshalledElement != null) {
 			final JAXBElement mergedElement = new JAXBElement(
-					unmarshalledElement.getName(), unmarshalledElement
-							.getDeclaredType(), mergedObject);
+					unmarshalledElement.getName(),
+					unmarshalledElement.getDeclaredType(), mergedObject);
 
 			final JAXBElement loadedElement = new JAXBElement(
-					unmarshalledElement.getName(), unmarshalledElement
-							.getDeclaredType(), loadedObject);
+					unmarshalledElement.getName(),
+					unmarshalledElement.getDeclaredType(), loadedObject);
 
 			logger.debug("Initial object:\n"
 					+ ContextUtils.toString(context, etalonElement));
@@ -119,8 +120,16 @@ public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
 					super.equals(leftLocator, rightLocator, lhs, rhs);
 					logger.debug("Left: "
 							+ (lhs == null ? "null" : lhs.toString()));
+					if (leftLocator != null) {
+						logger.debug("At [" + leftLocator.getPathAsString()
+								+ "].");
+					}
 					logger.debug("Right: "
 							+ (rhs == null ? "null" : rhs.toString()));
+					if (rightLocator != null) {
+						logger.debug("At [" + rightLocator.getPathAsString()
+								+ "].");
+					}
 					return false;
 				} else
 
@@ -131,7 +140,9 @@ public abstract class RoundtripTest extends AbstractEntityManagerSamplesTest {
 
 		};
 		;
-		assertTrue("Objects must be equal.", strategy.equals(null, null,
-				object, loadedObject));
+		assertTrue("Objects must be equal.", strategy.equals(
+				new DefaultRootObjectLocator(object),
+				new DefaultRootObjectLocator(loadedObject), object,
+				loadedObject));
 	}
 }
