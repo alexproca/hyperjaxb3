@@ -34,8 +34,8 @@ public class ElementCollectionMapping implements
 				elementCollection.setEnumerated(context.getAttributeMapping()
 						.createEnumerated(fieldOutline));
 			} else if (context.getAttributeMapping().isLob(fieldOutline)) {
-				elementCollection.setLob(context.getAttributeMapping().createLob(
-						fieldOutline));
+				elementCollection.setLob(context.getAttributeMapping()
+						.createLob(fieldOutline));
 			}
 
 		}
@@ -134,9 +134,9 @@ public class ElementCollectionMapping implements
 		final Collection<FieldOutline> idFieldsOutline = context
 				.getAssociationMapping().getSourceIdFieldsOutline(context,
 						fieldOutline);
-		if (idFieldsOutline.isEmpty()) {
-			collectionTable.getJoinColumn().clear();
-		}
+		// if (idFieldsOutline.isEmpty()) {
+		// collectionTable.getJoinColumn().clear();
+		// }
 		context.getAssociationMapping()
 				.createElementCollection$CollectionTable$JoinColumns(context,
 						fieldOutline, idFieldsOutline,
