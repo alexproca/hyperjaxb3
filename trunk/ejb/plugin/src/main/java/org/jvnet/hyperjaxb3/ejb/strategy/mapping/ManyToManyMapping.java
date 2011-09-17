@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.jvnet.hyperjaxb3.xjc.model.CTypeInfoUtils;
 
-import com.sun.java.xml.ns.persistence.orm.JoinTable;
 import com.sun.java.xml.ns.persistence.orm.ManyToMany;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
@@ -69,21 +68,22 @@ public class ManyToManyMapping implements FieldOutlineMapping<ManyToMany> {
 		final Collection<FieldOutline> targetIdFieldOutlines = context
 				.getAssociationMapping().getTargetIdFieldsOutline(context,
 						fieldOutline);
-		if (sourceIdFieldOutlines.isEmpty()) {
-			manyToMany.setJoinTable(null);
-		} else if (manyToMany.getJoinTable() != null) {
+		// if (sourceIdFieldOutlines.isEmpty()) {
+		// manyToMany.setJoinTable(null);
+		// } else
+		if (manyToMany.getJoinTable() != null) {
 			context.getAssociationMapping().createJoinTable(context,
 					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
 					manyToMany.getJoinTable());
 		}
-//		else {
-//			// ***
-//			final JoinTable joinTable = new JoinTable();
-//			manyToMany.setJoinTable(joinTable);
-//			context.getAssociationMapping().createJoinTable(context,
-//					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
-//					manyToMany.getJoinTable());
-//		}
+		// else {
+		// // ***
+		// final JoinTable joinTable = new JoinTable();
+		// manyToMany.setJoinTable(joinTable);
+		// context.getAssociationMapping().createJoinTable(context,
+		// fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
+		// manyToMany.getJoinTable());
+		// }
 
 	}
 }
