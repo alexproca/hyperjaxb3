@@ -1,5 +1,6 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -36,7 +37,23 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 
 		final Collection<CPropertyInfo> newPropertyInfos = new LinkedList<CPropertyInfo>();
 		// In case this is a root entity, create default id properties
-		if (isRootClass(context, classInfo)) {
+
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.GENERATED_ID_ELEMENT_NAME)) {
+			final Collection<CPropertyInfo> idPropertyInfos = context
+					.getGetIdPropertyInfos().process(context, classInfo);
+
+			if (!idPropertyInfos.isEmpty()) {
+				logger.error(MessageFormat.format(
+						"Class info [{0}] is annotated with hj:generated-id customization, "
+								+ "but it already contains id properties. "
+								+ "The customization will be ignored.",
+						classInfo.getName()));
+			} else {
+				newPropertyInfos.addAll(createDefaultIdPropertyInfos(context,
+						classInfo));
+			}
+		} else if (isRootClass(context, classInfo)) {
 			final Collection<CPropertyInfo> idPropertyInfos = context
 					.getGetIdPropertyInfos().process(context, classInfo);
 
@@ -45,11 +62,27 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 				newPropertyInfos.addAll(createDefaultIdPropertyInfos(context,
 						classInfo));
 			}
+		}
 
+		if (CustomizationUtils.containsCustomization(classInfo,
+				Customizations.GENERATED_VERSION_ELEMENT_NAME)) {
+			final Collection<CPropertyInfo> versionPropertyInfos = context
+					.getGetVersionPropertyInfos().process(context, classInfo);
+			if (!versionPropertyInfos.isEmpty()) {
+				logger.error(MessageFormat
+						.format("Class info [{0}] is annotated with hj:generated-version customization, "
+								+ "but it already contains version properties. "
+								+ "The customization will be ignored.",
+								classInfo.getName()));
+			} else {
+				newPropertyInfos.addAll(createDefaultVersionPropertyInfos(
+						context, classInfo));
+			}
+		} else if (isRootClass(context, classInfo)) {
 			final Collection<CPropertyInfo> versionPropertyInfos = context
 					.getGetVersionPropertyInfos().process(context, classInfo);
 
-			// If no id properties found, create default.
+			// If no version properties found, create default.
 			if (versionPropertyInfos.isEmpty()) {
 				newPropertyInfos.addAll(createDefaultVersionPropertyInfos(
 						context, classInfo));
