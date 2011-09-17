@@ -212,7 +212,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 
 		final Iterator<JoinColumn> joinColumnIterator = new ArrayList<JoinColumn>(
 				joinTable.getJoinColumn()).iterator();
-		final Map<FieldOutline, JoinColumn> map = new IdentityHashMap<FieldOutline, JoinColumn>();
 		for (FieldOutline idFieldOutline : idFieldOutlines) {
 			final JoinColumn joinColumn;
 			if (joinColumnIterator.hasNext()) {
@@ -221,7 +220,6 @@ public class DefaultAssociationMapping implements AssociationMapping {
 				joinColumn = new JoinColumn();
 				joinTable.getJoinColumn().add(joinColumn);
 			}
-			map.put(idFieldOutline, joinColumn);
 			createJoinTable$JoinColumn(context, fieldOutline, idFieldOutline,
 					joinColumn);
 		}
