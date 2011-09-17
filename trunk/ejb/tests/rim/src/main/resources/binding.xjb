@@ -19,6 +19,13 @@
     -->
     <jaxb:bindings schemaLocation="./xsd/rim.xsd" node="/xs:schema">        
 
+	<hj:persistence>
+		<hj:default-one-to-many>
+			<orm:order-column/>
+		</hj:default-one-to-many>
+	</hj:persistence>
+
+
         <jaxb:bindings node="xs:complexType[@name='TelephoneNumberType']">
 		<hj:entity>
 			<orm:association-override name="slot">
@@ -107,8 +114,8 @@
         </jaxb:schemaBindings>    
                         
         <jaxb:bindings node="xs:complexType[@name='ExtensibleObjectType']">
-            <hj:generated-id/>
-            <hj:mapped-superclass/>
+		<hj:mapped-superclass/>
+		<!--hj:generated-id name="Id" attributeName="id" javaType="java.lang.String" schemaType="xs:anyURI"/-->
         </jaxb:bindings>
         <jaxb:bindings node="xs:complexType[@name='IdentifiableType']">
             <!--hj:basic>
@@ -117,10 +124,12 @@
         </jaxb:bindings>
         <jaxb:bindings node="//xs:complexType[@name='IdentifiableType']//xs:attribute[@name='id']">
             <hj:id/>
-        </jaxb:bindings>        
+        </jaxb:bindings>
         <jaxb:bindings node="xs:complexType[@name='ExtensibleObjectType']//xs:element[@ref='tns:Slot']">
-            <!--hj:many-to-many/-->
-        </jaxb:bindings>        
+		<hj:one-to-many>
+			<orm:join-column name="SLOT_ID"/>
+		</hj:one-to-many>
+	</jaxb:bindings>        
         <jaxb:bindings node="xs:complexType[@name='SlotType']//xs:element[@ref='tns:ValueList']">
         </jaxb:bindings>
         <jaxb:bindings node="xs:complexType[@name='SlotType']//xs:attribute[@name='name']">
@@ -239,7 +248,7 @@
         </jaxb:schemaBindings>    
 
 	<!-- Added by lexi -->
-        <!-- jaxb:bindings node="xs:complexType[@name='RegistryRequestType']">
+        <jaxb:bindings node="xs:complexType[@name='RegistryRequestType']">
 		<hj:entity>
 			<orm:association-override name="slot">
 				<orm:join-column name="SLOT_REGISTRYREQUESTTYPE_ID"/>
@@ -252,7 +261,7 @@
 				<orm:join-column name="SLOT_REGISTRYRESPONSETYPE_ID"/>
 			</orm:association-override>
 		</hj:entity>
-        </jaxb:bindings-->        
+        </jaxb:bindings>
 
     </jaxb:bindings>
     
