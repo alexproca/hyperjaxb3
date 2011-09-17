@@ -77,7 +77,7 @@
 
 	<properties>
 		<annox.version>0.5.0</annox.version>
-		<jaxb2-basics.version>0.6.2</jaxb2-basics.version>
+		<jaxb2-basics.version>0.6.3-SNAPSHOT</jaxb2-basics.version>
 		<maven-jaxb2-plugin.version>0.8.0</maven-jaxb2-plugin.version>
 		<jaxb.version>2.2.5-SNAPSHOT</jaxb.version>
 	</properties>
