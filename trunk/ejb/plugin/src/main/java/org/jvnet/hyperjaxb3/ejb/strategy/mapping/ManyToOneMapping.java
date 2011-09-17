@@ -2,9 +2,6 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import java.util.Collection;
 
-import org.jvnet.jaxb2_commons.util.OutlineUtils;
-
-import com.sun.java.xml.ns.persistence.orm.JoinColumn;
 import com.sun.java.xml.ns.persistence.orm.ManyToOne;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClass;
@@ -60,38 +57,28 @@ public class ManyToOneMapping implements FieldOutlineMapping<ManyToOne> {
 
 		if (manyToOne.getJoinColumn() != null
 				&& !manyToOne.getJoinColumn().isEmpty()) {
-			final Collection<FieldOutline> idFieldsOutline = context.getAssociationMapping().getTargetIdFieldsOutline(
-					context, fieldOutline);
-			if (idFieldsOutline.isEmpty()) {
-				manyToOne.getJoinColumn().clear();
-			}
-			context.getAssociationMapping().createJoinColumns(context, fieldOutline, idFieldsOutline,
-					manyToOne.getJoinColumn());
+			final Collection<FieldOutline> idFieldsOutline = context
+					.getAssociationMapping().getTargetIdFieldsOutline(context,
+							fieldOutline);
+			// if (idFieldsOutline.isEmpty()) {
+			// manyToOne.getJoinColumn().clear();
+			// }
+			context.getAssociationMapping().createJoinColumns(context,
+					fieldOutline, idFieldsOutline, manyToOne.getJoinColumn());
 		} else if (manyToOne.getJoinTable() != null) {
-			final Collection<FieldOutline> sourceIdFieldOutlines = context.getAssociationMapping().getSourceIdFieldsOutline(
-					context, fieldOutline);
-			final Collection<FieldOutline> targetIdFieldOutlines = context.getAssociationMapping().getTargetIdFieldsOutline(
-					context, fieldOutline);
-			if (sourceIdFieldOutlines.isEmpty()) {
-				manyToOne.setJoinTable(null);
-			} else {
-				context.getAssociationMapping().createJoinTable(context, fieldOutline, sourceIdFieldOutlines,
-						targetIdFieldOutlines, manyToOne.getJoinTable());
-			}
+			final Collection<FieldOutline> sourceIdFieldOutlines = context
+					.getAssociationMapping().getSourceIdFieldsOutline(context,
+							fieldOutline);
+			final Collection<FieldOutline> targetIdFieldOutlines = context
+					.getAssociationMapping().getTargetIdFieldsOutline(context,
+							fieldOutline);
+			// if (sourceIdFieldOutlines.isEmpty()) {
+			// manyToOne.setJoinTable(null);
+			// } else {
+			context.getAssociationMapping().createJoinTable(context,
+					fieldOutline, sourceIdFieldOutlines, targetIdFieldOutlines,
+					manyToOne.getJoinTable());
+			// }
 		}
-//		else {
-//			// ***
-//			final Collection<FieldOutline> idFieldsOutline = context.getAssociationMapping().getTargetIdFieldsOutline(
-//					context, fieldOutline);
-//			final JoinColumn joinColumn = new JoinColumn();
-//			manyToOne.getJoinColumn().add(joinColumn);
-//			if (idFieldsOutline.isEmpty()) {
-//				manyToOne.getJoinColumn().clear();
-//			}
-//			context.getAssociationMapping().createJoinColumns(context, fieldOutline, idFieldsOutline,
-//					manyToOne.getJoinColumn());
-//		}
-
 	}
-
 }
