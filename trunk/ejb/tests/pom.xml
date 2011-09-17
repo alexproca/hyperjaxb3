@@ -35,6 +35,7 @@
 		<module>embeddable</module>
 		<module>embeddable-jpa2</module>
 		<module>issues</module>
+		<module>issues-el</module>
 		<module>issues-jpa2</module>
 	</modules>
 	<profiles>
@@ -75,6 +76,7 @@
 				<module>ims-lip</module>
 				<module>ioda</module>
 				<module>issues</module>
+				<module>issues-el</module>
 				<module>issues-jpa2</module>
 				<module>nml</module>
 				<module>nokis</module>
