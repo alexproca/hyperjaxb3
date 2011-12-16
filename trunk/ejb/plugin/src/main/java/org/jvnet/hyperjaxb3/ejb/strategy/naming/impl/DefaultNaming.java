@@ -115,7 +115,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 					return identifier;
 				}
 			}
-		} else if (getReservedNames().contains(name.toUpperCase())) {
+		} else if (getReservedNames().containsKey(name.toUpperCase())) {
 			return name + "_";
 		} else {
 			return name;
