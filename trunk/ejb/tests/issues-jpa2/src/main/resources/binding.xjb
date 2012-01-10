@@ -10,5 +10,15 @@
 		<jaxb:globalBindings localScoping="toplevel">
 			<jaxb:serializable/>
 		</jaxb:globalBindings>
+		<jaxb:bindings node="xsd:complexType[@name='HJIII-53-A']//xsd:element[@name='b']">
+			<jaxb:property>
+				<jaxb:baseType name="HJIII53B"/>
+			</jaxb:property>
+		</jaxb:bindings>
+		<jaxb:bindings node="xsd:complexType[@name='HJIII-53-A']//xsd:element[@name='c']">
+			<jaxb:property>
+				<jaxb:baseType name="HJIII53C"/>
+			</jaxb:property>
+		</jaxb:bindings>
 	</jaxb:bindings>
 </jaxb:bindings>
