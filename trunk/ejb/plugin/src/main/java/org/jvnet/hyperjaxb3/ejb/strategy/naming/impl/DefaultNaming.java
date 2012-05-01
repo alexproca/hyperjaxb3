@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
@@ -37,6 +39,8 @@ import com.sun.tools.xjc.outline.PackageOutline;
 import com.sun.xml.bind.api.impl.NameConverter;
 
 public class DefaultNaming implements Naming, InitializingBean {
+
+	private Pattern camelCasePattern = Pattern.compile("\\p{Lower}\\p{Upper}|\\D\\d");
 
 	private Ignoring ignoring;
 
@@ -100,6 +104,15 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		Validate.notNull(draftName, "Name must not be null.");
 		final String name = draftName.replace('$', '_').toUpperCase();
+		String intermediateName = draftName.replace('$', '_');
+		final Matcher camelCaseMatcher = camelCasePattern.matcher(intermediateName);
+		while(camelCaseMatcher.find()){
+			final String regFusion = camelCaseMatcher.group(0);
+			intermediateName=intermediateName.replace(regFusion,regFusion.charAt(0) + "_" + regFusion.charAt(1));
+		}
+
+		final String name=intermediateName.toUpperCase();
+
 		if (nameKeyMap.containsKey(name)) {
 			return (String) nameKeyMap.get(name);
 		} else if (name.length() >= getMaxIdentifierLength()) {
