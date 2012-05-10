@@ -195,6 +195,7 @@
 							<orm:column-name>VALUE_</orm:column-name>
 						</orm:unique-constraint>
 					</orm:table>
+					<orm:inheritance strategy="TABLE_PER_CLASS"/>
 				</hj:entity>
 			</xs:appinfo>
 		</xs:annotation>
