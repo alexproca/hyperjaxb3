@@ -24,6 +24,17 @@
 			<artifactId>maven-jaxb2-plugin</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.sonatype.plexus</groupId>
+			<artifactId>plexus-build-api</artifactId>
+			<version>0.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>1.5.15</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
 		</dependency>
@@ -37,9 +48,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jfrog.maven.annomojo</groupId>
-			<artifactId>maven-plugin-anno</artifactId>
-			<version>1.3.1</version>
+			<groupId>br.com.ingenieux.maven.annomojo</groupId>
+			<artifactId>org.jfrog.maven.maven-plugin-anno</artifactId>
+			<version>1.4.1</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -49,13 +60,12 @@
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
-				<version>2.2</version>
 				<dependencies>
 					<dependency>
-						<groupId>org.jfrog.maven.annomojo</groupId>
-						<artifactId>maven-plugin-tools-anno</artifactId>
-						<version>1.3.1</version>
-						<scope>runtime</scope>
+						<groupId>br.com.ingenieux.maven.annomojo</groupId>
+						<artifactId>org.jfrog.maven.maven-plugin-tools-anno</artifactId>
+						<version>1.4.1</version>
+						<!--scope>runtime</scope-->
 					</dependency>
 				</dependencies>
 			</plugin>

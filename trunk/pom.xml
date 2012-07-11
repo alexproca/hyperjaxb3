@@ -76,10 +76,11 @@
 	</modules>
 
 	<properties>
+		<maven.version>2.0.6</maven.version>
 		<annox.version>0.5.0</annox.version>
-		<jaxb2-basics.version>0.6.4-SNAPSHOT</jaxb2-basics.version>
-		<maven-jaxb2-plugin.version>0.8.0</maven-jaxb2-plugin.version>
-		<jaxb.version>2.2.5-SNAPSHOT</jaxb.version>
+		<jaxb2-basics.version>0.6.4</jaxb2-basics.version>
+		<maven-jaxb2-plugin.version>0.8.2</maven-jaxb2-plugin.version>
+		<jaxb.version>2.2.5-2</jaxb.version>
 	</properties>
 
 	<repositories>
@@ -294,6 +295,11 @@
 						</dependency>
 					</dependencies>
 				</plugin-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-plugin-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -559,6 +565,16 @@
 				<groupId>org.jvnet.annox</groupId>
 				<artifactId>annox</artifactId>
 				<version>${annox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.ingenieux.maven.annomojo</groupId>
+				<artifactId>org.jfrog.maven.maven-plugin-anno</artifactId>
+				<version>1.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.ingenieux.maven.annomojo</groupId>
+				<artifactId>org.jfrog.maven.maven-plugin-tools-anno</artifactId>
+				<version>1.4.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
