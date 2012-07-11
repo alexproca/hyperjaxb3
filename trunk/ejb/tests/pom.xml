@@ -34,6 +34,7 @@
 		<module>st</module>
 		<module>embeddable</module>
 		<module>embeddable-jpa2</module>
+		<module>issues-pre</module>
 		<module>issues</module>
 		<module>issues-el</module>
 		<module>issues-jpa2</module>

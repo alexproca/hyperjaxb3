@@ -3,7 +3,8 @@
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
 	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
-	jaxb:extensionBindingPrefixes="xjc orm"
+	xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+	jaxb:extensionBindingPrefixes="xjc orm inheritance"
 	xmlns:test="urn:test">
 	
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
@@ -67,6 +68,9 @@
 					<orm:join-column name="ISSUEHJIII94_ISSUEHJIII94A"/>
 				</orm:association-override>
 			</hj:entity>
+	        </jaxb:bindings>        
+	        <jaxb:bindings node="xsd:complexType[@name='issueHJIII45Type']">
+			<inheritance:extends>org.jvnet.hyperjaxb3.ejb.tests.issues.pre.IssueHJIII45SuperClass</inheritance:extends>
 	        </jaxb:bindings>        
 
 
