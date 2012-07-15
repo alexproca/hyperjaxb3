@@ -69,8 +69,9 @@
 				</orm:association-override>
 			</hj:entity>
 	        </jaxb:bindings>        
-	        <jaxb:bindings node="xsd:complexType[@name='issueHJIII45Type']">
-			<inheritance:extends>org.jvnet.hyperjaxb3.ejb.tests.issues.pre.IssueHJIII45SuperClass</inheritance:extends>
+
+	        <jaxb:bindings node="xsd:complexType[@name='issueHJIII45SuperType']">
+			<jaxb:class ref="org.jvnet.hyperjaxb3.ejb.tests.issues.pre.IssueHJIII45SuperClass"/>
 	        </jaxb:bindings>        
 
 

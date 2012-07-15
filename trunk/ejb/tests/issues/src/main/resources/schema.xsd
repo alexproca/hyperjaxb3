@@ -867,8 +867,16 @@ x
 		</xsd:complexContent>
 	</xsd:complexType-->
 
-	<xsd:complexType name="issueHJIII45Type">
-		<xsd:attribute name="name" type="xsd:string" use="required"/>
+	<xsd:element name="issueHJIII45Super" type="test:issueHJIII45SuperType"/>
+	<xsd:complexType name="issueHJIII45SuperType"/>
+
+	<xsd:element name="issueHJIII45Sub" type="test:issueHJIII45SubType"/>
+	<xsd:complexType name="issueHJIII45SubType">
+		<xsd:complexContent>
+			<xsd:extension base="test:issueHJIII45SuperType">
+				<xsd:attribute name="name" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 
 </xsd:schema>
