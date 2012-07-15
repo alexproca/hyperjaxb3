@@ -40,7 +40,8 @@ import com.sun.xml.bind.api.impl.NameConverter;
 
 public class DefaultNaming implements Naming, InitializingBean {
 
-	private Pattern camelCasePattern = Pattern.compile("\\p{Lower}\\p{Upper}|\\D\\d");
+	private Pattern camelCasePattern = Pattern
+			.compile("\\p{Lower}\\p{Upper}|\\D\\d");
 
 	private Ignoring ignoring;
 
@@ -103,15 +104,17 @@ public class DefaultNaming implements Naming, InitializingBean {
 	public String getName(final String draftName) {
 
 		Validate.notNull(draftName, "Name must not be null.");
-		final String name = draftName.replace('$', '_').toUpperCase();
+//		final String name = draftName.replace('$', '_').toUpperCase();
 		String intermediateName = draftName.replace('$', '_');
-		final Matcher camelCaseMatcher = camelCasePattern.matcher(intermediateName);
-		while(camelCaseMatcher.find()){
+		final Matcher camelCaseMatcher = camelCasePattern
+				.matcher(intermediateName);
+		while (camelCaseMatcher.find()) {
 			final String regFusion = camelCaseMatcher.group(0);
-			intermediateName=intermediateName.replace(regFusion,regFusion.charAt(0) + "_" + regFusion.charAt(1));
+			intermediateName = intermediateName.replace(regFusion,
+					regFusion.charAt(0) + "_" + regFusion.charAt(1));
 		}
 
-		final String name=intermediateName.toUpperCase();
+		final String name = intermediateName.toUpperCase();
 
 		if (nameKeyMap.containsKey(name)) {
 			return (String) nameKeyMap.get(name);
@@ -319,22 +322,22 @@ public class DefaultNaming implements Naming, InitializingBean {
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
 		return getName(entityTableName + "_" + fieldColumnName);
 	}
-	
+
 	public String getElementCollection$CollectionTable$JoinColumn$Name(
 			Mapping context, FieldOutline fieldOutline,
 			FieldOutline idFieldOutline) {
-//		final String entityTableName = getEntityTable$Name(context,
-//				fieldOutline.parent());
-//		final String fieldColumnName = getName(fieldOutline.getPropertyInfo()
-//				.getName(true));
+		// final String entityTableName = getEntityTable$Name(context,
+		// fieldOutline.parent());
+		// final String fieldColumnName = getName(fieldOutline.getPropertyInfo()
+		// .getName(true));
 		final String idFieldColumnName = getName(idFieldOutline
 				.getPropertyInfo().getName(true));
 
 		return getName(context.getNaming().getColumn$Name$Prefix(context)
-//				+ fieldColumnName + "_" + entityTableName + "_"
+		// + fieldColumnName + "_" + entityTableName + "_"
 				+ idFieldColumnName);
 	}
-	
+
 	public String getElementCollection$OrderColumn$Name(Mapping context,
 			FieldOutline fieldOutline) {
 		// final String collectionTableName =

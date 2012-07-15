@@ -84,7 +84,7 @@
 	</properties>
 
 	<repositories>
-		<repository>
+		<!--repository>
 			<id>jvnet-nexus-snapshots</id>
 			<name>Java.net Nexus Snapshots Repository</name>
 			<url>https://maven.java.net/content/repositories/snapshots</url>
@@ -94,7 +94,7 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository>
+		</repository-->
 		<repository>
 			<id>org.highsource.repository.maven2.releases</id>
 			<name>http://repository.highsource.org/maven2/releases/</name>
