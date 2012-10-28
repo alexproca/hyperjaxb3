@@ -128,7 +128,7 @@ public class CreateXAnnotations {
 						//
 						AnnotationUtils.create("query", cNamedQuery.getQuery()),
 						//
-						AnnotationUtils.create("hint",
+						AnnotationUtils.create("hints",
 								createQueryHint(cNamedQuery.getHint()),
 								javax.persistence.QueryHint.class),
 						//
