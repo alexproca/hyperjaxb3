@@ -285,7 +285,7 @@ public class CreateXAnnotations extends
 				//
 						AnnotationUtils.create("query", source.getQuery()),
 						//
-						AnnotationUtils.create("hint",
+						AnnotationUtils.create("hints",
 								createQueryHint(source.getHint()),
 								QueryHint.class),
 						//
