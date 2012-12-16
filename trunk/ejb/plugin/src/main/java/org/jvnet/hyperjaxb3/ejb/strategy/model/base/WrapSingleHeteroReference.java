@@ -58,7 +58,8 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 				referencePropertyInfo);
 
 		final Collection<CPropertyInfo> newPropertyInfos = new ArrayList<CPropertyInfo>(
-				referencePropertyInfo.getElements().size() + 3);
+				context.getGetTypes()
+						.getElements(context, referencePropertyInfo).size() + 3);
 
 		if (elementProperty != null) {
 			newPropertyInfos.add(elementProperty);
@@ -67,7 +68,8 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 			newPropertyInfos.add(objectProperty);
 		}
 
-		final Collection<CPropertyInfo> properties = createElementProperties((CReferencePropertyInfo) propertyInfo);
+		final Collection<CPropertyInfo> properties = createElementProperties(
+				context, (CReferencePropertyInfo) propertyInfo);
 
 		if (properties != null) {
 
@@ -85,13 +87,13 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 		if (referencePropertyInfo.getWildcard() != null
 				&& referencePropertyInfo.getWildcard().allowTypedObject) {
 
-			objectProperty = new CAttributePropertyInfo(referencePropertyInfo
-					.getName(true)
-					+ "Object", referencePropertyInfo.getSchemaComponent(),
+			objectProperty = new CAttributePropertyInfo(
+					referencePropertyInfo.getName(true) + "Object",
+					referencePropertyInfo.getSchemaComponent(),
 					new CCustomizations(), referencePropertyInfo.getLocator(),
 					new QName(referencePropertyInfo.getName(true) + "Object"),
-					CBuiltinLeafInfo.STRING, CBuiltinLeafInfo.STRING
-							.getTypeName(), false);
+					CBuiltinLeafInfo.STRING,
+					CBuiltinLeafInfo.STRING.getTypeName(), false);
 
 			objectProperty.realization = new FieldRenderer() {
 				public FieldOutline generate(ClassOutlineImpl classOutline,
@@ -119,8 +121,9 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
 
-			CustomizationUtils.addCustomization(objectProperty, Customizations
-					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
+			CustomizationUtils.addCustomization(objectProperty,
+					Customizations.getContext(),
+					Customizations.BASIC_ELEMENT_NAME, basic);
 
 			Customizations.markGenerated(objectProperty);
 
@@ -136,9 +139,9 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 		if (referencePropertyInfo.getWildcard() != null
 				&& referencePropertyInfo.getWildcard().allowDom) {
 
-			elementProperty = new CAttributePropertyInfo(referencePropertyInfo
-					.getName(true)
-					+ "Element", referencePropertyInfo.getSchemaComponent(),
+			elementProperty = new CAttributePropertyInfo(
+					referencePropertyInfo.getName(true) + "Element",
+					referencePropertyInfo.getSchemaComponent(),
 					new CCustomizations(), referencePropertyInfo.getLocator(),
 					new QName(referencePropertyInfo.getName(true) + "Element"),
 
@@ -160,8 +163,9 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
 
-			CustomizationUtils.addCustomization(elementProperty, Customizations
-					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
+			CustomizationUtils.addCustomization(elementProperty,
+					Customizations.getContext(),
+					Customizations.BASIC_ELEMENT_NAME, basic);
 
 			Customizations.markGenerated(elementProperty);
 		} else {
@@ -171,9 +175,10 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 	}
 
 	protected Collection<CPropertyInfo> createElementProperties(
-			final CReferencePropertyInfo propertyInfo) {
+			ProcessModel context, final CReferencePropertyInfo propertyInfo) {
 
-		Set<CElement> elements = propertyInfo.getElements();
+		Set<CElement> elements = context.getGetTypes().getElements(context,
+				propertyInfo);
 
 		final Collection<CPropertyInfo> properties = new ArrayList<CPropertyInfo>(
 				elements.size());
@@ -186,28 +191,27 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 									.getNameConverter().toPropertyName(
 											element.getElementName()
 													.getLocalPart()),
-					CollectionMode.NOT_REPEATED, ID.NONE, propertyInfo
-							.getExpectedMimeType(), propertyInfo
-							.getSchemaComponent(),
+					CollectionMode.NOT_REPEATED, ID.NONE,
+					propertyInfo.getExpectedMimeType(),
+					propertyInfo.getSchemaComponent(),
 					new CCustomizations(CustomizationUtils
-							.getCustomizations(propertyInfo)), propertyInfo
-							.getLocator(), false);
+							.getCustomizations(propertyInfo)),
+					propertyInfo.getLocator(), false);
 
 			if (element instanceof CElementInfo) {
 				final CElementInfo elementInfo = (CElementInfo) element;
 				if (!elementInfo.getSubstitutionMembers().isEmpty()) {
-					logger
-							.error("["
-									+ ((CClassInfo) propertyInfo.parent())
-											.getName()
-									+ "."
-									+ propertyInfo.getName(true)
-									+ "] is a single hetero reference containing element ["
-									+ elementInfo.getSqueezedName()
-									+ "] which is a substitution group head. See issue #95.");
+					logger.error("["
+							+ ((CClassInfo) propertyInfo.parent()).getName()
+							+ "."
+							+ propertyInfo.getName(true)
+							+ "] is a single hetero reference containing element ["
+							+ elementInfo.getSqueezedName()
+							+ "] which is a substitution group head. See issue #95.");
 				} else {
 					itemPropertyInfo.getTypes().addAll(
-							elementInfo.getProperty().getTypes());
+							context.getGetTypes().getTypes(context,
+									((CElementInfo) element).getProperty()));
 
 					itemPropertyInfo.realization = new FieldRenderer() {
 						public FieldOutline generate(
@@ -250,14 +254,12 @@ public class WrapSingleHeteroReference implements CreatePropertyInfos {
 				final CClassRef classRef = (CClassRef) element;
 				logger.error("CClassRef elements are not supported yet.");
 
-				logger
-						.error("["
-								+ ((CClassInfo) propertyInfo.parent())
-										.getName()
-								+ "."
-								+ propertyInfo.getName(true)
-								+ "] is a single hetero reference containing unsupported CClassRef element ["
-								+ classRef.fullName() + "]. See issue #94.");
+				logger.error("["
+						+ ((CClassInfo) propertyInfo.parent()).getName()
+						+ "."
+						+ propertyInfo.getName(true)
+						+ "] is a single hetero reference containing unsupported CClassRef element ["
+						+ classRef.fullName() + "]. See issue #94.");
 
 			}
 		}

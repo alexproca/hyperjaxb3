@@ -1,5 +1,8 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.ignoring;
 
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
+
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassInfoParent;
 import com.sun.tools.xjc.model.CPropertyInfo;
@@ -11,16 +14,21 @@ import com.sun.tools.xjc.outline.PackageOutline;
 
 public interface Ignoring {
 
-	public boolean isPackageOutlineIgnored(Outline outline, PackageOutline packageOutline);
+	public boolean isPackageOutlineIgnored(Mapping context, Outline outline,
+			PackageOutline packageOutline);
 
-	public boolean isClassOutlineIgnored(ClassOutline classOutline);
+	public boolean isClassOutlineIgnored(Mapping context,
+			ClassOutline classOutline);
 
-	public boolean isFieldOutlineIgnored(FieldOutline fieldOutline);
+	public boolean isFieldOutlineIgnored(Mapping context,
+			FieldOutline fieldOutline);
 
-	public boolean isPackageInfoIgnored(Model model, CClassInfoParent.Package packageInfo);
+	public boolean isPackageInfoIgnored(ProcessModel context, Model model,
+			CClassInfoParent.Package packageInfo);
 
-	public boolean isClassInfoIgnored(CClassInfo classInfo);
+	public boolean isClassInfoIgnored(ProcessModel context, CClassInfo classInfo);
 
-	public boolean isPropertyInfoIgnored(CPropertyInfo propertyInfo);
+	public boolean isPropertyInfoIgnored(ProcessModel context,
+			CPropertyInfo propertyInfo);
 
 }

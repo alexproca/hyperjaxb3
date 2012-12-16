@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 
 import com.sun.tools.xjc.model.CPropertyInfo;
 
@@ -24,7 +25,7 @@ public interface ProcessModel extends ModelProcessor<EjbPlugin> {
 
 	public ProcessClassInfo getCreateIdClass();
 
-	public GetTypes getGetTypes();
+	public GetTypes<ProcessModel> getGetTypes();
 
 	// Value
 

@@ -1,6 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,8 +15,10 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.java.xml.ns.persistence.orm.Lob;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
+import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.xml.bind.v2.model.core.WildcardMode;
 
 public class WrapSingleWildcardReference implements CreatePropertyInfos {
@@ -26,9 +29,13 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 			CPropertyInfo propertyInfo) {
 		assert propertyInfo instanceof CReferencePropertyInfo;
 		final CReferencePropertyInfo referencePropertyInfo = (CReferencePropertyInfo) propertyInfo;
-		assert referencePropertyInfo.ref().size() == 1;
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, referencePropertyInfo);
+		assert types.size() == 1;
 		assert referencePropertyInfo.getWildcard() != null;
-		assert referencePropertyInfo.getElements().isEmpty();
+		final Set<CElement> elements = context.getGetTypes().getElements(
+				context, referencePropertyInfo);
+		assert elements.isEmpty();
 
 		final WildcardMode wildcard = referencePropertyInfo.getWildcard();
 
@@ -53,8 +60,9 @@ public class WrapSingleWildcardReference implements CreatePropertyInfos {
 			final Basic basic = new Basic();
 			basic.setLob(new Lob());
 
-			CustomizationUtils.addCustomization(newPropertyInfo, Customizations
-					.getContext(), Customizations.BASIC_ELEMENT_NAME, basic);
+			CustomizationUtils.addCustomization(newPropertyInfo,
+					Customizations.getContext(),
+					Customizations.BASIC_ELEMENT_NAME, basic);
 
 			Customizations.markGenerated(newPropertyInfo);
 		}

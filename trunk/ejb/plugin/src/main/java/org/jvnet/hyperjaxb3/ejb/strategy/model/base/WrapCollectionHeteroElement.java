@@ -54,9 +54,10 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 		assert propertyInfo instanceof CElementPropertyInfo;
 
 		final CElementPropertyInfo wrappedPropertyInfo = (CElementPropertyInfo) propertyInfo;
-
+		final Collection<? extends CTypeInfo> types = context.getGetTypes().process(
+				context, wrappedPropertyInfo);
 		final CTypeInfo commonBaseTypeInfo = CTypeInfoUtils
-				.getCommonBaseTypeInfo(wrappedPropertyInfo.ref());
+				.getCommonBaseTypeInfo(types);
 
 		if (commonBaseTypeInfo != null) {
 			// We have a common base type here, no wrapping is required.
@@ -91,7 +92,7 @@ public class WrapCollectionHeteroElement implements CreatePropertyInfos {
 				wrappedPropertyInfo.getLocator(),
 				wrappedPropertyInfo.isRequired());
 
-		itemPropertyInfo.getTypes().addAll(wrappedPropertyInfo.getTypes());
+		itemPropertyInfo.getTypes().addAll(context.getGetTypes().getTypes(context, wrappedPropertyInfo));
 
 		itemClassInfo.addProperty(itemPropertyInfo);
 

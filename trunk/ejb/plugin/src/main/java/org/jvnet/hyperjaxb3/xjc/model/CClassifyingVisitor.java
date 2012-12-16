@@ -1,6 +1,9 @@
 package org.jvnet.hyperjaxb3.xjc.model;
 
 import java.util.Collection;
+import java.util.Set;
+
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 
 import com.sun.tools.xjc.model.CArrayInfo;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
@@ -20,15 +23,18 @@ import com.sun.tools.xjc.model.CWildcardTypeInfo;
 
 public class CClassifyingVisitor<U> implements CPropertyVisitor<U> {
 
-	private CClassifier<U> classifier;
+	private final ProcessModel context;
+	private final CClassifier<U> classifier;
 
-	public CClassifyingVisitor(CClassifier<U> classifier) {
+	public CClassifyingVisitor(ProcessModel context, CClassifier<U> classifier) {
+		this.context = context;
 		this.classifier = classifier;
 	}
 
 	public U onAttribute(CAttributePropertyInfo attributePropertyInfo) {
 
-		final CNonElement type = attributePropertyInfo.getTarget();
+		final CNonElement type = context.getGetTypes().getTarget(context,
+				attributePropertyInfo);
 		if (type instanceof CBuiltinLeafInfo) {
 			return onBuiltinAttribute(attributePropertyInfo);
 		} else if (type instanceof CEnumLeafInfo) {
@@ -39,7 +45,8 @@ public class CClassifyingVisitor<U> implements CPropertyVisitor<U> {
 	}
 
 	public U onValue(CValuePropertyInfo valuePropertyInfo) {
-		final CNonElement type = valuePropertyInfo.getTarget();
+		final CNonElement type = context.getGetTypes().getTarget(context,
+				valuePropertyInfo);
 		if (type instanceof CBuiltinLeafInfo) {
 			return onBuiltinValue(valuePropertyInfo);
 		} else if (type instanceof CEnumLeafInfo) {
@@ -50,9 +57,10 @@ public class CClassifyingVisitor<U> implements CPropertyVisitor<U> {
 	}
 
 	public U onElement(CElementPropertyInfo elementPropertyInfo) {
-		final Collection<CNonElement> types = elementPropertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, elementPropertyInfo);
 		if (types.size() == 1) {
-			final CNonElement type = types.iterator().next();
+			final CTypeInfo type = types.iterator().next();
 			if (type instanceof CBuiltinLeafInfo) {
 				return onBuiltinElement(elementPropertyInfo);
 			} else if (type instanceof CEnumLeafInfo) {
@@ -71,21 +79,22 @@ public class CClassifyingVisitor<U> implements CPropertyVisitor<U> {
 
 	public U onReference(CReferencePropertyInfo referencePropertyInfo) {
 
-		final Collection<? extends CTypeInfo> types = referencePropertyInfo
-				.ref();
-
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, referencePropertyInfo);
+		final Set<CElement> elements = context.getGetTypes().getElements(
+				context, referencePropertyInfo);
 		if (types.size() == 1) {
 			final CTypeInfo type = types.iterator().next();
 
 			if (type instanceof CWildcardTypeInfo
 					|| type.equals(CBuiltinLeafInfo.ANYTYPE)) {
-				assert referencePropertyInfo.getElements().isEmpty();
+				assert elements.isEmpty();
 				assert referencePropertyInfo.getWildcard() != null;
 				assert !referencePropertyInfo.isMixed();
 				return onWildcardReference(referencePropertyInfo);
 			} else {
 				assert type instanceof CElement;
-				assert !referencePropertyInfo.getElements().isEmpty();
+				assert !elements.isEmpty();
 				assert referencePropertyInfo.getWildcard() == null;
 				assert !referencePropertyInfo.isMixed();
 
@@ -99,20 +108,20 @@ public class CClassifyingVisitor<U> implements CPropertyVisitor<U> {
 					if (contentType instanceof CBuiltinLeafInfo) {
 						assert referencePropertyInfo.getWildcard() == null;
 						assert referencePropertyInfo.isMixed()
-								^ referencePropertyInfo.getElements().isEmpty();
+								^ elements.isEmpty();
 						return onBuiltinElementReference(referencePropertyInfo);
 					} else if (contentType instanceof CEnumLeafInfo) {
-						assert !referencePropertyInfo.getElements().isEmpty();
+						assert !elements.isEmpty();
 						assert referencePropertyInfo.getWildcard() == null;
 						assert !referencePropertyInfo.isMixed();
 						return onEnumElementReference(referencePropertyInfo);
 					} else if (contentType instanceof CArrayInfo) {
-						assert !referencePropertyInfo.getElements().isEmpty();
+						assert !elements.isEmpty();
 						assert referencePropertyInfo.getWildcard() == null;
 						assert !referencePropertyInfo.isMixed();
 						return onArrayElementReference(referencePropertyInfo);
 					} else if (contentType instanceof CClass) {
-						assert !referencePropertyInfo.getElements().isEmpty();
+						assert !elements.isEmpty();
 						assert referencePropertyInfo.getWildcard() == null;
 						assert !referencePropertyInfo.isMixed();
 						return onClassElementReference(referencePropertyInfo);
@@ -139,9 +148,6 @@ public class CClassifyingVisitor<U> implements CPropertyVisitor<U> {
 
 			if (referencePropertyInfo.getWildcard() == null
 					&& !referencePropertyInfo.isMixed()) {
-
-				final Collection<CElement> elements = referencePropertyInfo
-						.getElements();
 
 				if (elements.size() == 1) {
 					final CElement element = elements.iterator().next();

@@ -36,8 +36,8 @@ public class IdMapping implements FieldOutlineMapping<Id> {
 
 	public void createId$Temporal(Mapping context, FieldOutline fieldOutline,
 			Id id) {
-		if (id.getTemporal() == null && context.getAttributeMapping().isTemporal(fieldOutline)) {
-			id.setTemporal(context.getAttributeMapping().createTemporalType(fieldOutline));
+		if (id.getTemporal() == null && context.getAttributeMapping().isTemporal(context, fieldOutline)) {
+			id.setTemporal(context.getAttributeMapping().createTemporalType(context, fieldOutline));
 		}
 	}
 

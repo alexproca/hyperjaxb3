@@ -102,7 +102,7 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 
 	public FieldOutlineMapping<?> getAttributeMapping(Mapping context,
 			FieldOutline fieldOutline, Options options) {
-		if (context.getIgnoring().isFieldOutlineIgnored(fieldOutline)) {
+		if (context.getIgnoring().isFieldOutlineIgnored(context, fieldOutline)) {
 			return context.getTransientMapping();
 		} else if (isFieldOutlineId(fieldOutline)) {
 			return context.getIdMapping();
@@ -115,28 +115,28 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				logger.trace("Field outline  [" + propertyInfo.getName(true)
 						+ "] is a single field.");
 
-				final Collection<? extends CTypeInfo> types = propertyInfo
-						.ref();
+				final Collection<? extends CTypeInfo> types = context
+						.getGetTypes().process(context, propertyInfo);
 
 				if (types.size() == 1) {
 					logger.trace("Field outline  ["
 							+ propertyInfo.getName(true)
 							+ "] is a homogeneous single field.");
 
-					if (isFieldOutlineBasic(fieldOutline)) {
+					if (isFieldOutlineBasic(context, fieldOutline)) {
 						return context.getBasicMapping();
 					} else
 
-					if (isFieldOutlineComplex(fieldOutline)) {
+					if (isFieldOutlineComplex(context, fieldOutline)) {
 						logger.trace("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex field.");
-						if (isFieldOutlineEmbeddedId(fieldOutline)) {
+						if (isFieldOutlineEmbeddedId(context, fieldOutline)) {
 							logger.trace("Field outline  ["
 									+ propertyInfo.getName(true)
 									+ "] is an embedded-id complex field.");
 							return context.getEmbeddedIdMapping();
-						} else if (isFieldOutlineEmbedded(fieldOutline)) {
+						} else if (isFieldOutlineEmbedded(context, fieldOutline)) {
 							logger.trace("Field outline  ["
 									+ propertyInfo.getName(true)
 									+ "] is an embedded complex field.");
@@ -153,25 +153,26 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				logger.trace("Field outline [" + propertyInfo.getName(true)
 						+ "] is a collection field.");
 
-				if (isFieldOutlineSingletypedHomogeneous(fieldOutline)) {
+				if (isFieldOutlineSingletypedHomogeneous(context, fieldOutline)) {
 					logger.debug("Field outline  ["
 							+ propertyInfo.getName(true)
 							+ "] is a homogeneous collection field.");
-					if (isFieldOutlineElementCollection(fieldOutline)) {
+					if (isFieldOutlineElementCollection(context, fieldOutline)) {
 						return context.getElementCollectionMapping();
 					} else
 
-					if (isFieldOutlineComplex(fieldOutline)) {
+					if (isFieldOutlineComplex(context, fieldOutline)) {
 						logger.debug("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex homogeneous collection field.");
 						return context.getToManyMapping();
 					}
-				} else if (isFieldOutlineMultitypedHomogeneous(fieldOutline)) {
+				} else if (isFieldOutlineMultitypedHomogeneous(context,
+						fieldOutline)) {
 					logger.debug("Field outline  ["
 							+ propertyInfo.getName(true)
 							+ "] is a multityped homogeneous collection field.");
-					if (isFieldOutlineComplex(fieldOutline)) {
+					if (isFieldOutlineComplex(context, fieldOutline)) {
 						logger.debug("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex multityped homogeneous collection field.");
@@ -204,23 +205,27 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				Customizations.VERSION_ELEMENT_NAME);
 	}
 
-	public boolean isFieldOutlineBasic(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineBasic(Mapping context,
+			FieldOutline fieldOutline) {
 
-		return isFieldOutlineCore(fieldOutline)
-				|| isFieldOutlineEnumerated(fieldOutline);
+		return isFieldOutlineCore(context, fieldOutline)
+				|| isFieldOutlineEnumerated(context, fieldOutline);
 	}
 
-	public boolean isFieldOutlineCore(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineCore(Mapping context, FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 
 		final JType type = getter.type();
 		return JTypeUtils.isBasicType(type);
 	}
 
-	public boolean isFieldOutlineEnumerated(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineEnumerated(Mapping context,
+			FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
+
 		if (types.size() == 1) {
 
 			final CTypeInfo type = types.iterator().next();
@@ -231,38 +236,43 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 		}
 	}
 
-	public boolean isFieldOutlineSingletypedHomogeneous(
+	public boolean isFieldOutlineSingletypedHomogeneous(Mapping context,
 			FieldOutline fieldOutline) {
 
-		final Collection<? extends CTypeInfo> types = fieldOutline
-				.getPropertyInfo().ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, fieldOutline.getPropertyInfo());
 
 		return types.size() == 1;
 
 	}
 
-	public boolean isFieldOutlineMultitypedHomogeneous(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineMultitypedHomogeneous(Mapping context,
+			FieldOutline fieldOutline) {
 
-		return getCommonBaseTypeInfo(fieldOutline) != null;
+		return getCommonBaseTypeInfo(context, fieldOutline) != null;
 	}
 
-	public CTypeInfo getCommonBaseTypeInfo(FieldOutline fieldOutline) {
+	public CTypeInfo getCommonBaseTypeInfo(Mapping context,
+			FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		return CTypeInfoUtils.getCommonBaseTypeInfo(types);
 	}
 
-	public boolean isFieldOutlineElementCollection(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineElementCollection(Mapping context,
+			FieldOutline fieldOutline) {
 
-		return isFieldOutlineCore2(fieldOutline)
-				|| isFieldOutlineEnumerated(fieldOutline);
+		return isFieldOutlineCore2(context, fieldOutline)
+				|| isFieldOutlineEnumerated(context, fieldOutline);
 	}
 
-	public boolean isFieldOutlineCore2(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineCore2(Mapping context,
+			FieldOutline fieldOutline) {
 
-		final CTypeInfo type = getCommonBaseTypeInfo(fieldOutline);
+		final CTypeInfo type = getCommonBaseTypeInfo(context, fieldOutline);
 
 		assert type != null;
 
@@ -270,20 +280,23 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 				.parent(), Aspect.EXPOSED));
 	}
 
-	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineComplex(Mapping context,
+			FieldOutline fieldOutline) {
 
-		final CTypeInfo type = getCommonBaseTypeInfo(fieldOutline);
+		final CTypeInfo type = getCommonBaseTypeInfo(context, fieldOutline);
 
 		assert type != null;
 
 		return type instanceof CClass;
 	}
 
-	public boolean isFieldOutlineEmbedded(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineEmbedded(Mapping context,
+			FieldOutline fieldOutline) {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -302,11 +315,11 @@ public class AttributesMapping implements ClassOutlineMapping<Attributes> {
 		;
 	}
 
-	public boolean isFieldOutlineEmbeddedId(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineEmbeddedId(Mapping context,
+			FieldOutline fieldOutline) {
 
-		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
-
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, fieldOutline.getPropertyInfo());
 
 		assert types.size() == 1;
 

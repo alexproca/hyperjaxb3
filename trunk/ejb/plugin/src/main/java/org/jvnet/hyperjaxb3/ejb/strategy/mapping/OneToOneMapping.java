@@ -35,7 +35,8 @@ public class OneToOneMapping implements FieldOutlineMapping<OneToOne> {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -45,7 +46,7 @@ public class OneToOneMapping implements FieldOutlineMapping<OneToOne> {
 
 		final CClass childClassInfo = (CClass) type;
 
-		oneToOne.setTargetEntity(context.getNaming().getEntityClass(
+		oneToOne.setTargetEntity(context.getNaming().getEntityClass(context,
 				fieldOutline.parent().parent(), childClassInfo.getType()));
 
 	}

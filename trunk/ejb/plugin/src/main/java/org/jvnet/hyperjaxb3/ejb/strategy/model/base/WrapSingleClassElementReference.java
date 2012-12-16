@@ -1,6 +1,7 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
@@ -23,10 +24,11 @@ public class WrapSingleClassElementReference implements CreatePropertyInfos {
 
 		assert referencePropertyInfo.getWildcard() == null;
 		assert !referencePropertyInfo.isMixed();
-		assert referencePropertyInfo.getElements().size() == 1;
+		final Set<CElement> elements = context.getGetTypes().getElements(
+				context, referencePropertyInfo);
+		assert elements.size() == 1;
 
-		final CElement element = referencePropertyInfo.getElements().iterator()
-				.next();
+		final CElement element = elements.iterator().next();
 
 		assert element instanceof CElementInfo;
 

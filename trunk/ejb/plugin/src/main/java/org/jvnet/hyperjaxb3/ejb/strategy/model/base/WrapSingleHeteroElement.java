@@ -33,7 +33,7 @@ public class WrapSingleHeteroElement implements CreatePropertyInfos {
 		final CElementPropertyInfo elementPropertyInfo = (CElementPropertyInfo) propertyInfo;
 
 		final Collection<CPropertyInfo> newPropertyInfos = new ArrayList<CPropertyInfo>(
-				elementPropertyInfo.getTypes().size());
+				context.getGetTypes().getTypes(context, elementPropertyInfo).size());
 
 		final Collection<CPropertyInfo> properties = createTypeProperties(context, elementPropertyInfo);
 
@@ -50,7 +50,7 @@ public class WrapSingleHeteroElement implements CreatePropertyInfos {
 	protected Collection<CPropertyInfo> createTypeProperties(
 			final ProcessModel context, final CElementPropertyInfo propertyInfo) {
 
-		final Collection<CTypeRef> types = propertyInfo.getTypes();
+		final Collection<? extends CTypeRef> types = context.getGetTypes().getTypes(context, propertyInfo);
 		// Set<CElement> elements = propertyInfo.getElements();
 
 		final Collection<CPropertyInfo> properties = new ArrayList<CPropertyInfo>(

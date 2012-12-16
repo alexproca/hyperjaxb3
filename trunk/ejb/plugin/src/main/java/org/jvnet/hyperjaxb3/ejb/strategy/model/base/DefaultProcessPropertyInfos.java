@@ -93,7 +93,8 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 		final CPropertyInfo[] propertyInfos = classInfo.getProperties()
 				.toArray(new CPropertyInfo[classInfo.getProperties().size()]);
 		for (final CPropertyInfo propertyInfo : propertyInfos) {
-			if (!context.getIgnoring().isPropertyInfoIgnored(propertyInfo)) {
+			if (!context.getIgnoring().isPropertyInfoIgnored(context,
+					propertyInfo)) {
 				newPropertyInfos.addAll(process(context, propertyInfo));
 			}
 		}
@@ -119,7 +120,7 @@ public class DefaultProcessPropertyInfos implements ProcessPropertyInfos {
 	public Collection<CPropertyInfo> process(ProcessModel context,
 			CPropertyInfo propertyInfo) {
 		final CClassifyingVisitor<Collection<CPropertyInfo>> classifyingVisitor = new CClassifyingVisitor<Collection<CPropertyInfo>>(
-				new PropertyClassifier(context));
+				context, new PropertyClassifier(context));
 		return propertyInfo.accept(classifyingVisitor);
 	}
 

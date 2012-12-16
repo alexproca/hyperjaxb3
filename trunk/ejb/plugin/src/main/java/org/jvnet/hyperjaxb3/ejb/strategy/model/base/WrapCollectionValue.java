@@ -75,7 +75,11 @@ public class WrapCollectionValue implements CreatePropertyInfos {
 								.getCustomizations(wrappedPropertyInfo)),
 				wrappedPropertyInfo.getLocator(), false);
 		
-		final CTypeRef typeRef = new CTypeRef(wrappedPropertyInfo.getTarget(),
+		final CTypeRef typeRef = new CTypeRef(
+				context
+				.getGetTypes().getTarget(
+						context, wrappedPropertyInfo)
+				,
 				new QName(propertyName), wrappedPropertyInfo.getSchemaType(),
 				false, null);
 

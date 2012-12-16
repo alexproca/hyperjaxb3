@@ -13,6 +13,7 @@ import org.jvnet.hyperjaxb3.ejb.plugin.EjbPlugin;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.AdaptTypeUse;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ClassInfoProcessor;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreateDefaultIdPropertyInfos;
@@ -47,7 +48,7 @@ public class DefaultProcessModel implements ProcessModel {
 		final Collection<CClassInfo> includedClasses = new HashSet<CClassInfo>();
 
 		for (final CClassInfo classInfo : classInfos) {
-			if (!getIgnoring().isClassInfoIgnored(classInfo)) {
+			if (!getIgnoring().isClassInfoIgnored(this, classInfo)) {
 				final Collection<CClassInfo> targetClassInfos = getProcessClassInfo()
 						.process(this, classInfo);
 				if (targetClassInfos != null) {
@@ -176,14 +177,14 @@ public class DefaultProcessModel implements ProcessModel {
 		this.wrapComplexHeteroCollection = wrapHeteroCollection;
 	}
 
-	private GetTypes getTypes;
+	private GetTypes<ProcessModel> getTypes;
 
-	public GetTypes getGetTypes() {
+	public GetTypes<ProcessModel> getGetTypes() {
 		return getTypes;
 	}
 
 	@Required
-	public void setGetTypes(GetTypes getTypes) {
+	public void setGetTypes(GetTypes<ProcessModel> getTypes) {
 		this.getTypes = getTypes;
 	}
 

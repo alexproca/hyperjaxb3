@@ -24,16 +24,16 @@ public class EmbeddedNamingWrapper implements Naming {
 		return naming.getPropertyName(context, fieldOutline);
 	}
 
-	public String getEntityClass(Outline outline, NType type) {
-		return naming.getEntityClass(outline, type);
+	public String getEntityClass(Mapping context, Outline outline, NType type) {
+		return naming.getEntityClass(context, outline, type);
 	}
 
-	public String getEntityName(Outline outline, NType type) {
-		return naming.getEntityName(outline, type);
+	public String getEntityName(Mapping context, Outline outline, NType type) {
+		return naming.getEntityName(context, outline, type);
 	}
 
-	public String getPersistenceUnitName(Outline outline) {
-		return naming.getPersistenceUnitName(outline);
+	public String getPersistenceUnitName(Mapping context, Outline outline) {
+		return naming.getPersistenceUnitName(context, outline);
 	}
 
 	public String getEntityTable$Name(Mapping context, ClassOutline classOutline) {
@@ -87,11 +87,12 @@ public class EmbeddedNamingWrapper implements Naming {
 		return naming.getOrderColumn$Name(context, fieldOutline);
 	}
 
-	public String getName(String draftName) {
-		return naming.getName(draftName);
+	public String getName(Mapping context, String draftName) {
+		return naming.getName(context, draftName);
 	}
 
-	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
+	public Naming createEmbeddedNaming(Mapping context,
+			FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
 

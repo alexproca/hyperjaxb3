@@ -66,26 +66,27 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 
 		final CClassInfo itemClassInfo = new CClassInfo(classInfo.model,
 				parent, classInfo.shortName + propertyName + "Item", null,
-				new QName(propertyName), null, propertyInfo
-						.getSchemaComponent(), new CCustomizations());
+				new QName(propertyName), null,
+				propertyInfo.getSchemaComponent(), new CCustomizations());
 
 		Customizations.markGenerated(itemClassInfo);
 
 		final XSComponent wrappedSchemaComponent = wrappedPropertyInfo
 				.getSchemaComponent();
 
-		// 
+		//
 
 		final CElementPropertyInfo itemPropertyInfo = new CElementPropertyInfo(
 				"Item", CollectionMode.NOT_REPEATED, ID.NONE,
 				wrappedPropertyInfo.getExpectedMimeType(),
-				wrappedSchemaComponent, new CCustomizations(CustomizationUtils
-						.getCustomizations(wrappedPropertyInfo)),
+				wrappedSchemaComponent, new CCustomizations(
+						CustomizationUtils
+								.getCustomizations(wrappedPropertyInfo)),
 				wrappedPropertyInfo.getLocator(), false);
 
-		final CTypeRef typeRef = new CTypeRef(wrappedPropertyInfo.getTarget(),
-				new QName(propertyName), wrappedPropertyInfo.getSchemaType(),
-				false, null);
+		final CTypeRef typeRef = new CTypeRef(context.getGetTypes().getTarget(
+				context, wrappedPropertyInfo), new QName(propertyName),
+				wrappedPropertyInfo.getSchemaType(), false, null);
 
 		itemPropertyInfo.getTypes().add(typeRef);
 		if (wrappedPropertyInfo.getAdapter() != null) {
@@ -107,8 +108,9 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 					}
 				};
 
-				final JClass itemClass = classOutline.implClass.owner().ref(
-						Item.class).narrow(fieldOutline.getRawType().boxify());
+				final JClass itemClass = classOutline.implClass.owner()
+						.ref(Item.class)
+						.narrow(fieldOutline.getRawType().boxify());
 				classOutline.implClass._implements(itemClass);
 				if (classOutline.parent().getModel().serializable) {
 					classOutline.implClass._implements(Serializable.class);
@@ -138,9 +140,9 @@ public class WrapCollectionAttribute implements CreatePropertyInfos {
 		final CElementPropertyInfo wrappingPropertyInfo =
 
 		new CElementPropertyInfo(propertyName + "Items",
-				CollectionMode.REPEATED_ELEMENT, ID.NONE, wrappedPropertyInfo
-						.getExpectedMimeType(), null, new CCustomizations(),
-				null, false);
+				CollectionMode.REPEATED_ELEMENT, ID.NONE,
+				wrappedPropertyInfo.getExpectedMimeType(), null,
+				new CCustomizations(), null, false);
 
 		// for (final CTypeRef typeRef : wrappedPropertyInfo.getTypes()) {
 

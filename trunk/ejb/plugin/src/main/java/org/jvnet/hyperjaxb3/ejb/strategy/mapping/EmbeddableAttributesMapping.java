@@ -50,9 +50,9 @@ public class EmbeddableAttributesMapping implements
 
 	public FieldOutlineMapping<?> getAttributeMapping(Mapping context,
 			FieldOutline fieldOutline, Options options) {
-		if (context.getIgnoring().isFieldOutlineIgnored(fieldOutline)) {
+		if (context.getIgnoring().isFieldOutlineIgnored(context, fieldOutline)) {
 			return context.getTransientMapping();
-		} else if (isFieldOutlineId(fieldOutline)) {
+		} else if (isFieldOutlineId(context, fieldOutline)) {
 			final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 			logger.warn("Field outline  [" + propertyInfo.getName(true)
 					+ "] is marked as [id] field. "
@@ -60,7 +60,7 @@ public class EmbeddableAttributesMapping implements
 					+ "This field will be made transient.");
 
 			return context.getTransientMapping();
-		} else if (isFieldOutlineEmbeddedId(fieldOutline)) {
+		} else if (isFieldOutlineEmbeddedId(context, fieldOutline)) {
 			final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 			logger.warn("Field outline  [" + propertyInfo.getName(true)
 					+ "] is marked as [embedded-id] field. "
@@ -68,7 +68,7 @@ public class EmbeddableAttributesMapping implements
 					+ "This field will be made transient.");
 
 			return context.getTransientMapping();
-		} else if (isFieldOutlineVersion(fieldOutline)) {
+		} else if (isFieldOutlineVersion(context, fieldOutline)) {
 			final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 			logger.warn("Field outline  [" + propertyInfo.getName(true)
 					+ "] is marked as [version] field. "
@@ -82,19 +82,19 @@ public class EmbeddableAttributesMapping implements
 				logger.trace("Field outline  [" + propertyInfo.getName(true)
 						+ "] is a single field.");
 
-				final Collection<? extends CTypeInfo> types = propertyInfo
-						.ref();
+				final Collection<? extends CTypeInfo> types = context
+						.getGetTypes().process(context, propertyInfo);
 
 				if (types.size() == 1) {
 					logger.trace("Field outline  ["
 							+ propertyInfo.getName(true)
 							+ "] is a homogeneous single field.");
 
-					if (isFieldOutlineBasic(fieldOutline)) {
+					if (isFieldOutlineBasic(context, fieldOutline)) {
 						return context.getBasicMapping();
 					} else
 
-					if (isFieldOutlineComplex(fieldOutline)) {
+					if (isFieldOutlineComplex(context, fieldOutline)) {
 						logger.warn("Field outline  ["
 								+ propertyInfo.getName(true)
 								+ "] is a complex field. "
@@ -130,34 +130,38 @@ public class EmbeddableAttributesMapping implements
 		}
 	}
 
-	public boolean isFieldOutlineId(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineId(Mapping context, FieldOutline fieldOutline) {
 		return CustomizationUtils.containsCustomization(fieldOutline,
 				Customizations.ID_ELEMENT_NAME);
 	}
 
-	public boolean isFieldOutlineVersion(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineVersion(Mapping context,
+			FieldOutline fieldOutline) {
 
 		return CustomizationUtils.containsCustomization(fieldOutline,
 				Customizations.VERSION_ELEMENT_NAME);
 	}
 
-	public boolean isFieldOutlineBasic(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineBasic(Mapping context,
+			FieldOutline fieldOutline) {
 
-		return isFieldOutlineCore(fieldOutline)
-				|| isFieldOutlineEnumerated(fieldOutline);
+		return isFieldOutlineCore(context, fieldOutline)
+				|| isFieldOutlineEnumerated(context, fieldOutline);
 	}
 
-	public boolean isFieldOutlineCore(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineCore(Mapping context, FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 
 		final JType type = getter.type();
 		return JTypeUtils.isBasicType(type);
 	}
 
-	public boolean isFieldOutlineEnumerated(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineEnumerated(Mapping context,
+			FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 		if (types.size() == 1) {
 
 			final CTypeInfo type = types.iterator().next();
@@ -168,11 +172,13 @@ public class EmbeddableAttributesMapping implements
 		}
 	}
 
-	public boolean isFieldOutlineComplex(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineComplex(Mapping context,
+			FieldOutline fieldOutline) {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -181,7 +187,8 @@ public class EmbeddableAttributesMapping implements
 		return type instanceof CClass;
 	}
 
-	public boolean isFieldOutlineEmbeddedId(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineEmbeddedId(Mapping context,
+			FieldOutline fieldOutline) {
 		return CustomizationUtils.containsCustomization(fieldOutline,
 				Customizations.EMBEDDED_ID_ELEMENT_NAME);
 	}

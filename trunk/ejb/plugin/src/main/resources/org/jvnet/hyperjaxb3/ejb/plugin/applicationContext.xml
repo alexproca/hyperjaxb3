@@ -27,6 +27,7 @@
 	
 	<bean name="mapping"
 		class="org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping">
+		<property name="getTypes" ref="getTypes"/>
 		<property name="customizing" ref="customizing"/>
 		<property name="naming" ref="naming"/>
 		<property name="ignoring" ref="ignoring"/>

@@ -120,13 +120,13 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 		return finalLength;
 	}
 
-	public boolean isTemporal(FieldOutline fieldOutline) {
+	public boolean isTemporal(Mapping context, FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 		final JType type = getter.type();
 		return JTypeUtils.isTemporalType(type);
 	}
 
-	public String createTemporalType(FieldOutline fieldOutline) {
+	public String createTemporalType(Mapping context, FieldOutline fieldOutline) {
 		final JMethod getter = FieldAccessorUtils.getter(fieldOutline);
 		final JType type = getter.type();
 		final JCodeModel codeModel = type.owner();
@@ -172,18 +172,19 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 		}
 	}
 
-	public final boolean isLob(FieldOutline fieldOutline) {
+	public final boolean isLob(Mapping context, FieldOutline fieldOutline) {
 		return false;
 	}
 
-	public final Lob createLob(FieldOutline fieldOutline) {
+	public final Lob createLob(Mapping context, FieldOutline fieldOutline) {
 		return new Lob();
 	}
 
-	public final boolean isEnumerated(FieldOutline fieldOutline) {
+	public final boolean isEnumerated(Mapping context, FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = 
+				context.getGetTypes().process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -192,7 +193,7 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 		return type instanceof CEnumLeafInfo;
 	}
 
-	public String createEnumerated(FieldOutline fieldOutline) {
+	public String createEnumerated(Mapping context, FieldOutline fieldOutline) {
 		return EnumType.STRING.name();
 	}
 
@@ -202,7 +203,8 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -223,7 +225,7 @@ public final class DefaultAttributeMapping implements AttributeMapping {
 			attributeOverridesMap.put(attributeOverride.getName(),
 					attributeOverride);
 		}
-		Mapping embeddedMapping = context.createEmbeddedMapping(fieldOutline);
+		Mapping embeddedMapping = context.createEmbeddedMapping(context, fieldOutline);
 
 		final EmbeddableAttributes embeddableAttributes = embeddedMapping
 				.getEmbeddableAttributesMapping().process(embeddedMapping,

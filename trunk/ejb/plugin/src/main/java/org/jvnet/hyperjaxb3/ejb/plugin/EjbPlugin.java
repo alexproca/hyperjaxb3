@@ -17,11 +17,11 @@ import javax.xml.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
 import org.jvnet.hyperjaxb3.ejb.strategy.processor.ModelAndOutlineProcessor;
 import org.jvnet.hyperjaxb3.ejb.test.RoundtripTest;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.UntypedListFieldRenderer;
-import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.plugin.spring.AbstractSpringConfigurablePlugin;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.GeneratorContextUtils;
@@ -161,13 +161,13 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	public String getModelAndOutlineProcessorBeanName() {
 		return getResult();
 	}
-	
+
 	private String[] mergePersistenceUnits = new String[0];
-	
+
 	public String[] getMergePersistenceUnits() {
 		return mergePersistenceUnits;
 	}
-	
+
 	public void setMergePersistenceUnits(String[] mergePersistenceUnits) {
 		this.mergePersistenceUnits = mergePersistenceUnits;
 	}
@@ -177,7 +177,6 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 			throws BadCommandLineException, IOException {
 		final int result = super.parseArgument(opt, args, start);
 
-		
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].length() != 0) {
 				if (args[i].charAt(0) != '-') {
@@ -269,7 +268,7 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 							getRoundtripTestClassName(), RoundtripTest.class);
 
 			final String persistenceUnitName = getPersistenceUnitName() != null ? getPersistenceUnitName()
-					: getNaming().getPersistenceUnitName(outline);
+					: getNaming().getPersistenceUnitName(getMapping(), outline);
 			JMethod getPersistenceUnitName = roundtripTestClass.method(
 					JMod.PUBLIC, outline.getCodeModel().ref(String.class),
 					"getPersistenceUnitName");
@@ -340,26 +339,24 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 
 		if (LocalScoping.NESTED.equals(bgmBuilder.getGlobalBinding()
 				.getFlattenClasses())) {
-			logger
-					.warn("According to the Java Persistence API specification, section 2.1, "
-							+ "entities must be top-level classes:\n"
-							+ "\"The entity class must be a top-level class.\"\n"
-							+ "Your JAXB model is not customized as with top-level local scoping, "
-							+ "please use the <jaxb:globalBinding localScoping=\"toplevel\"/> "
-							+ "global bindings customization.");
+			logger.warn("According to the Java Persistence API specification, section 2.1, "
+					+ "entities must be top-level classes:\n"
+					+ "\"The entity class must be a top-level class.\"\n"
+					+ "Your JAXB model is not customized as with top-level local scoping, "
+					+ "please use the <jaxb:globalBinding localScoping=\"toplevel\"/> "
+					+ "global bindings customization.");
 		}
 
 		final boolean serializable = model.serializable;
 
 		if (!serializable) {
-			logger
-					.warn("According to the Java Persistence API specification, section 2.1, "
-							+ "entities must implement the serializable interface:\n"
-							+ "\"If an entity instance is to be passed by value as a detached object\n"
-							+ "(e.g., through a remote interface), the entity class must implement\n "
-							+ "the Serializable interface.\"\n"
-							+ "Your JAXB model is not customized as serializable, please use the "
-							+ "<jaxb:serializable/> global bindings customization element to make your model serializable.");
+			logger.warn("According to the Java Persistence API specification, section 2.1, "
+					+ "entities must implement the serializable interface:\n"
+					+ "\"If an entity instance is to be passed by value as a detached object\n"
+					+ "(e.g., through a remote interface), the entity class must implement\n "
+					+ "the Serializable interface.\"\n"
+					+ "Your JAXB model is not customized as serializable, please use the "
+					+ "<jaxb:serializable/> global bindings customization element to make your model serializable.");
 		}
 
 		// final ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor =
@@ -434,6 +431,11 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 					Naming.class));
 		}
 
+		if (getMapping() == null) {
+			setMapping((Mapping) getApplicationContext().getBean("mapping",
+					Mapping.class));
+		}
+
 		if (getTargetDir() == null) {
 			setTargetDir(options.targetDir);
 		}
@@ -448,6 +450,16 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 	public void setModelAndOutlineProcessor(
 			ModelAndOutlineProcessor<EjbPlugin> modelAndOutlineProcessor) {
 		this.modelAndOutlineProcessor = modelAndOutlineProcessor;
+	}
+
+	private Mapping mapping;
+
+	public Mapping getMapping() {
+		return mapping;
+	}
+
+	public void setMapping(Mapping mapping) {
+		this.mapping = mapping;
 	}
 
 	private Naming naming;
@@ -523,8 +535,8 @@ public class EjbPlugin extends AbstractSpringConfigurablePlugin {
 			cc.implClass._implements(Serializable.class);
 			if (model.serialVersionUID != null) {
 				cc.implClass.field(JMod.PRIVATE | JMod.STATIC | JMod.FINAL,
-						codeModel.LONG, "serialVersionUID", JExpr
-								.lit(model.serialVersionUID));
+						codeModel.LONG, "serialVersionUID",
+						JExpr.lit(model.serialVersionUID));
 			}
 		}
 

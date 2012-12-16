@@ -2,12 +2,14 @@ package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.CreatePropertyInfos;
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.JAXBElementNameField;
@@ -21,11 +23,11 @@ import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
+import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
-import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.xml.bind.v2.WellKnownNamespace;
 import com.sun.xml.bind.v2.model.core.ID;
@@ -41,8 +43,11 @@ public class WrapSingleSubstitutedElementReference implements
 		final CReferencePropertyInfo referencePropertyInfo = (CReferencePropertyInfo) propertyInfo;
 		assert !referencePropertyInfo.isMixed();
 		assert referencePropertyInfo.getWildcard() == null;
-		assert referencePropertyInfo.getElements().size() == 1;
-		final CElementInfo elementInfo = getElementInfo(referencePropertyInfo);
+		final Set<CElement> elements = context.getGetTypes().getElements(
+				context, referencePropertyInfo);
+		assert elements.size() == 1;
+		final CElementInfo elementInfo = getElementInfo(context,
+				referencePropertyInfo);
 		final CNonElement type = elementInfo.getContentType();
 
 		final CAttributePropertyInfo name = new CAttributePropertyInfo(
@@ -59,8 +64,8 @@ public class WrapSingleSubstitutedElementReference implements
 				new CCustomizations(), referencePropertyInfo.getLocator(), true);
 
 		final CTypeRef typeRef = new CTypeRef(type, new QName(
-				referencePropertyInfo.getName(true) + "Value"), type
-				.getTypeName(), false, null);
+				referencePropertyInfo.getName(true) + "Value"),
+				type.getTypeName(), false, null);
 
 		value.getTypes().add(typeRef);
 
@@ -84,7 +89,7 @@ public class WrapSingleSubstitutedElementReference implements
 				return fieldOutline;
 			}
 		};
-		
+
 		Customizations.markGenerated(name);
 		Customizations.markGenerated(value);
 		Customizations.markIgnored(propertyInfo);
@@ -96,10 +101,10 @@ public class WrapSingleSubstitutedElementReference implements
 		return newProperties;
 	}
 
-	public CElementInfo getElementInfo(
+	public CElementInfo getElementInfo(ProcessModel context,
 			final CReferencePropertyInfo referencePropertyInfo) {
-		final CElement element = referencePropertyInfo.getElements().iterator()
-				.next();
+		final CElement element = context.getGetTypes()
+				.getElements(context, referencePropertyInfo).iterator().next();
 		assert element instanceof CElementInfo;
 
 		final CElementInfo elementInfo = (CElementInfo) element;

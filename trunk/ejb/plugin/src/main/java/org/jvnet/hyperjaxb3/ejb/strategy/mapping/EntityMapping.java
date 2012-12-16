@@ -38,7 +38,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createEntity$Name(Mapping context, ClassOutline classOutline,
 			final Entity entity) {
 		if (entity.getName() == null || "##default".equals(entity.getName())) {
-			entity.setName(context.getNaming().getEntityName(
+			entity.setName(context.getNaming().getEntityName(context,
 					classOutline.parent(), classOutline.target));
 		}
 	}
@@ -46,7 +46,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 	public void createEntity$Class(Mapping context, ClassOutline classOutline,
 			final Entity entity) {
 		if (entity.getClazz() == null || "##default".equals(entity.getClazz())) {
-			entity.setClazz(context.getNaming().getEntityClass(
+			entity.setClazz(context.getNaming().getEntityClass(context,
 					classOutline.parent(), classOutline.target));
 		}
 	}
@@ -173,7 +173,7 @@ public class EntityMapping implements ClassOutlineMapping<Entity> {
 
 	public boolean isSelfOrAncestorRootClass(Mapping context,
 			ClassOutline classOutline) {
-		if (context.getIgnoring().isClassOutlineIgnored(classOutline)) {
+		if (context.getIgnoring().isClassOutlineIgnored(context, classOutline)) {
 			return false;
 		} else if (isRootClass(context, classOutline)) {
 			return true;

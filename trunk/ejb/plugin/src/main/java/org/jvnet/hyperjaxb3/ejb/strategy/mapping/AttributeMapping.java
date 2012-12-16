@@ -12,17 +12,17 @@ public interface AttributeMapping {
 	public Column createColumn(Mapping context, FieldOutline fieldOutline,
 			Column column);
 
-	public boolean isTemporal(FieldOutline fieldOutline);
+	public boolean isTemporal(Mapping context, FieldOutline fieldOutline);
 
-	public String createTemporalType(FieldOutline fieldOutline);
+	public String createTemporalType(Mapping context, FieldOutline fieldOutline);
 
-	public boolean isLob(FieldOutline fieldOutline);
+	public boolean isLob(Mapping context, FieldOutline fieldOutline);
 
-	public Lob createLob(FieldOutline fieldOutline);
+	public Lob createLob(Mapping context, FieldOutline fieldOutline);
 
-	public boolean isEnumerated(FieldOutline fieldOutline);
+	public boolean isEnumerated(Mapping context, FieldOutline fieldOutline);
 
-	public String createEnumerated(FieldOutline fieldOutline);
+	public String createEnumerated(Mapping context, FieldOutline fieldOutline);
 
 	public void createAttributeOverride(Mapping context,
 			FieldOutline fieldOutline,

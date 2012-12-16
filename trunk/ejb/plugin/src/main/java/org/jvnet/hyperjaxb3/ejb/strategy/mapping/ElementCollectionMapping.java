@@ -27,15 +27,15 @@ public class ElementCollectionMapping implements
 		if (elementCollection.getLob() == null
 				&& elementCollection.getTemporal() == null
 				&& elementCollection.getEnumerated() == null) {
-			if (context.getAttributeMapping().isTemporal(fieldOutline)) {
+			if (context.getAttributeMapping().isTemporal(context, fieldOutline)) {
 				elementCollection.setTemporal(context.getAttributeMapping()
-						.createTemporalType(fieldOutline));
-			} else if (context.getAttributeMapping().isEnumerated(fieldOutline)) {
+						.createTemporalType(context, fieldOutline));
+			} else if (context.getAttributeMapping().isEnumerated(context, fieldOutline)) {
 				elementCollection.setEnumerated(context.getAttributeMapping()
-						.createEnumerated(fieldOutline));
-			} else if (context.getAttributeMapping().isLob(fieldOutline)) {
+						.createEnumerated(context, fieldOutline));
+			} else if (context.getAttributeMapping().isLob(context, fieldOutline)) {
 				elementCollection.setLob(context.getAttributeMapping()
-						.createLob(fieldOutline));
+						.createLob(context, fieldOutline));
 			}
 
 		}

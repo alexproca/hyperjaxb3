@@ -62,7 +62,7 @@ public class ClassPersistenceProcessor implements OutlineProcessor<EjbPlugin> {
 
 		final String pun = plugin.getPersistenceUnitName();
 		final String persistenceUnitName = pun != null ? pun : getNaming()
-				.getPersistenceUnitName(outline);
+				.getPersistenceUnitName(plugin.getMapping(), outline);
 
 		final PersistenceUnit persistenceUnit = getPersistenceUnitFactory()
 				.createPersistenceUnit(includedClasses);

@@ -9,6 +9,7 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.TypeUse;
 
 public class WrapSingleBuiltinNonReference extends AbstractWrapBuiltin {
@@ -17,7 +18,9 @@ public class WrapSingleBuiltinNonReference extends AbstractWrapBuiltin {
 
 	public CBuiltinLeafInfo getTypeUse(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		return (CBuiltinLeafInfo) propertyInfo.ref().iterator().next();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes().process(
+				context, propertyInfo);
+		return (CBuiltinLeafInfo) types.iterator().next();
 	}
 
 	@Override

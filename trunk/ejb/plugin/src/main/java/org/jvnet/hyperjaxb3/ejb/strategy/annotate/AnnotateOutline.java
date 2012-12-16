@@ -44,7 +44,8 @@ public class AnnotateOutline implements OutlineProcessor<EjbPlugin> {
 				classes.size());
 
 		for (final ClassOutline classOutline : classes) {
-			if (!getIgnoring().isClassOutlineIgnored(classOutline)) {
+			if (!getIgnoring()
+					.isClassOutlineIgnored(getMapping(), classOutline)) {
 				final ClassOutline processedClassOutline = process(this,
 						classOutline, options);
 				if (processedClassOutline != null) {

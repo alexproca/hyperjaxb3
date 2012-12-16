@@ -100,7 +100,9 @@ public class WrapCollectionElement implements CreatePropertyInfos {
 								.getCustomizations(wrappedPropertyInfo)),
 				wrappedPropertyInfo.getLocator(), false);
 
-		itemPropertyInfo.getTypes().addAll(wrappedPropertyInfo.getTypes());
+		itemPropertyInfo.getTypes().addAll(
+				context.getGetTypes().getTypes(context, wrappedPropertyInfo)				
+				);
 		if (wrappedPropertyInfo.getAdapter() != null) {
 			itemPropertyInfo.setAdapter(wrappedPropertyInfo.getAdapter());
 		}
@@ -155,7 +157,7 @@ public class WrapCollectionElement implements CreatePropertyInfos {
 						.getExpectedMimeType(), null, new CCustomizations(),
 				null, false);
 
-		for (final CTypeRef typeRef : wrappedPropertyInfo.getTypes()) {
+		for (final CTypeRef typeRef : context.getGetTypes().getTypes(context, wrappedPropertyInfo)) {
 
 			wrappingPropertyInfo.getTypes().add(
 					new CTypeRef(itemClassInfo, new QName(typeRef.getTagName()

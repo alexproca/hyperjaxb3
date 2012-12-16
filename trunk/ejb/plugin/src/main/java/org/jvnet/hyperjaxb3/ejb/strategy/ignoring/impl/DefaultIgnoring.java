@@ -8,15 +8,17 @@ import org.jvnet.hyperjaxb3.ejb.schemas.customizations.Customizations;
 import org.jvnet.hyperjaxb3.ejb.schemas.customizations.IgnoredPackage;
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.mapping.Mapping;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassInfoParent;
+import com.sun.tools.xjc.model.CClassInfoParent.Package;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.Model;
-import com.sun.tools.xjc.model.CClassInfoParent.Package;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
@@ -36,22 +38,23 @@ public class DefaultIgnoring implements Ignoring {
 		this.customizing = customizing;
 	}
 
-	public boolean isPackageOutlineIgnored(Outline outline,
+	public boolean isPackageOutlineIgnored(Mapping context, Outline outline,
 			PackageOutline packageOutline) {
 		for (IgnoredPackage ignoredPackage : getCustomizing()
 				.<IgnoredPackage> findCustomizations(outline.getModel(),
 						Customizations.IGNORED_PACKAGE_ELEMENT_NAME)) {
-			if (packageOutline._package().name().equals(
-					ignoredPackage.getName())) {
+			if (packageOutline._package().name()
+					.equals(ignoredPackage.getName())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean isClassOutlineIgnored(ClassOutline classOutline) {
-		if (isPackageOutlineIgnored(classOutline.parent(), classOutline
-				._package())) {
+	public boolean isClassOutlineIgnored(Mapping context,
+			ClassOutline classOutline) {
+		if (isPackageOutlineIgnored(context, classOutline.parent(),
+				classOutline._package())) {
 			logger.debug("Class outline is ignored since package is ignored.");
 			markAsAcknowledged(classOutline);
 			return true;
@@ -61,9 +64,8 @@ public class DefaultIgnoring implements Ignoring {
 			markAsAcknowledged(classOutline);
 			return true;
 		} else if (classOutline.getSuperClass() != null
-				&& isClassOutlineIgnored(classOutline.getSuperClass())) {
-			logger
-					.debug("Class outline is ignored since superclass outline is ignored.");
+				&& isClassOutlineIgnored(context, classOutline.getSuperClass())) {
+			logger.debug("Class outline is ignored since superclass outline is ignored.");
 			markAsAcknowledged(classOutline);
 			return true;
 		} else {
@@ -71,11 +73,11 @@ public class DefaultIgnoring implements Ignoring {
 		}
 	}
 
-	public boolean isFieldOutlineIgnored(FieldOutline fieldOutline) {
+	public boolean isFieldOutlineIgnored(Mapping context,
+			FieldOutline fieldOutline) {
 
-		if (isClassOutlineIgnored(fieldOutline.parent())) {
-			logger
-					.debug("Field outline is ignored since its class outline is ignored.");
+		if (isClassOutlineIgnored(context, fieldOutline.parent())) {
+			logger.debug("Field outline is ignored since its class outline is ignored.");
 			return true;
 		} else if (CustomizationUtils.containsCustomization(fieldOutline,
 				Customizations.IGNORED_ELEMENT_NAME)) {
@@ -85,8 +87,8 @@ public class DefaultIgnoring implements Ignoring {
 
 			boolean allIgnored = true;
 
-			final Collection<? extends CTypeInfo> types = fieldOutline
-					.getPropertyInfo().ref();
+			final Collection<? extends CTypeInfo> types = context.getGetTypes()
+					.process(context, fieldOutline.getPropertyInfo());
 
 			for (final CTypeInfo type : types) {
 				if (type instanceof CClassInfo) {
@@ -94,15 +96,14 @@ public class DefaultIgnoring implements Ignoring {
 					final ClassOutline fieldClassOutline = fieldOutline
 							.parent().parent().getClazz(fieldClassInfo);
 					allIgnored = allIgnored
-							&& isClassOutlineIgnored(fieldClassOutline);
+							&& isClassOutlineIgnored(context, fieldClassOutline);
 				} else {
 					allIgnored = false;
 				}
 			}
 
 			if (allIgnored) {
-				logger
-						.debug("Field outline is ignored since all types are ignored.");
+				logger.debug("Field outline is ignored since all types are ignored.");
 				markAsAcknowledged(fieldOutline);
 
 			}
@@ -122,7 +123,8 @@ public class DefaultIgnoring implements Ignoring {
 		}
 	}
 
-	public boolean isPackageInfoIgnored(Model model, Package packageInfo) {
+	public boolean isPackageInfoIgnored(ProcessModel context, Model model,
+			Package packageInfo) {
 		for (IgnoredPackage ignoredPackage : getCustomizing()
 				.<IgnoredPackage> findCustomizations(model,
 						Customizations.IGNORED_PACKAGE_ELEMENT_NAME)) {
@@ -133,9 +135,10 @@ public class DefaultIgnoring implements Ignoring {
 		return false;
 	}
 
-	public boolean isClassInfoIgnored(CClassInfo classInfo) {
+	public boolean isClassInfoIgnored(ProcessModel context, CClassInfo classInfo) {
 
-		if (isPackageInfoIgnored(classInfo.model, getPackageInfo(classInfo))) {
+		if (isPackageInfoIgnored(context, classInfo.model,
+				getPackageInfo(classInfo))) {
 			logger.debug("Class info is ignored since package is ignored.");
 			markAsAcknowledged(classInfo);
 			return true;
@@ -145,9 +148,8 @@ public class DefaultIgnoring implements Ignoring {
 			markAsAcknowledged(classInfo);
 			return true;
 		} else if (classInfo.getBaseClass() != null
-				&& isClassInfoIgnored(classInfo.getBaseClass())) {
-			logger
-					.debug("Class info is ignored since base class info is ignored.");
+				&& isClassInfoIgnored(context, classInfo.getBaseClass())) {
+			logger.debug("Class info is ignored since base class info is ignored.");
 			markAsAcknowledged(classInfo);
 			return true;
 		} else {
@@ -155,11 +157,12 @@ public class DefaultIgnoring implements Ignoring {
 		}
 	}
 
-	public boolean isPropertyInfoIgnored(CPropertyInfo propertyInfo) {
+	public boolean isPropertyInfoIgnored(ProcessModel context,
+			CPropertyInfo propertyInfo) {
 		if (propertyInfo.parent() instanceof CClassInfo
-				&& isClassInfoIgnored((CClassInfo) propertyInfo.parent())) {
-			logger
-					.debug("Property info is ignored since its class info is ignored.");
+				&& isClassInfoIgnored(context,
+						(CClassInfo) propertyInfo.parent())) {
+			logger.debug("Property info is ignored since its class info is ignored.");
 			return true;
 		} else if (CustomizationUtils.containsCustomization(propertyInfo,
 				Customizations.IGNORED_ELEMENT_NAME)) {
@@ -169,21 +172,21 @@ public class DefaultIgnoring implements Ignoring {
 
 			boolean allIgnored = true;
 
-			final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+			final Collection<? extends CTypeInfo> types = context.getGetTypes()
+					.process(context, propertyInfo);
 
 			for (final CTypeInfo type : types) {
 				if (type instanceof CClassInfo) {
 					final CClassInfo fieldClassInfo = (CClassInfo) type;
 					allIgnored = allIgnored
-							&& isClassInfoIgnored(fieldClassInfo);
+							&& isClassInfoIgnored(context, fieldClassInfo);
 				} else {
 					allIgnored = false;
 				}
 			}
 
 			if (allIgnored) {
-				logger
-						.debug("Property info is ignored since all types are ignored.");
+				logger.debug("Property info is ignored since all types are ignored.");
 				markAsAcknowledged(propertyInfo);
 
 			}

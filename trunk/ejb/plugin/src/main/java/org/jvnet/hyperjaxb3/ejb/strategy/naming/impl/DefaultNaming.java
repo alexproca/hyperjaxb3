@@ -101,10 +101,10 @@ public class DefaultNaming implements Naming, InitializingBean {
 		}
 	}
 
-	public String getName(final String draftName) {
+	public String getName(Mapping context, final String draftName) {
 
 		Validate.notNull(draftName, "Name must not be null.");
-//		final String name = draftName.replace('$', '_').toUpperCase();
+		// final String name = draftName.replace('$', '_').toUpperCase();
 		String intermediateName = draftName.replace('$', '_');
 		final Matcher camelCaseMatcher = camelCasePattern
 				.matcher(intermediateName);
@@ -143,21 +143,22 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		final String fieldName = fieldOutline.getPropertyInfo().getName(true);
 
-		return getName(context.getNaming().getColumn$Name$Prefix(context)
-				+ fieldName);
+		return getName(context,
+				context.getNaming().getColumn$Name$Prefix(context) + fieldName);
 	}
 
 	public String getOrderColumn$Name(Mapping context, FieldOutline fieldOutline) {
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
-		return getName(fieldColumnName + "_" + "HJORDER");
+		return getName(context, fieldColumnName + "_" + "HJORDER");
 	}
 
 	public String getJoinTable$Name(Mapping context, FieldOutline fieldOutline) {
-		final String targetEntityTableName = getTargetEntityTable$Name(fieldOutline);
+		final String targetEntityTableName = getTargetEntityTable$Name(context,
+				fieldOutline);
 		final String entityTableName = getEntityTable$Name(context,
 				fieldOutline.parent());
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
-		return getName(entityTableName + "_" + fieldColumnName + "_"
+		return getName(context, entityTableName + "_" + fieldColumnName + "_"
 				+ targetEntityTableName);
 	}
 
@@ -168,7 +169,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 	}
 
 	public String getEntityTable$Name(Mapping context, ClassOutline classOutline) {
-		return getEntityTableName(classOutline.target);
+		return getEntityTableName(context, classOutline.target);
 	}
 
 	private Map<String, String> forwardTableNamesMap = Collections
@@ -205,21 +206,24 @@ public class DefaultNaming implements Naming, InitializingBean {
 		}
 	}
 
-	public String getEntityTableName(final CClass classInfo) {
+	public String getEntityTableName(Mapping context, final CClass classInfo) {
 		if (classInfo instanceof CClassInfo) {
-			return getName(getTableName(((CClassInfo) classInfo).fullName()));
+			return getName(context,
+					getTableName(((CClassInfo) classInfo).fullName()));
 		} else if (classInfo instanceof CClassRef) {
 			final String fullName = ((CClassRef) classInfo).fullName();
-			return getName(getTableName(fullName));
+			return getName(context, getTableName(fullName));
 		} else {
 			throw new AssertionError("Unexpected type.");
 		}
 	}
 
-	private String getTargetEntityTable$Name(FieldOutline fieldOutline) {
+	private String getTargetEntityTable$Name(Mapping context,
+			FieldOutline fieldOutline) {
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -229,7 +233,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		final CClass childClassInfo = (CClass) type;
 
-		return getEntityTableName(childClassInfo);
+		return getEntityTableName(context, childClassInfo);
 	}
 
 	public String getJoinColumn$Name(Mapping context,
@@ -237,14 +241,15 @@ public class DefaultNaming implements Naming, InitializingBean {
 
 		final String entityTableName = getEntityTable$Name(context,
 				fieldOutline.parent());
-		final String fieldColumnName = getName(fieldOutline.getPropertyInfo()
-				.getName(true));
-		final String idFieldColumnName = getName(idFieldOutline
+		final String fieldColumnName = getName(context, fieldOutline
+				.getPropertyInfo().getName(true));
+		final String idFieldColumnName = getName(context, idFieldOutline
 				.getPropertyInfo().getName(true));
 
-		return getName(context.getNaming().getColumn$Name$Prefix(context)
-				+ fieldColumnName + "_" + entityTableName + "_"
-				+ idFieldColumnName);
+		return getName(context,
+				context.getNaming().getColumn$Name$Prefix(context)
+						+ fieldColumnName + "_" + entityTableName + "_"
+						+ idFieldColumnName);
 	}
 
 	public String getJoinTable$JoinColumn$Name(Mapping context,
@@ -253,28 +258,30 @@ public class DefaultNaming implements Naming, InitializingBean {
 				fieldOutline.parent());
 		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
 
-		return getName("PARENT_" + entityTableName + "_" + idFieldColumnName);
+		return getName(context, "PARENT_" + entityTableName + "_"
+				+ idFieldColumnName);
 	}
 
 	public String getJoinTable$InverseJoinColumn$Name(Mapping context,
 			FieldOutline fieldOutline, FieldOutline idFieldOutline) {
 
 		final String idFieldColumnName = getColumn$Name(context, idFieldOutline);
-		return getName(
+		return getName(context,
 
-		"CHILD_" + getTargetEntityTable$Name(fieldOutline)
+		"CHILD_" + getTargetEntityTable$Name(context, fieldOutline)
 
 		+ "_" + idFieldColumnName);
 	}
 
-	public String getPersistenceUnitName(Outline outline) {
+	public String getPersistenceUnitName(Mapping context, Outline outline) {
 		final StringBuffer sb = new StringBuffer();
 		boolean first = true;
 
 		for (final Iterator<? extends PackageOutline> packageOutlines = outline
 				.getAllPackageContexts().iterator(); packageOutlines.hasNext();) {
 			final PackageOutline packageOutline = packageOutlines.next();
-			if (!getIgnoring().isPackageOutlineIgnored(outline, packageOutline)) {
+			if (!getIgnoring().isPackageOutlineIgnored(context, outline,
+					packageOutline)) {
 				if (!first) {
 					sb.append(':');
 				} else {
@@ -288,14 +295,14 @@ public class DefaultNaming implements Naming, InitializingBean {
 		return sb.toString();
 	}
 
-	public String getEntityName(Outline outline, NType type) {
+	public String getEntityName(Mapping context, Outline outline, NType type) {
 		final JType theType = type.toType(outline, Aspect.EXPOSED);
 		assert theType instanceof JClass;
 		final JClass theClass = (JClass) theType;
 		return CodeModelUtils.getLocalClassName(theClass);
 	}
 
-	public String getEntityClass(Outline outline, NType type) {
+	public String getEntityClass(Mapping context, Outline outline, NType type) {
 		final JType theType = type.toType(outline, Aspect.EXPOSED);
 		assert theType instanceof JClass;
 		final JClass theClass = (JClass) theType;
@@ -307,7 +314,8 @@ public class DefaultNaming implements Naming, InitializingBean {
 				.getPropertyInfo().getName(true));
 	}
 
-	public Naming createEmbeddedNaming(FieldOutline fieldOutline) {
+	public Naming createEmbeddedNaming(Mapping context,
+			FieldOutline fieldOutline) {
 		return new EmbeddedNamingWrapper(this, fieldOutline);
 	}
 
@@ -320,7 +328,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 		final String entityTableName = getEntityTable$Name(context,
 				fieldOutline.parent());
 		final String fieldColumnName = getColumn$Name(context, fieldOutline);
-		return getName(entityTableName + "_" + fieldColumnName);
+		return getName(context, entityTableName + "_" + fieldColumnName);
 	}
 
 	public String getElementCollection$CollectionTable$JoinColumn$Name(
@@ -330,12 +338,13 @@ public class DefaultNaming implements Naming, InitializingBean {
 		// fieldOutline.parent());
 		// final String fieldColumnName = getName(fieldOutline.getPropertyInfo()
 		// .getName(true));
-		final String idFieldColumnName = getName(idFieldOutline
+		final String idFieldColumnName = getName(context, idFieldOutline
 				.getPropertyInfo().getName(true));
 
-		return getName(context.getNaming().getColumn$Name$Prefix(context)
-		// + fieldColumnName + "_" + entityTableName + "_"
-				+ idFieldColumnName);
+		return getName(context,
+				context.getNaming().getColumn$Name$Prefix(context)
+				// + fieldColumnName + "_" + entityTableName + "_"
+						+ idFieldColumnName);
 	}
 
 	public String getElementCollection$OrderColumn$Name(Mapping context,
@@ -344,7 +353,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 		// getElementCollection$CollectionTable$Name(context, fieldOutline);
 		final String columnName = /* collectionTableName + "_" + */
 		context.getNaming().getColumn$Name$Prefix(context) + "HJINDEX";
-		return getName(columnName);
+		return getName(context, columnName);
 	}
 
 	public String getElementCollection$Column$Name(Mapping context,
@@ -353,7 +362,7 @@ public class DefaultNaming implements Naming, InitializingBean {
 		// getElementCollection$CollectionTable$Name(context, fieldOutline);
 		final String columnName = /* collectionTableName + "_" + */
 		context.getNaming().getColumn$Name$Prefix(context) + "HJVALUE";
-		return getName(columnName);
+		return getName(context, columnName);
 	}
 
 }

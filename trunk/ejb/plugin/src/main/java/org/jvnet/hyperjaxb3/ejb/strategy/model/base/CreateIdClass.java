@@ -30,7 +30,7 @@ import com.sun.xml.xsom.XSComponent;
 
 public class CreateIdClass implements ProcessClassInfo {
 
-	public Collection<CClassInfo> process(ProcessModel context,
+	public Collection<CClassInfo> process(final ProcessModel context,
 			CClassInfo classInfo) {
 
 		final XSComponent component = classInfo.getSchemaComponent();
@@ -67,9 +67,10 @@ public class CreateIdClass implements ProcessClassInfo {
 										.getName(true), propertyInfo
 										.getSchemaComponent(),
 										new CCustomizations(), null,
-										propertyInfo.getXmlName(), propertyInfo
-												.getTarget(), propertyInfo
-												.getSchemaType(), false);
+										propertyInfo.getXmlName(), context
+												.getGetTypes().getTarget(
+														context, propertyInfo),
+										propertyInfo.getSchemaType(), false);
 							}
 
 							public CPropertyInfo onElement(
@@ -86,7 +87,8 @@ public class CreateIdClass implements ProcessClassInfo {
 										new CCustomizations(), (Locator) null,
 										false);
 								elementPropertyInfo.getTypes().addAll(
-										propertyInfo.getTypes());
+										context.getGetTypes().getTypes(context,
+												propertyInfo));
 								return elementPropertyInfo;
 							}
 
@@ -101,8 +103,10 @@ public class CreateIdClass implements ProcessClassInfo {
 										propertyInfo.isDummy(), propertyInfo
 												.isContent(), propertyInfo
 												.isMixedExtendedCust());
-								referencePropertyInfo.getElements().addAll(
-										referencePropertyInfo.getElements());
+								referencePropertyInfo.getElements()
+										.addAll(context.getGetTypes()
+												.getElements(context,
+														referencePropertyInfo));
 								return referencePropertyInfo;
 							}
 
@@ -111,9 +115,10 @@ public class CreateIdClass implements ProcessClassInfo {
 								return new CValuePropertyInfo(propertyInfo
 										.getName(true), propertyInfo
 										.getSchemaComponent(),
-										new CCustomizations(), null,
-										propertyInfo.getTarget(), propertyInfo
-												.getSchemaType());
+										new CCustomizations(), null, context
+												.getGetTypes().getTarget(
+														context, propertyInfo),
+										propertyInfo.getSchemaType());
 							}
 						}));
 			}

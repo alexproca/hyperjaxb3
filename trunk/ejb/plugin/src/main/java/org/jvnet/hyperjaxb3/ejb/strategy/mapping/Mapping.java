@@ -2,8 +2,8 @@ package org.jvnet.hyperjaxb3.ejb.strategy.mapping;
 
 import org.jvnet.hyperjaxb3.ejb.strategy.customizing.Customizing;
 import org.jvnet.hyperjaxb3.ejb.strategy.ignoring.Ignoring;
+import org.jvnet.hyperjaxb3.ejb.strategy.model.GetTypes;
 import org.jvnet.hyperjaxb3.ejb.strategy.naming.Naming;
-import org.jvnet.hyperjaxb3.ejb.strategy.naming.impl.EmbeddedNamingWrapper;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.sun.java.xml.ns.persistence.orm.Attributes;
@@ -33,6 +33,17 @@ public class Mapping implements Cloneable {
 		} catch (CloneNotSupportedException cnsex) {
 			throw new UnsupportedOperationException(cnsex);
 		}
+	}
+
+	private GetTypes<Mapping> getTypes;
+
+	public GetTypes<Mapping> getGetTypes() {
+		return getTypes;
+	}
+
+	@Required
+	public void setGetTypes(GetTypes<Mapping> getTypes) {
+		this.getTypes = getTypes;
 	}
 
 	private ClassOutlineMapping<Object> entityOrMappedSuperclassOrEmbeddableMapping = new EntityOrMappedSuperclassOrEmbeddableMapping();
@@ -174,7 +185,7 @@ public class Mapping implements Cloneable {
 	public void setToOneMapping(FieldOutlineMapping<?> toOneMapping) {
 		this.toOneMapping = toOneMapping;
 	}
-	
+
 	private FieldOutlineMapping<ElementCollection> elementCollectionMapping = new ElementCollectionMapping();
 
 	public FieldOutlineMapping<ElementCollection> getElementCollectionMapping() {
@@ -185,7 +196,6 @@ public class Mapping implements Cloneable {
 			FieldOutlineMapping<ElementCollection> elementCollectionMapping) {
 		this.elementCollectionMapping = elementCollectionMapping;
 	}
-
 
 	private FieldOutlineMapping<ManyToOne> manyToOneMapping = new ManyToOneMapping();
 
@@ -284,11 +294,11 @@ public class Mapping implements Cloneable {
 		this.ignoring = ignoring;
 	}
 
-	public Mapping createEmbeddedMapping(FieldOutline fieldOutline) {
+	public Mapping createEmbeddedMapping(Mapping context, FieldOutline fieldOutline) {
 		// TODO Rework with wrappers
 		final Mapping embeddedMapping = clone();
 		embeddedMapping.setNaming(getNaming()
-				.createEmbeddedNaming(fieldOutline));
+				.createEmbeddedNaming(context, fieldOutline));
 		embeddedMapping.setAssociationMapping(getAssociationMapping()
 				.createEmbeddedAssociationMapping(fieldOutline));
 		return embeddedMapping;
@@ -304,13 +314,13 @@ public class Mapping implements Cloneable {
 	public void setAssociationMapping(AssociationMapping associationMapping) {
 		this.associationMapping = associationMapping;
 	}
-	
+
 	private AttributeMapping defaultAttributeMapping = new DefaultAttributeMapping();
-	
+
 	public AttributeMapping getAttributeMapping() {
 		return defaultAttributeMapping;
 	}
-	
+
 	public void setAttributeMapping(AttributeMapping defaultAttributeMapping) {
 		this.defaultAttributeMapping = defaultAttributeMapping;
 	}

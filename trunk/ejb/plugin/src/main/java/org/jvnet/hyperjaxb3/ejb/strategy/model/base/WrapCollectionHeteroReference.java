@@ -120,7 +120,9 @@ public class WrapCollectionHeteroReference implements CreatePropertyInfos {
 		}
 
 		itemPropertyInfo.getElements()
-				.addAll(wrappedPropertyInfo.getElements());
+				.addAll(context.getGetTypes()
+						.getElements(context,
+								wrappedPropertyInfo));
 
 		itemClassInfo.addProperty(itemPropertyInfo);
 

@@ -1,11 +1,14 @@
 package org.jvnet.hyperjaxb3.ejb.strategy.model.base;
 
+import java.util.Collection;
+
 import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
 import org.jvnet.hyperjaxb3.xjc.generator.bean.field.SingleEnumValueWrappingField;
 
 import com.sun.tools.xjc.generator.bean.ClassOutlineImpl;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.TypeUse;
 import com.sun.tools.xjc.outline.FieldOutline;
 
@@ -19,7 +22,9 @@ public class AdaptSingleEnumNonReferenceAsEnumValue extends
 	@Override
 	public TypeUse getPropertyType(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		return ((CEnumLeafInfo) propertyInfo.ref().iterator().next()).base;
+		Collection<? extends CTypeInfo> types = context.getGetTypes().process(
+				context, propertyInfo);
+		return ((CEnumLeafInfo) types.iterator().next()).base;
 	}
 
 	@Override

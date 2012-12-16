@@ -54,7 +54,8 @@ public class DefaultAssociationMapping implements AssociationMapping {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		final CTypeInfo type = CTypeInfoUtils.getCommonBaseTypeInfo(types);
 
@@ -377,7 +378,8 @@ public class DefaultAssociationMapping implements AssociationMapping {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		assert types.size() == 1;
 
@@ -398,7 +400,7 @@ public class DefaultAssociationMapping implements AssociationMapping {
 			associationOverridesMap.put(associationOverride.getName(),
 					associationOverride);
 		}
-		Mapping embeddedMapping = context.createEmbeddedMapping(fieldOutline);
+		Mapping embeddedMapping = context.createEmbeddedMapping(context, fieldOutline);
 
 		final EmbeddableAttributes embeddableAttributes = embeddedMapping
 				.getEmbeddableAttributesMapping().process(embeddedMapping,

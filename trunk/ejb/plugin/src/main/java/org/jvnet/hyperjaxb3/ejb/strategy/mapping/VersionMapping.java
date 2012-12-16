@@ -37,8 +37,8 @@ public class VersionMapping implements FieldOutlineMapping<Version> {
 
 	public void createVersion$Temporal(Mapping context,
 			FieldOutline fieldOutline, Version version) {
-		if (version.getTemporal() == null && context.getAttributeMapping().isTemporal(fieldOutline)) {
-			version.setTemporal(context.getAttributeMapping().createTemporalType(fieldOutline));
+		if (version.getTemporal() == null && context.getAttributeMapping().isTemporal(context, fieldOutline)) {
+			version.setTemporal(context.getAttributeMapping().createTemporalType(context, fieldOutline));
 		}
 	}
 

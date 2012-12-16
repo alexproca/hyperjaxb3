@@ -18,14 +18,14 @@ public class BasicMapping implements FieldOutlineMapping<Basic> {
 
 		if (basic.getLob() == null && basic.getTemporal() == null
 				&& basic.getEnumerated() == null) {
-			if (context.getAttributeMapping().isTemporal(fieldOutline)) {
+			if (context.getAttributeMapping().isTemporal(context, fieldOutline)) {
 				basic.setTemporal(context.getAttributeMapping().createTemporalType(
-						fieldOutline));
-			} else if (context.getAttributeMapping().isEnumerated(fieldOutline)) {
+						context, fieldOutline));
+			} else if (context.getAttributeMapping().isEnumerated(context, fieldOutline)) {
 				basic.setEnumerated(context.getAttributeMapping()
-						.createEnumerated(fieldOutline));
-			} else if (context.getAttributeMapping().isLob(fieldOutline)) {
-				basic.setLob(context.getAttributeMapping().createLob(fieldOutline));
+						.createEnumerated(context, fieldOutline));
+			} else if (context.getAttributeMapping().isLob(context, fieldOutline)) {
+				basic.setLob(context.getAttributeMapping().createLob(context, fieldOutline));
 			}
 
 		}

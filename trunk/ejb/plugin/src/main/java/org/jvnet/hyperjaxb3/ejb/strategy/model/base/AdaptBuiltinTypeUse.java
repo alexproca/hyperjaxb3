@@ -38,7 +38,8 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 	public TypeUse process(ProcessModel context, CPropertyInfo propertyInfo) {
 		// propertyInfo.g
-		final TypeUse type = TypeUseUtils.getTypeUse(propertyInfo);
+		final TypeUse type = context.getGetTypes().getTypeUse(context,
+				propertyInfo);
 		final XSComponent schemaComponent = propertyInfo.getSchemaComponent();
 
 		if (schemaComponent != null) {
@@ -147,11 +148,11 @@ public class AdaptBuiltinTypeUse implements AdaptTypeUse {
 
 		new CExternalLeafInfo(Date.class, "dateTime",
 				XMLGregorianCalendarAsDateTime.class));
-		
+
 		adapters.put(new PropertyType(CBuiltinLeafInfo.CALENDAR, new QName(
 				WellKnownNamespace.XML_SCHEMA, "anySimpleType")),
 
-				CBuiltinLeafInfo.CALENDAR);
+		CBuiltinLeafInfo.CALENDAR);
 
 		adapters.put(new PropertyType(CBuiltinLeafInfo.CALENDAR, new QName(
 				WellKnownNamespace.XML_SCHEMA, "date")), new CExternalLeafInfo(

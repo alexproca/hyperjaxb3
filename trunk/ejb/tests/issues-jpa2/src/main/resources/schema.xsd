@@ -57,7 +57,7 @@
 	<xsd:complexType name="HJIII-63-Alpha">
 		<xsd:sequence>
 			<xsd:element name="stringElements" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element name="dateElements" type="xsd:date" minOccurs="0" maxOccurs="unbounded"/>
+			<!--xsd:element name="dateElements" type="xsd:date" minOccurs="0" maxOccurs="unbounded"/-->
 			<!-- xsd:element name="base64BinaryElements" type="xsd:base64Binary" minOccurs="0" maxOccurs="unbounded"/ -->
 			<xsd:element name="decimalElements" type="xsd:decimal" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="stringsElement" type="test:HJIII-63-Strings" minOccurs="0"/>
@@ -215,7 +215,9 @@
 	<xsd:complexType name="HJIII-53-A">
 		<xsd:sequence>
 			<xsd:element name="b" type="xsd:IDREF"/>
+			<xsd:element name="b1" type="test:HJIII-53-B"/>
 			<xsd:element name="c" type="xsd:IDREFS"/>
+			<xsd:element name="c1" type="test:HJIII-53-C" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 

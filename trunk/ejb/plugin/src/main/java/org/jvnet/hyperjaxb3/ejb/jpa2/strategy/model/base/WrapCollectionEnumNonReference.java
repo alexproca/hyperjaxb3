@@ -8,6 +8,7 @@ import org.jvnet.hyperjaxb3.ejb.strategy.model.base.CreateNoPropertyInfos;
 
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 
 public class WrapCollectionEnumNonReference implements CreatePropertyInfos {
 
@@ -16,9 +17,11 @@ public class WrapCollectionEnumNonReference implements CreatePropertyInfos {
 
 		// Single
 		assert propertyInfo.isCollection();
+		
+		final Collection<? extends CTypeInfo> types = context.getGetTypes().process(context, propertyInfo);
 		// Builtin
-		assert propertyInfo.ref().size() == 1;
-		assert propertyInfo.ref().iterator().next() instanceof CEnumLeafInfo;
+		assert types.size() == 1;
+		assert types.iterator().next() instanceof CEnumLeafInfo;
 
 		return getCreatePropertyInfos(context, propertyInfo).process(context,
 				propertyInfo);

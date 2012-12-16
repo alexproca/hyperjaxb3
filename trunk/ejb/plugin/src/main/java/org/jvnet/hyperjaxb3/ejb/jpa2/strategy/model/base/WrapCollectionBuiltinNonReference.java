@@ -32,7 +32,7 @@ public class WrapCollectionBuiltinNonReference extends AbstractWrapBuiltin {
 
 	public CBuiltinLeafInfo getTypeUse(ProcessModel context,
 			CPropertyInfo propertyInfo) {
-		return (CBuiltinLeafInfo) propertyInfo.ref().iterator().next();
+		return (CBuiltinLeafInfo) context.getGetTypes().process(context, propertyInfo).iterator().next();
 	}
 
 	@Override

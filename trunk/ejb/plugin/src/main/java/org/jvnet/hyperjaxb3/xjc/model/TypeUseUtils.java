@@ -1,5 +1,7 @@
 package org.jvnet.hyperjaxb3.xjc.model;
 
+import org.jvnet.hyperjaxb3.ejb.strategy.model.ProcessModel;
+
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.CElementInfo;
@@ -11,7 +13,8 @@ import com.sun.tools.xjc.model.TypeUseFactory;
 
 public class TypeUseUtils {
 
-	public static TypeUse getTypeUse(CPropertyInfo propertyInfo) {
+	public static TypeUse getTypeUse(ProcessModel processModel,
+			CPropertyInfo propertyInfo) {
 		if (propertyInfo instanceof CValuePropertyInfo) {
 			return ((CValuePropertyInfo) propertyInfo).getTarget();
 		} else if (propertyInfo instanceof CAttributePropertyInfo) {
@@ -27,7 +30,7 @@ public class TypeUseUtils {
 				}
 			} else if (type instanceof CElementInfo) {
 				final CElementInfo elementInfo = (CElementInfo) type;
-				return getTypeUse(elementInfo.getProperty());
+				return getTypeUse(processModel, elementInfo.getProperty());
 			} else {
 				throw new AssertionError("Unexpected type.");
 			}

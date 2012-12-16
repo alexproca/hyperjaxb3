@@ -63,7 +63,7 @@ public class MappingFilePersistenceProcessor implements
 
 		final String pun = plugin.getPersistenceUnitName();
 		final String persistenceUnitName = pun != null ? pun : getNaming()
-				.getPersistenceUnitName(outline);
+				.getPersistenceUnitName(plugin.getMapping(), outline);
 
 		final PersistenceUnit persistenceUnit = getPersistenceUnitFactory()
 				.createPersistenceUnit(includedClasses);

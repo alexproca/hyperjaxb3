@@ -44,7 +44,8 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 
 		final CPropertyInfo propertyInfo = fieldOutline.getPropertyInfo();
 
-		final Collection<? extends CTypeInfo> types = propertyInfo.ref();
+		final Collection<? extends CTypeInfo> types = context.getGetTypes()
+				.process(context, propertyInfo);
 
 		final CTypeInfo type = CTypeInfoUtils.getCommonBaseTypeInfo(types);
 
@@ -54,7 +55,7 @@ public class OneToManyMapping implements FieldOutlineMapping<OneToMany> {
 
 		final CClass childClassInfo = (CClass) type;
 
-		oneToMany.setTargetEntity(context.getNaming().getEntityClass(
+		oneToMany.setTargetEntity(context.getNaming().getEntityClass(context,
 				fieldOutline.parent().parent(), childClassInfo.getType()));
 
 	}
