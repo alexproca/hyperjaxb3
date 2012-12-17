@@ -12,12 +12,12 @@
 		</jaxb:globalBindings>
 		<jaxb:bindings node="xsd:complexType[@name='HJIII-53-A']//xsd:element[@name='b']">
 			<jaxb:property>
-				<jaxb:baseType name="HJIII53B"/>
+				<jaxb:baseType name="org.jvnet.hyperjaxb3.ejb.tests.issuesjpa2.HJIII53B"/>
 			</jaxb:property>
 		</jaxb:bindings>
 		<jaxb:bindings node="xsd:complexType[@name='HJIII-53-A']//xsd:element[@name='c']">
 			<jaxb:property>
-				<jaxb:baseType name="HJIII53C"/>
+				<jaxb:baseType name="org.jvnet.hyperjaxb3.ejb.tests.issuesjpa2.HJIII53C"/>
 			</jaxb:property>
 		</jaxb:bindings>
 	</jaxb:bindings>
