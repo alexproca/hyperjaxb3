@@ -879,4 +879,20 @@ x
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:complexType name="issueHJIII100Type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity> 
+					<orm:named-query name="IssueHJIII100Type.getAll"> 
+						<orm:query>from IssueHJIII100Type</orm:query> 
+						<orm:hint name="org.hibernate.cacheable" value="true" /> 
+					</orm:named-query> 
+				</hj:entity>
+ 			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence> 
+			<xsd:element name="a" type="xsd:string" minOccurs="1" maxOccurs="1" /> 
+		</xsd:sequence> 
+	</xsd:complexType>
+
 </xsd:schema>
