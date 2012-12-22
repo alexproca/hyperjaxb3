@@ -480,8 +480,8 @@ public class DefaultCustomizing implements Customizing {
 			} else {
 				defaultItem = (ElementCollection) item
 						.copyTo(new ElementCollection());
-				mergeFrom(defaultItem, (Basic) persistence
-						.getDefaultElementCollection().copyTo(new Basic()));
+				mergeFrom(defaultItem, (ElementCollection) persistence
+						.getDefaultElementCollection().copyTo(new ElementCollection()));
 			}
 		}
 
