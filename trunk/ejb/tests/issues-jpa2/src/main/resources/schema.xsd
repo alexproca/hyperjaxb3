@@ -20,6 +20,14 @@
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.hyperjaxb3.ejb.tests.issuesjpa2"/>
 			</jaxb:schemaBindings>
+                        <hj:persistence>
+                                <hj:default-element-collection fetch="EAGER"/>
+				<!--hj:default-collection-property type="xsd:string">
+					<hj:element-collection fetch="EAGER">
+						<orm:column length="255"/>
+					</hj:element-collection>
+				</hj:default-collection-property-->
+                        </hj:persistence>
 		</xsd:appinfo>
 	</xsd:annotation>
 
@@ -228,5 +236,15 @@
 	<xsd:complexType name="HJIII-53-C">
         	<xsd:attribute name="id" type="xsd:ID" use="required"/>
 	</xsd:complexType>
+
+        <xsd:element name="HJIII-101" type="test:HJIII-101-Type"/> 
+
+	<xsd:complexType name="HJIII-101-Type"> 
+		<xsd:sequence> 
+			<xsd:element name="id" type="xsd:string" nillable="false"/> 
+			<xsd:element name="hjiii101" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence> 
+        </xsd:complexType> 
+
 
 </xsd:schema>
